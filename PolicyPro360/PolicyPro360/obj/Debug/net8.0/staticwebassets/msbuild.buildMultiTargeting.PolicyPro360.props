@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PolicyPro360.props" />
+</Project>
