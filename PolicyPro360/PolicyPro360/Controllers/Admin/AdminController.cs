@@ -52,6 +52,38 @@ namespace PolicyPro360.Controllers.Admin
             return View();
 
         }
+
+        public IActionResult Register()
+        {
+            if (HttpContext.Session.GetString("name") == null)
+                return RedirectToAction("Login");
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Register(PolicyPro360.Models.Admin admin)
+        {
+       
+            if (HttpContext.Session.GetString("name") == null)
+                return RedirectToAction("Login");
+
+            if (ModelState.IsValid)
+            {
+                var existing = _db.Tbl_Admin.FirstOrDefault(x => x.Email == admin.Email);
+                if (existing != null)
+                {
+                    ViewBag.ErrorMessage = "Email already exists.";
+                    return View();
+                }
+
+                _db.Tbl_Admin.Add(admin);
+                _db.SaveChanges();
+                TempData["success"] = "Admin registered successfully!";
+                return RedirectToAction("Dashboard");
+            }
+
+            return View();
+        }
         public IActionResult Logout()
         {
             if (HttpContext.Session.GetString("name") != null)
@@ -60,7 +92,7 @@ namespace PolicyPro360.Controllers.Admin
                 return RedirectToAction("Login");
             }
        
-                return View();
+           return View();
         }
     }
 }
