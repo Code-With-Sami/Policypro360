@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+
 
 namespace PolicyPro360.Models
 {
@@ -16,5 +18,8 @@ namespace PolicyPro360.Models
         [Required(ErrorMessage = "Description is required")]
         [StringLength(500)]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Status is required")]
+        public bool Status { get; set; }
     }
 }

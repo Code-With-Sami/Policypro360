@@ -65,6 +65,16 @@
                                     <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
 
+                                <!-- Status -->
+                                <div class="col-md-12">
+                                    <label asp-for="Status" class="form-label"></label>
+                                    <div class="form-check">
+                                        <input asp-for="Status" class="form-check-input" type="checkbox" />
+                                        <label class="form-check-label" for="Status">Active</label>
+                                    </div>
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                </div>
+
                                 <!-- Submit and Cancel Buttons -->
                                 <div class="col-md-12">
                                     <div class="d-md-flex d-grid align-items-center gap-3">

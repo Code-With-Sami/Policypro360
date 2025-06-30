@@ -5,36 +5,42 @@ namespace PolicyPro360.Controllers.Admin
 {
     public class PolicyCategory : BaseAdminController
     {
-
         private readonly myContext _context;
-
         public PolicyCategory(myContext context)
         {
             _context = context;
         }
+
         public IActionResult Index()
         {
             var categories = _context.Tbl_Category.ToList();
             return View(categories);
         }
+
         public IActionResult Create()
         {
-            return View();
+            var model = new Category
+            {
+                Status = true 
+            };
+            return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Tbl_Category.Add(category);
-                _context.SaveChanges();
-                TempData["SuccessMessage"] = "Policy Category created successfully!";
-                return RedirectToAction("Index");
-            }
-            return View(category);
+            if (!ModelState.IsValid)
+                return View(category);
+            category.Status = category.Status; 
+
+            _context.Tbl_Category.Add(category);
+            _context.SaveChanges();
+            TempData["SuccessMessage"] = "Policy Category created successfully!";
+            return RedirectToAction("Index");
         }
+
         public IActionResult Edit(int id)
         {
             var category = _context.Tbl_Category.Find(id);
@@ -45,7 +51,6 @@ namespace PolicyPro360.Controllers.Admin
             return View(category);
         }
 
-       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Category category)
@@ -59,19 +64,10 @@ namespace PolicyPro360.Controllers.Admin
             }
             return View(category);
         }
-        public IActionResult Delete(int id)
-        {
-            var category = _context.Tbl_Category.Find(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
-        }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult Delete(int id)
         {
             var category = _context.Tbl_Category.Find(id);
             if (category != null)
@@ -87,6 +83,5 @@ namespace PolicyPro360.Controllers.Admin
 
             return RedirectToAction("Index");
         }
-
     }
 }
