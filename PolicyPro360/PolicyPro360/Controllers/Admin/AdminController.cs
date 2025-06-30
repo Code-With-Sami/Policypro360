@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PolicyPro360.Models;
 
-namespace PolicyPro360.Controllers
+namespace PolicyPro360.Controllers.Admin
 {
     public class AdminController : Controller
     {

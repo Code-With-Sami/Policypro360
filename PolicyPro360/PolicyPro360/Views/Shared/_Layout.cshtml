@@ -29,7 +29,7 @@
     <link href="~/admin/sass/bordered-theme.css" rel="stylesheet">
     <link href="~/admin/sass/responsive.css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!--start header-->
     <header class="top-header">
         <nav class="navbar navbar-expand align-items-center gap-4">
@@ -716,10 +716,10 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="#"><i class="material-icons-outlined">arrow_right</i>Add</a>
+                            <a href="@Url.Action("Create","PolicyTypes")"><i class="material-icons-outlined">arrow_right</i>Add</a>
                         </li>
                         <li>
-                            <a href="#"><i class="material-icons-outlined">arrow_right</i>Show</a>
+                            <a href="@Url.Action("Index","PolicyTypes")"><i class="material-icons-outlined">arrow_right</i>Show</a>
                         </li>
                     </ul>
                 </li>
@@ -732,10 +732,14 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="#"><i class="material-icons-outlined">arrow_right</i>Add</a>
+                            <a href="@Url.Action("Create", "AdminUsers")">
+                                <i class="material-icons-outlined">arrow_right</i>Add
+                            </a>
                         </li>
                         <li>
-                            <a href="#"><i class="material-icons-outlined">arrow_right</i>Show</a>
+                            <a href="@Url.Action("Index", "AdminUsers")">
+                                <i class="material-icons-outlined">arrow_right</i>Show
+                            </a>
                         </li>
                     </ul>
                 </li>

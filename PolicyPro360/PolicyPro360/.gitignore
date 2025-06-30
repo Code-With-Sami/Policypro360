@@ -1,0 +1,14 @@
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.pdb
+*.exe
+*.dll
+*.cache
+*.db
+*.sqlite
+*.sourcelink.json
+*.json
+appsettings.Development.json

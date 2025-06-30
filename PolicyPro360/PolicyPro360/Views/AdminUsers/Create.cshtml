@@ -1,0 +1,180 @@
+﻿@model PolicyPro360.Models.Users
+@{
+    ViewData["Title"] = "Create New User";
+    Layout = "_Layout";
+}
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">User Form</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Add a User
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Index", "AdminUsers")">
+                  Show Users
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Add a User</h5>
+
+                            <form asp-controller="AdminUsers" asp-action="Create" method="post" enctype="multipart/form-data" class="row g-3">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        @TempData["SuccessMessage"]
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                }
+
+                                @if (ViewBag.ImagePath != null)
+                                {
+                                    <div class="alert alert-info">
+                                        Image Path: @ViewBag.ImagePath
+                                    </div>
+                                }
+
+                                <!-- Name -->
+                                <div class="col-md-12">
+                                    <label asp-for="Name" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="Name" class="form-control" placeholder="Enter full name">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">person_outline</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="col-md-12">
+                                    <label asp-for="Username" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="Username" class="form-control" placeholder="Choose a unique username">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">account_circle</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+
+                                <!-- Mobile Number -->
+                                <div class="col-md-12">
+                                    <label asp-for="MobileNumber" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="MobileNumber" class="form-control" placeholder="Enter mobile number">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">call</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-12">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="Email" class="form-control" placeholder="you@example.com">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">email</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="col-md-12">
+                                    <label asp-for="Password" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="Password" class="form-control" placeholder="Set a strong password">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">lock_open</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="col-md-12">
+                                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm the password">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">lock</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+
+                                <!-- Date of Birth -->
+                                <div class="col-md-12">
+                                    <label asp-for="DateOfBirth" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="DateOfBirth" class="form-control" type="date">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">event</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+
+                                <!-- Profile Picture Upload -->
+                                <div class="col-md-12">
+                                    <label asp-for="ProfileImage" class="form-label"></label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="ProfileImage" class="form-control" type="file" accept=".jpg,.jpeg,.png,.webp">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">image</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="col-md-12">
+                                    <label asp-for="Address" class="form-label"></label>
+                                    <textarea asp-for="Address" class="form-control" placeholder="Enter user's full address ..." rows="3"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+
+                                <!-- Submit and Reset Buttons -->
+                                <div class="col-md-12">
+                                    <div class="d-md-flex d-grid align-items-center gap-3">
+                                        <button type="submit" class="btn btn-grd-primary px-4 text-white">Submit</button>
+                                        <button type="reset" class="btn btn-grd-royal px-4 text-white">Reset</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </main>
+
+
+

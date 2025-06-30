@@ -651,6 +651,8 @@ wwwroot\admin\assets\images\orders\06.png
 wwwroot\admin\assets\images\orders\07.png
 wwwroot\admin\assets\images\orders\08.png
 wwwroot\admin\assets\images\orders\09.png
+wwwroot\admin\assets\images\profiles\a35c6d6e-4016-4f4f-8527-8489822f6337_post-1.jpg
+wwwroot\admin\assets\images\profiles\f310843c-c9b5-40a9-9ac4-72d33641beb5_post-2.jpg
 wwwroot\admin\assets\images\projects\angular.png
 wwwroot\admin\assets\images\projects\bootstrap.png
 wwwroot\admin\assets\images\projects\django.png
