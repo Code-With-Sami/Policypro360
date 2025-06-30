@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PolicyPro360.Controllers.Admin
 {
-    public class AdminUsersController : Controller
+    public class AdminUsersController : BaseAdminController
     {
         private readonly myContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
