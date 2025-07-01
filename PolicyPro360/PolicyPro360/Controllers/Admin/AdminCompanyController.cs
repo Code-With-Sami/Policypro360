@@ -21,16 +21,56 @@ namespace PolicyPro360.Controllers.Admin
             return View(companies);
         }
 
-        public async Task<IActionResult> ChangeStatus(int id, string status)
+        public IActionResult PendingCompanies()
         {
-            var company = await _context.Tbl_Company.FindAsync(id);
-            if (company == null) return NotFound();
-
-            company.Status = status;
-            _context.Tbl_Company.Update(company);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+            var companies = _context.Tbl_Company.Where(c => c.Status == "Pending").ToList();
+            return View(companies);
         }
+
+        public IActionResult ApprovedCompanies()
+        {
+            var companies = _context.Tbl_Company.Where(c => c.Status == "Approved").ToList();
+            return View(companies);
+        }
+
+        public IActionResult RejectedCompanies()
+        {
+            var companies = _context.Tbl_Company.Where(c => c.Status == "Rejected").ToList();
+            return View(companies);
+        }
+
+        public IActionResult Approve(int id)
+        {
+            var company = _context.Tbl_Company.Find(id);
+            if (company != null)
+            {
+                company.Status = "Approved";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Reject(int id)
+        {
+            var company = _context.Tbl_Company.Find(id);
+            if (company != null)
+            {
+                company.Status = "Rejected";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        //public async Task<IActionResult> ChangeStatus(int id, string status)
+        //{
+        //    var company = await _context.Tbl_Company.FindAsync(id);
+        //    if (company == null) return NotFound();
+
+        //    company.Status = status;
+        //    _context.Tbl_Company.Update(company);
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }

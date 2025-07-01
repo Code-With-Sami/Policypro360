@@ -1,31 +1,36 @@
 ﻿@model PolicyPro360.Models.Company
+@{
+    Layout = null;
+}
 
 <!doctype html>
 <html lang="en" data-bs-theme="blue-theme">
+<!-- Mirrored from codervent.com/maxton/demo/vertical-menu/auth-basic-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 04:28:28 GMT -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Maxton | Bootstrap 5 Admin Dashboard Template</title>
     <!--favicon-->
-    <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png">
+    <link rel="icon" href="~/admin/assets/images/favicon-32x32.png" type="image/png">
     <!-- loader-->
-    <link href="~/assets/css/pace.min.css" rel="stylesheet">
-    <script src="~/assets/js/pace.min.js"></script>
+    <link href="~/admin/assets/css/pace.min.css" rel="stylesheet">
+    <script src="~/admin/assets/js/pace.min.js"></script>
 
     <!--plugins-->
-    <link href="~/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/assets/plugins/metismenu/metisMenu.min.css">
-    <link rel="stylesheet" type="text/css" href="~/assets/plugins/metismenu/mm-vertical.css">
+    <link href="~/admin/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/admin/assets/plugins/metismenu/metisMenu.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/assets/plugins/metismenu/mm-vertical.css">
     <!--bootstrap css-->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/admin/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!--main css-->
-    <link href="~/assets/css/bootstrap-extended.css" rel="stylesheet">
-    <link href="~/sass/main.css" rel="stylesheet">
-    <link href="~/sass/dark-theme.css" rel="stylesheet">
-    <link href="~/sass/blue-theme.css" rel="stylesheet">
-    <link href="~/sass/responsive.css" rel="stylesheet">
+    <link href="~/admin/assets/css/bootstrap-extended.css" rel="stylesheet">
+    <link href="~/admin/sass/main.css" rel="stylesheet">
+    <link href="~/admin/sass/dark-theme.css" rel="stylesheet">
+    <link href="~/admin/sass/blue-theme.css" rel="stylesheet">
+    <link href="~/admin/sass/responsive.css" rel="stylesheet">
 
 </head>
 
@@ -44,6 +49,7 @@
 
                         <div class="form-body my-4">
                             <form asp-action="Register" enctype="multipart/form-data" method="post" class="row g-3">
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <h4>Company Information</h4>
                                 <div class="col-12">
                                     <label asp-for="CompanyName" class="form-label">Company Name</label>
@@ -91,6 +97,18 @@
                                     <label asp-for="Email" class="form-label">Email</label>
                                     <input asp-for="Email" class="form-control" placeholder="Email" />
                                     <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="Password" class="form-label">Password</label>
+                                    <input asp-for="Password" class="form-control" placeholder="Enter password" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-12">
+                                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-12">
@@ -166,8 +184,14 @@
                                         <button type="submit" class="btn btn-grd-danger">Register Company</button>
                                     </div>
                                 </div>
-
+                            
                             </form>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="text-start">
+                                Already Registered? <a href="@Url.Action("Login", "Company")"><p class="mb-0 text-white">Go To Login</p></a>
+                            </div>
                         </div>
 
                         @if (ViewBag.ErrorMessage != null)
@@ -188,9 +212,7 @@
 
 
 
-    <!--authentication-->
-    <!--plugins-->
-    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/admin/assets/js/jquery.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -208,6 +230,7 @@
           });
         });
     </script>
+
 
 </body>
 

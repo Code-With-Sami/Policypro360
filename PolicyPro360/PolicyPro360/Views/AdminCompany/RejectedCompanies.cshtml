@@ -1,7 +1,7 @@
 ﻿@model List<PolicyPro360.Models.Company>
 
 @{
-    ViewData["Title"] = "All Companies";
+    ViewData["Title"] = "Rejected Companies";
     Layout = "_Layout";
 }
 
@@ -9,14 +9,14 @@
     <div class="main-content">
         <!-- Breadcrumb -->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">All Companies</div>
+            <div class="breadcrumb-title pe-3">Rejected Companies</div>
             <div class="ms-auto">
                 <div class="btn-group">
-                    <a class="btn btn-grd-primary px-4 text-white" href="#">Add Company</a>
+                    <a class="btn btn-grd-primary px-4 text-white" href="#">Add Compant</a>
                 </div>
             </div>
         </div>
-   
+
         <!-- Users Table -->
         <div class="card">
             @if (TempData["SuccessMessage"] != null)
@@ -68,7 +68,7 @@
                                         <td>
                                             @if (!string.IsNullOrEmpty(company.CompanyLogoPath))
                                             {
-                                                <img src="~/@company.CompanyLogoPath" alt="Profile" width="50" height="50" class="rounded-circle" />
+                                                <img src="~/companies/companyimages/@company.CompanyLogoPath" alt="Profile" width="50" height="50" class="rounded-circle" />
                                             }
                                             else
                                             {
@@ -78,7 +78,7 @@
                                         <td>@company.Status</td>
                                         <td>
                                             <a asp-action="Approve" asp-route-id="@company.Id" asp-route-status="Approved" class="btn btn-sm btn-success">Approve</a>
-                                            <a asp-action="Reject" asp-route-id="@company.Id" asp-route-status="Declined" class="btn btn-sm btn-danger">Decline</a>
+                                            @* <a asp-action="Reject" asp-route-id="@company.Id" asp-route-status="Declined" class="btn btn-sm btn-danger">Decline</a> *@
                                         </td>
                                     </tr>
                                     count++;
@@ -87,7 +87,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="13" class="text-center text-muted">No companies found</td>
+                                    <td colspan="13" class="text-center text-muted">No pending companies found.</td>
                                 </tr>
                             }
                         </tbody>

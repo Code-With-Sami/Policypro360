@@ -37,10 +37,10 @@
             <div class="btn-toggle">
                 <a href="javascript:;"><i class="material-icons-outlined">menu</i></a>
             </div>
-            <div>
-                <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Register" , "Admin")">Register</a>
-            </div>
-            <div class="search-bar flex-grow-1" >
+            @* <div> *@
+            @*     <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Register" , "Admin")">Register</a> *@
+            @* </div> *@
+            <div class="search-bar flex-grow-1">
                 <div class="position-relative">
                     @* <input class="form-control rounded-5 px-5 search-control d-lg-block d-none" type="text" placeholder="Search"> *@
                     @* <span  class="material-icons-outlined position-absolute d-lg-block d-none ms-3 translate-middle-y start-0 top-50">search</span> *@
@@ -668,7 +668,7 @@
                         </a>
 
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="@Url.Action("Logout", "Admin")">
+                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="@Url.Action("Logout", "Company")">
                             <i class="material-icons-outlined">power_settings_new</i>Logout
                         </a>
                     </div>
@@ -743,28 +743,6 @@
                             <a href="@Url.Action("Index", "AdminUsers")">
                                 <i class="material-icons-outlined">arrow_right</i>Show
                             </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript:;" class="has-arrow">
-                        <div class="parent-icon">
-                            <i class="material-icons-outlined">home</i>
-                        </div>
-                        <div class="menu-title">Companies</div>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="@Url.Action("Index","AdminCompany")"><i class="material-icons-outlined">arrow_right</i>All Companies</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("PendingCompanies","AdminCompany")"><i class="material-icons-outlined">arrow_right</i>Pending Companies</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","AdminCompany")"><i class="material-icons-outlined">arrow_right</i>Approved Companies</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index","AdminCompany")"><i class="material-icons-outlined">arrow_right</i>Rejected Companies</a>
                         </li>
                     </ul>
                 </li>

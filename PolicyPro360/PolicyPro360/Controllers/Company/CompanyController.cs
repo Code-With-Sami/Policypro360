@@ -14,6 +14,19 @@ namespace PolicyPro360.Controllers.Company
 
         }
 
+        public IActionResult Dashboard()
+        {
+            if (HttpContext.Session.GetString("companyname") != null)
+            {
+                ViewBag.name = HttpContext.Session.GetString("companyname");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+
         public IActionResult Register()
         {
             return View();
@@ -22,37 +35,86 @@ namespace PolicyPro360.Controllers.Company
         [HttpPost]
         public async Task<IActionResult> Register(PolicyPro360.Models.Company company, IFormFile CompanyLogoFile, IFormFile OwnerImageFile)
         {
+            if (CompanyLogoFile == null || CompanyLogoFile.Length == 0)
+            {
+                ModelState.AddModelError("CompanyLogoPath", "Company logo is required.");
+            }
+            if (OwnerImageFile == null || OwnerImageFile.Length == 0)
+            {
+                ModelState.AddModelError("OwnerImagePath", "Owner image is required.");
+            }
+
             if (ModelState.IsValid)
             {
-                // Save images
+                // Save logo
                 if (CompanyLogoFile != null)
                 {
-                    var logoPath = Path.Combine("wwwroot/uploads", CompanyLogoFile.FileName);
-                    using (var stream = new FileStream(logoPath, FileMode.Create))
-                    {
-                        await CompanyLogoFile.CopyToAsync(stream);
-                    }
-                    company.CompanyLogoPath = "/uploads/" + CompanyLogoFile.FileName;
+                    var logoPath = Path.Combine("wwwroot/companies/companyimages", CompanyLogoFile.FileName);
+                    using var stream = new FileStream(logoPath, FileMode.Create);
+                    await CompanyLogoFile.CopyToAsync(stream);
+                    company.CompanyLogoPath = "/companies/companyimages/" + CompanyLogoFile.FileName;
                 }
 
+                // Save owner image
                 if (OwnerImageFile != null)
                 {
-                    var ownerImagePath = Path.Combine("wwwroot/uploads", OwnerImageFile.FileName);
-                    using (var stream = new FileStream(ownerImagePath, FileMode.Create))
-                    {
-                        await OwnerImageFile.CopyToAsync(stream);
-                    }
-                    company.OwnerImagePath = "/uploads/" + OwnerImageFile.FileName;
+                    var ownerImgPath = Path.Combine("wwwroot/companies/ownerimages", OwnerImageFile.FileName);
+                    using var stream = new FileStream(ownerImgPath, FileMode.Create);
+                    await OwnerImageFile.CopyToAsync(stream);
+                    company.OwnerImagePath = "/companies/ownerimages" + OwnerImageFile.FileName;
                 }
 
                 _db.Tbl_Company.Add(company);
                 await _db.SaveChangesAsync();
 
-                TempData["Success"] = "Company registration submitted!";
-                return RedirectToAction("Register");
+                TempData["success"] = "Company registered successfully!";
+                return RedirectToAction("Dashboard");
             }
 
-            return View(company);
+
+            return RedirectToAction("Dashboard");
         }
+
+        public IActionResult Login()
+        {
+            if (HttpContext.Session.GetString("companyname") != null)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(string companyEmail, string companyPassword)
+        {
+
+
+            var company = _db.Tbl_Company.FirstOrDefault(c => c.Email == companyEmail && c.Password == companyPassword);
+            if (company != null)
+            {
+                HttpContext.Session.SetString("companyname", value: company.CompanyName);
+                TempData["success"] = "Login successful!";
+                return RedirectToAction("Dashboard");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid email or password.";
+
+            }
+                return View();
+
+            }
+
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString("companyname") != null)
+            {
+                HttpContext.Session.Remove("companyname");
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+
     }
+
 }

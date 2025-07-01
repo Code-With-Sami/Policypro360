@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PolicyPro360.Models;
 
@@ -11,9 +12,11 @@ using PolicyPro360.Models;
 namespace PolicyPro360.Migrations
 {
     [DbContext(typeof(myContext))]
-    partial class myContextModelSnapshot : ModelSnapshot
+    [Migration("20250701154640_UpdateCompanyModel")]
+    partial class UpdateCompanyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,6 +94,7 @@ namespace PolicyPro360.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyLogoPath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
@@ -117,7 +121,7 @@ namespace PolicyPro360.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OwnerDOB")
+                    b.Property<DateTime?>("OwnerDOB")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OwnerEmail")
@@ -125,6 +129,7 @@ namespace PolicyPro360.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerImagePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerName")
@@ -143,11 +148,6 @@ namespace PolicyPro360.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("PhoneNo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -157,6 +157,7 @@ namespace PolicyPro360.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
