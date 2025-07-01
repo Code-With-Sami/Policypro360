@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Company\" />
     <Folder Include="Controllers\User\" />
     <Folder Include="wwwroot\admin\assets\images\profiles\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
 </Project>

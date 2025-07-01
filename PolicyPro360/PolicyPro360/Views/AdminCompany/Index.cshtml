@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PolicyPro360.Models.Company>
+
+<h2>Pending Company Registrations</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Business Type</th>
+            <th>Owner</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+            <tr>
+                <td>@company.CompanyName</td>
+                <td>@company.BusinessType</td>
+                <td>@company.OwnerName</td>
+                <td>@company.Status</td>
+                <td>
+                    <a asp-action="ChangeStatus" asp-route-id="@company.Id" asp-route-status="Approved" class="btn btn-success">Approve</a>
+                    <a asp-action="ChangeStatus" asp-route-id="@company.Id" asp-route-status="Declined" class="btn btn-danger">Decline</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
