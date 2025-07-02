@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\User\" />
     <Folder Include="wwwroot\admin\assets\images\profiles\" />
     <Folder Include="wwwroot\companies\companyimages\" />
     <Folder Include="wwwroot\companies\ownerimages\" />
