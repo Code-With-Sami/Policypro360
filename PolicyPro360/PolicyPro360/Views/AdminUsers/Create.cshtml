@@ -24,7 +24,7 @@
             <div class="ms-auto">
                 <div class="btn-group">
                     <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Index", "AdminUsers")">
-                  Show Users
+                        Show Users
                     </a>
                 </div>
             </div>
@@ -35,6 +35,7 @@
                 <div class="col-12 col-md-8 col-xl-6">
                     <div class="card">
                         <div class="card-body p-4">
+                            Add commentMore actions
                             <h5 class="mb-4">Add a User</h5>
 
                             <form asp-controller="AdminUsers" asp-action="Create" method="post" enctype="multipart/form-data" class="row g-3">
@@ -106,11 +107,19 @@
 
                                 <!-- Password -->
                                 <div class="col-md-12">
-                                    <label asp-for="Password" class="form-label"></label>
-                                    <div class="position-relative input-icon">
-                                        <input asp-for="Password" class="form-control" placeholder="Set a strong password">
-                                        <span class="position-absolute top-50 translate-middle-y">
+                                    <label asp-for="Password" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <!-- Lock Open Icon -->
+                                        <span class="input-group-text bg-transparent">
                                             <i class="material-icons-outlined fs-5">lock_open</i>
+                                        </span>
+
+                                        <!-- Password Input -->
+                                        <input asp-for="Password" type="password" class="form-control border-start-0 border-end-0 toggle-password-input" placeholder="Enter Password" />
+
+                                        <!-- Eye Icon -->
+                                        <span class="input-group-text bg-transparent toggle-password" style="cursor:pointer;">
+                                            <i class="bi bi-eye-slash-fill"></i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="Password" class="text-danger"></span>
@@ -118,12 +127,15 @@
 
                                 <!-- Confirm Password -->
                                 <div class="col-md-12">
-                                    <label asp-for="ConfirmPassword" class="form-label"></label>
-                                    <div class="position-relative input-icon">
-                                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm the password">
-                                        <span class="position-absolute top-50 translate-middle-y">
+                                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                    <div class="input-group">
+                                        <!-- Closed Lock Icon -->
+                                        <span class="input-group-text bg-transparent">
                                             <i class="material-icons-outlined fs-5">lock</i>
                                         </span>
+
+                                        <!-- Confirm Password Input -->
+                                        <input asp-for="ConfirmPassword" class="form-control border-start-0" placeholder="Confirm the password">
                                     </div>
                                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </div>
@@ -174,7 +186,23 @@
             </div>
         </div>
     </div>
- </main>
+</main>
 
 
-
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.toggle-password').on('click', function () {
+                var input = $(this).closest('.input-group').find('.toggle-password-input');
+                var icon = $(this).find('i');
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    icon.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
+                } else {
+                    input.attr('type', 'password');
+                    icon.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+                }
+            });
+        });
+    </script>
+}

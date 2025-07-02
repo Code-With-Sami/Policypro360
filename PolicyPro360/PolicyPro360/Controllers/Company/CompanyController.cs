@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PolicyPro360.Attributes;
 using PolicyPro360.Models;
 
 namespace PolicyPro360.Controllers.Company
 {
-    public class CompanyController : Controller
+
+    public class CompanyController : BaseCompanyController
     {
         private myContext _db;
 
@@ -18,7 +20,10 @@ namespace PolicyPro360.Controllers.Company
         {
             if (HttpContext.Session.GetString("companyname") != null)
             {
-                ViewBag.name = HttpContext.Session.GetString("companyname");
+                ViewBag.CompanyName = HttpContext.Session.GetString("companyname");
+                var activeCategories = _db.Tbl_Category.Where(c => c.Status == true).ToList();
+                ViewBag.Categories = activeCategories;
+                Console.WriteLine("Category count: " + activeCategories.Count);
             }
             else
             {
@@ -26,13 +31,14 @@ namespace PolicyPro360.Controllers.Company
             }
             return View();
         }
-
+        [AllowAnonymousCompany]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymousCompany]
         public async Task<IActionResult> Register(PolicyPro360.Models.Company company, IFormFile CompanyLogoFile, IFormFile OwnerImageFile)
         {
             if (CompanyLogoFile == null || CompanyLogoFile.Length == 0)
@@ -74,7 +80,7 @@ namespace PolicyPro360.Controllers.Company
 
             return RedirectToAction("Dashboard");
         }
-
+        [AllowAnonymousCompany]
         public IActionResult Login()
         {
             if (HttpContext.Session.GetString("companyname") != null)
@@ -84,6 +90,7 @@ namespace PolicyPro360.Controllers.Company
             return View();
         }
 
+        [AllowAnonymousCompany]
         [HttpPost]
         public IActionResult Login(string companyEmail, string companyPassword)
         {

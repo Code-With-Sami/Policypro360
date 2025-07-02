@@ -1,4 +1,5 @@
-﻿@{
+﻿PolicyPro360.Models.Category
+@{
     ViewData["Title"] = "Company Dashboard";
     Layout = "_CompanyLayout";
 }
@@ -7,7 +8,7 @@
     <div class="main-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Dashboard</div>
+            <div class="breadcrumb-title pe-3">Company Dashboard</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
@@ -36,7 +37,7 @@
         <!--end breadcrumb-->
 
         <div class="row">
-            <div class="col-xxl-8 d-flex align-items-stretch">
+            <div class="col-xxl-12 d-flex align-items-stretch">
                 <div class="card w-100 overflow-hidden rounded-4">
                     <div class="card-body position-relative p-4">
                         <div class="row">
@@ -45,7 +46,7 @@
                                     <img src="~/admin/assets/images/avatars/01.png" class="rounded-circle bg-grd-info p-1" width="60" height="60" alt="user">
                                     <div class="">
                                         <p class="mb-0 fw-semibold">Welcome back</p>
-                                        <h4 class="fw-semibold mb-0 fs-4 mb-0">@ViewBag.name</h4>
+                                        <h4 class="fw-semibold mb-0 fs-4 mb-0">@ViewBag.CompanyName</h4>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center gap-5">
@@ -79,34 +80,75 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
-                <div class="card w-100 rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start justify-content-between mb-1">
-                            <div class="">
-                                <h5 class="mb-0">42.5K</h5>
-                                <p class="mb-0">Active Users</p>
+
+            @{
+                // Dono arrays: ek gradient ke liye, ek text color ke liye
+                // IMPORTANT: Inka order same hona chahiye
+                var gradientClasses = new[] { "bg-gradient-1", "bg-gradient-2", "bg-gradient-3", "bg-gradient-4", "bg-gradient-5", "bg-gradient-6" };
+                var themeColors = new[] { "primary", "success", "danger", "warning", "purple", "info" };
+                var gradIndex = 0;
+            }
+
+            <div class="row g-4">
+                @foreach (var category in ViewBag.Categories as List<PolicyPro360.Models.Category>)
+                {
+                    var gradientClass = gradientClasses[gradIndex % gradientClasses.Length];
+                    var themeColor = themeColors[gradIndex % themeColors.Length];
+
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12 d-flex align-items-stretch">
+                        <div class="card w-100 rounded-4 shadow-sm border-0 card-gradient @gradientClass">
+                            <div class="card-body d-flex flex-column">
+
+                                <!-- 1. Top Section (No Change) -->
+                                <div class="d-flex align-items-start justify-content-between mb-3">
+                                    <div>
+                                        <h3 class="mb-0">
+                                            @(new Random().Next(5, 50))
+                                        </h3>
+                                        <p class="mb-0">Total Policies</p>
+                                    </div>
+                                    <div class="icon-box rounded-circle">
+                                        <span class="material-icons-outlined fs-4">
+                                            description
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- 2. Middle Section (No Change) -->
+                                <div class="my-3">
+                                    <h5 class="mb-1 card-title">@category.Name</h5>
+                                    <p class="mb-0" style="font-size: 14px; line-height: 1.5;">
+                                        @category.Description
+                                    </p>
+                                </div>
+
+                                <div class="mt-auto pt-3">
+                                    <!-- d-flex aur gap-2 se buttons ko manage karein -->
+                                    <div class="d-flex align-items-center gap-2">
+
+                                        <!-- Add Policy Button (Primary Action) -->
+                                        <a href="@Url.Action("Create", "CompanyPolicy", new { categoryId = category.Id })"
+                                           class="btn btn-light fw-bold text-@themeColor rounded-pill w-100">
+                                            <span class="material-icons-outlined fs-6 me-1" style="vertical-align: middle;">add</span>
+                                            Add Policy
+                                        </a>
+
+                                        <!-- View Policy Button (Secondary Action) -->
+                                        <a href="@Url.Action("Index", "CompanyPolicy", new { categoryId = category.Id })"
+                                           class="btn btn-light rounded-pill w-100">
+                                            <span class="material-icons-outlined fs-6 me-1" style="vertical-align: middle;">visibility</span>
+                                            View
+                                        </a>
+
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
-                                   data-bs-toggle="dropdown">
-                                    <span class="material-icons-outlined fs-5">more_vert</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="javascript:;">Action</a></li>
-                                    <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
-                                    <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="chart-container2">
-                            <div id="chart1"></div>
-                        </div>
-                        <div class="text-center">
-                            <p class="mb-0 font-12">24K users increased from last month</p>
                         </div>
                     </div>
-                </div>
+
+                    gradIndex++;
+                }
             </div>
             <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
                 <div class="card w-100 rounded-4">
@@ -157,6 +199,7 @@
                     </div>
                 </div>
             </div>
+           
             <div class="col-xl-6 col-xxl-4 d-flex align-items-stretch">
                 <div class="card w-100 rounded-4">
                     <div class="card-body">
@@ -210,6 +253,35 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
+                <div class="card w-100 rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-1">
+                            <div class="">
+                                <h5 class="mb-0">42.5K</h5>
+                                <p class="mb-0">Active Users</p>
+                            </div>
+                            <div class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
+                                   data-bs-toggle="dropdown">
+                                    <span class="material-icons-outlined fs-5">more_vert</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:;">Action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="chart-container2">
+                            <div id="chart1"></div>
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-0 font-12">24K users increased from last month</p>
                         </div>
                     </div>
                 </div>

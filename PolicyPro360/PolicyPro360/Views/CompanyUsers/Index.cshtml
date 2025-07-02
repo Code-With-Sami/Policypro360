@@ -1,0 +1,86 @@
+﻿@model List<PolicyPro360.Models.Users>
+@{
+    ViewData["Title"] = "Show User";
+    Layout = "_CompanyLayout";
+}
+<main class="main-wrapper">
+    <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">All Users</div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Create", "CompanyUsers")">Create User</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="card">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+            }
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Profile</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                int count = 1;
+                                foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@user.Name</td>
+                                        <td>@user.Username</td>
+                                        <td>@user.Email</td>
+                                        <td>@user.MobileNumber</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(user.ProfileImagePath))
+                                            {
+                                                <img src="~/admin/assets/images/profiles/@user.ProfileImagePath" alt="Profile" width="50" height="50" class="rounded-circle" />
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">No Image</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-success" href="@Url.Action("Edit", "CompanyUsers", new { id = user.Id })">Edit</a>
+                                            <form asp-action="Delete" asp-controller="AdminUsers" method="post" asp-route-id="@user.Id" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    count++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">No users found.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

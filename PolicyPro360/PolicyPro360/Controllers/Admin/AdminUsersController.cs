@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
+
 namespace PolicyPro360.Controllers.Admin
 {
     public class AdminUsersController : BaseAdminController
@@ -108,7 +109,7 @@ namespace PolicyPro360.Controllers.Admin
                 existingUser.ProfileImagePath = model.ProfileImagePath ?? existingUser.ProfileImagePath ?? string.Empty;
             }
 
-   
+
             ModelState.Remove("ProfileImagePath");
 
             existingUser.Name = model.Name;
