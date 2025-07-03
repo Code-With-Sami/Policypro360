@@ -16,13 +16,12 @@ namespace PolicyPro360.Controllers.Company
         private readonly myContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CompanyUsersController(myContext context, IWebHostEnvironment webHostEnvironment)
+        public CompanyUsersController(myContext context, IWebHostEnvironment webHostEnvironment) : base(context)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var allUsers = await _context.Tbl_Users.ToListAsync();
