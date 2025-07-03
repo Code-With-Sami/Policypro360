@@ -262,14 +262,11 @@ namespace PolicyPro360.Controllers.Company
             if (ModelState.IsValid)
             {
       
-
-
                 var companyToUpdate = await _db.Tbl_Company.FindAsync(company.Id);
                 if (companyToUpdate == null)
                 {
                     return NotFound();
                 }
-
 
                 if (newCompanyLogo != null && newCompanyLogo.Length > 0)
                 {
@@ -311,7 +308,6 @@ namespace PolicyPro360.Controllers.Company
                     companyToUpdate.OwnerImagePath = "/companies/ownerimages/" + uniqueOwnerImageName;
                 }
 
-                // --- Property Updates (Aapka code theek hai) ---
                 companyToUpdate.CompanyName = company.CompanyName;
                 companyToUpdate.BusinessType = company.BusinessType;
                 companyToUpdate.IndustryType = company.IndustryType;
