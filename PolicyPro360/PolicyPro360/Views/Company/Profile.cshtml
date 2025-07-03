@@ -1,0 +1,186 @@
+﻿@model PolicyPro360.Models.Company
+@{
+	ViewData["Title"] = "Company Profile";
+	Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+
+<div class="main-wrapper">
+	<div class="main-content">
+		<!-- Breadcrumb -->
+		<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+			<div class="breadcrumb-title pe-3">User Profile</div>
+			<div class="ps-3">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb mb-0 p-0">
+						<li class="breadcrumb-item"><a href="@Url.Action("Dashboard", "Company")"><i class="bx bx-home-alt"></i></a></li>
+						<li class="breadcrumb-item active" aria-current="page">Profile</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="ms-auto">
+				<a asp-controller="Company" asp-action="EditProfile" class="btn btn-grd-primary rounded-pill px-4 text-white">
+	<i class="material-icons-outlined fs-6 me-1" style="vertical-align: middle;">edit</i>
+	Edit Profile
+</a>
+			</div>
+		</div>
+		<!-- End Breadcrumb -->
+
+		<div class="row">
+			<!-- Left Column: Profile Summary -->
+			<div class="col-lg-4">
+				<div class="card shadow-sm rounded-4 border-0">
+					<div class="card-body">
+						<div class="d-flex flex-column align-items-center text-center">
+							<div class="p-1 bg-grd-primary rounded-circle">
+								<img src="@Model.CompanyLogoPath" alt="Company Logo" class="rounded-circle p-1 bg-white" width="110" height="110">
+							</div>
+							<div class="mt-3">
+								<h4>@Model.CompanyName</h4>
+								<p class="text-secondary mb-1">@Model.IndustryType</p>
+								<p class="text-secondary font-size-sm">@Model.City, @Model.Country</p>
+								@if (Model.Status == "Approved")
+								{
+													<span class="badge bg-light-success text-success fs-6">@Model.Status</span>
+								}
+								else
+								{
+													<span class="badge bg-light-warning text-warning fs-6">@Model.Status</span>
+								}
+							</div>
+						</div>
+						<hr class="my-4">
+						<h5 class="mb-3 text-center">Owner Details</h5>
+						<div class="d-flex flex-column align-items-center text-center">
+							<div class="p-1 bg-grd-primary rounded-circle">
+								<img src="@Model.OwnerImagePath" alt="Owner Image" class="rounded-circle p-1 bg-white " width="90" height="90">
+							</div>
+							<div class="mt-3">
+								<h6 class="mb-0">@Model.OwnerName</h6>
+								<p class="text-secondary mb-0">@Model.OwnerRole</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Column: Detailed Information with Tabs -->
+			<div class="col-lg-8">
+				<!-- Card ke top border ko gradient banaya hai -->
+				<div class="card shadow-sm rounded-4 border-0 border-top border-5" style="border-image: linear-gradient(to right, #0d6efd, #198754, #ffc107) 1;">
+					<div class="card-body p-4">
+					   <ul class="nav nav-pills nav-pills-primary mb-4" role="tablist">
+	<li class="nav-item" role="presentation">
+		<a class="nav-link active" data-bs-toggle="pill" href="#primary-pills-company" role="tab" aria-selected="true" data-tab-theme="primary">
+			<div class="d-flex align-items-center">
+				<div class="tab-icon"><i class="material-icons-outlined fs-5 me-1">business</i></div>
+				<div class="tab-title">Company Info</div>
+			</div>
+		</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" data-bs-toggle="pill" href="#primary-pills-contact" role="tab" aria-selected="false" data-tab-theme="success">
+			<div class="d-flex align-items-center">
+				<div class="tab-icon"><i class="material-icons-outlined fs-5 me-1">contacts</i></div>
+				<div class="tab-title">Contact</div>
+			</div>
+		</a>
+	</li>
+	<li class="nav-item" role="presentation">
+		<a class="nav-link" data-bs-toggle="pill" href="#primary-pills-owner" role="tab" aria-selected="false" data-tab-theme="danger">
+			<div class="d-flex align-items-center">
+				<div class="tab-icon"><i class="material-icons-outlined fs-5 me-1">person</i></div>
+				<div class="tab-title">Owner Details</div>
+			</div>
+		</a>
+	</li>
+ </ul>
+						<div class="tab-content">
+
+							<!-- Company Info Tab (Primary Theme) -->
+							<div class="tab-pane fade show active" id="primary-pills-company" role="tabpanel">
+								<h5 class="mb-3 text-primary">Core Company Details</h5>
+								<div class="list-group list-group-flush">
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-primary me-3">apartment</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Company Name</h6></div>
+										<div class="text-secondary">@Model.CompanyName</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-primary me-3">storefront</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Business Type</h6></div>
+										<div class="text-secondary">@Model.BusinessType</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-primary me-3">factory</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Industry Type</h6></div>
+										<div class="text-secondary">@Model.IndustryType</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-primary me-3">badge</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Registration No</h6></div>
+										<div class="text-secondary">@Model.RegistrationNo</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Contact Tab (Success Theme) -->
+							<div class="tab-pane fade" id="primary-pills-contact" role="tabpanel">
+								<h5 class="mb-3 text-success">Contact & Location</h5>
+								<div class="list-group list-group-flush">
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-success me-3">email</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Email</h6></div>
+										<div class="text-secondary">@Model.Email</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-success me-3">call</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Phone No</h6></div>
+										<div class="text-secondary">@Model.PhoneNo</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-success me-3">location_on</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Address</h6></div>
+										<div class="text-secondary">@Model.Address, @Model.City, @Model.Country</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Owner Details Tab (Danger/Warning Theme) -->
+							<div class="tab-pane fade" id="primary-pills-owner" role="tabpanel">
+								<h5 class="mb-3 text-danger">Authorized Person Details</h5>
+								<div class="list-group list-group-flush">
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-danger me-3">account_circle</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Full Name</h6></div>
+										<div class="text-secondary">@Model.OwnerName</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-danger me-3">work_outline</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Role / Position</h6></div>
+										<div class="text-secondary">@Model.OwnerRole</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-danger me-3">alternate_email</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Owner Email</h6></div>
+										<div class="text-secondary">@Model.OwnerEmail</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-danger me-3">phone_iphone</i>
+										<div class="flex-grow-1"><h6 class="mb-0">Owner Phone No</h6></div>
+										<div class="text-secondary">@Model.OwnerPhoneNo</div>
+									</div>
+									<div class="list-group-item d-flex align-items-center">
+										<i class="material-icons-outlined text-warning me-3">fingerprint</i>
+										<div class="flex-grow-1"><h6 class="mb-0">CNIC</h6></div>
+										<div class="text-secondary">@Model.OwnerCNIC</div>
+									</div>
+								</div>
+							</div>
+						</div> <!-- End of .tab-content -->
+					</div> <!-- End of .card-body -->
+				</div> <!-- End of .card -->
+			</div> <!-- End of .col-lg-8 -->
+		</div> <!-- End of .row -->
+	</div> <!-- End of .main-content -->
+</div> <!-- End of .main-wrapper -->

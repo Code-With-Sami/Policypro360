@@ -1,0 +1,171 @@
+﻿@model PolicyPro360.Models.Company
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+
+<div class="main-wrapper">
+    <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Edit Profile</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Dashboard", "Company")"><i class="bx bx-home-alt"></i></a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Profile", "Company")">Profile</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- End Breadcrumb -->
+
+        <div class="card rounded-4">
+            <div class="card-body p-4">
+                <h5 class="mb-4">Update Your Profile Information</h5>
+                <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+
+                    <!-- Hidden fields for data that should not be changed by the user -->
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CompanyLogoPath" />
+                    <input type="hidden" asp-for="OwnerImagePath" />
+                    <input type="hidden" asp-for="Status" />
+                    <input type="hidden" asp-for="Password" />
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="row g-3">
+                                <div class="col-12"><h6 class="mb-0 text-primary">Company Details</h6><hr /></div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="CompanyName" class="form-label"></label>
+                                    <input asp-for="CompanyName" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="PhoneNo" class="form-label"></label>
+                                    <input asp-for="PhoneNo" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="BusinessType" class="form-label"></label>
+                                    <input asp-for="BusinessType" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="IndustryType" class="form-label"></label>
+                                    <input asp-for="IndustryType" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="RegistrationNo" class="form-label"></label>
+                                    <input asp-for="RegistrationNo" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="Country" class="form-label"></label>
+                                    <input asp-for="Country" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="City" class="form-label"></label>
+                                    <input asp-for="City" class="form-control" />
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="Address" class="form-label"></label>
+                                    <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="Description" class="form-label"></label>
+                                    <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                                </div>
+
+                                <div class="col-12 mt-4"><h6 class="mb-0 text-danger">Owner Details</h6><hr /></div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerName" class="form-label"></label>
+                                    <input asp-for="OwnerName" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerEmail" class="form-label"></label>
+                                    <input asp-for="OwnerEmail" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerPhoneNo" class="form-label"></label>
+                                    <input asp-for="OwnerPhoneNo" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerRole" class="form-label"></label>
+                                    <input asp-for="OwnerRole" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerNationality" class="form-label"></label>
+                                    <input asp-for="OwnerNationality" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerDOB" class="form-label"></label>
+                                    <input asp-for="OwnerDOB" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="OwnerCNIC" class="form-label"></label>
+                                    <input asp-for="OwnerCNIC" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <!-- Image upload fields -->
+                            <div class="vstack gap-3">
+                                <div class="card shadow-none border">
+                                    <div class="card-body">
+                                        <h6 class="mb-3">Company Logo</h6>
+                                        <img src="@Model.CompanyLogoPath" class="mb-3 img-fluid rounded" />
+                                        <p class="text-secondary small">Upload a new logo to replace the current one.</p>
+                                        <input class="form-control" type="file" name="newCompanyLogo">
+                                    </div>
+                                </div>
+                                <div class="card shadow-none border">
+                                    <div class="card-body">
+                                        <h6 class="mb-3">Owner Image</h6>
+                                        <img src="@Model.OwnerImagePath" class="mb-3 img-fluid rounded" />
+                                        <p class="text-secondary small">Upload a new image to replace the current one.</p>
+                                        <input class="form-control" type="file" name="newOwnerImage">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end row-->
+                    <div class="text-start mt-4">
+                        <button type="submit" class="btn btn-grd-primary text-white px-4">Save Changes</button>
+                        <a asp-action="Profile" class="btn btn-outline-secondary px-4">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+       
+        if (TempData["ModelErrors"] is List<string> errors && errors.Any())
+        {
+            <script>
+                // Ek IIFE (Immediately Invoked Function Expression) ka istemal taaki global scope pollute na ho
+                (function() {
+                    console.group("%cModel Validation Errors", "color: red; font-weight: bold; font-size: 14px;");
+
+                    // C# list ko JavaScript array mein convert karein
+                    const errorList = @Html.Raw(Json.Serialize(errors));
+
+                    // Har error ko console par print karein
+                    errorList.forEach(function(error) {
+                        console.error("❌ " + error);
+                    });
+
+                    console.groupEnd();
+                    console.log("Form submission failed due to the errors listed above.");
+                })();
+            </script>
+        }
+    }
+}

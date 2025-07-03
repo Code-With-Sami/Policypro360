@@ -30,6 +30,31 @@
     <link href="~/admin/sass/semi-dark.css" rel="stylesheet">
     <link href="~/admin/sass/bordered-theme.css" rel="stylesheet">
     <link href="~/admin/sass/responsive.css" rel="stylesheet">
+    <style>
+        .nav-pills .nav-link.active[data-tab-theme] {
+            color: #fff !important;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .nav-pills .nav-link.active[data-tab-theme] .tab-icon i {
+                color: #fff !important;
+            }
+
+        .nav-pills .nav-link.active[data-tab-theme="primary"] {
+            background: linear-gradient(45deg, #0d6efd, #0dcaf0) !important;
+        }
+
+        .nav-pills .nav-link.active[data-tab-theme="success"] {
+            background: linear-gradient(45deg, #198754, #20c997) !important;
+        }
+
+        .nav-pills .nav-link.active[data-tab-theme="danger"] {
+            background: linear-gradient(45deg, #dc3545, #fd7e14) !important;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!--start header-->
@@ -654,7 +679,7 @@
                             </div>
                         </a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;">
+                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="@Url.Action("Profile", "Company")">
                             <i class="material-icons-outlined">person_outline</i>Profile
                         </a>
                         <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;">
