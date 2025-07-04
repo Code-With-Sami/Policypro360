@@ -41,6 +41,7 @@ namespace PolicyPro360.Controllers.Admin
             {
 
                 HttpContext.Session.SetString("name", value: admin.Name);
+                HttpContext.Session.SetString("email", value: admin.Email);
                 TempData["success"] = "Login successful!";
                 return RedirectToAction("Dashboard");
             }
@@ -93,6 +94,28 @@ namespace PolicyPro360.Controllers.Admin
             }
        
            return View();
+        }
+
+        public IActionResult Profile()
+        {
+            var adminemail = HttpContext.Session.GetString("email");
+
+            if (string.IsNullOrEmpty(adminemail))
+            {
+
+                return RedirectToAction("Login");
+            }
+
+            var adminDetails = _db.Tbl_Admin.FirstOrDefault(a => a.Email == adminemail);
+
+            if (adminDetails == null)
+            {
+
+                return NotFound("Company profile not found.");
+            }
+
+
+            return View(adminDetails);
         }
     }
 }

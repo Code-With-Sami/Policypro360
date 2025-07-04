@@ -21,5 +21,6 @@ namespace PolicyPro360.Models
 
         [Required(ErrorMessage = "Status is required")]
         public bool Status { get; set; }
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PolicyPro360.Models;
 
@@ -11,9 +12,11 @@ using PolicyPro360.Models;
 namespace PolicyPro360.Migrations
 {
     [DbContext(typeof(myContext))]
-    partial class myContextModelSnapshot : ModelSnapshot
+    [Migration("20250704005703_addPolicyTable")]
+    partial class addPolicyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,89 +167,6 @@ namespace PolicyPro360.Migrations
                     b.ToTable("Tbl_Company");
                 });
 
-            modelBuilder.Entity("PolicyPro360.Models.Policy", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("BrochureUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("PolicyTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Premium")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("SumInsured")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Tenure")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TermsConditions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("PolicyTypeId");
-
-                    b.ToTable("Tbl_Policy");
-                });
-
-            modelBuilder.Entity("PolicyPro360.Models.PolicyAttribute", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("PolicyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PolicyId");
-
-                    b.ToTable("Tbl_PolicyAttributes");
-                });
-
             modelBuilder.Entity("PolicyPro360.Models.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -289,41 +209,6 @@ namespace PolicyPro360.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tbl_Users");
-                });
-
-            modelBuilder.Entity("PolicyPro360.Models.Policy", b =>
-                {
-                    b.HasOne("PolicyPro360.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PolicyPro360.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("PolicyTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("PolicyPro360.Models.PolicyAttribute", b =>
-                {
-                    b.HasOne("PolicyPro360.Models.Policy", "Policy")
-                        .WithMany("Attributes")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Policy");
-                });
-
-            modelBuilder.Entity("PolicyPro360.Models.Policy", b =>
-                {
-                    b.Navigation("Attributes");
                 });
 #pragma warning restore 612, 618
         }

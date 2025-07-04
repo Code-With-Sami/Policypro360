@@ -116,18 +116,28 @@ namespace PolicyPro360.Controllers.Company
             var company = _db.Tbl_Company.FirstOrDefault(c => c.Email == companyEmail && c.Password == companyPassword);
             if (company != null)
             {
-                HttpContext.Session.SetString("companyname", company.CompanyName);
-                HttpContext.Session.SetString("companyEmail", company.Email);
-                HttpContext.Session.SetInt32("companyId", company.Id); 
+                if (company.Status == "Approved")
+                {
+                    HttpContext.Session.SetString("companyname", company.CompanyName);
+                    HttpContext.Session.SetString("companyEmail", company.Email);
+                    HttpContext.Session.SetInt32("companyId", company.Id);
 
-                TempData["success"] = "Login successful!";
-                return RedirectToAction("Dashboard");
+                    TempData["success"] = "Login successful!";
+                    return RedirectToAction("Dashboard");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Your account has not been approved.";
+                    return View();
+                }
             }
             else
             {
-                ViewBag.ErrorMessage = "Invalid email or password.";
+                TempData["ErrorMessage"] = "invalied email or username.";
             }
             return View();
+
+           
         }
 
         

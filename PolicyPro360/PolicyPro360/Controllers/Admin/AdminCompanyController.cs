@@ -61,16 +61,6 @@ namespace PolicyPro360.Controllers.Admin
             return RedirectToAction("Index");
         }
 
-        //public async Task<IActionResult> ChangeStatus(int id, string status)
-        //{
-        //    var company = await _context.Tbl_Company.FindAsync(id);
-        //    if (company == null) return NotFound();
-
-        //    company.Status = status;
-        //    _context.Tbl_Company.Update(company);
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
+        
     }
 }
