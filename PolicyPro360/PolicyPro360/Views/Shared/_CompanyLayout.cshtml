@@ -736,15 +736,21 @@
                         <div class="parent-icon">
                             <i class="material-icons-outlined">category</i>
                         </div>
-                        <div class="menu-title">Categories</div>
+                        <div class="menu-title">Insurance Type</div>
                     </a>
                     <ul>
+                        <li>
+                            <a href="@Url.Action("AllPolicies", "CompanyPolicy")">
+                                <i class="material-icons-outlined">arrow_right</i>
+                                All Insurance
+                            </a>
+                        </li>
                         @if (ViewBag.Categories != null)
                         {
                             foreach (var category in ViewBag.Categories)
                             {
                                 <li>
-                                    <a href="#">
+                                    <a href="@Url.Action("Index", "CompanyPolicy", new { categoryId = category.Id })">
                                         <i class="material-icons-outlined">arrow_right</i>
                                         @category.Name
                                     </a>

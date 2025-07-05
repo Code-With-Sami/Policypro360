@@ -3,48 +3,32 @@
   "WorkspaceRootPath": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005941_updatePolicyTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PolicyPro360\\Migrations\\20250704005941_updatePolicyTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\companypolicy\\homepolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\companypolicy\\homepolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\models\\mycontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\models\\mycontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\companypolicy\\lifepolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\companypolicy\\lifepolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\models\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\models\\policy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\companypolicy\\medicalpolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\companypolicy\\medicalpolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\models\\policyattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\models\\policyattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\companypolicy\\motorpolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\companypolicy\\motorpolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\migrations\\20250704005703_addpolicytable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\migrations\\20250704005703_addpolicytable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\controllers\\company\\companypolicycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\company\\companypolicycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005814_addPolicyAttributeTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:PolicyPro360\\Migrations\\20250704005814_addPolicyAttributeTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\companypolicy\\createlifepolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\companypolicy\\createlifepolicy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\admin\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\admin\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\controllers\\admin\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\admin\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\company\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\company\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\controllers\\company\\companycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\company\\companycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\github-d\\policypro360\\policypro360\\policypro360\\views\\companypolicy\\allpolicies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\companypolicy\\allpolicies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,145 +46,93 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250704005941_updatePolicyTable.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005941_updatePolicyTable.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Migrations\\20250704005941_updatePolicyTable.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005941_updatePolicyTable.cs*",
-              "RelativeToolTip": "PolicyPro360\\Migrations\\20250704005941_updatePolicyTable.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:59:41.604Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "20250704005814_addPolicyAttributeTable.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005814_addPolicyAttributeTable.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Migrations\\20250704005814_addPolicyAttributeTable.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005814_addPolicyAttributeTable.cs",
-              "RelativeToolTip": "PolicyPro360\\Migrations\\20250704005814_addPolicyAttributeTable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:58:15.51Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PolicyAttribute.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\PolicyAttribute.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Models\\PolicyAttribute.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\PolicyAttribute.cs",
-              "RelativeToolTip": "PolicyPro360\\Models\\PolicyAttribute.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBMAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:57:24.442Z",
+              "Title": "CreateLifePolicy.cshtml",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\CreateLifePolicy.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\CompanyPolicy\\CreateLifePolicy.cshtml",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\CreateLifePolicy.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\CompanyPolicy\\CreateLifePolicy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-05T01:19:19.264Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "20250704005703_addPolicyTable.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005703_addPolicyTable.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Migrations\\20250704005703_addPolicyTable.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Migrations\\20250704005703_addPolicyTable.cs",
-              "RelativeToolTip": "PolicyPro360\\Migrations\\20250704005703_addPolicyTable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "CompanyPolicyController.cs",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "RelativeToolTip": "PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:57:04.232Z",
+              "WhenOpened": "2025-07-05T01:18:40.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MotorPolicy.cshtml",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\MotorPolicy.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\CompanyPolicy\\MotorPolicy.cshtml",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\MotorPolicy.cshtml*",
+              "RelativeToolTip": "PolicyPro360\\Views\\CompanyPolicy\\MotorPolicy.cshtml*",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAEcAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-05T01:17:17.236Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Policy.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\Policy.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Models\\Policy.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\Policy.cs",
-              "RelativeToolTip": "PolicyPro360\\Models\\Policy.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAIwCkAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:53:12.247Z",
+              "Title": "MedicalPolicy.cshtml",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\MedicalPolicy.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\CompanyPolicy\\MedicalPolicy.cshtml",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\MedicalPolicy.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\CompanyPolicy\\MedicalPolicy.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEcAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-05T01:17:15.706Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "myContext.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\myContext.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Models\\myContext.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\myContext.cs",
-              "RelativeToolTip": "PolicyPro360\\Models\\myContext.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA8wB0AAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:11:17.406Z",
+              "Title": "LifePolicy.cshtml",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\LifePolicy.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\CompanyPolicy\\LifePolicy.cshtml",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\LifePolicy.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\CompanyPolicy\\LifePolicy.cshtml",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEcAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-05T01:17:14.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomePolicy.cshtml",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\HomePolicy.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\CompanyPolicy\\HomePolicy.cshtml",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\HomePolicy.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\CompanyPolicy\\HomePolicy.cshtml",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEMAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-05T01:17:12.42Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Category.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\Category.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Models\\Category.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\Category.cs",
-              "RelativeToolTip": "PolicyPro360\\Models\\Category.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T00:10:50.793Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Admin\\Profile.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Admin\\Profile.cshtml",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Admin\\Profile.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\Admin\\Profile.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAoAAAAAAAAAA==",
+              "Title": "AllPolicies.cshtml",
+              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\AllPolicies.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\CompanyPolicy\\AllPolicies.cshtml",
+              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\CompanyPolicy\\AllPolicies.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\CompanyPolicy\\AllPolicies.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-03T22:39:07.818Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Admin\\AdminController.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\Admin\\AdminController.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Admin\\AdminController.cs",
-              "RelativeToolTip": "PolicyPro360\\Controllers\\Admin\\AdminController.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAIwA8AAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T22:37:58.264Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Company\\Profile.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Company\\Profile.cshtml",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Company\\Profile.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\Company\\Profile.cshtml",
-              "ViewState": "AgIAAJMAAAAAAAAAAAAuwLkAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-03T22:37:25.936Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CompanyController.cs",
-              "DocumentMoniker": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyController.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\Company\\CompanyController.cs",
-              "ToolTip": "D:\\GitHub-D\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyController.cs",
-              "RelativeToolTip": "PolicyPro360\\Controllers\\Company\\CompanyController.cs",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAAwK8AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-03T21:21:27.828Z",
+              "WhenOpened": "2025-07-05T01:15:01.266Z",
               "EditorCaption": ""
             }
           ]
