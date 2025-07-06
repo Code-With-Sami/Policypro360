@@ -1,6 +1,7 @@
 ﻿@model PolicyPro360.Models.Policy
+
 @{
-    ViewData["Title"] = "Create a Medical Insurance Policy";
+    ViewData["Title"] = "Create A Medical Insurance Policy";
     Layout = "_CompanyLayout";
 }
 
@@ -8,7 +9,7 @@
     <div class="main-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Life Insurance Policy Form</div>
+            <div class="breadcrumb-title pe-3">Medical Insurance Policy Form</div>
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
@@ -16,7 +17,7 @@
                             <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Add a Life Insurance Policy
+                            Add A Medical Insurance Policy
                         </li>
                     </ol>
                 </nav>
@@ -24,7 +25,7 @@
             <div class="ms-auto">
                 <div class="btn-group">
                     <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Index", "CompanyPolicy", new { categoryId = @ViewBag.CategoryId })">
-                        Show Life Insurance policies
+                        Show Medical Insurance policies
                     </a>
                 </div>
             </div>
@@ -35,9 +36,9 @@
                 <div class="col-12 col-md-8 col-xl-6">
                     <div class="card">
                         <div class="card-body p-4">
-                            <h5 class="mb-4">Add a Life Insurance Policy</h5>
+                            <h5 class="mb-4">Add A Medical Insurance Policy</h5>
 
-                            <form asp-controller="CompanyPolicy" asp-action="CreateLifePolicy" method="post" class="row g-3">
+                            <form asp-controller="CompanyPolicy" asp-action="CreateMedicalPolicy" method="post" enctype="multipart/form-data" class="row g-3">
 
                                 <!-- Policy Name -->
                                 <div class="col-md-12">
@@ -45,7 +46,7 @@
                                     <div class="position-relative input-icon">
                                         <input asp-for="Name" class="form-control" placeholder="Enter policy name">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">category</i>
+                                            <i class="material-icons-outlined fs-5">person</i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="Name" class="text-danger"></span>
@@ -73,7 +74,7 @@
                                     <div class="position-relative input-icon">
                                         <input asp-for="SumInsured" class="form-control" placeholder="Enter Sum Insured">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">number</i>
+                                            <i class="material-icons-outlined fs-5">shield</i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="SumInsured" class="text-danger"></span>
@@ -85,7 +86,7 @@
                                     <div class="position-relative input-icon">
                                         <input asp-for="Premium" class="form-control" placeholder="Enter Premium Amount">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">money</i>
+                                            <i class="material-icons-outlined fs-5">diamond</i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="Premium" class="text-danger"></span>
@@ -97,7 +98,7 @@
                                     <div class="position-relative input-icon">
                                         <input asp-for="Tenure" class="form-control" placeholder="Enter Policy Tenure">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">badge</i>
+                                            <i class="material-icons-outlined fs-5">calendar_today</i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="Tenure" class="text-danger"></span>
@@ -109,19 +110,19 @@
                                     <div class="position-relative input-icon">
                                         <input asp-for="TermsConditions" class="form-control" placeholder="Enter Terms & Conditions">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">condition</i>
+                                            <i class="material-icons-outlined fs-5">description</i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="TermsConditions" class="text-danger"></span>
                                 </div>
 
-                                <!-- Policy BrochureUrl -->
+                                <!-- Policy Brochure Upload -->
                                 <div class="col-md-12">
-                                    <label asp-for="BrochureUrl" class="form-label"></label>
+                                    <label class="form-label">Policy Brochure (Upload Image)</label>
                                     <div class="position-relative input-icon">
-                                        <input type="file" name="BrochureUrl" id="BrochureUrl" placeholder="Enter Brochure URL"> />
+                                        <input type="file" name="BrochureFile" class="form-control" accept="image/*" />
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">condition</i>
+                                            <i class="material-icons-outlined fs-5">upload_file</i>
                                         </span>
                                     </div>
                                     <span asp-validation-for="BrochureUrl" class="text-danger"></span>
@@ -129,12 +130,27 @@
 
 
                                 <!-- Dynamic Attributes -->
+
+
+                                <!-- Coverage Type -->
+                                <div class="col-md-12">
+                                    <label for="coverage_type" class="form-label">Coverage Type</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[0].Key" value="coverage_type" />
+                                        <input type="text" name="Attributes[0].Value" class="form-control" id="coverage_type" placeholder="Coverage Type">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">support</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
                                 <!-- Min Entry Age -->
                                 <div class="col-md-12">
                                     <label for="min_entry_age" class="form-label">Min Entry Age</label>
                                     <div class="position-relative input-icon">
-                                        <input type="hidden" name="Attributes[0].Key" value="min_entry_age" />
-                                        <input type="number" name="Attributes[0].Value" class="form-control" id="min_entry_age" placeholder="Min Entry Age">
+                                        <input type="hidden" name="Attributes[1].Key" value="min_entry_age" />
+                                        <input type="number" name="Attributes[1].Value" class="form-control" id="min_entry_age" placeholder="Min Entry Age" />
                                         <span class="position-absolute top-50 translate-middle-y">
                                             <i class="material-icons-outlined fs-5">calendar_today</i>
                                         </span>
@@ -144,10 +160,10 @@
 
                                 <!-- Max Entry Age -->
                                 <div class="col-md-12">
-                                    <label for="min_entry_age" class="form-label">Min Entry Age</label>
+                                    <label for="max_entry_age" class="form-label">Max Entry Age</label>
                                     <div class="position-relative input-icon">
-                                        <input type="hidden" name="Attributes[1].Key" value="max_entry_age" />
-                                        <input type="number" name="Attributes[1].Value" class="form-control" id="max_entry_age" placeholder="Max Entry Age" />
+                                        <input type="hidden" name="Attributes[2].Key" value="max_entry_age" />
+                                        <input type="text" name="Attributes[2].Value" class="form-control" id="max_entry_age" placeholder="Max Entry Age" />
                                         <span class="position-absolute top-50 translate-middle-y">
                                             <i class="material-icons-outlined fs-5">calendar_today</i>
                                         </span>
@@ -155,12 +171,12 @@
                                     <span class="text-danger"></span>
                                 </div>
 
-                                <!-- Maturity Benefit -->
+                                <!-- Pre Hospitalization -->
                                 <div class="col-md-12">
-                                    <label for="min_entry_age" class="form-label">Min Entry Age</label>
+                                    <label for="pre_hospitalization" class="form-label">Pre Hospitalization</label>
                                     <div class="position-relative input-icon">
-                                        <input type="hidden" name="Attributes[2].Key" value="maturity_benefit" />
-                                        <input type="text" name="Attributes[2].Value" class="form-control" id="maturity_benefit" placeholder="Maturity Benefit" />
+                                        <input type="hidden" name="Attributes[3].Key" value="pre_hospitalization" />
+                                        <input type="text" name="Attributes[3].Value" class="form-control" id="pre_hospitalization" placeholder="Pre Hospitalization" />
                                         <span class="position-absolute top-50 translate-middle-y">
                                             <i class="material-icons-outlined fs-5">calendar_today</i>
                                         </span>
@@ -168,12 +184,12 @@
                                     <span class="text-danger"></span>
                                 </div>
 
-                                <!-- Death Benefit -->
+                                <!-- Post Hospitalization -->
                                 <div class="col-md-12">
-                                    <label for="min_entry_age" class="form-label">Min Entry Age</label>
+                                    <label for="post_hospitalization" class="form-label">Post Hospitalization</label>
                                     <div class="position-relative input-icon">
-                                        <input type="hidden" name="Attributes[3].Key" value="death_benefit" />
-                                        <input type="text" name="Attributes[3].Value" class="form-control" id="death_benefit" placeholder="Death Benefit" />
+                                        <input type="hidden" name="Attributes[4].Key" value="post_hospitalization" />
+                                        <input type="text" name="Attributes[4].Value" class="form-control" id="post_hospitalization" placeholder="Post Hospitalization" />
                                         <span class="position-absolute top-50 translate-middle-y">
                                             <i class="material-icons-outlined fs-5">calendar_today</i>
                                         </span>
@@ -181,15 +197,81 @@
                                     <span class="text-danger"></span>
                                 </div>
 
-                                <!-- Policy Status -->
-                                @* <div class="col-md-12"> *@
-                                @*     <label asp-for="Active" class="form-label"></label> *@
-                                @*     <div class="form-check"> *@
-                                @*         <input asp-for="Active" class="form-check-input" type="checkbox" /> *@
-                                @*         <label class="form-check-label" for="Active">Active</label> *@
-                                @*     </div> *@
-                                @*     <span asp-validation-for="Active" class="text-danger"></span> *@
-                                @* </div> *@
+                                
+                                <!-- Day Care Procedures -->
+                                <div class="col-md-12">
+                                    <label for="daycare_procedures" class="form-label">Day Care Procedures</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[5].Key" value="daycare_procedures" />
+                                        <input type="number" name="Attributes[5].Value" class="form-control" id="daycare_procedures" placeholder="Day Care Procedures" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">shield</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Co Payment Clause -->
+                                <div class="col-md-12">
+                                    <label for="co_payment_clause" class="form-label">Co Payment Clause</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[6].Key" value="co_payment_clause" />
+                                        <input type="text" name="Attributes[6].Value" class="form-control" id="co_payment_clause" placeholder="Co Payment Clause" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">credit_card</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Waiting Period -->
+                                <div class="col-md-12">
+                                    <label for="waiting_period" class="form-label">Waiting Period</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[7].Key" value="waiting_period" />
+                                        <input type="text" name="Attributes[7].Value" class="form-control" id="waiting_period" placeholder="Waiting Period" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">calendar_today</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Add-on Covers -->
+                                <div class="col-md-12">
+                                    <label for="add_on_covers" class="form-label">Add-on Covers</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[8].Key" value="add_on_covers" />
+                                        <input type="text" name="Attributes[8].Value" class="form-control" id="add_on_covers" placeholder="Add-on Covers" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">category</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- exclusions -->
+                                <div class="col-md-12">
+                                    <label for="exclusions" class="form-label">Exclusions</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[9].Key" value="exclusions" />
+                                        <input type="text" name="Attributes[9].Value" class="form-control" id="exclusions" placeholder="Exclusions" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">stars</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Category Status -->
+                                <div class="col-md-12">
+                                    <label asp-for="Active" class="form-label"></label>
+                                    <div class="form-check">
+                                        <input asp-for="Active" class="form-check-input" type="checkbox" />
+                                        <label class="form-check-label" for="Active">Yes</label>
+                                    </div>
+                                    <span asp-validation-for="Active" class="text-danger"></span>
+                                </div>
 
                                 <!-- Submit and Reset Buttons -->
                                 <div class="col-md-12">
@@ -207,6 +289,12 @@
         </div>
     </div>
 </main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
 
 
