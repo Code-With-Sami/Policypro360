@@ -1,4 +1,5 @@
-﻿@model PolicyPro360.Models.Policy
+﻿@model PolicyPro360.ViewModels.CreatePolicyViewModel
+
 @{
     ViewData["Title"] = "Create a Life Insurance Policy";
     Layout = "_CompanyLayout";
@@ -36,31 +37,32 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <h5 class="mb-4">Add a Life Insurance Policy</h5>
-
-                            <form asp-controller="CompanyPolicy" asp-action="CreateLifePolicy" method="post" class="row g-3">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <form asp-action="CreateLifePolicy" method="post" enctype="multipart/form-data" class="row g-3">
+                                @Html.AntiForgeryToken()
 
                                 <!-- Policy Name -->
                                 <div class="col-md-12">
-                                    <label asp-for="Name" class="form-label"></label>
+                                    <label asp-for="Policy.Name" class="form-label"></label>
                                     <div class="position-relative input-icon">
-                                        <input asp-for="Name" class="form-control" placeholder="Enter policy name">
+                                        <input asp-for="Policy.Name" class="form-control" placeholder="Enter policy name">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">category</i>
+                                            <i class="material-icons-outlined fs-5">person</i>
                                         </span>
                                     </div>
-                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                    <span asp-validation-for="Policy.Name" class="text-danger"></span>
                                 </div>
 
                                 <!-- Policy Description -->
                                 <div class="col-md-12">
-                                    <label asp-for="Description" class="form-label"></label>
+                                    <label asp-for="Policy.Description" class="form-label"></label>
                                     <div class="position-relative input-icon">
-                                        <input asp-for="Description" class="form-control" placeholder="Enter policy description">
+                                        <input asp-for="Policy.Description" class="form-control" placeholder="Enter policy description">
                                         <span class="position-absolute top-50 translate-middle-y">
                                             <i class="material-icons-outlined fs-5">description</i>
                                         </span>
                                     </div>
-                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                    <span asp-validation-for="Policy.Description" class="text-danger"></span>
                                 </div>
 
                                 @* policy type id fetch from url *@
@@ -69,63 +71,63 @@
 
                                 <!-- Policy SumInsured -->
                                 <div class="col-md-12">
-                                    <label asp-for="SumInsured" class="form-label"></label>
+                                    <label asp-for="Policy.SumInsured" class="form-label"></label>
                                     <div class="position-relative input-icon">
-                                        <input asp-for="SumInsured" class="form-control" placeholder="Enter Sum Insured">
+                                        <input asp-for="Policy.SumInsured" class="form-control" placeholder="Enter Sum Insured">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">number</i>
+                                            <i class="material-icons-outlined fs-5">shield</i>
                                         </span>
                                     </div>
-                                    <span asp-validation-for="SumInsured" class="text-danger"></span>
+                                    <span asp-validation-for="Policy.SumInsured" class="text-danger"></span>
                                 </div>
 
                                 <!-- Policy Premium Amount  -->
                                 <div class="col-md-12">
-                                    <label asp-for="Premium" class="form-label"></label>
+                                    <label asp-for="Policy.Premium" class="form-label"></label>
                                     <div class="position-relative input-icon">
-                                        <input asp-for="Premium" class="form-control" placeholder="Enter Premium Amount">
+                                        <input asp-for="Policy.Premium" class="form-control" placeholder="Enter Premium Amount">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">money</i>
+                                            <i class="material-icons-outlined fs-5">diamond</i>
                                         </span>
                                     </div>
-                                    <span asp-validation-for="Premium" class="text-danger"></span>
+                                    <span asp-validation-for="Policy.Premium" class="text-danger"></span>
                                 </div>
 
                                 <!-- Policy Tenure -->
                                 <div class="col-md-12">
-                                    <label asp-for="Tenure" class="form-label"></label>
+                                    <label asp-for="Policy.Tenure" class="form-label"></label>
                                     <div class="position-relative input-icon">
-                                        <input asp-for="Tenure" class="form-control" placeholder="Enter Policy Tenure">
+                                        <input asp-for="Policy.Tenure" class="form-control" placeholder="Enter Policy Tenure">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">badge</i>
+                                            <i class="material-icons-outlined fs-5">calendar_today</i>
                                         </span>
                                     </div>
-                                    <span asp-validation-for="Tenure" class="text-danger"></span>
+                                    <span asp-validation-for="Policy.Tenure" class="text-danger"></span>
                                 </div>
 
                                 <!-- Policy TermsConditions -->
                                 <div class="col-md-12">
-                                    <label asp-for="TermsConditions" class="form-label"></label>
+                                    <label asp-for="Policy.TermsConditions" class="form-label"></label>
                                     <div class="position-relative input-icon">
-                                        <input asp-for="TermsConditions" class="form-control" placeholder="Enter Terms & Conditions">
+                                        <input asp-for="Policy.TermsConditions" class="form-control" placeholder="Enter Terms & Conditions">
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">condition</i>
+                                            <i class="material-icons-outlined fs-5">description</i>
                                         </span>
                                     </div>
-                                    <span asp-validation-for="TermsConditions" class="text-danger"></span>
+                                    <span asp-validation-for="Policy.TermsConditions" class="text-danger"></span>
                                 </div>
 
                                 <!-- Policy BrochureUrl -->
-                                <div class="col-md-12">
-                                    <label asp-for="BrochureUrl" class="form-label"></label>
-                                    <div class="position-relative input-icon">
-                                        <input type="file" name="BrochureUrl" id="BrochureUrl" placeholder="Enter Brochure URL"> />
-                                        <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">condition</i>
-                                        </span>
-                                    </div>
+                                 <div class="col-md-12">
+                                    <label for="BrochureUrl" class="form-label">Brochure Img</label>
+                                    <div class="position-relative input-icon"> 
+                                        <input asp-for="BrochureUrl" type="file" class="form-control" placeholder="Enter Brochure Img">
+                                         <span class="position-absolute top-50 translate-middle-y"> 
+                                             <i class="material-icons-outlined fs-5">insert_link</i> 
+                                         </span> 
+                                     </div>
                                     <span asp-validation-for="BrochureUrl" class="text-danger"></span>
-                                </div>
+                                 </div>
 
 
                                 <!-- Dynamic Attributes -->
@@ -146,7 +148,7 @@
 
                                 <!-- Max Entry Age -->
                                 <div class="col-md-12">
-                                    <label for="min_entry_age" class="form-label">Min Entry Age</label>
+                                    <label for="max_entry_age" class="form-label">Max Entry Age</label>
                                     <div class="position-relative input-icon">
                                         <input type="hidden" name="Attributes[1].Key" value="max_entry_age" />
                                         <input type="number" name="Attributes[1].Value" class="form-control" id="max_entry_age" placeholder="Max Entry Age" />
@@ -159,12 +161,12 @@
 
                                 <!-- Maturity Benefit -->
                                 <div class="col-md-12">
-                                    <label for="min_entry_age" class="form-label">Min Entry Age</label>
+                                    <label for="maturity_benefit" class="form-label">Maturity Benefit</label>
                                     <div class="position-relative input-icon">
                                         <input type="hidden" name="Attributes[2].Key" value="maturity_benefit" />
                                         <input type="text" name="Attributes[2].Value" class="form-control" id="maturity_benefit" placeholder="Maturity Benefit" />
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">calendar_today</i>
+                                            <i class="material-icons-outlined fs-5">category</i>
                                         </span>
                                     </div>
                                     <span class="text-danger"></span>
@@ -172,26 +174,78 @@
 
                                 <!-- Death Benefit -->
                                 <div class="col-md-12">
-                                    <label for="min_entry_age" class="form-label">Min Entry Age</label>
+                                    <label for="death_benefit" class="form-label">Death Benefit</label>
                                     <div class="position-relative input-icon">
                                         <input type="hidden" name="Attributes[3].Key" value="death_benefit" />
                                         <input type="text" name="Attributes[3].Value" class="form-control" id="death_benefit" placeholder="Death Benefit" />
                                         <span class="position-absolute top-50 translate-middle-y">
-                                            <i class="material-icons-outlined fs-5">calendar_today</i>
+                                            <i class="material-icons-outlined fs-5">support</i>
                                         </span>
                                     </div>
                                     <span class="text-danger"></span>
                                 </div>
 
-                                <!-- Policy Status -->
-                                @* <div class="col-md-12"> *@
-                                @*     <label asp-for="Active" class="form-label"></label> *@
-                                @*     <div class="form-check"> *@
-                                @*         <input asp-for="Active" class="form-check-input" type="checkbox" /> *@
-                                @*         <label class="form-check-label" for="Active">Active</label> *@
-                                @*     </div> *@
-                                @*     <span asp-validation-for="Active" class="text-danger"></span> *@
-                                @* </div> *@
+                                <!-- Riders Available -->
+                                <div class="col-md-12">
+                                    <label for="riders_available" class="form-label">Riders Available</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[4].Key" value="riders_available" />
+                                        <input type="text" name="Attributes[4].Value" class="form-control" id="riders_available" placeholder="Riders Available" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">person</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Premium Frequency -->
+                                <div class="col-md-12">
+                                    <label for="premium_frequency" class="form-label">Premium Frequency</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[5].Key" value="premium_frequency" />
+                                        <input type="text" name="Attributes[5].Value" class="form-control" id="premium_frequency" placeholder="Premium Frequency" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">diamond</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Premium Payment Term -->
+                                <div class="col-md-12">
+                                    <label for="premium_payment_term" class="form-label">Premium Payment Term</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[6].Key" value="premium_payment_term" />
+                                        <input type="text" name="Attributes[6].Value" class="form-control" id="premium_payment_term" placeholder="Premium Payment Term" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">credit_card</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- exclusions -->
+                                <div class="col-md-12">
+                                    <label for="exclusions" class="form-label">Exclusions</label>
+                                    <div class="position-relative input-icon">
+                                        <input type="hidden" name="Attributes[7].Key" value="exclusions" />
+                                        <input type="text" name="Attributes[7].Value" class="form-control" id="exclusions" placeholder="Exclusions" />
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">stars</i>
+                                        </span>
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Category Status -->
+                                 <div class="col-md-12">
+                                    <label asp-for="Policy.Active" class="form-label"></label>
+                                    <div class="form-check">
+                                        <input asp-for="Policy.Active" class="form-check-input" type="checkbox" />
+                                        <label class="form-check-label" for="Active">Yes</label> 
+                                     </div>
+                                    <span asp-validation-for="Policy.Active" class="text-danger"></span>
+                                </div> 
 
                                 <!-- Submit and Reset Buttons -->
                                 <div class="col-md-12">
@@ -209,6 +263,12 @@
         </div>
     </div>
 </main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
 
 
