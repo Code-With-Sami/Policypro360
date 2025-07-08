@@ -1,0 +1,279 @@
+﻿@{
+    ViewData["Title"] = "Life Insurance - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/life.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="index.html">Home</a></li>
+                <li><span>/</span></li>
+                <li>Insurance</li>
+            </ul>
+            <h2>Life insurance</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Insurance Details Start-->
+<section class="insurance-details">
+    <div class="container">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="insurance-details__left">
+                    <!-- Services List -->
+                    <div class="insurance-details__services-box">
+                        <ul class="insurance-details__services-list list-unstyled">
+                            <li>
+                                <a href="@Url.Action("motor","UserHome")">
+                                   Motor Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("life", "UserHome")">
+                                    Life Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Home","UserHome")">
+                                    Home Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("medical", "UserHome")">
+                                    Medical Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Download Section -->
+                    <div class="insurance-details__download" aria-label="Download resources">
+                        <h3 class="insurance-details__download-title">Download Resources</h3>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="insurance-details__download-single">
+                                    <div class="insurance-details__download-icon" aria-hidden="true">
+                                        <span class="fa fa-file-pdf"></span>
+                                    </div>
+                                    <p class="insurance-details__download-mb">3.9KB</p>
+                                    <h3 class="insurance-details__download-title-2">
+                                        <a href="files/travel-plan-policy.pdf"
+                                           aria-label="Download Travel plan and policy PDF" download>
+                                            Life
+                                            Insurance <br>Policy
+                                        </a>
+                                    </h3>
+                                    <div class="insurance-details__download-btn-box">
+                                        <a href="files/life-plan-policy.pdf"
+                                           class="insurance-details__download-btn thm-btn"
+                                           aria-label="Download Travel plan and policy PDF"
+                                           download>Download</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- Need Help Box -->
+                    <div class="insurance-details__need-help" role="region"
+                         aria-label="Need help contact information">
+                        <div class="insurance-details__need-help-bg"
+                             style="background-image: url(~/user/assets/images/update-10-02-2023/resources/insurance-details-need-help-bg.jpg);"
+                             aria-hidden="true"></div>
+                        <div class="insurance-details__need-help-icon" aria-hidden="true">
+                            <span class="fa fa-phone"></span>
+                        </div>
+                        <h2 class="insurance-details__need-help-title">Talk to our<br>insurance agent</h2>
+                        <div class="insurance-details__need-help-contact">
+                            <a href="tel:+9200368090" aria-label="Call our experts at +92 (003) 68-090">
+                                +92
+                                (003) 68-090
+                            </a>
+                            <p>Call to Our Experts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content Area -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="insurance-details__right">
+                    <!-- Top Image -->
+                    <div class="insurance-details__img-1">
+                        <img src="~/user/assets/images/update-10-02-2023/resources/insurance-details-img-1.jpg"
+                             alt="Family smiling and feeling secure">
+                    </div>
+
+                    <!-- Eligibility Box -->
+                    <div class="insurance-details__age-box">
+                        <div class="insurance-details__age-title-box">
+                            <h3 class="insurance-details__age-title">Eligible ages:</h3>
+                        </div>
+                        <ul class="insurance-details__age-list list-unstyled">
+                            <li>
+                                <p>Minimum Age: <span>18 Years</span></p>
+                            </li>
+                            <li>
+                                <p>Maximum Age: <span>60 Years</span></p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Life Insurance Content -->
+                    <p class="insurance-details__text-2">Secure Your Family's Future with Life Insurance</p>
+                    <p class="insurance-details__text-1">
+                        Life is unpredictable, but your family's financial security doesn't have to be. Life insurance is a promise—a fundamental tool to ensure that your loved ones are financially protected even when you are not around. It provides them with the support they need to maintain their lifestyle and achieve their dreams.
+                    </p>
+
+                    <p class="insurance-details__text-2">What is Life Insurance?</p>
+                    <p class="insurance-details__text-3">
+                        Life insurance is a contract where, in exchange for regular premium payments, the insurer pays a lump sum, known as a death benefit, to your beneficiaries upon your passing. This amount helps them manage financial responsibilities in your absence.
+                    </p>
+
+                    <p class="insurance-details__text-2">Key Benefits of Life Insurance:</p>
+                    <ul class="insurance-details__opportunities-list list-unstyled">
+                        <li>
+                            <div class="icon" aria-hidden="true"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Financial Security for Loved Ones</p>
+                            </div>
+                        </li>
+                        <p>Ensures your family can cover daily expenses and maintain their lifestyle.</p>
+                        <li>
+                            <div class="icon" aria-hidden="true"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Debt Repayment</p>
+                            </div>
+                        </li>
+                        <p>Your family can use the payout to clear outstanding debts like home or car loans.</p>
+                        <li>
+                            <div class="icon" aria-hidden="true"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Child's Future Goals</p>
+                            </div>
+                        </li>
+                        <p>Helps fund major milestones like your child's education or wedding.</p>
+                        <li>
+                            <div class="icon" aria-hidden="true"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Tax Benefits</p>
+                            </div>
+                        </li>
+                        <p>Enjoy tax deductions on premiums paid and tax-free payouts under prevailing laws.</p>
+                    </ul>
+
+                    <!-- Quick Tips -->
+                    <div class="insurance-details__opportunities">
+                        <div class="insurance-details__opportunities-img">
+                            <img src="~/user/assets/images/update-10-02-2023/resources/insurance-details-opportunities-img.jpg"
+                                 alt="Hope for the Best, Prepare for the Worst">
+                            <div class="insurance-details__opportunities-hope">
+                                <p>Hope for the Best,<br>Prepare for the Worst</p>
+                            </div>
+                        </div>
+                        <div class="insurance-details__opportunities-points-box">
+                            <h3 class="insurance-details__opportunities-points-title">
+                                Quick Tips for Buying Life Insurance:
+                            </h3>
+                            <p class="insurance-details__opportunities-points-text">
+                                Choosing the right life insurance is a crucial financial decision. It's important to assess your needs, compare different plans, and understand the terms to provide the best possible protection for your loved ones.
+                            </p>
+                            <ul class="insurance-details__opportunities-list list-unstyled">
+                                <li>
+                                    <div class="icon" aria-hidden="true"><span class="fa fa-check"></span></div>
+                                    <div class="text">
+                                        <p>Assess your financial dependents' needs.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon" aria-hidden="true"><span class="fa fa-check"></span></div>
+                                    <div class="text">
+                                        <p>Choose the right coverage amount (Sum Assured).</p>
+                                    </div>
+                                </li>
+                          
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Extra Features -->
+                    <ul class="insurance-details__points list-unstyled">
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon" aria-hidden="true">
+                                    <span class="icon-easy-to-use"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Simple<br>Application</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>Secure your family's future with a simple and hassle-free application process.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon" aria-hidden="true">
+                                    <span class="icon-contract"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Quick Claim<br>Settlement</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>Ensure your loved ones receive prompt support with our reliable and swift claims process.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon" aria-hidden="true">
+                                    <span class="icon-fund"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Build Your<br>Legacy</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>Affordable premiums that provide significant financial protection and peace of mind.</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Contact Form -->
+                    <h3 class="insurance-details__title-1">Talk to our insurance experts</h3>
+                    <p class="insurance-details__text-4">
+                        Speak with our life insurance experts to ask questions and find the perfect plan for your family's needs. Our dedicated staff is more than happy to call and guide you.
+                    </p>
+                    <form class="insurance-details__email-box">
+                        <div class="insurance-details__email-input-box">
+                            <input type="text" placeholder="Your phone number" name="phone">
+                        </div>
+                        <button type="submit" class="insurance-details__subscribe-btn thm-btn">
+                            Request a Call
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Insurance Details End-->
+<!--Tracking Start-->
+<section class="tracking">
+    <div class="container">
+        <div class="tracking__inner">
+            <div class="tracking__left">
+                <div class="tracking__icon" aria-hidden="true"><span class="icon-folder"></span></div>
+                <div class="tracking__content">
+                    <p class="tracking__sub-title">Quisque vel ortor</p>
+                    <h3 class="tracking__title">Start tracking your claims</h3>
+                </div>
+            </div>
+            <div class="tracking__btn-box">
+                <a href="about.html" class="thm-btn tracking__btn">Track Your Claim</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Tracking End-->

@@ -1,0 +1,176 @@
+﻿@{
+    ViewData["Title"] = "File a Claim - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="container-fluid pt-4" id="claim">
+    <style>
+        #claim {
+            margin-top: 150px;
+        }
+
+        :root {
+            --claim-bg: #171827;
+            --claim-card-bg: #1e1f2f;
+            --claim-primary: #f5a526;
+            --claim-text: #e0e0e0;
+            --claim-text-muted: #8a99b5;
+            --claim-input-bg: #2a2c3c;
+            --claim-border-color: #404258;
+        }
+
+        .claim-page-card {
+            background-color: var(--claim-card-bg);
+            border: none;
+            border-radius: 12px;
+            color: var(--claim-text);
+        }
+
+        .claim-form-control {
+            background-color: var(--claim-input-bg);
+            border: 1px solid var(--claim-border-color);
+            color: var(--claim-text);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+            .claim-form-control:focus {
+                background-color: var(--claim-input-bg);
+                border-color: var(--claim-primary);
+                color: var(--claim-text);
+                box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
+            }
+
+            .claim-form-control::placeholder {
+                color: var(--claim-text-muted);
+            }
+
+        .btn-custom-primary {
+            background-color: var(--claim-primary);
+            border-color: var(--claim-primary);
+            color: var(--claim-bg);
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 8px;
+        }
+
+            .btn-custom-primary:hover {
+                background-color: #d8901e;
+                border-color: #d8901e;
+                color: var(--claim-bg);
+            }
+
+        .btn-custom-secondary {
+            background-color: transparent;
+            border: 1px solid var(--claim-border-color);
+            color: var(--claim-text-muted);
+            padding: 10px 25px;
+            border-radius: 8px;
+        }
+
+            .btn-custom-secondary:hover {
+                background-color: var(--claim-border-color);
+                color: var(--claim-text);
+            }
+
+        /* Custom File Upload */
+        .file-upload-wrapper {
+            border: 2px dashed var(--claim-border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+            .file-upload-wrapper:hover {
+                border-color: var(--claim-primary);
+            }
+
+            .file-upload-wrapper i {
+                font-size: 2.5rem;
+                color: var(--claim-primary);
+            }
+    </style>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- File a Claim Card -->
+            <div class="card claim-page-card">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <i class="ti ti-file-invoice"
+                           style="font-size: 3rem; color: var(--claim-primary);"></i>
+                    </div>
+                    <h4 class="fw-semibold text-center mb-2 text-white">File an Insurance Claim</h4>
+                    <p class="text-center text-muted mb-5">
+                        Please provide accurate information to ensure a smooth process.
+                    </p>
+
+                    <!-- Important Notice Box -->
+                    <div class="alert alert-warning" role="alert"
+                         style="background-color: rgba(245, 165, 38, 0.1); border-color: var(--claim-primary); color: var(--claim-primary);">
+                        <i class="ti ti-alert-circle me-2"></i>
+                        <strong>Important:</strong> Please report the incident as soon as possible.
+                    </div>
+
+                    <!-- File a Claim Form -->
+                    <form action="#" method="POST" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label for="policySelect" class="form-label text-white">
+                                Select Policy for
+                                Claim
+                            </label>
+                            <select class="form-select claim-form-control" id="policySelect" required>
+                                <option selected disabled value="">-- Choose your policy --</option>
+                                <option value="1">Max Life Health Plan (#HLTH-12345678)</option>
+                                <option value="2">SecureDrive Car Insurance (#CAR-55667788)</option>
+                                <option value="3">FutureInvest ULIP Plan (#ULIP-98765432)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="incidentDate" class="form-label text-white">Date of Incident</label>
+                            <input type="date" class="form-control claim-form-control" id="incidentDate"
+                                   name="IncidentDate" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="claimDetails" class="form-label text-white">
+                                Details of the
+                                Incident
+                            </label>
+                            <textarea class="form-control claim-form-control" id="claimDetails"
+                                      name="ClaimDetails" rows="5"
+                                      placeholder="Please describe what happened in as much detail as possible..."
+                                      required></textarea>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label text-white">Upload Necessary Documents</label>
+                            <div class="file-upload-wrapper"
+                                 onclick="document.getElementById('fileUploadInput').click();">
+                                <input type="file" id="fileUploadInput" name="ClaimDocuments[]" multiple
+                                       class="d-none">
+                                <i class="ti ti-cloud-upload"></i>
+                                <p class="mb-0 mt-2">Click to browse or drag & drop files here</p>
+                                <small class="text-muted">PDF, JPG, PNG, DOCX (Max 5MB per file)</small>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end gap-3">
+                            <a href="my_policies.html" class="btn btn-custom-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-custom-primary">Submit Claim</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->

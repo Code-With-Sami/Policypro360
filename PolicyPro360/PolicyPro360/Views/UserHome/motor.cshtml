@@ -1,0 +1,334 @@
+﻿@{
+    ViewData["Title"] = "Motor Insurance - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/motor-insurance.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="index.html">Home</a></li>
+                <li><span>/</span></li>
+                <li>Insurance</li>
+            </ul>
+            <h2>Motor insurance</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Insurance Details Start-->
+<section class="insurance-details">
+    <div class="container">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="insurance-details__left">
+                    <!-- Services List -->
+                    <div class="insurance-details__services-box">
+                        <ul class="insurance-details__services-list list-unstyled">
+                            <li>
+                                <a href="@Url.Action("motor","UserHome")">
+                                    Motor Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("life", "UserHome")">
+                                    Life Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Home","UserHome")">
+                                    Home Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("medical", "UserHome")">
+                                    Medical Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Download Section -->
+                    <div class="insurance-details__download" aria-label="Download resources">
+                        <h3 class="insurance-details__download-title">Download Resources</h3>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="insurance-details__download-single">
+                                    <div class="insurance-details__download-icon" aria-hidden="true">
+                                        <span class="fa fa-file-pdf"></span>
+                                    </div>
+                                    <p class="insurance-details__download-mb">3.9KB</p>
+                                    <h3 class="insurance-details__download-title-2">
+                                        <a href="files/motor-plan-policy.pdf"
+                                           aria-label="Download Travel plan and policy PDF" download>
+                                            Motor
+                                            Insurance <br>Policy
+                                        </a>
+                                    </h3>
+                                    <div class="insurance-details__download-btn-box">
+                                        <a href="files/medical-plan-policy.pdf"
+                                           class="insurance-details__download-btn thm-btn"
+                                           aria-label="Download Travel plan and policy PDF"
+                                           download>Download</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- Need Help Box -->
+                    <div class="insurance-details__need-help" role="region"
+                         aria-label="Need help contact information">
+                        <div class="insurance-details__need-help-bg"
+                             style="background-image: url('@Url.Content("~/user/assets/images/update-10-02-2023/resources/insurance-details-need-help-bg.jpg")')"
+                             aria-hidden="true"></div>
+                        <div class="insurance-details__need-help-icon" aria-hidden="true">
+                            <span class="fa fa-phone"></span>
+                        </div>
+                        <h2 class="insurance-details__need-help-title">Talk to our<br>insurance agent</h2>
+                        <div class="insurance-details__need-help-contact">
+                            <a href="tel:+9200368090" aria-label="Call our experts at +92 (003) 68-090">
+                                +92
+                                (003) 68-090
+                            </a>
+                            <p>Call to Our Experts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="insurance-details__right">
+                    <div class="insurance-details__img-1">
+                        <img src="~/user/assets/images/update-10-02-2023/resources/insurance-details-img-1.jpg" alt="">
+                    </div>
+                    <p class="insurance-details__text-2">Why Motor Insurance for Bike & Car?</p>
+                    <p class="insurance-details__text-3">
+                        Motor insurance protects your two-wheeler or
+                        four-wheeler from financial losses caused by accidents, theft, or damage. Whether you
+                        own a bike or a car, having motor insurance ensures you're legally compliant and
+                        financially secure against unexpected repair costs or third-party claims.
+                    </p>
+
+                    <p class="insurance-details__text-2">What Does Motor Insurance Cover?</p>
+                    <ul class="insurance-details__opportunities-list list-unstyled">
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Third-party Liability</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Covers damages or injuries caused to others in an
+                            accident.
+                        </p>
+
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Own Damage Cover</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Repairs or replaces your bike or car after
+                            accidents or mishaps.
+                        </p>
+
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Theft or Burglary Protection</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Safeguards against vehicle theft or attempted
+                            theft.
+                        </p>
+
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Fire & Natural Calamities</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">Covers damages from fire, floods, storms, etc.</p>
+                    </ul>
+
+                    <p class="insurance-details__text-2">Benefits of Motor Insurance</p>
+                    <ul class="insurance-details__opportunities-list list-unstyled">
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Financial Security</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Covers repair or replacement costs for your bike or
+                            car.
+                        </p>
+
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Legal Requirement</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Complies with government regulations for vehicle
+                            ownership.
+                        </p>
+
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Third-party Coverage</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Protects against liabilities from accidents
+                            involving others.
+                        </p>
+
+                        <li>
+                            <div class="icon"><span class="fa fa-check"></span></div>
+                            <div class="text">
+                                <p>Emergency Support</p>
+                            </div>
+                        </li>
+                        <p class="insurance-details__text-3">
+                            Many insurers offer roadside assistance for
+                            breakdowns or emergencies.
+                        </p>
+                    </ul>
+                    <!-- Car Insurance Section -->
+                    <div class="insurance-details__opportunities">
+                        <div class="insurance-details__opportunities-img">
+                            <img src="~/user/assets/images/backgrounds/private-vehicle-comprehensive.jpg" alt="">
+                            <div class="insurance-details__opportunities-hope">
+                                <p>Private Vehicle Comprehensive</p>
+                            </div>
+                        </div>
+                        <div class="insurance-details__opportunities-points-box">
+                            <h3 class="insurance-details__opportunities-points-title">
+                                Quick Tips for Motor
+                                Insurance (Bike & Car)
+                            </h3>
+                            <p class="insurance-details__opportunities-points-text">
+                                Motor insurance protects
+                                against accidents and theft,Choosing the right plan and add-ons saves money.
+                            </p>
+                            <ul class="insurance-details__opportunities-list list-unstyled">
+                                <li>
+                                    <div class="icon"><span class="fa fa-check"></span></div>
+                                    <div class="text">
+                                        <p>Compare bike and car insurance plans.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon"><span class="fa fa-check"></span></div>
+                                    <div class="text">
+                                        <p>Pick insurers with good claim records.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon"><span class="fa fa-check"></span></div>
+                                    <div class="text">
+                                        <p>Check policy coverage and exclusions.</p>
+                                    </div>
+                                </li>
+                             
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Additional Features -->
+                    <ul class="insurance-details__points list-unstyled">
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon">
+                                    <span class="icon-easy-to-use"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Fast & Easy <br> Process</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>
+                                    Our digital process ensures you can get insured quickly and easily from the
+                                    comfort of your home.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon">
+                                    <span class="icon-contract"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Quick Claim <br> Handling</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>
+                                    We process claims efficiently so you can get back on the road with minimal
+                                    disruption.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon">
+                                    <span class="icon-fund"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Save Your <br> Money</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>
+                                    Get affordable premiums and discounts by comparing plans and selecting the
+                                    right coverage.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Contact Form -->
+                    <h3 class="insurance-details__title-1">Talk to our insurance experts</h3>
+                    <p class="insurance-details__text-4">
+                        Speak with insurance experts and ask questions before
+                        finalizing your plans or if you want help regarding our services. Our dedicated staff is
+                        more than happy to call and guide you.
+                    </p>
+                    <form class="insurance-details__email-box">
+                        <div class="insurance-details__email-input-box">
+                            <input type="text" placeholder="Your phone number" name="phone" required>
+                        </div>
+                        <button type="submit" class="insurance-details__subscribe-btn thm-btn">
+                            Get a Phone
+                            Call
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Insurance Details End-->
+<!--Tracking Start-->
+<section class="tracking">
+    <div class="container">
+        <div class="tracking__inner">
+            <div class="tracking__left">
+                <div class="tracking__icon" aria-hidden="true"><span class="icon-folder"></span></div>
+                <div class="tracking__content">
+                    <p class="tracking__sub-title">Quisque vel ortor</p>
+                    <h3 class="tracking__title">Start tracking your claims</h3>
+                </div>
+            </div>
+            <div class="tracking__btn-box">
+                <a href="about.html" class="thm-btn tracking__btn">Track Your Claim</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Tracking End-->

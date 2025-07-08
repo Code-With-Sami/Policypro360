@@ -1,0 +1,184 @@
+﻿@{
+    ViewData["Title"] = "My Application - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="container-fluid pt-4" id="app">
+    <!-- Custom Styles for My Applications Page -->
+    <style>
+        #app {
+            margin-top: 150px;
+        }
+
+        :root {
+            --app-bg: #171827;
+            --app-card-bg: #1e1f2f;
+            --app-primary: #f5a526;
+            --app-text: #e0e0e0;
+            --app-text-muted: #8a99b5;
+            --app-input-bg: #2a2c3c;
+            --app-border-color: #404258;
+        }
+
+        .applications-card {
+            background-color: var(--app-card-bg);
+            border-radius: 12px;
+            border: none;
+        }
+
+        .filter-btn {
+            background-color: var(--app-input-bg);
+            color: var(--app-text-muted);
+            border: 1px solid var(--app-border-color);
+            font-weight: 500;
+        }
+
+            .filter-btn.active,
+            .filter-btn:hover {
+                background-color: var(--app-primary);
+                color: var(--app-bg);
+                border-color: var(--app-primary);
+            }
+
+        .applications-table {
+            border-collapse: separate;
+            border-spacing: 0 1rem;
+            margin-top: -1rem;
+        }
+
+            .applications-table thead th {
+                border: none;
+                color: var(--app-text-muted);
+                font-weight: 600;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                background-color: #171827;
+                letter-spacing: 0.5px;
+            }
+
+            .applications-table tbody tr {
+                background-color: var(--app-input-bg);
+                transition: all 0.2s ease-in-out;
+            }
+
+            .applications-table tbody td {
+                background-color: #171827;
+                color: var(--app-text);
+                vertical-align: middle;
+                padding: 1rem 1.25rem;
+                border: none;
+                border-bottom: 1px solid var(--app-border-color);
+            }
+
+            .applications-table tbody tr td:first-child {
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+            }
+
+            .applications-table tbody tr td:last-child {
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+            }
+
+        .badge-approved {
+            background-color: rgba(40, 199, 111, 0.1);
+            color: #28c76f;
+        }
+
+        .badge-rejected {
+            background-color: rgba(234, 84, 85, 0.1);
+            color: #ea5455;
+        }
+
+        .badge-pending {
+            background-color: rgba(255, 159, 67, 0.1);
+            color: #ff9f43;
+        }
+    </style>
+
+    <!-- Row: Applications List Table -->
+    <div class="card applications-card">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
+                <h5 class="card-title fw-semibold mb-0 text-white">My Application History</h5>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn filter-btn active">All</button>
+                    <button type="button" class="btn filter-btn">Claims</button>
+                    <button type="button" class="btn filter-btn">Loans</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle applications-table">
+                    <thead>
+                        <tr>
+                            <th>Application Details</th>
+                            <th>Related Policy</th>
+                            <th class="text-center">Submitted On</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Application 1: Approved Claim -->
+                        <tr>
+                            <td>
+                                <h6 class="fw-semibold mb-0 text-white">Claim: #CL-84521</h6>
+                                <small class="text-muted">Health Insurance Claim</small>
+                            </td>
+                            <td>Max Life Health Plan</td>
+                            <td class="text-center text-muted ">10 Oct, 2024</td>
+                            <td class="text-center">
+                                <span class="badge badge-approved rounded-pill px-3 py-1">Approved</span>
+                            </td>
+
+                        </tr>
+                        <!-- Application 2: Pending Loan -->
+                        <tr>
+                            <td>
+                                <h6 class="fw-semibold mb-0 text-white">Loan: #LN-11209</h6>
+                                <small class="text-muted">Loan Against Policy</small>
+                            </td>
+                            <td>FutureInvest ULIP Plan</td>
+                            <td class="text-center text-muted">05 Nov, 2024</td>
+                            <td class="text-center">
+                                <span class="badge badge-pending rounded-pill px-3 py-1">Pending</span>
+                            </td>
+
+                        </tr>
+                        <!-- Application 3: Rejected Claim -->
+                        <tr>
+                            <td>
+                                <h6 class="fw-semibold mb-0 text-white">Claim: #CL-84115</h6>
+                                <small class="text-muted">Car Insurance Claim</small>
+                            </td>
+                            <td>SecureDrive Car Insurance</td>
+                            <td class="text-center text-muted">22 Sep, 2024</td>
+                            <td class="text-center">
+                                <span class="badge badge-rejected rounded-pill px-3 py-1">Rejected</span>
+                            </td>
+
+                        </tr>
+                        <!-- Application 4: Approved Loan -->
+                        <tr>
+                            <td>
+                                <h6 class="fw-semibold mb-0 text-white">Loan: #LN-10987</h6>
+                                <small class="text-muted">Loan Against Policy</small>
+                            </td>
+                            <td>LifeSecure Term Plan</td>
+                            <td class="text-center text-muted">15 Aug, 2024</td>
+                            <td class="text-center">
+                                <span class="badge badge-approved rounded-pill px-3 py-1">Approved</span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->

@@ -1,0 +1,208 @@
+﻿@{
+    ViewData["Title"] = "User Payment - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+<!-- ============================================================== -->
+<!-- Start Page Content: Make Payment -->
+<!-- ============================================================== -->
+<div class="container-fluid pt-4" id="payment">
+
+    <style>
+        #payment {
+            margin-top: 150px;
+        }
+
+        :root {
+            --pay-card-bg: #1e1f2f;
+            --pay-primary: #f5a526;
+            --pay-text: #e0e0e0;
+            --pay-text-muted: #8a99b5;
+            --pay-input-bg: #2a2c3c;
+            --pay-border-color: #404258;
+        }
+
+        .payment-card {
+            background-color: var(--pay-card-bg);
+            border-radius: 12px;
+            border: none;
+            color: var(--pay-text);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--pay-border-color);
+        }
+
+            .summary-item:last-of-type {
+                border-bottom: none;
+            }
+
+        .summary-label {
+            color: var(--pay-text-muted);
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .total-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pay-primary);
+        }
+
+        .payment-form-control {
+            background-color: var(--pay-input-bg);
+            border-color: var(--pay-border-color);
+            color: var(--pay-text);
+        }
+
+            .payment-form-control:focus {
+                background-color: var(--pay-input-bg);
+                border-color: var(--pay-primary);
+                color: var(--pay-text);
+                box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
+            }
+
+        .btn-custom-primary {
+            background-color: var(--pay-primary);
+            border-color: var(--pay-primary);
+            color: #171827;
+            font-weight: 600;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+        }
+
+        /* Custom Radio Buttons for Payment Methods */
+        .payment-method-card {
+            border: 1px solid var(--pay-border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-check-input[type="radio"] {
+            display: none;
+        }
+
+            .form-check-input[type="radio"]:checked + .payment-method-card {
+                border-color: var(--pay-primary);
+                background-color: var(--pay-input-bg);
+                box-shadow: 0 0 10px rgba(245, 165, 38, 0.2);
+            }
+    </style>
+
+    <div class="row">
+        <!-- Left Column: Payment Summary -->
+        <div class="col-lg-5">
+            <div class="card payment-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-semibold text-white mb-4">Payment Summary</h5>
+                    <div class="summary-item">
+                        <span class="summary-label">Policy Name</span>
+                        <span class="summary-value">Max Life Health Plan</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Policy Number</span>
+                        <span class="summary-value">#HLTH-12345678</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Premium Amount</span>
+                        <span class="summary-value">$150.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Due Date</span>
+                        <span class="summary-value">
+                            <span class="badge bg-danger-subtle text-danger">
+                                Due in 5
+                                days
+                            </span>
+                        </span>
+                    </div>
+                    <div class="pt-4 mt-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-semibold text-white">Total Amount Payable</h6>
+                            <h6 class="fw-semibold total-amount">$150.00</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Payment Method Selection & Form -->
+        <div class="col-lg-7">
+            <div class="card payment-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-semibold text-white mb-4">Choose Payment Method</h5>
+                    <form action="#" method="POST">
+                        <!-- Payment Method Options -->
+                        <div class="d-flex gap-3 mb-4">
+                            <div class="form-check flex-fill">
+                                <input type="radio" class="form-check-input" name="paymentMethod" id="creditCard" checked>
+                                <label class="payment-method-card text-center" for="creditCard">
+                                    <i class="ti ti-credit-card fs-4"></i>
+                                    <p class="mb-0 mt-1">Credit/Debit Card</p>
+                                </label>
+                            </div>
+                            <div class="form-check flex-fill">
+                                <input type="radio" class="form-check-input" name="paymentMethod" id="netBanking">
+                                <label class="payment-method-card text-center" for="netBanking">
+                                    <i class="ti ti-building-bank fs-4"></i>
+                                    <p class="mb-0 mt-1">Net Banking</p>
+                                </label>
+                            </div>
+                            <div class="form-check flex-fill">
+                                <input type="radio" class="form-check-input" name="paymentMethod" id="upi">
+                                <label class="payment-method-card text-center" for="upi">
+                                    <i class="ti ti-brand-google fs-4"></i>
+                                    <p class="mb-0 mt-1">UPI</p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <div id="creditCardForm">
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label text-white">Card Number</label>
+                                <input type="text" class="form-control payment-form-control" id="cardNumber"
+                                       placeholder="0000 0000 0000 0000" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="expiryDate" class="form-label text-white">Expiry Date</label>
+                                    <input type="text" class="form-control payment-form-control" id="expiryDate"
+                                           placeholder="MM / YY" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="cvv" class="form-label text-white">CVV</label>
+                                    <input type="text" class="form-control payment-form-control" id="cvv" placeholder="123"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="cardHolderName" class="form-label text-white">Card Holder Name</label>
+                                <input type="text" class="form-control payment-form-control" id="cardHolderName"
+                                       placeholder="John Doe" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom-primary w-100">Pay $150.00 Now</button>
+
+                        <div class="text-center mt-4">
+                            <p class="text-muted fs-2">
+                                <i class="ti ti-lock me-1"></i> Secure payment powered by Stripe &
+                                Razorpay
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Page Content: Make Payment -->
+<!-- ============================================================== -->

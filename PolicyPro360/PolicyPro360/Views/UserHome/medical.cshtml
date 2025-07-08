@@ -1,0 +1,264 @@
+﻿@{
+    ViewData["Title"] = "Medical Insurance - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/medical.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="index.html">Home</a></li>
+                <li><span>/</span></li>
+                <li>Insurance</li>
+            </ul>
+            <h2>Medical insurance</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Insurance Details Start-->
+<section class="insurance-details">
+    <div class="container">
+        <div class="row">
+            <!-- Left Sidebar -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="insurance-details__left">
+                    <!-- Services List -->
+                    <div class="insurance-details__services-box">
+                        <ul class="insurance-details__services-list list-unstyled">
+                            <li>
+                                <a href="@Url.Action("motor","UserHome")">
+                                    Motor Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("life", "UserHome")">
+                                    Life Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Home","UserHome")">
+                                    Home Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("medical", "UserHome")">
+                                    Medical Insurance <span class="icon-right-arrow1"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Download Section -->
+                    <div class="insurance-details__download" aria-label="Download resources">
+                        <h3 class="insurance-details__download-title">Download Resources</h3>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="insurance-details__download-single">
+                                    <div class="insurance-details__download-icon" aria-hidden="true">
+                                        <span class="fa fa-file-pdf"></span>
+                                    </div>
+                                    <p class="insurance-details__download-mb">3.9KB</p>
+                                    <h3 class="insurance-details__download-title-2">
+                                        <a href="files/travel-plan-policy.pdf"
+                                           aria-label="Download Travel plan and policy PDF" download>
+                                           Medical
+                                            Insurance <br>Policy
+                                        </a>
+                                    </h3>
+                                    <div class="insurance-details__download-btn-box">
+                                        <a href="files/medical-plan-policy.pdf"
+                                           class="insurance-details__download-btn thm-btn"
+                                           aria-label="Download Travel plan and policy PDF"
+                                           download>Download</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Right Content Area -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="insurance-details__right">
+                    <div class="insurance-details__img-1">
+                        <img src="~/user/assets/images/update-10-02-2023/resources/insurance-details-img-3.jpg" alt="">
+                    </div>
+                    <div class="insurance-details__age-box">
+                        <div class="insurance-details__age-title-box">
+                            <h3 class="insurance-details__age-title">Eligible ages:</h3>
+                        </div>
+                        <ul class="insurance-details__age-list list-unstyled">
+                            <li>
+                                <p>Minimum Age: <span>10 Years</span></p>
+                            </li>
+                            <li>
+                                <p>Maximum Age: <span>65 Years</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="insurance-details__text-2">Medical Insurance: Your Health, Our Priority</p>
+                    <p class="insurance-details__text-2">What is Medical Insurance?</p>
+                    <p class="insurance-details__text-1">Medical insurance is a financial safety net that helps cover the cost of healthcare services. Whether it’s a routine check-up, emergency surgery, or long-term treatment, medical insurance ensures you don’t have to worry about unexpected medical expenses. It provides you with access to quality healthcare without the stress of high bills.</p>
+                    <p class="insurance-details__text-2">Why is Medical Insurance Important?</p>
+                    <p class="insurance-details__text-3">In today’s world, medical costs are rising rapidly. A simple visit to the hospital can become a financial burden if you're unprepared. Medical insurance offers:</p>
+                    <ul class="insurance-details__opportunities-list list-unstyled">
+                        <li>
+                            <div class="icon">
+                                <span class="fa fa-check"></span>
+                            </div>
+                            <div class="text">
+                                <p>Financial Protection</p>
+                                <p class="insurance-details__text-3">Covers hospitalization, surgeries, diagnostics, and even ambulance services.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">
+                                <span class="fa fa-check"></span>
+                            </div>
+                            <div class="text">
+                                <p>Cashless Treatment</p>
+                                <p class="insurance-details__text-3">Get treated at a network hospital without paying upfront.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">
+                                <span class="fa fa-check"></span>
+                            </div>
+                            <div class="text">
+                                <p>Peace of Mind</p>
+                                <p class="insurance-details__text-3">Focus on recovery instead of worrying about bills.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="icon">
+                                <span class="fa fa-check"></span>
+                            </div>
+                            <div class="text">
+                                <p>Preventive Care</p>
+                                <p class="insurance-details__text-3">Many plans include free annual checkups and health screenings.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="insurance-details__opportunities">
+                        <div class="insurance-details__opportunities-img">
+                            <img src="~/user/assets/images/update-10-02-2023/resources/insurance-details-opportunities-img.jpg" alt="">
+                            <div class="insurance-details__opportunities-hope">
+                                <p>Hope for the Best,<br>Prepare for the Worst</p>
+                            </div>
+                        </div>
+                        <div class="insurance-details__opportunities-points-box">
+                            <h3 class="insurance-details__opportunities-points-title">Key Benefits of Medical Insurance</h3>
+                            <p class="insurance-details__opportunities-points-text">Stay protected when it matters most. Our medical insurance plans offer peace of mind by covering major healthcare expenses — from hospital stays to emergency services. Whether it’s routine care or an unexpected illness, we’ve got you covered.</p>
+                            <ul class="insurance-details__opportunities-list list-unstyled">
+                                <li>
+                                    <div class="icon">
+                                        <span class="fa fa-check"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p>Cashless partner hospital treatment</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <span class="fa fa-check"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p>Pre &amp; post-hospitalization cover</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <span class="fa fa-check"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p>Emergency &amp; ambulance support</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <span class="fa fa-check"></span>
+                                    </div>
+                                    <div class="text">
+                                        <p>Free checkups + tax benefits</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <ul class="insurance-details__points list-unstyled">
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon">
+                                    <span class="icon-easy-to-use"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Fast &amp; Easy <br> Process</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>There are many not of age of dirm available the simply free text available in the market today you can use them majority.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon">
+                                    <span class="icon-contract"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Quick Claim <br> Handle</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>There are many not of age of dirm available the simply free text available in the market today you can use them majority.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="insurance-details__points-left">
+                                <div class="insurance-details__points-icon">
+                                    <span class="icon-fund"></span>
+                                </div>
+                                <h3 class="insurance-details__points-title">Save Your <br> Money</h3>
+                            </div>
+                            <div class="insurance-details__points-right">
+                                <p>There are many not of age of dirm available the simply free text available in the market today you can use them majority.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <h3 class="insurance-details__title-1">Talk to our insurance experts</h3>
+                    <p class="insurance-details__text-4">Speak with insurance experts and ask questions before finalizing your plans or if you want help regarding our services. Our dedicated staff is more than happy to call and guide you.</p>
+                    <form class="insurance-details__email-box">
+                        <div class="insurance-details__email-input-box">
+                            <input type="text" placeholder="Your phone number" name="phone">
+                        </div>
+                        <button type="submit" class="insurance-details__subscribe-btn thm-btn">Get a Phone Call</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Insurance Details End-->
+<!--Tracking Start-->
+<section class="tracking">
+    <div class="container">
+        <div class="tracking__inner">
+            <div class="tracking__left">
+                <div class="tracking__icon" aria-hidden="true"><span class="icon-folder"></span></div>
+                <div class="tracking__content">
+                    <p class="tracking__sub-title">Quisque vel ortor</p>
+                    <h3 class="tracking__title">Start tracking your claims</h3>
+                </div>
+            </div>
+            <div class="tracking__btn-box">
+                <a href="about.html" class="thm-btn tracking__btn">Track Your Claim</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Tracking End-->

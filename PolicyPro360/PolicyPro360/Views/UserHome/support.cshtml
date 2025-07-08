@@ -1,0 +1,217 @@
+﻿@{
+    ViewData["Title"] = "Support - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+
+<!-- ============================================================== -->
+<!-- Start Page Content: Support -->
+<!-- ============================================================== -->
+<div class="container-fluid pt-4" id="support">
+
+    <style>
+        #support {
+            margin-top: 150px;
+        }
+
+        :root {
+            --support-card-bg: #1e1f2f;
+            --support-primary: #f5a526;
+            --support-text: #e0e0e0;
+            --support-text-muted: #8a99b5;
+            --support-input-bg: #2a2c3c;
+            --support-border-color: #404258;
+        }
+
+        .support-card {
+            background-color: var(--support-card-bg);
+            border-radius: 12px;
+            border: none;
+            color: var(--support-text);
+        }
+
+        /* Accordion Styles */
+        .accordion-item {
+            background-color: var(--support-input-bg);
+            border: 1px solid var(--support-border-color);
+            color: var(--support-text);
+        }
+
+        .accordion-button {
+            background-color: var(--support-input-bg);
+            color: var(--support-text);
+            font-weight: 600;
+        }
+
+            .accordion-button:not(.collapsed) {
+                background-color: var(--support-border-color);
+                color: var(--support-primary);
+            }
+
+            .accordion-button:focus {
+                box-shadow: none;
+            }
+
+            .accordion-button::after {
+                filter: brightness(0) invert(1);
+                /* Makes arrow white */
+            }
+
+        /* Form and Button Styles */
+        .form-control {
+            background-color: var(--support-input-bg);
+            border-color: var(--support-border-color);
+            color: var(--support-text);
+        }
+
+            .form-control:focus {
+                background-color: var(--support-input-bg);
+                border-color: var(--support-primary);
+                color: var(--support-text);
+                box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
+            }
+
+        .btn-custom-primary {
+            background-color: var(--support-primary);
+            border-color: var(--support-primary);
+            color: #171827;
+            font-weight: 600;
+        }
+
+            .btn-custom-primary:hover {
+                background-color: #d8901e;
+                border-color: #d8901e;
+            }
+    </style>
+
+    <div class="text-center mb-5">
+        <h2 class="text-white">How can we help you?</h2>
+        <p style="color: var(--support-text-muted);">Find answers to your questions or get in touch with our team.</p>
+    </div>
+
+    <div class="row">
+        <!-- Left Column: FAQs -->
+        <div class="col-lg-8">
+            <div class="card support-card">
+                <div class="card-body p-4">
+                    <h5 class="mb-4 fw-semibold text-white">Frequently Asked Questions</h5>
+                    <div class="accordion" id="faqAccordion">
+                        <!-- Question 1: How to File a Claim -->
+                        <div class="accordion-item mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne">
+                                    How do I file a claim?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can file a claim by navigating to the <strong>"File a Claim"</strong> page from the sidebar.
+                                    You will need to select your policy, provide details of the incident, and upload all necessary
+                                    documents like bills and reports.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 2: Where to find documents -->
+                        <div class="accordion-item mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo">
+                                    Where can I find my policy documents?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    All your documents, including policy bonds, premium receipts, and tax certificates, are
+                                    available in the <strong>"Document Center"</strong>. You can view and download them from there
+                                    at any time.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 3: How to update profile -->
+                        <div class="accordion-item mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree">
+                                    How can I update my personal information?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can update your personal details like address and mobile number by visiting the <strong>
+                                        "My
+                                        Profile"
+                                    </strong> page and clicking on the "Edit Profile" button. Please note that your name
+                                    and email are not editable for security reasons.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4: How to get a loan -->
+                        <div class="accordion-item mb-2">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFour">
+                                    Can I get a loan against my policy?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, you can apply for a loan against eligible policies. Go to the <strong>
+                                        "Apply for
+                                        Loan"
+                                    </strong> page, select an eligible policy from the dropdown, and fill out the required
+                                    information. Not all policies are eligible for a loan.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5: How to check application status -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFive">
+                                    How do I check the status of my submitted application?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can track the status of all your submitted loan and claim applications on the <strong>
+                                        "My
+                                        Applications"
+                                    </strong> page. The status will be shown as Pending, Approved, or Rejected.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Contact Us -->
+        <div class="col-lg-4">
+            <div class="card support-card">
+                <div class="card-body p-4">
+                    <h5 class="mb-4 fw-semibold text-white">Contact Support</h5>
+                    <p class="text-muted">If you can't find an answer in the FAQ, feel free to contact us directly.</p>
+                    <form action="#" method="POST">
+                        <div class="mb-3">
+                            <label for="subject" class="form-label text-white">Subject</label>
+                            <input type="text" class="form-control" id="subject" placeholder="e.g., Issue with policy #123">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label text-white">Your Message</label>
+                            <textarea class="form-control" id="message" rows="5"
+                                      placeholder="Describe your issue here..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom-primary w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Page Content: Support -->
+<!-- ============================================================== -->

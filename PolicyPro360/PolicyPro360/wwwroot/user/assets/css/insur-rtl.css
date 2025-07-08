@@ -17,24 +17,24 @@
 # Common
 --------------------------------------------------------------*/
 :root {
-  --insur-font: "DM Sans", sans-serif;
-  --insur-reey-font: "reeyregular";
-  --insur-gray: #696e77;
-  --insur-gray-rgb: 105, 110, 119;
-  --insur-white: #ffffff;
-  --insur-white-rgb: 255, 255, 255;
-  --insur-base: #015fc9;
-  --insur-base-rgb: 1, 95, 201;
-  --insur-black: #16243d;
-  --insur-black-rgb: 22, 36, 61;
-  --insur-primary: #0ce0ff;
-  --insur-primary-rgb: 12, 224, 255;
-  --insur-extra: #f2f5f9;
-  --insur-extra-rgb: 242, 245, 249;
-  --insur-bdr-color: #e0e4e8;
-  --insur-bdr-color-rgb: 224, 228, 232;
-  --insur-bdr-radius: 10px;
-  --insur-letter-spacing: -0.02em;
+    --insur-font: "DM Sans", sans-serif;
+    --insur-reey-font: "reeyregular";
+    --insur-gray: #696e77;
+    --insur-gray-rgb: 105, 110, 119;
+    --insur-white: #ffffff;
+    --insur-white-rgb: 255, 255, 255;
+    --insur-base: #015fc9;
+    --insur-base-rgb: 1, 95, 201;
+    --insur-black: #16243d;
+    --insur-black-rgb: 22, 36, 61;
+    --insur-primary: #f5a526;
+    --insur-primary-rgb: 12, 224, 255;
+    --insur-extra: #f2f5f9;
+    --insur-extra-rgb: 242, 245, 249;
+    --insur-bdr-color: #e0e4e8;
+    --insur-bdr-color-rgb: 224, 228, 232;
+    --insur-bdr-radius: 10px;
+    --insur-letter-spacing: -0.02em;
 }
 
 .row {
@@ -3933,18 +3933,19 @@ ul {
   margin-top: 27px;
 }
 
-.counter-one__count-box:before {
-  position: absolute;
-  top: -26px;
-  right: 0;
-  height: 4px;
-  width: 40px;
-  border-radius: 2px;
-  content: "";
-  background-image: -moz-linear-gradient(0deg, rgb(242, 245, 249) 0%, rgb(12, 224, 255) 100%);
-  background-image: -webkit-linear-gradient(0deg, rgb(242, 245, 249) 0%, rgb(12, 224, 255) 100%);
-  background-image: -ms-linear-gradient(0deg, rgb(242, 245, 249) 0%, rgb(12, 224, 255) 100%);
-}
+    .counter-one__count-box:before {
+        position: absolute;
+        top: -26px;
+        right: 0;
+        height: 4px;
+        width: 40px;
+        border-radius: 2px;
+        content: "";
+        background-image: -moz-linear-gradient(0deg, #f5a526 0%, #171827 100%);
+        background-image: -webkit-linear-gradient(0deg, #f5a526 0%, #171827 100%);
+        background-image: -ms-linear-gradient(0deg, #f5a526 0%, #171827 100%);
+        background-image: linear-gradient(0deg, #f5a526 0%, #171827 100%);
+    }
 
 .counter-one__count-box-inner {
   position: relative;
@@ -7143,15 +7144,16 @@ ul {
 }
 
 .testimonial-two__client-img {
-  position: relative;
-  display: block;
-  width: 131px;
-  height: 131px;
-  padding: 6px;
-  border-radius: 50%;
-  background-image: -moz-linear-gradient(29deg, rgb(1, 95, 201) 0%, rgb(12, 224, 255) 100%);
-  background-image: -webkit-linear-gradient(29deg, rgb(1, 95, 201) 0%, rgb(12, 224, 255) 100%);
-  background-image: -ms-linear-gradient(29deg, rgb(1, 95, 201) 0%, rgb(12, 224, 255) 100%);
+    position: relative;
+    display: block;
+    width: 131px;
+    height: 131px;
+    padding: 6px;
+    border-radius: 50%;
+    background-image: -moz-linear-gradient(-29deg, #f5a526 0%, #171827 100%);
+    background-image: -webkit-linear-gradient(-29deg, #f5a526 0%, #171827 100%);
+    background-image: -ms-linear-gradient(-29deg, #f5a526 0%, #171827 100%);
+    background-image: linear-gradient(-29deg, #f5a526 0%, #171827 100%);
 }
 
 .testimonial-two__client-img > img {
@@ -19812,16 +19814,17 @@ body.boxed-wrapper {
 }
 
 .insurance-details__opportunities-hope {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-image: -moz-linear-gradient(-180deg, rgb(12, 224, 255) 0%, rgb(1, 95, 201) 100%);
-  background-image: -webkit-linear-gradient(-180deg, rgb(12, 224, 255) 0%, rgb(1, 95, 201) 100%);
-  background-image: -ms-linear-gradient(-180deg, rgb(12, 224, 255) 0%, rgb(1, 95, 201) 100%);
-  padding: 18px 0 20px;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-image: -moz-linear-gradient(180deg, #f5a526 0%, #171827 100%);
+    background-image: -webkit-linear-gradient(180deg, #f5a526 0%, #171827 100%);
+    background-image: -ms-linear-gradient(180deg, #f5a526 0%, #171827 100%);
+    background-image: linear-gradient(180deg, #f5a526 0%, #171827 100%);
+    padding: 18px 0 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .insurance-details__opportunities-hope p {

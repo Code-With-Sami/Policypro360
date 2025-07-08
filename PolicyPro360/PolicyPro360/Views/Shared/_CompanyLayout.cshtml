@@ -713,7 +713,7 @@
                 <img src="~/admin/assets/images/logo-icon.png" class="logo-img" alt="">
             </div>
             <div class="logo-name flex-grow-1">
-                <h5 class="mb-0">Maxton</h5>
+                <h5 class="mb-0">PolicyPro360</h5>
             </div>
             <div class="sidebar-close">
                 <span class="material-icons-outlined">close</span>
@@ -1391,29 +1391,33 @@
             </div>
         </div>
     </div>
-    <!--start switcher-->
-    <!--bootstrap js-->
+    <!-- 1. Load jQuery FIRST - This is the most important fix -->
+    <script src="~/admin/assets/js/jquery.min.js"></script>
+
+    <!-- 2. Load Bootstrap JS (it depends on jQuery) -->
     <script src="~/admin/assets/js/bootstrap.bundle.min.js"></script>
 
-    <!--plugins-->
-    <script src="~/admin/assets/js/jquery.min.js"></script>
-    <!--plugins-->
+    <!-- 3. Load all other jQuery plugins -->
     <script src="~/admin/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-    <script src="~/admin/assets/plugins/metismenu/metisMenu.min.js"></script>
+    <script src="~/admin/assets/plugins/metismenu/metisMenu.min.js"></script> <!-- Now it can find jQuery -->
     <script src="~/admin/assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="~/admin/assets/plugins/simplebar/js/simplebar.min.js"></script>
     <script src="~/admin/assets/plugins/peity/jquery.peity.min.js"></script>
-    <script>
-        $(".data-attributes span").peity("donut")
-    </script>
+
+    <!-- 4. Load your main scripts that use the plugins -->
     <script src="~/admin/assets/js/main.js"></script>
     <script src="~/admin/assets/js/dashboard1.js"></script>
+
+    <!-- Inline scripts can come after the plugins they use -->
     <script>
-        new PerfectScrollbar(".user-list")
+        $(".data-attributes span").peity("donut");
+        new PerfectScrollbar(".user-list");
     </script>
 
+
+    <!-- IMPORTANT: You are loading jQuery again here. You should remove it to avoid conflicts. -->
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <!-- <script src="~/lib/jquery/dist/jquery.min.js"></script> --> <!-- REMOVE OR COMMENT THIS LINE -->
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     </environment>
@@ -1421,5 +1425,4 @@
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 
-<!-- Mirrored from codervent.com/maxton/demo/vertical-menu/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 04:27:54 GMT -->
 </html>

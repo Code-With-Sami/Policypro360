@@ -1,0 +1,289 @@
+﻿@{
+    ViewData["Title"] = "User Dashboard - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+<div class="body-wrapper-inner">
+    <div class="container-fluid">
+        <!--  Row 1: Welcome Message and Quick Actions -->
+        <div class="row">
+            <!-- Welcome Message -->
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="fw-semibold mb-0">Hello, John!</h4>
+                        <p class="mb-0 text-muted">Detailed View of Your Insurance Coverage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <!-- Quick Action Cards -->
+
+            <div class="col-lg-8 d-flex align-items-stretch">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Quick Actions</h5>
+                        <div class="row">
+
+                            <!-- Pay Premium Card -->
+                            <div class="col-md-6 mb-4">
+                                <a href="@Url.Action("makepayment", "UserHome")" class="text-decoration-none">
+                                    <div class="card card-hover bg-primary-subtle shadow-none">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <span class="btn btn-primary rounded-circle round-48 hstack justify-content-center">
+                                                    <i class="ti ti-wallet text-white fs-6"></i>
+                                                </span>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0 fw-semibold">Pay Premium</h6>
+                                                    <span class="fs-2 text-muted">Settle your dues on time</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- File a Claim Card -->
+                            <div class="col-md-6 mb-4">
+                                <a href="@Url.Action("fileclaim", "UserHome")" class="text-decoration-none">
+                                    <div class="card card-hover bg-success-subtle shadow-none">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <span class="btn btn-success rounded-circle round-48 hstack justify-content-center">
+                                                    <i class="ti ti-clipboard-plus text-white fs-6"></i>
+                                                </span>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0 fw-semibold">File a Claim</h6>
+                                                    <span class="fs-2 text-muted">Start your claim process</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- View Policies Card -->
+                            <div class="col-md-6 mb-md-0 mb-4">
+                                <a href ="@Url.Action("MyPolicies", "UserHome")" class="text-decoration-none">
+                                    <div class="card card-hover bg-warning-subtle shadow-none">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <span class="btn btn-warning rounded-circle round-48 hstack justify-content-center">
+                                                    <i class="ti ti-shield text-white fs-6"></i>
+                                                </span>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0 fw-semibold">View My Policies</h6>
+                                                    <span class="fs-2 text-muted">Check your coverage details</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Apply for Loan Card -->
+                            <div class="col-md-6 mb-md-0 mb-4">
+                                <a href="@Url.Action("applyloan", "UserHome")" class="text-decoration-none">
+                                    <div class="card card-hover bg-info-subtle shadow-none">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <span class="btn btn-info rounded-circle round-48 hstack justify-content-center">
+                                                    <i class="ti ti-cash text-white fs-6"></i>
+                                                </span>
+                                                <div class="ms-3">
+                                                    <h6 class="mb-0 fw-semibold">Apply for Loan</h6>
+                                                    <span class="fs-2 text-muted">Get funds against your policy</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Policy Summary Card -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card overflow-hidden w-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Policy Summary</h5>
+                        <div class="py-3 d-flex align-items-center border-bottom">
+                            <span class="btn btn-primary rounded-circle round-48 hstack justify-content-center">
+                                <i class="ti ti-shield-check fs-6"></i>
+                            </span>
+                            <div class="ms-3">
+                                <h5 class="mb-0 fw-bolder fs-4">3</h5>
+                                <span class="text-muted fs-3">Active Policies</span>
+                            </div>
+                        </div>
+                        <div class="py-3 d-flex align-items-center border-bottom">
+                            <span class="btn btn-warning rounded-circle round-48 hstack justify-content-center">
+                                <i class="ti ti-report-money fs-6"></i>
+                            </span>
+                            <div class="ms-3">
+                                <h5 class="mb-0 fw-bolder fs-4">$2,500</h5>
+                                <span class="text-muted fs-3">Total Annual Premium</span>
+                            </div>
+                        </div>
+                        <div class="pt-3 d-flex align-items-center">
+                            <span class="btn btn-danger rounded-circle round-48 hstack justify-content-center">
+                                <i class="ti ti-alert-circle fs-6"></i>
+                            </span>
+                            <div class="ms-3">
+                                <h5 class="mb-0 fw-bolder fs-4">1</h5>
+                                <span class="text-muted fs-3">Payment Due Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Policy Coverage Chart -->
+            <div class="col-lg-5 d-flex align-items-stretch">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">My Policy Coverage</h5>
+                        <div id="policyCoverageChart" class="mt-4"></div>
+                        <div class="d-flex flex-column gap-3 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="round-8 bg-primary rounded-circle"></span>
+                                    <p class="mb-0">Health Insurance</p>
+                                </div>
+                                <p class="mb-0 fw-bolder">45%</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="round-8 bg-secondary rounded-circle"></span>
+                                    <p class="mb-0">Life Insurance</p>
+                                </div>
+                                <p class="mb-0 fw-bolder">30%</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="round-8 bg-warning rounded-circle"></span>
+                                    <p class="mb-0">Auto Insurance</p>
+                                </div>
+                                <p class="mb-0 fw-bolder">25%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Applications Status -->
+            <div class="col-lg-7 d-flex align-items-stretch">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title fw-semibold mb-0">Recent Applications Status</h5>
+                            <a href="@Url.Action("myapplication", "UserHome")" class="btn btn-sm btn-outline-primary">View All</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table text-nowrap mb-0 align-middle">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h6 class="fw-semibold mb-1">Claim: #CL-84521</h6>
+                                            <span class="fw-normal">For Max Life Health Plan</span>
+                                        </td>
+                                        <td><span class="badge bg-success-subtle text-success">Approved</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="fw-semibold mb-1">Loan: #LN-11209</h6>
+                                            <span class="fw-normal">Against Life Insurance Policy</span>
+                                        </td>
+                                        <td><span class="badge bg-warning-subtle text-warning">Pending Review</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 class="fw-semibold mb-1">Claim: #CL-84115</h6>
+                                            <span class="fw-normal">For Bajaj Allianz Car Insurance</span>
+                                        </td>
+                                        <td><span class="badge bg-danger-subtle text-danger">Rejected</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Row 4: Upcoming Premium Payments -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4">Upcoming Premium Payments</h5>
+                        <div class="table-responsive">
+                            <table class="table mb-0 text-nowrap align-middle fs-3">
+                                <thead class="text-dark fs-4">
+                                    <tr>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Policy Name</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Premium Amount</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Due Date</h6>
+                                        </th>
+                                        <th class="border-bottom-0">
+                                            <h6 class="fw-semibold mb-0">Action</h6>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-bottom-0">
+                                            <h6 class="fw-normal mb-0">Max Life Health Plan</h6>
+                                        </td>
+                                        <td class="border-bottom-0">
+                                            <p class="mb-0 fw-normal">$150.00</p>
+                                        </td>
+                                        <td class="border-bottom-0">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-danger-subtle text-danger">Due in 5 days</span>
+                                            </div>
+                                        </td>
+                                        <td class="border-bottom-0">
+                                            <a href="payment.php?policy_id=123"
+                                               class="btn btn-primary btn-sm">Pay Now</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-bottom-0">
+                                            <h6 class="fw-normal mb-0">Bajaj Allianz Car Insurance</h6>
+                                        </td>
+                                        <td class="border-bottom-0">
+                                            <p class="mb-0 fw-normal">$85.50</p>
+                                        </td>
+                                        <td class="border-bottom-0">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-warning-subtle text-warning">15-Nov-2024</span>
+                                            </div>
+                                        </td>
+                                        <td class="border-bottom-0">
+                                            <a href="payment.php?policy_id=456"
+                                               class="btn btn-secondary btn-sm">Pay Now</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     
+    </div>
+</div>

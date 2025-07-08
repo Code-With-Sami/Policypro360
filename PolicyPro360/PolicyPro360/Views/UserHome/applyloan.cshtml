@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Apply For A Loan - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="container-fluid pt-4" id="loan">
+
+    <style>
+        #loan {
+            margin-top: 150px;
+        }
+
+        :root {
+            --loan-bg: #171827;
+            --loan-card-bg: #1e1f2f;
+            --loan-primary: #f5a526;
+            --loan-text: #e0e0e0;
+            --loan-text-muted: #8a99b5;
+            --loan-input-bg: #2a2c3c;
+            --loan-border-color: #404258;
+        }
+
+        .loan-page-card {
+            background-color: var(--loan-card-bg);
+            border: none;
+            border-radius: 12px;
+            color: var(--loan-text);
+        }
+
+        .loan-form-control {
+            background-color: var(--loan-input-bg);
+            border: 1px solid var(--loan-border-color);
+            color: var(--loan-text);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+            .loan-form-control:focus {
+                background-color: var(--loan-input-bg);
+                border-color: var(--loan-primary);
+                color: var(--loan-text);
+                box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
+            }
+
+            .loan-form-control::placeholder {
+                color: var(--loan-text-muted);
+            }
+
+        .input-group-text {
+            background-color: var(--loan-input-bg);
+            border: 1px solid var(--loan-border-color);
+            color: var(--loan-text-muted);
+        }
+
+        .btn-custom-primary {
+            background-color: var(--loan-primary);
+            border-color: var(--loan-primary);
+            color: var(--loan-bg);
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 8px;
+        }
+
+            .btn-custom-primary:hover {
+                background-color: #d8901e;
+                border-color: #d8901e;
+                color: var(--loan-bg);
+            }
+
+        .btn-custom-secondary {
+            background-color: transparent;
+            border: 1px solid var(--loan-border-color);
+            color: var(--loan-text-muted);
+            padding: 10px 25px;
+            border-radius: 8px;
+        }
+
+            .btn-custom-secondary:hover {
+                background-color: var(--loan-border-color);
+                color: var(--loan-text);
+            }
+
+        .form-check-input:checked {
+            background-color: var(--loan-primary);
+            border-color: var(--loan-primary);
+        }
+    </style>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <!-- Apply for Loan Card -->
+            <div class="card loan-page-card">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <i class="ti ti-cash-banknote"
+                           style="font-size: 3rem; color: var(--loan-primary);"></i>
+                    </div>
+                    <h4 class="fw-semibold text-center mb-2 text-white">Apply for a Loan Against Policy</h4>
+                    <p class="text-center text-muted mb-5">
+                        Please select an eligible policy and fill in the required details below.
+                    </p>
+
+                    <!-- Apply Loan Form -->
+                    <form action="#" method="POST">
+                        <div class="mb-4">
+                            <label for="policySelect" class="form-label text-white">Select Policy</label>
+                            <select class="form-select loan-form-control " id="policySelect" required>
+                                <option selected disabled value="">-- Choose an eligible policy --</option>
+                                <option value="1">Max Life Health Plan (#HLTH-12345678)</option>
+                                <option value="2">FutureInvest ULIP Plan (#ULIP-98765432)</option>
+                                <option value="3" disabled>SecureDrive Car Insurance (Not Eligible)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="loanAmount" class="form-label text-white">
+                                Required Loan
+                                Amount
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control loan-form-control" id="loanAmount"
+                                       name="LoanAmount" placeholder="e.g., 5000" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="loanReason" class="form-label text-white">Reason for Loan</label>
+                            <textarea class="form-control loan-form-control" id="loanReason"
+                                      name="LoanReason" rows="4"
+                                      placeholder="e.g., Medical emergency, Child's education, etc."
+                                      required></textarea>
+                        </div>
+
+                        <div class="form-check mb-5">
+                            <input class="form-check-input" type="checkbox" value="" id="termsCheck"
+                                   required>
+                            <label class="form-check-label" for="termsCheck">
+                                I have read and agree to the loan <a href="#"
+                                                                     style="color: var(--loan-primary);">terms and conditions</a>.
+                            </label>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-end gap-3">
+                            <a href="dashboard.html" class="btn btn-custom-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-custom-primary">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->
