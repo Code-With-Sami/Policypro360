@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Sign In - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url(assets/images/backgrounds/page-header-bg.jpg)">
+    </div>
+    <div class="page-header-shape-1"><img src="assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="index.html">Home</a></li>
+                <li><span>/</span></li>
+                <li>Login</li>
+            </ul>
+            <h2>Login</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Sign In Start -->
+<section class="sign-in">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="sign-in__single">
+                    <h3 class="sign-in__title">Login</h3>
+                    <form class="sign-in__form" method="post">
+                        <div class="sign-in__form-input-box">
+                            <input type="email" name="userEmail" placeholder="Username or Email address*">
+                        </div>
+                        <div class="sign-in__form-input-box">
+                            <input type="password" name="userPassword" placeholder="Password*">
+                        </div>
+                        <div class="checked-box">
+                            <input type="checkbox" name="" id="skipper2" checked="">
+                            <label for="skipper2"><span></span>Remember Me?</label>
+                        </div>
+                        <div class="sign-in__form-btn-box">
+                            <button type="submit" class="thm-btn sign-in__form-btn">Login</button>
+                            <div class="sign-in__form-forgot-password">
+                                <a href="#">Forgot your Password?</a>
+                            </div>
+                        </div>
+                        <div class="sign-in__form-btn-box mt-3">
+                            <div class="sign-in__form-forgot-password">
+                                <span>Don't have an account?</span>
+                                <a href="@Url.Action("SignUp","UserHome")">Create Now</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Sign In End-->
+<!--plugins-->
+<script src="~/admin/assets/js/jquery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    if("@ViewBag.ErrorMessage" == "Invalid email or password."){
+                const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "error",
+      title: "Invalid email or password."
+    });
+
+
+    }
+</script>

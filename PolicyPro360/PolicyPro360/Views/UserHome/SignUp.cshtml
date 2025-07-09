@@ -1,0 +1,130 @@
+﻿@model PolicyPro360.Models.Users
+@{
+    ViewData["Title"] = "Sign Up - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<style>
+    .sign-in__form-input-box input[type = text],
+    .sign-in__form-input-box input[type = number],
+    .sign-in__form-input-box input[type = file],
+    .sign-in__form-input-box input[type = date],
+    .sign-in__form-input-box textarea{
+        height: 60px;
+        width: 100%;
+        border: none;
+        background-color: var(--insur-extra);
+        padding-left: 30px;
+        padding-right: 30px;
+        border-radius: var(--insur-bdr-radius);
+        outline: none;
+        font-size: 14px;
+        color: var(--insur-gray);
+        display: block;
+        font-weight: 500;
+        letter-spacing: var(--insur-letter-spacing);
+    }
+</style>
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url(assets/images/backgrounds/page-header-bg.jpg)">
+    </div>
+    <div class="page-header-shape-1"><img src="assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="index.html">Home</a></li>
+                <li><span>/</span></li>
+                <li>Register</li>
+            </ul>
+            <h2>Register</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Sign In Start -->
+<section class="sign-in">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="sign-in__single">
+                    <h3 class="sign-in__title">Register</h3>
+                    <form asp-controller="UserHome" asp-action="SignUp" method="post" enctype="multipart/form-data" class="sign-in__form">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        @if (ViewBag.ImagePath != null)
+                        {
+                            <div class="alert alert-info">
+                                Image Path: @ViewBag.ImagePath
+                            </div>
+                        }
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="Name" type="text" placeholder="Enter your name">
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="Username" type="text" placeholder="Enter your Username">
+                        </div>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="MobileNumber" type="number" placeholder="Enter your number">
+                        </div>
+                        <span asp-validation-for="MobileNumber" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="Email" type="email" placeholder="Enter your email address">
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="Password" type="password" placeholder="Enter password">
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="ConfirmPassword" type="password" placeholder="Confirm your password">
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="DateOfBirth" type="date" placeholder="Date Of Birth">
+                        </div>
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <input asp-for="ProfileImage" type="file" class="form-control-lg" id="formFile" placeholder="Upload Image" style="border: none;">
+                        </div>
+                        <span asp-validation-for="ProfileImage" class="text-danger"></span>
+
+                        <div class="sign-in__form-input-box">
+                            <textarea asp-for="Address"> Enter your address</textarea>
+                        </div>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+
+                        <div class="checked-box">
+                            <input type="checkbox" id="skipper3" checked="">
+                            <label for="skipper3"><span></span>I accept company privacy policy.</label>
+                        </div>
+                        <div class="sign-in__form-btn-box">
+                            <button type="submit" class="thm-btn sign-in__form-btn">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Sign In End-->
