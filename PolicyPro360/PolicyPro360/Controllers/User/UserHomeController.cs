@@ -382,6 +382,7 @@ namespace PolicyPro360.Controllers.User
                 HttpContext.Session.SetString("userName", value: user.Name);
                 HttpContext.Session.SetInt32("userId", value: user.Id);
                 HttpContext.Session.SetString("userEmail", value: user.Email);
+                HttpContext.Session.SetString("userImg", value: user.ProfileImagePath);
                 TempData["success"] = "Login successful!";
                 return RedirectToAction("Dashboard");
             }
@@ -427,7 +428,6 @@ namespace PolicyPro360.Controllers.User
                 return View(model);
             }
 
-
             try
             {
                 _context.Tbl_Users.Add(model);
@@ -443,6 +443,7 @@ namespace PolicyPro360.Controllers.User
                 return View(model);
             }
         }
+
         public IActionResult Dashboard()
         {
             if (HttpContext.Session.GetString("userName") != null)
@@ -459,15 +460,127 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult Profile()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32("userId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("login");
+            }
+
+            var userDetails = _context.Tbl_Users.FirstOrDefault(u => u.Id == userId);
+
+            if (userDetails == null)
+            {
+                return NotFound("User Profile was not found");
+            }
+            return View(userDetails);
         }
-        public IActionResult EditProfile()
+        public async Task<IActionResult> EditProfile()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32("userId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("login");
+            }
+            var user = await _context.Tbl_Users.FindAsync(userId.Value);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(Users model)
+        {
+            var existingUser = await _context.Tbl_Users.FindAsync(model.Id);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            if (model.ProfileImage != null)
+            {
+                existingUser.ProfileImagePath = UploadFile(model.ProfileImage);
+            }
+            else
+            {
+
+                existingUser.ProfileImagePath = model.ProfileImagePath ?? existingUser.ProfileImagePath ?? string.Empty;
+            }
+
+
+            ModelState.Remove("ProfileImagePath");
+
+            existingUser.Name = model.Name;
+            existingUser.Username = model.Username;
+            existingUser.Email = model.Email;
+            existingUser.MobileNumber = model.MobileNumber;
+            existingUser.Address = model.Address;
+            existingUser.DateOfBirth = model.DateOfBirth;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                var user = _context.Tbl_Users.FirstOrDefault(u => u.Id == model.Id);
+                if (user != null)
+                {
+
+                    HttpContext.Session.SetString("userName", value: user.Name);
+                    HttpContext.Session.SetString("userEmail", value: user.Email);
+                    HttpContext.Session.SetString("userImg", value: user.ProfileImagePath);
+                }
+                TempData["SuccessMessage"] = "User updated successfully!";
+                return RedirectToAction("Profile");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error updating user: " + ex.Message);
+                return View(model);
+            }
         }
         public IActionResult ChangePassword()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult ChangePassword(string CurrentPassword, string Password, string ConfirmPassword)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = _context.Tbl_Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (user.Password != CurrentPassword)
+            {
+                ModelState.AddModelError("CurrentPassword", "Current password is incorrect.");
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "New password and confirmation do not match.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            user.Password = Password;
+            _context.SaveChanges();
+
+            TempData["Success"] = "Password updated successfully!";
+            return RedirectToAction("Profile");
         }
         public IActionResult MakePayment()
         {

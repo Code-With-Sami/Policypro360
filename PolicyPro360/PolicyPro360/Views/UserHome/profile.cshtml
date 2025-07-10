@@ -1,4 +1,5 @@
-﻿@{
+﻿@model PolicyPro360.Models.Users
+@{
     ViewData["Title"] = "User Profile - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
@@ -105,10 +106,10 @@
 
                         <!-- Header Section -->
                         <div class="d-flex flex-column flex-md-row align-items-center mb-4">
-                            <img src="~/user/assets/images/profile/user-1.jpg" alt="Profile Picture" class="profile-image-view mb-4 mb-md-0">
+                            <img src="~/admin/assets/images/profiles/@Model.ProfileImagePath" alt="Profile Picture" class="profile-image-view mb-4 mb-md-0">
                             <div class="text-center text-md-start ms-md-4 flex-grow-1">
-                                <h2 class="fw-bolder mb-1" style="color: var(--profile-primary);">John Doe</h2>
-                                <p class="fs-4 mb-3" style="color: var(--profile-text-muted);">Member Since: 20 Jan, 2022</p>
+                                <h2 class="fw-bolder mb-1" style="color: var(--profile-primary);">@Model.Name</h2>
+                                <p class="fs-4 mb-3" style="color: var(--profile-text-muted);">@Model.Email</p>
                             </div>
                             <a href="@Url.Action("editprofile","UserHome")" class="btn btn-custom-primary mt-3 mt-md-0">
                                 <i class="ti ti-edit me-1"></i> Edit Profile
@@ -127,21 +128,21 @@
                                         <i class="ti ti-user info-icon"></i>
                                         <div class="info-content">
                                             <span class="info-label">Username</span>
-                                            <span class="info-value">johndoe</span>
+                                            <span class="info-value">@Model.Username</span>
                                         </div>
                                     </div>
                                     <div class="info-item">
                                         <i class="ti ti-mail info-icon"></i>
                                         <div class="info-content">
                                             <span class="info-label">Email Address</span>
-                                            <span class="info-value">john.doe@example.com</span>
+                                            <span class="info-value">@Model.Email</span>
                                         </div>
                                     </div>
                                     <div class="info-item">
                                         <i class="ti ti-device-mobile info-icon"></i>
                                         <div class="info-content">
                                             <span class="info-label">Mobile Number</span>
-                                            <span class="info-value">+1 234 567 890</span>
+                                            <span class="info-value">@Model.MobileNumber</span>
                                         </div>
                                     </div>
                                 </div>
@@ -151,14 +152,14 @@
                                         <i class="ti ti-calendar-event info-icon"></i>
                                         <div class="info-content">
                                             <span class="info-label">Date of Birth</span>
-                                            <span class="info-value">15 May, 1990</span>
+                                            <span class="info-value">@Model.DateOfBirth</span>
                                         </div>
                                     </div>
                                     <div class="info-item">
                                         <i class="ti ti-map-pin info-icon"></i>
                                         <div class="info-content">
                                             <span class="info-label">Address</span>
-                                            <span class="info-value">123, Dream Avenue, New York, USA</span>
+                                            <span class="info-value">@Model.Address</span>
                                         </div>
                                     </div>
                                 </div>
@@ -181,6 +182,6 @@
             </div>
         </div>
 
-      
+
     </div>
 </div>

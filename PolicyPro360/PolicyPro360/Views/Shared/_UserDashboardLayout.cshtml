@@ -26,7 +26,7 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="@Url.Action("Dashboard","UserHome")" class="text-nowrap logo-img">
+                    <a href="@Url.Action("Index","UserHome")" class="text-nowrap logo-img">
                         <img src="~/user/assets/images/update-15-2-2024/resources/logo-3.png" height="70" alt="PolicyPro360" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -188,14 +188,14 @@
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                             <!-- Welcome Message (Visible on Large Screens Only) -->
                             <li class="nav-item d-none d-lg-block">
-                                <span class="fs-4 fw-semibold">Welcome, @ViewBag.name</span>
+                                <span class="fs-4 fw-semibold">Welcome, @Context.Session.GetString("userName")</span>
                             </li>
     
                             <!-- Profile Picture & Dropdown -->
                             <li class="nav-item dropdown ms-3">
                                 <a class="nav-link" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                                    aria-expanded="false">
-                                    <img src="~/user/assets/images/profile/user-1.jpg" alt="User Profile" width="35" height="35"
+                                    <img src="~/admin/assets/images/profiles/@Context.Session.GetString("userImg")" alt="User Profile" width="35" height="35"
                                          class="rounded-circle" />
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
@@ -237,7 +237,7 @@
             <div class="py-6 px-6 text-center">
                 <p class="mb-0 fs-4" style="color: var(--profile-text-muted);">
                     © 2024, Designed and Developed by
-                    <a href="index.html" class="pe-1 text-decoration-underline" style="color: var(--profile-primary);">PolicyPro360</a>
+                    <a href="@Url.Action("Index", "UserHome")" class="pe-1 text-decoration-underline" style="color: var(--profile-primary);">PolicyPro360</a>
                 </p>
             </div>
         </div>
