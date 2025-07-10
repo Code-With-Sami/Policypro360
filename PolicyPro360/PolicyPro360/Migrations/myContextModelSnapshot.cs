@@ -247,6 +247,74 @@ namespace PolicyPro360.Migrations
                     b.ToTable("Tbl_PolicyAttributes");
                 });
 
+            modelBuilder.Entity("PolicyPro360.Models.UserPayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PayerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PayerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tbl_UserPayment");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.UserPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("CalculatedPremium")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("CoverageAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PolicyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PolicyId");
+
+                    b.ToTable("Tbl_UserPolicy");
+                });
+
             modelBuilder.Entity("PolicyPro360.Models.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -314,6 +382,17 @@ namespace PolicyPro360.Migrations
                 {
                     b.HasOne("PolicyPro360.Models.Policy", "Policy")
                         .WithMany("Attributes")
+                        .HasForeignKey("PolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Policy");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.UserPolicy", b =>
+                {
+                    b.HasOne("PolicyPro360.Models.Policy", "Policy")
+                        .WithMany()
                         .HasForeignKey("PolicyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

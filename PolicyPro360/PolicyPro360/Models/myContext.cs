@@ -31,5 +31,8 @@ namespace PolicyPro360.Models
                 .WithMany(p => p.Attributes)
                 .HasForeignKey(a => a.PolicyId);
         }
+
+        public DbSet<UserPolicy> Tbl_UserPolicy { get; set; }
+        public DbSet<UserPayment> Tbl_UserPayment { get; set; }
     }
 }

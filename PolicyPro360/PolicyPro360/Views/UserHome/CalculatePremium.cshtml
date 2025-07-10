@@ -1,0 +1,310 @@
+﻿@model PolicyPro360.ViewModels.PremiumCalculationViewModel
+
+@{
+    ViewData["Title"] = "Calculate Premium - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<style>
+    .premium-calculator-page {
+      
+        padding: 60px 0;
+    }
+
+    .calculator-card {
+        background: #ffffff;
+        border: 1px solid #e9ecef;
+        color: #171827; 
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    }
+
+        /* --- Card Header --- */
+        .calculator-card .card-header {
+            background-color: transparent;
+            border-bottom: 2px solid #f5a526; 
+            padding: 25px 35px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .calculator-card .header-icon {
+            font-size: 2rem;
+            color: #ffffff;
+            background-color: #f5a526; 
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .calculator-card .header-text h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #171827;
+            margin-bottom: 2px;
+        }
+
+        .calculator-card .header-text p {
+            font-size: 0.95rem;
+            color: #6c757d; 
+            margin-bottom: 0;
+        }
+
+        /* --- Card Body --- */
+        .calculator-card .card-body {
+            padding: 35px;
+        }
+
+    /* --- Input Group and Icon Fix --- */
+    .input-group-custom {
+        position: relative;
+    }
+
+        .input-group-custom .form-control,
+        .input-group-custom .form-select {
+            padding-left: 45px !important;
+        }
+
+        .input-group-custom .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+            pointer-events: none;
+        }
+
+    /* --- Input Fields --- */
+    .calculator-card .form-label {
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+        .calculator-card .form-label .label-note {
+            color: #adb5bd;
+            font-weight: 400;
+            margin-left: 5px;
+        }
+
+    .calculator-card .form-control,
+    .calculator-card .form-select {
+        background-color: #2a2c41;
+        border: 1px solid #f5a526;
+        color: #ffffff;
+        padding: 14px;
+        height: 54px;
+        border-radius: 10px;
+    }
+
+        .calculator-card .form-control::placeholder {
+            color: #a9b3c1;
+            opacity: 0.8;
+        }
+
+        .calculator-card .form-control:focus,
+        .calculator-card .form-select:focus {
+            background-color: #171827;
+            color: #ffffff;
+            border-color: #f5a526;
+            box-shadow: 0 0 0 3px rgba(245, 165, 38, 0.2);
+        }
+
+    /* --- Button --- */
+    .calculator-card .btn-primary {
+        background-color: #f5a526;
+        border-color: #f5a526;
+        color: #171827;
+        font-weight: 700;
+        font-size: 1.1rem;
+        padding: 14px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 10px;
+    }
+
+        .calculator-card .btn-primary .btn-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .calculator-card .btn-primary:hover {
+            background-color: #171827;
+            border-color: #171827;
+            color: #ffffff;
+        }
+
+            .calculator-card .btn-primary:hover .btn-arrow {
+                transform: translateX(5px);
+            }
+</style>
+
+<!-- Page Header Start -->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/loan-policy-bg.jpg")')"></div>
+    <div class="page-header-shape-1"><img src="@Url.Content("~/user/assets/images/shapes/page-header-shape-1.png")" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="/">Home</a></li>
+                <li><span>/</span></li>
+                <li><a href="@Url.Action("AllPolicies", "UserHome")">Policies</a></li>
+                <li><span>/</span></li>
+                <li>Calculate Premium</li>
+            </ul>
+            <h2>@Model.PolicyName</h2>
+        </div>
+    </div>
+</section>
+<!-- Page Header End -->
+<section class="premium-calculator-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card calculator-card">
+                    @{
+                     
+                        var policyTypeClean = Model.PolicyType?.Trim().ToLower() ?? string.Empty;
+                        string cardIconClass = "fa-shield-alt";
+                    }
+
+                    <div class="card-header">
+                        <div class="header-icon">
+                            <i class="fas @cardIconClass"></i>
+                        </div>
+                        <div class="header-text">
+                            <h3 class="mb-0">@Model.PolicyName</h3>
+                            <p class="mb-0">Premium Calculator</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="CalculatePremium" method="post">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="PolicyId" />
+                            <input type="hidden" asp-for="PolicyName" />
+                            <input type="hidden" asp-for="PolicyType" />
+
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                            }
+
+                            <!-- Show base premium to user -->
+                            <div class="mb-4">
+                                <label class="form-label">Base Premium (by Company)</label>
+                                <input type="text" class="form-control" value="@Model.BasePremium?.ToString("N2")" readonly />
+                            </div>
+
+                           
+
+                            <div class="row">
+                                @if (policyTypeClean.Contains("motor"))
+                                {
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="VehicleValue" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <input asp-for="VehicleValue" class="form-control" placeholder="e.g., 2500000" required />
+                                            <i class="fas fa-tag input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="VehicleValue" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="VehicleType" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <select asp-for="VehicleType" class="form-select" required>
+                                                <option value="">-- Select Type --</option>
+                                                <option value="Car">Car</option>
+                                                <option value="Bike">Bike</option>
+                                            </select>
+                                            <i class="fas fa-car-side input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="VehicleType" class="text-danger"></span>
+                                    </div>
+                                }
+                                @if (policyTypeClean.Contains("life"))
+                                {
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="UserAge" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <input asp-for="UserAge" class="form-control" type="number" min="18" placeholder="e.g., 30" required />
+                                            <i class="fas fa-birthday-cake input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="UserAge" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="LifeCoverageAmount" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <input asp-for="LifeCoverageAmount" class="form-control" type="number" placeholder="e.g., 5000000" required />
+                                            <i class="fas fa-coins input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="LifeCoverageAmount" class="text-danger"></span>
+                                    </div>
+                                }
+                                @if (policyTypeClean.Contains("home"))
+                                {
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="PropertyValue" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <input asp-for="PropertyValue" class="form-control" type="number" placeholder="e.g., 10000000" required />
+                                            <i class="fas fa-tag input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="PropertyValue" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="LocationRisk" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <select asp-for="LocationRisk" class="form-select" required>
+                                                <option value="">-- Select Risk --</option>
+                                                <option value="Urban">Urban Area</option>
+                                                <option value="Rural">Rural Area</option>
+                                            </select>
+                                            <i class="fas fa-map-marked-alt input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="LocationRisk" class="text-danger"></span>
+                                    </div>
+                                }
+                                @if (policyTypeClean.Contains("medical"))
+                                {
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="UserAge" class="form-label"></label>
+                                        <div class="input-group-custom">
+                                            <input asp-for="UserAge" class="form-control" type="number" min="18" placeholder="Enter your age" required />
+                                            <i class="fas fa-birthday-cake input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="UserAge" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label asp-for="NumberOfDependents" class="form-label">
+                                            Dependents <span class="label-note">(Including yourself)</span>
+                                        </label>
+                                        <div class="input-group-custom">
+                                            <input asp-for="NumberOfDependents" class="form-control" type="number" min="1" placeholder="e.g., 2" required />
+                                            <i class="fas fa-users input-icon"></i>
+                                        </div>
+                                        <span asp-validation-for="NumberOfDependents" class="text-danger"></span>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="d-grid mt-3">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <span>Calculate My Premium</span>
+                                    <span class="btn-arrow">→</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

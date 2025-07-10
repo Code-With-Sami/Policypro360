@@ -109,9 +109,11 @@
 							<a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
 							<ul class="main-menu__list">
 								<li><a href="@Url.Action("index","UserHome")">Home</a></li>
-
+								<li>
+									<a href="@Url.Action("about","UserHome")">About Us </a>
+								</li>
 								<li class="dropdown">
-									<a href="#">Insurance</a>
+									<a href="@Url.Action("insurance","UserHome")">Insurance</a>   
 									<ul>
 
 										<li><a href="@Url.Action("motor","UserHome")">Motor insurance</a></li>
@@ -123,28 +125,40 @@
 
 									</ul>
 								</li>
-								<!-- <li class="dropdown">
-									<a href="products.html">Shop</a>
-									<ul>
-										<li><a href="products.html">Shop</a></li>
-										<li><a href="product-details.html">Shop details</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-									</ul>
-								</li> -->
+							
 								<li>
-									<a href="plans.html">Plans </a>
-								</li>
-								<li>
-									<a href="policy-proposal.html">Policies</a>
+									<a href="@Url.Action("policy","UserHome")">Policies</a>
 								</li>
 								<li class="dropdown">
+									<a href="@Url.Action("makeaclaim","UserHome")">Claims</a>
+									<ul>
+										<li>
+											<a href="@Url.Action("MakeaMedicalclaim", "UserHome")">Health & Medical Claims</a>
+										</li>
+										<li>
+											<a href="@Url.Action("MakeaMotorclaim", "UserHome")">Motor (Car/Bike) Claims</a>
+										</li>
+										<li>
+											<a href="@Url.Action("MakeaLifeclaim", "UserHome")">Life Insurance Claims</a>
+										</li>
+										<li>
+											<a href="@Url.Action("MakeaHomeclaim", "UserHome")">Home Insurance Claims</a>
+										</li>
+										<li>
+											<a href="@Url.Action("MakeLoanAgainstPolicy", "UserHome")">Loan Against Policy</a>
+										</li>
+									</ul>
+								</li>
+
+								<li>
 									<a href="@Url.Action("news","UserHome")">News</a>
 								
 								</li>
 								<li>
-									<a href="@Url.Action("about","UserHome")">About Us </a>
+									<a href="@Url.Action("faq","UserHome")">Faqs</a>
+
 								</li>
+								
 								<li class="dropdown">
 									<a href="#">Sign In</a>
 									<ul>
@@ -267,20 +281,27 @@
 							<div class="site-footer-five__column site-footer-five__links clearfix">
 								<h3 class="site-footer-five__title">Explore</h3>
 								<ul class="site-footer-five__links__list list-unstyled clearfix">
+									<li><a href="@Url.Action("index","UserHome")">Home</a></li>
 									<li>
-										<a href="about.html">About</a>
+										<a href="@Url.Action("about","UserHome")">About Us </a>
 									</li>
 									<li>
-										<a href="insurance-01.html">Insurance</a>
+									<li><a href="@Url.Action("insurance","UserHome")">Insurance</a></li>
+									<li>
+										<a href="policy-proposal.html">Policies</a>
 									</li>
 									<li>
-										<a href="portfolio.html">Latest Portfolio</a>
+										<a href="@Url.Action("makeaclaim","UserHome")">Claims</a>
+										
 									</li>
 									<li>
-										<a href="faq.html">Our Faqs</a>
+										<a href="@Url.Action("faq","UserHome")">Faqs</a>
 									</li>
 									<li>
-										<a href="contact.html">Get in Touch</a>
+										<a href="@Url.Action("terms","UserHome")">Terms & Conditions</a>
+									</li>
+									<li>
+										<a href="@Url.Action("privacy","UserHome")">Privacy Policy</a>
 									</li>
 								</ul>
 							</div>
@@ -306,7 +327,7 @@
 			<div class="site-footer-five__bottom">
 				<div class="container">
 					<p class="site-footer-five__bottom__text">
-						© All Copyright 2025 by <a href="index.html">policypro360.com</a>
+						© All Copyright 2025 by <a href="@Url.Action("index","UserHome")">policypro360.com</a>
 					</p>
 				</div>
 			</div>
@@ -408,4 +429,5 @@
 	<script src="~/user/assets/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
 	<script src="~/user/assets/js/insur.js"></script>
 </body>
+@RenderSection("Scripts", required: false)
 </html>

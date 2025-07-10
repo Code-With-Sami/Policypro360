@@ -1,0 +1,331 @@
+﻿@model PolicyPro360.ViewModels.PremiumCalculationViewModel
+
+@{
+    ViewData["Title"] = "Secure Checkout - PolicyPro360";
+    Layout = "_UserLayout";
+    var userName = Context.Session.GetString("userName");
+    var userEmail = Context.Session.GetString("userEmail");
+}
+
+<style>
+
+
+    .checkout-page {
+        color: #ffffff;
+        padding: 80px 0;
+    }
+
+    .page-header + .checkout-page {
+        padding-top: 30;
+    
+        position: relative;
+        z-index: 5;
+    }
+
+    .checkout-page h2, .checkout-page h4 {
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    .checkout-page .lead {
+        color: #a9b3c1;
+    }
+
+
+    .order-summary-card {
+        background-color: #171827;
+        border: 1px solid rgba(245, 165, 38, 0.2);
+        border-radius: 16px;
+        padding: 25px;
+        position: sticky;
+        top: 120px;
+    }
+
+        .order-summary-card .summary-header {
+            color: #f5a526; 
+            font-weight: 600;
+        }
+
+        .order-summary-card .list-group-item {
+            background-color: transparent;
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #a9b3c1;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .order-summary-card .policy-name {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .order-summary-card .total-row strong {
+            color: #ffffff;
+            font-size: 1.2rem;
+        }
+
+    .payment-section-card {
+        background-color: #171827;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 35px;
+    }
+
+
+    .payment-options .payment-option-card {
+        background-color: #2a2c41;
+        border: 2px solid #4a4e69;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 20px;
+    }
+
+        .payment-options .payment-option-card:hover {
+            border-color: #f5a526;
+            transform: translateY(-3px);
+        }
+
+        .payment-options .payment-option-card.active {
+            border-color: #f5a526;
+            background-color: #171827;
+            box-shadow: 0 0 15px rgba(245, 165, 38, 0.2);
+        }
+
+    .payment-form {
+        display: none;
+    }
+
+        .payment-form.active {
+            display: block;
+        }
+
+        .payment-form .form-label {
+            color: #a9b3c1;
+            margin-bottom: 8px;
+        }
+
+        .payment-form .form-control {
+            background-color: #2a2c41;
+            border: 1px solid #4a4e69;
+            color: #ffffff;
+            padding: 12px;
+            height: 50px;
+            border-radius: 8px;
+        }
+
+            .payment-form .form-control:focus {
+                background-color: #171827;
+                color: #ffffff;
+                border-color: #f5a526;
+                box-shadow: 0 0 0 3px rgba(245, 165, 38, 0.2);
+            }
+
+            .payment-form .form-control::placeholder {
+                color: #a9b3c1;
+                opacity: 0.7;
+            }
+
+    .secure-connection-text {
+        color: #28a745;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+        .secure-connection-text i {
+            margin-right: 5px;
+        }
+</style>
+
+
+<!-- Page Header  -->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/loan-policy-bg.jpg")')"></div>
+    <div class="page-header-shape-1"><img src="@Url.Content("~/user/assets/images/shapes/page-header-shape-1.png")" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="/">Home</a></li>
+                <li><span>/</span></li>
+                <li><a href="@Url.Action("AllPolicies", "UserHome")">Policies</a></li>
+                <li><span>/</span></li>
+                <li>Checkout</li>
+            </ul>
+            <h2>Secure Checkout</h2>
+        </div>
+    </div>
+</section>
+<!-- Page Header End -->
+
+
+<section class="checkout-page">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Order Summary (Right Side) -->
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <div class="order-summary-card">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="summary-header">Order Summary</span>
+                        <i class="fas fa-shopping-cart"></i>
+                    </h4>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0 policy-name">@Model.PolicyName</h6>
+                                <small class="text-muted">@Model.PolicyType </small>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0 text-white">Annual Premium</h6>
+                            </div>
+                            <span>PKR @Model.CalculatedPremium?.ToString("N2")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between total-row">
+                            <strong>Total Payable</strong>
+                            <strong>PKR @Model.CalculatedPremium?.ToString("N2")</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Payment Options (Left Side) -->
+            <div class="col-md-7 col-lg-8">
+                <div class="payment-section-card">
+                    <h4 class="mb-4">Choose your Payment Method</h4>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+
+                    <div class="d-grid gap-2 mb-4">
+                        <button id="showPaymentFormBtn" class="btn btn-success btn-lg">Proceed to Payment</button>
+                    </div>
+
+                    <div id="manualPaymentForm" style="display:none;">
+                        <div class="card payment-section-card mb-4">
+                            <div class="card-header rounded-top" style="background-color: #f5a526; border-color: #f5a526; color:#171827; font-weight:700;">
+                                <strong>Manual/Offline Payment Submission</strong>
+                            </div>
+                            <div class="card-body">
+                                <form asp-action="SubmitManualPayment" asp-controller="UserHome" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="PolicyId" value="@Model.PolicyId" />
+                                    <input type="hidden" name="CalculatedPremium" value="@Model.CalculatedPremium" />
+                                    <input type="hidden" name="CoverageAmount" value="@Model.LifeCoverageAmount ?? @Model.PropertyValue" />
+                                    <input type="hidden" name="PayerName" value="@userName" />
+                                    <input type="hidden" name="PayerEmail" value="@userEmail" />
+                                    <div class="mb-3">
+                                        <label class="form-label">Amount</label>
+                                        <input name="Amount" type="number" class="form-control" value="@Model.CalculatedPremium" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Payment Reference / Notes</label>
+                                        <input name="Reference" class="form-control" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100" style="background-color: #f5a526; border-color: #f5a526; color:#171827; font-weight:700;">
+                                        Submit Payment Details
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Selection -->
+                    <div class="row g-3 mb-4 payment-options">
+                        <div class="col">
+                            <div class="payment-option-card d-flex align-items-center gap-3 active" data-payment-target="#credit-card-form">
+                                <i class="fas fa-credit-card fa-2x text-white"></i>
+                                <div>
+                                    <h6 class="mb-0 text-white">Credit / Debit Card</h6>
+                                    <small class="text-muted">Visa, MasterCard</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="payment-option-card d-flex align-items-center gap-3" data-payment-target="#jazzcash-form">
+                                <!-- THE FIX for icon path -->
+                                <img src="@Url.Content("~/user/assets/images/resources/jazz.png")" height="32" alt="JazzCash" />
+                                <div>
+                                    <h6 class="mb-0 text-white">JazzCash</h6>
+                                    <small class="text-muted">Mobile Account</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credit Card Payment Form -->
+                    <div id="credit-card-form" class="payment-form active">
+                        <form>
+                            <div class="row gy-3">
+                                <div class="col-12">
+                                    <label for="cc-name" class="form-label">Name on card</label>
+                                    <input type="text" class="form-control" id="cc-name" placeholder="Full name as displayed on card" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="cc-number" class="form-label">Card number</label>
+                                    <input type="text" class="form-control" id="cc-number" placeholder="xxxx-xxxx-xxxx-xxxx" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cc-expiration" class="form-label">Expiration</label>
+                                    <input type="text" class="form-control" id="cc-expiration" placeholder="MM / YY" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cc-cvv" class="form-label">CVV / CVC</label>
+                                    <input type="text" class="form-control" id="cc-cvv" placeholder="123" required>
+                                </div>
+                            </div>
+                            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                            <p class="secure-connection-text mb-3">
+                                <i class="fas fa-lock"></i> All transactions are secure and encrypted.
+                            </p>
+                            <button class="w-100 btn btn-primary btn-lg" type="submit" style="background-color: #f5a526; border-color: #f5a526; color:#171827; font-weight:700;">Pay PKR @Model.CalculatedPremium?.ToString("N2")</button>
+                        </form>
+                    </div>
+
+                    <!-- JazzCash Payment Redirect Button -->
+                    <div id="jazzcash-form" class="payment-form">
+                        <div class="text-center p-4">
+                            <p>You will be redirected to the official JazzCash page to complete your payment securely.</p>
+                            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                            <a href="https://payments.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/"
+                               class="w-100 btn btn-primary btn-lg"
+                               style="background-color: #f5a526; border-color: #f5a526; color:#171827; font-weight:700;">
+                                Pay with JazzCash
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const paymentOptions = document.querySelectorAll('.payment-options .payment-option-card');
+            const paymentForms = document.querySelectorAll('.payment-form');
+
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    paymentOptions.forEach(o => o.classList.remove('active'));
+                    paymentForms.forEach(f => f.classList.remove('active'));
+
+                    this.classList.add('active');
+
+                    const targetFormId = this.getAttribute('data-payment-target');
+                    if(targetFormId) {
+                        document.querySelector(targetFormId).classList.add('active');
+                    }
+                });
+            });
+        });
+
+        document.getElementById('showPaymentFormBtn').onclick = function() {
+            document.getElementById('manualPaymentForm').style.display = 'block';
+            this.style.display = 'none';
+        };
+    </script>
+}

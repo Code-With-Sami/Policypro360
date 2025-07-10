@@ -1,0 +1,339 @@
+﻿@{
+    ViewData["Title"] = "Insurance Policies - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<style>
+    /* --- The Main Policy Card --- */
+    .policy-card {
+        background: radial-gradient(circle at top, #2a2c41, #171827); 
+        border: 1px solid rgba(245, 165, 38, 0.2);
+        border-radius: 16px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: transform 0.3s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+        .policy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(245, 165, 38, 0.25);
+            border-color: rgba(245, 165, 38, 0.8); 
+        }
+
+    .policy-card-category {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 3; 
+        background-color: rgba(23, 24, 39, 0.7);
+        backdrop-filter: blur(5px); 
+        color: #f5a526; 
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 50px;
+        border: 1px solid rgba(245, 165, 38, 0.5);
+    }
+
+    /* --- Card Image Container --- */
+    .policy-card-image-container {
+        height: 240px;
+        overflow: hidden;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .policy-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .policy-card:hover .policy-card-image {
+        transform: scale(1.1);
+    }
+
+    /* --- Card Content (The overlay part) --- */
+    .policy-card-content {
+        background-color: #171827;
+        padding: 24px;
+        margin-top: -50px; 
+        position: relative;
+        z-index: 2;
+        border-top: 2px solid #f5a526; 
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; 
+    }
+
+    /* --- Policy Title --- */
+    .policy-card-title {
+        margin-top: 10px;
+        min-height: 56px;
+        margin-bottom: 12px;
+    }
+
+        .policy-card-title a {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .policy-card-title a:hover {
+                color: #f5a526;
+            }
+
+    /* --- Policy Description --- */
+    .policy-card-description {
+        color: #a9b3c1;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        flex-grow: 1;
+        margin-bottom: 20px;
+    }
+
+
+    .policy-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto; 
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* --- Premium Price --- */
+    .policy-card-premium {
+        font-size: 0.9rem;
+        color: #a9b3c1;
+        font-weight: 500;
+    }
+
+        .policy-card-premium .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f5a526;
+            display: block; 
+        }
+
+    /* --- View Details Link (Replaced Button) --- */
+    .policy-card-details-link {
+        color: #f5a526;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+        .policy-card-details-link .arrow-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            margin-left: 5px;
+        }
+
+        .policy-card-details-link:hover {
+            color: #ffffff;
+        }
+
+            .policy-card-details-link:hover .arrow-icon {
+                transform: translateX(5px);
+            }
+    .portfolio-filter {
+        padding-bottom: 50px;
+    }
+
+    .portfolio-filter__list {
+        text-align: center;
+        margin: 0;
+    }
+
+        .portfolio-filter__list li {
+            display: inline-block;
+            margin: 5px 10px;
+        }
+
+            .portfolio-filter__list li a {
+                display: block;
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--insur-black);
+                background-color: #f0f0f0;
+                padding: 12px 25px;
+                border-radius: 30px;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
+
+                .portfolio-filter__list li.active a, .portfolio-filter__list li a:hover {
+                    background-color: var(--insur-primary);
+                    color: #ffffff;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+
+    .portfolio-filter {
+        padding-bottom: 50px;
+    }
+
+
+
+    .portfolio-filter__list {
+        text-align: center;
+        margin: 0;
+    }
+
+        .portfolio-filter__list li {
+            display: inline-block;
+            margin: 5px 10px;
+        }
+
+            .portfolio-filter__list li a {
+                display: block;
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--insur-black);
+                background-color: #f0f0f0;
+                padding: 12px 25px;
+                border-radius: 30px;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
+
+                .portfolio-filter__list li.active a,
+                .portfolio-filter__list li a:hover {
+                    background-color: var(--insur-primary);
+                    color: #ffffff;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+
+</style>
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/loan-policy-bg.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="index.html">Home</a></li>
+                <li><span>/</span></li>
+                <li>Insurance Plans</li>
+            </ul>
+            <h2>Explore Our Insurance Plans</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!-- ======================= FILTER BAR START ======================= -->
+<section class="portfolio-filter my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <ul class="portfolio-filter__list list-unstyled">
+
+                    <li class="active"><a href="#" data-filter="all">All Plans</a></li>
+                    <li><a href="#" data-filter="2">Medical Insurance</a></li>
+                    <li><a href="#" data-filter="1">Life Insurance</a></li>
+                    <li><a href="#" data-filter="3">Motor Insurance</a></li>
+                    <li><a href="#" data-filter="4">Home Insurance</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ======================= FILTER BAR END ======================= -->
+<!--Policy Grid Start-->
+@model List<PolicyPro360.Models.Policy>
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+<section class="portfolio-page mb-5">
+    <div class="container">
+        <div class="row portfolio-items-wrapper">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var policy in Model)
+                {
+                    <div class="col-xl-4 col-lg-6 col-md-6 mb-4 portfolio-item" data-category="@policy.PolicyTypeId">
+                        @* --- NEW POLICY CARD MARKUP (V3) --- *@
+                        <div class="policy-card">
+                            <span class="policy-card-category">@policy.Category?.Name</span>
+
+                            <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="policy-card-image-container">
+                                <img src="@Url.Content("~" + (policy.BrochureUrl ?? "/user/assets/images/project/default.jpg"))" class="policy-card-image" alt="@policy.Name">
+                            </a>
+
+                            <div class="policy-card-content">
+                                <h5 class="policy-card-title">
+                                    <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })">
+                                        @policy.Name
+                                    </a>
+                                </h5>
+
+                                <p class="policy-card-description">
+                                    @(policy.Description.Length > 90 ? policy.Description.Substring(0, 90) + "..." : policy.Description)
+                                </p>
+
+                                <div class="policy-card-footer">
+                                    <div class="policy-card-premium">
+                                        Starts at
+                                        <span class="price">$@(string.Format("{0:N0}", policy.Premium))</span>
+                                    </div>
+                                    <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="policy-card-details-link">
+                                        View Details <span class="arrow-icon">→</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <p class="text-center lead text-white-50">No policies available at this time.</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!--Policy Grid End-->
+<!--Policy Grid End-->
+
+<!-- ======================= JAVASCRIPT FOR FILTERING ======================= -->
+<script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const filterButtons = document.querySelectorAll('.portfolio-filter__list li a');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Active class update
+                filterButtons.forEach(btn => btn.parentElement.classList.remove('active'));
+                this.parentElement.classList.add('active');
+
+                const filterValue = this.getAttribute('data-filter');
+
+                portfolioItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category');
+
+                    if (filterValue === 'all' || itemCategory === filterValue) {
+                        item.classList.remove('d-none');
+                    } else {
+                        item.classList.add('d-none');
+                    }
+                });
+            });
+        });
+    });
+</script>

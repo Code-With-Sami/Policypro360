@@ -42,5 +42,8 @@ namespace PolicyPro360.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public ICollection<PolicyAttribute> Attributes { get; set; }
+
+        [NotMapped]
+        public object PolicyType { get; internal set; }
     }
 }

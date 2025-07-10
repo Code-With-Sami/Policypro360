@@ -28,7 +28,7 @@
     --insur-black: #16243d;
     --insur-black-rgb: 22, 36, 61;
     --insur-primary: #f5a526;
-    --insur-primary-rgb: 12, 224, 255;
+    --insur-primary-rgb: #f5a526;
     --insur-extra: #f2f5f9;
     --insur-extra-rgb: 242, 245, 249;
     --insur-bdr-color: #e0e4e8;
@@ -3247,17 +3247,18 @@ ul {
   margin-bottom: 5px;
 }
 
-.service-one__title:before {
-  position: absolute;
-  content: "";
-  right: 0;
-  top: -16px;
-  height: 4px;
-  width: 40px;
-  background-image: -moz-linear-gradient(0deg, rgb(1, 95, 201) 0%, rgb(12, 224, 255) 100%);
-  background-image: -webkit-linear-gradient(0deg, rgb(1, 95, 201) 0%, rgb(12, 224, 255) 100%);
-  background-image: -ms-linear-gradient(0deg, rgb(1, 95, 201) 0%, rgb(12, 224, 255) 100%);
-}
+    .service-one__title:before {
+        position: absolute;
+        content: "";
+        right: 0;
+        top: -16px;
+        height: 4px;
+        width: 40px;
+        background-image: -moz-linear-gradient(0deg, #f5a526 0%, #171827 100%);
+        background-image: -webkit-linear-gradient(0deg, #f5a526 0%, #171827 100%);
+        background-image: -ms-linear-gradient(0deg, #f5a526 0%, #171827 100%);
+        background-image: linear-gradient(0deg, #f5a526 0%, #171827 100%);
+    }
 
 .service-one__title a {
   color: var(--insur-black);

@@ -24,13 +24,62 @@
         font-weight: 500;
         letter-spacing: var(--insur-letter-spacing);
     }
+
+    .custom-checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    /* Hide default checkbox */
+    .custom-checkbox {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #ccc;
+        border-radius: 2px;
+        background-color: #fff;
+        position: relative;
+        cursor: pointer;
+    }
+
+        /* Custom checkmark */
+        .custom-checkbox::after {
+            content: "";
+            position: absolute;
+            top: 1px;
+            left: 5px;
+            width: 4px;
+            height: 9px;
+            border: solid #f5a526;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        /* Show when checked */
+        .custom-checkbox:checked::after {
+            opacity: 1;
+        }
+    .create {
+        color: #f5a526;
+    }
+
+    .create:hover {
+            color: #171827;
+     }
+
+
 </style>
 
 <!--Page Header Start-->
 <section class="page-header">
-    <div class="page-header-bg" style="background-image: url(assets/images/backgrounds/page-header-bg.jpg)">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/loan-policy-bg.jpg")')">
     </div>
-    <div class="page-header-shape-1"><img src="assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
     <div class="container">
         <div class="page-header__inner">
             <ul class="thm-breadcrumb list-unstyled">
@@ -43,11 +92,13 @@
     </div>
 </section>
 <!--Page Header End-->
-<!--Sign In Start -->
+<!--Sign Up Start -->
 <section class="sign-in">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12">
+        <!-- Using justify-content-center to center the card -->
+        <div class="row justify-content-center">
+            <!-- Using narrower columns like the login page -->
+            <div class="col-xl-8 col-lg-10">
                 <div class="sign-in__single">
                     <h3 class="sign-in__title">Register</h3>
                     <form asp-controller="UserHome" asp-action="SignUp" method="post" enctype="multipart/form-data" class="sign-in__form">
@@ -69,57 +120,75 @@
                             </div>
                         }
 
+                        <!-- All fields are now in a single vertical column -->
+                        <!-- Name -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="Name" type="text" placeholder="Enter your name">
                         </div>
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <span asp-validation-for="Name" class="text-danger d-block mb-3"></span>
 
+                        <!-- Username -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="Username" type="text" placeholder="Enter your Username">
                         </div>
-                        <span asp-validation-for="Username" class="text-danger"></span>
+                        <span asp-validation-for="Username" class="text-danger d-block mb-3"></span>
 
+                        <!-- Mobile Number -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="MobileNumber" type="number" placeholder="Enter your number">
                         </div>
-                        <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                        <span asp-validation-for="MobileNumber" class="text-danger d-block mb-3"></span>
 
+                        <!-- Email -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="Email" type="email" placeholder="Enter your email address">
                         </div>
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span asp-validation-for="Email" class="text-danger d-block mb-3"></span>
 
+                        <!-- Password -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="Password" type="password" placeholder="Enter password">
                         </div>
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <span asp-validation-for="Password" class="text-danger d-block mb-3"></span>
 
+                        <!-- Confirm Password -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="ConfirmPassword" type="password" placeholder="Confirm your password">
                         </div>
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger d-block mb-3"></span>
 
+                        <!-- Date of Birth -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="DateOfBirth" type="date" placeholder="Date Of Birth">
                         </div>
-                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        <span asp-validation-for="DateOfBirth" class="text-danger d-block mb-3"></span>
 
+                        <!-- Profile Image -->
                         <div class="sign-in__form-input-box">
                             <input asp-for="ProfileImage" type="file" class="form-control-lg" id="formFile" placeholder="Upload Image" style="border: none;">
                         </div>
-                        <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                        <span asp-validation-for="ProfileImage" class="text-danger d-block mb-3"></span>
 
+                        <!-- Address -->
                         <div class="sign-in__form-input-box">
-                            <textarea asp-for="Address"> Enter your address</textarea>
+                            <textarea asp-for="Address" placeholder="Enter your address"></textarea>
                         </div>
-                        <span asp-validation-for="Address" class="text-danger"></span>
+                        <span asp-validation-for="Address" class="text-danger d-block mb-3"></span>
 
-                        <div class="checked-box">
-                            <input type="checkbox" id="skipper3" checked="">
-                            <label for="skipper3"><span></span>I accept company privacy policy.</label>
+
+                        <div class="custom-checkbox-wrapper">
+                            <input type="checkbox" id="policyCheck" class="custom-checkbox" checked>
+                            <label for="policyCheck">I accept company privacy policy.</label>
                         </div>
-                        <div class="sign-in__form-btn-box">
+
+                        <div class="sign-in__form-btn-box mt-5 d-grid">
                             <button type="submit" class="thm-btn sign-in__form-btn">Register</button>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="text-center mt-4">
+                            <span class="text-muted">Already have an account?</span>
+                            <a class="create" href="@Url.Action("SignIn","UserHome")">Login Now</a>
                         </div>
                     </form>
                 </div>
@@ -127,4 +196,4 @@
         </div>
     </div>
 </section>
-<!--Sign In End-->
+<!--Sign Up End-->

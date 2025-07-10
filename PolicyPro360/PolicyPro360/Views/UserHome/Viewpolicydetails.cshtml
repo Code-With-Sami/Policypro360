@@ -1,0 +1,391 @@
+﻿@model PolicyPro360.Models.Policy
+
+@{
+    ViewData["Title"] = "View Policy Details - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<style>
+    /* ============================================= */
+    /*     POLICY DETAILS PAGE - FINAL VERSION       */
+    /* ============================================= */
+
+    /* --- Overall Page Styling --- */
+    .policy-details-final-page {
+        background-color: #1c1d2e; /* Dark theme background */
+        padding: 50px 0;
+    }
+
+    /* --- Left Side: Main Content Card --- */
+    .policy-main-content {
+        background-color: #171827;
+        border-radius: 12px;
+        padding: 30px 40px;
+    }
+
+        .policy-main-content .policy-image-container {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .policy-main-content .policy-title {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .policy-main-content .policy-description {
+            color: #a9b3c1;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+            .policy-main-content .policy-description::before {
+                content: '';
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background-color: #f5a526;
+                border-radius: 50%;
+                margin-right: 15px;
+                margin-top: 8px;
+                flex-shrink: 0;
+            }
+
+    /* --- Left Side: Key Metrics --- */
+    .key-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .metric-box {
+        background-color: #2a2c41;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 3px solid #f5a526;
+    }
+
+        .metric-box .metric-label {
+            color: #a9b3c1;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .metric-box .metric-value {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+            .metric-box .metric-value i {
+                color: #f5a526;
+                margin-right: 10px;
+            }
+
+    /* --- Left Side: Terms & Exclusions --- */
+    .details-section-heading {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    .details-list {
+        list-style: none;
+        padding-left: 0;
+        color: #a9b3c1;
+    }
+
+        .details-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+            .details-list li::before {
+                content: '●';
+                color: #f5a526;
+                margin-right: 12px;
+                font-size: 0.8rem;
+                margin-top: 5px;
+            }
+
+
+    /* --- Right Side: The Single Sidebar --- */
+    .policy-sidebar {
+        background-color: #171827;
+        border-radius: 12px;
+        padding: 25px;
+        position: sticky;
+        top: 100px; /* Adjust if you have a sticky header */
+    }
+
+    /* --- Sidebar: Company Header --- */
+    .sidebar-company-header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+    }
+
+        .sidebar-company-header .logo-container img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: contain; /* Use contain for logos */
+            background-color: #ffffff; /* White background for logos */
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-company-header .company-name {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .sidebar-company-header .company-tagline {
+            color: #a9b3c1;
+            font-size: 0.85rem;
+        }
+
+    /* --- Sidebar: Details List --- */
+    .sidebar-details-item {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+        .sidebar-details-item .item-label {
+            color: #a9b3c1;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-details-item .item-value {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+            .sidebar-details-item .item-value.status-active {
+                color: #28a745;
+                font-weight: 700;
+            }
+
+            .sidebar-details-item .item-value.status-inactive {
+                color: #dc3545;
+                font-weight: 700;
+            }
+
+    /* --- Sidebar: Contact Info & Button --- */
+    .sidebar-contact-info {
+        padding-top: 15px;
+    }
+
+        .sidebar-contact-info .contact-item {
+            display: flex;
+            align-items: center;
+            color: #a9b3c1;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-contact-info i {
+            color: #f5a526;
+            margin-right: 12px;
+            width: 16px;
+        }
+
+    .sidebar-button {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background-color: #f5a526;
+        color: #171827;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+    }
+
+        .sidebar-button:hover {
+            background-color: #ffffff;
+            color: #171827;
+        }
+
+
+    }
+</style>
+<!-- Page Header Start -->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/loan-policy-bg.jpg")')"></div>
+    <div class="page-header-shape-1"><img src="@Url.Content("~/user/assets/images/shapes/page-header-shape-1.png")" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="/">Home</a></li>
+                <li><span>/</span></li>
+                <li><a href="@Url.Action("Policy", "UserHome")">Policies</a></li>
+                <li><span>/</span></li>
+                <li>Details</li>
+            </ul>
+            <h2>@Model?.Name</h2>
+        </div>
+    </div>
+</section>
+<!-- Page Header End -->
+<!-- Final Page Layout Start -->
+<section class="policy-details-final-page">
+    <div class="container">
+        <div class="row">
+            <!-- Left Column: Main Policy Details -->
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <div class="policy-main-content">
+                    <div class="policy-image-container">
+                        <img src="@Url.Content("~" + (Model?.BrochureUrl ?? "/user/assets/images/project/default-large.jpg"))"
+                             alt="Policy Brochure" class="img-fluid w-100" />
+                    </div>
+
+                    <h1 class="policy-title">@Model?.Name</h1>
+                    <p class="policy-description">@Model?.Description</p>
+
+                    <div class="key-metrics-grid">
+                        <div class="metric-box">
+                            <div class="metric-label">Sum Insured</div>
+                            <div class="metric-value"><i class="fas fa-shield-alt"></i> @Model?.SumInsured.ToString("N0") PKR</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Premium</div>
+                            <div class="metric-value"><i class="fas fa-dollar-sign"></i> @Model?.Premium.ToString("N0") PKR</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Tenure</div>
+                            <div class="metric-value"><i class="fas fa-calendar-alt"></i> @Model?.Tenure</div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model?.TermsConditions))
+                    {
+                        <h3 class="details-section-heading">Terms & Conditions</h3>
+                        <ul class="details-list">
+                            @foreach (var term in Model.TermsConditions.Split('.', StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                <li>@term.Trim().TrimEnd('.')</li>
+                            }
+                        </ul>
+                    }
+
+                    @{
+                        var exclusion = Model?.Attributes?.FirstOrDefault(a => a.Key.ToLower() == "exclusions")?.Value;
+                    }
+                    @if (!string.IsNullOrWhiteSpace(exclusion))
+                    {
+                        <h3 class="details-section-heading">Exclusions</h3>
+                        <ul class="details-list">
+                            @foreach (var item in exclusion.Split(new[] { '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                <li>@item.Trim()</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+
+            <!-- Right Column: The Sidebar -->
+            <div class="col-lg-4">
+                <div class="policy-sidebar">
+                    <!-- Company Info Header -->
+                    @if (Model.Company != null)
+                    {
+                        <div class="sidebar-company-header">
+                            <div class="logo-container">
+                                <img src="@Url.Content("~" + (Model.Company.CompanyLogoPath ?? "companies/companyimages/default-logo.png"))" alt="@Model.Company.CompanyName Logo">
+                            </div>
+                            <h4 class="company-name">@Model.Company.CompanyName</h4>
+                            <p class="company-tagline">Policy Provider</p>
+                        </div>
+                    }
+
+                    <!-- All Details List -->
+                    <div class="sidebar-details-list-container">
+                        <div class="sidebar-details-item">
+                            <div class="item-label">Policy Category</div>
+                            <div class="item-value">@Model?.Category?.Name</div>
+                        </div>
+                        <div class="sidebar-details-item">
+                            <div class="item-label">Status</div>
+                            <div class="item-value @(Model?.Active == true ? "status-active" : "status-inactive")">
+                                @(Model?.Active == true ? "Active" : "Inactive")
+                            </div>
+                        </div>
+
+                        <!-- ==================================================================== -->
+                        <!-- FINAL FIX FOR DOUBLE DATA: Check for displayed keys -->
+                        <!-- ==================================================================== -->
+                        @{
+                            // Keys jo hum pehle hi dikha chuke hain.
+                            var excludedKeys = new List<string> { "exclusions", "sum insured", "premium", "tenure" };
+
+                            // Nayi list: Yeh un keys ko track karegi jo is loop mein display ho chuki hain.
+                            var displayedAttributeKeys = new HashSet<string>();
+                        }
+
+                        @if (Model.Attributes != null && Model.Attributes.Any())
+                        {
+                            foreach (var attr in Model.Attributes)
+                            {
+                                var currentKey = attr.Key.Trim().ToLower();
+
+                                // Check: Kya yeh key excluded list mein hai? Ya pehle hi display ho chuki hai?
+                                if (!excludedKeys.Contains(currentKey) && !displayedAttributeKeys.Contains(currentKey))
+                                {
+                                    <div class="sidebar-details-item">
+                                        <div class="item-label">@attr.Key</div>
+                                        <div class="item-value">@attr.Value</div>
+                                    </div>
+
+                                    displayedAttributeKeys.Add(currentKey);
+                                }
+                            }
+                        }
+                    </div>
+
+                    <!-- Contact Info & Action Button -->
+                    @if (Model.Company != null)
+                    {
+                        <div class="sidebar-contact-info">
+                            @if (!string.IsNullOrWhiteSpace(Model.Company.PhoneNo))
+                            {
+                                <div class="contact-item"><i class="fas fa-phone-alt"></i> @Model.Company.PhoneNo</div>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Company.Email))
+                            {
+                                <div class="contact-item"><i class="fas fa-envelope"></i> @Model.Company.Email</div>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Company.Address))
+                            {
+                                <div class="contact-item"><i class="fas fa-map-marker-alt"></i> @Model.Company.Address</div>
+                            }
+                        </div>
+                    }
+                    <a asp-action="CalculatePremium" asp-controller="UserHome" asp-route-id="@Model.Id" class="sidebar-button mt-3">Get This Policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Final Page Layout End -->

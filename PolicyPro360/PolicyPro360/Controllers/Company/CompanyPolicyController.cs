@@ -54,6 +54,7 @@ namespace PolicyPro360.Controllers.Company
             }
         }
 
+
         public IActionResult AllPolicies()
         {
             var policies = _context.Tbl_Policy.ToList();
@@ -89,7 +90,6 @@ namespace PolicyPro360.Controllers.Company
                 return NotFound();
             }
 
-            //dynamically load view based on category name
             switch (category.Name.ToLower())
             {
                 case "life insurance":
