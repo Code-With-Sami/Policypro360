@@ -3,16 +3,43 @@ using Microsoft.EntityFrameworkCore;
 using PolicyPro360.Models;
 using PolicyPro360.ViewModels;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace PolicyPro360.Controllers.User
 {
-    public class UserHomeController : Controller
+    public class BaseUserController : Controller
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            var actionName = context.ActionDescriptor.RouteValues["action"]?.ToLower();
+            var controllerName = context.ActionDescriptor.RouteValues["controller"];
+
+
+            var allowAnonymousActions = new[] { "index", "signin", "signup", "about", "contact", "insurance", "policy", "viewpolicydetails", "calculatepremium", "premiumresult", "terms", "privacy", "news", "faq", "life", "home", "motor", "medical", "makeaclaim", "makeahomeclaim", "makealifeclaim", "makeamotorclaim", "makeamedicalclaim", "makeloanagainstpolicy" };
+
+
+            context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            context.HttpContext.Response.Headers["Pragma"] = "no-cache";
+            context.HttpContext.Response.Headers["Expires"] = "0";
+
+            if (!allowAnonymousActions.Contains(actionName))
+            {
+                if (context.HttpContext.Session.GetString("userName") == null)
+                {
+                    context.Result = new RedirectToActionResult("SignIn", "UserHome", null);
+                }
+            }
+            base.OnActionExecuting(context);
+        }
+    }
+
+    public class UserHomeController : BaseUserController
     {
 
         private readonly myContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UserHomeController (myContext context, IWebHostEnvironment webHostEnvironment)
+        public UserHomeController(myContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
@@ -33,7 +60,7 @@ namespace PolicyPro360.Controllers.User
         public IActionResult Insurance()
         {
             var categories = _context.Tbl_Category
-                .Where(c => c.Status) 
+                .Where(c => c.Status)
                 .ToList();
             return View(categories);
         }
@@ -64,7 +91,7 @@ namespace PolicyPro360.Controllers.User
             var policy = _context.Tbl_Policy
                                  .Include(p => p.Category)
                                  .Include(p => p.Attributes)
-                                 .Include(p => p.Company) 
+                                 .Include(p => p.Company)
                                  .FirstOrDefault(p => p.Id == id);
 
             if (policy == null)
@@ -92,7 +119,7 @@ namespace PolicyPro360.Controllers.User
                 PolicyId = policy.Id,
                 PolicyName = policy.Name,
                 PolicyType = policy.Category.Name,
-                BasePremium = policy.Premium 
+                BasePremium = policy.Premium
             };
             return View("CalculatePremium", viewModel);
         }
@@ -236,7 +263,7 @@ namespace PolicyPro360.Controllers.User
                 var model = JsonSerializer.Deserialize<PremiumCalculationViewModel>(serializedModel);
                 return View(model);
             }
-            return RedirectToAction("Policy"); 
+            return RedirectToAction("Policy");
         }
 
         [HttpPost]
@@ -453,7 +480,7 @@ namespace PolicyPro360.Controllers.User
             }
             else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Signin");
             }
 
             return View();
@@ -464,7 +491,7 @@ namespace PolicyPro360.Controllers.User
 
             if (userId == null)
             {
-                return RedirectToAction("login");
+                return RedirectToAction("Signin");
             }
 
             var userDetails = _context.Tbl_Users.FirstOrDefault(u => u.Id == userId);

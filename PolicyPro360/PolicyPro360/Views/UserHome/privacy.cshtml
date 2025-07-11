@@ -1,5 +1,184 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Privacy Policy - PolicyPro360";
+    Layout = "_UserLayout";
 }
+
+<!-- Custom Styles for Privacy Policy Page -->
+<style>
+
+    .legal-page {
+        padding: 100px 0;
+    }
+
+
+    .sidebar__single {
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        padding: 25px;
+        border: 1px solid #eee;
+    }
+
+    .sidebar__title {
+        font-weight: 700;
+        color: #333;
+    }
+
+    .sidebar__category-list li a {
+        color: #555;
+        font-weight: 500;
+        padding: 12px 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: block;
+        border-left: 4px solid transparent;
+    }
+
+        .sidebar__category-list li.active a,
+        .sidebar__category-list li a:hover {
+            color: #f5a526; 
+            background-color: rgba(245, 165, 38, 0.1);
+            border-left: 4px solid #f5a526;
+        }
+
+        .sidebar__category-list li a span {
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar__category-list li a:hover span {
+            transform: translateX(5px);
+        }
+
+    /* Content Styles */
+    .legal-content p {
+        margin-bottom: 20px;
+        line-height: 1.8;
+        color: #666;
+    }
+
+    .legal-section {
+        margin-bottom: 40px;
+    }
+
+    .legal-section__title {
+        font-weight: 700;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+</style>
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/page-header-bg.jpg")')"></div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="@Url.Action("Index", "UserHome")">Home</a></li>
+                <li><span>/</span></li>
+                <li>Privacy Policy</li>
+            </ul>
+            <h2>Privacy Policy</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Privacy Policy Page Start-->
+<section class="legal-page">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="sidebar__single sidebar__category">
+                        <h3 class="sidebar__title">Page Sections</h3>
+                        <ul class="sidebar__category-list list-unstyled">
+                            <li class="active"><a href="#info-collection">1. Information We Collect</a></li>
+                            <li><a href="#how-we-use-info">2. How We Use Your Information</a></li>
+                            <li><a href="#data-security">3. Data Security</a></li>
+                            <li><a href="#cookie-policy">4. Cookie Policy</a></li>
+                            <li><a href="#third-party-links">5. Third-Party Links</a></li>
+                            <li><a href="#policy-changes">6. Changes to This Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="legal-content">
+                    <p class="text-muted">Last Updated: July 2, 2025</p>
+                    <p>PolicyPro360 ("us", "we", or "our") operates this website. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
+
+                    <div class="legal-section" id="info-collection">
+                        <h4 class="legal-section__title">1. Information We Collect</h4>
+                        <p>We collect several different types of information for various purposes to provide and improve our Service to you. This may include, but is not limited to, your name, email address, phone number, and policy details.</p>
+                    </div>
+
+                    <div class="legal-section" id="how-we-use-info">
+                        <h4 class="legal-section__title">2. How We Use Your Information</h4>
+                        <p>We use the collected data to provide you with insurance services, process your transactions, manage your account, and communicate with you. We may also use it for internal analysis to improve our offerings.</p>
+                    </div>
+
+                    <div class="legal-section" id="data-security">
+                        <h4 class="legal-section__title">3. Data Security</h4>
+                        <p>The security of your data is important to us. We use commercially acceptable means to protect your Personal Data, but remember that no method of transmission over the Internet or method of electronic storage is 100% secure.</p>
+                    </div>
+
+                    <div class="legal-section" id="cookie-policy">
+                        <h4 class="legal-section__title">4. Cookie Policy</h4>
+                        <p>We use cookies and similar tracking technologies to track the activity on our Service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.</p>
+                    </div>
+
+                    <div class="legal-section" id="third-party-links">
+                        <h4 class="legal-section__title">5. Third-Party Links</h4>
+                        <p>Our Service may contain links to other sites that are not operated by us. If you click on a third-party link, you will be directed to that third party's site. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+                    </div>
+
+                    <div class="legal-section" id="governing-law">
+                        <h4 class="legal-section__title">6. Changes to This Policy</h4>
+                        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Privacy Policy Page End-->
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+
+                    const sidebarLinks = document.querySelectorAll('.sidebar__category-list li a');
+
+                    const headerHeight = 80;
+
+                    sidebarLinks.forEach(link => {
+         
+                            e.preventDefault();
+
+
+                            sidebarLinks.forEach(item => item.parentElement.classList.remove('active'));
+                  
+                            this.parentElement.classList.add('active');
+
+                       
+                            const targetId = this.getAttribute('href');
+                            const targetElement = document.querySelector(targetId);
+
+                            if (targetElement) {
+              
+                                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                                const offsetPosition = elementPosition - headerHeight;
+
+         
+                                window.scrollTo({
+                                    top: offsetPosition,
+                                    behavior: "smooth"
+                                });
+                            }
+                        });
+                    });
+                });
+</script>

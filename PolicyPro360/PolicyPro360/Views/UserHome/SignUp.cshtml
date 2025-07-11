@@ -102,7 +102,7 @@
                 <div class="sign-in__single">
                     <h3 class="sign-in__title">Register</h3>
                     <form asp-controller="UserHome" asp-action="SignUp" method="post" enctype="multipart/form-data" class="sign-in__form">
-
+                     
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                         @if (TempData["SuccessMessage"] != null)
@@ -174,7 +174,6 @@
                             <textarea asp-for="Address" placeholder="Enter your address"></textarea>
                         </div>
                         <span asp-validation-for="Address" class="text-danger d-block mb-3"></span>
-
 
                         <div class="custom-checkbox-wrapper">
                             <input type="checkbox" id="policyCheck" class="custom-checkbox" checked>

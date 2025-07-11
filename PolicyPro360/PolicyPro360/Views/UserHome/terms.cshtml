@@ -1,5 +1,295 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Terms & Conditions - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/page-header-bg.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="@Url.Action("Index", "UserHome")">Home</a></li>
+                <li><span>/</span></li>
+                <li>Terms & Conditions</li>
+            </ul>
+            <h2>Terms & Conditions</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+<!--Terms and Conditions Page Start-->
+<section class="terms-page">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="sidebar__single sidebar__category">
+                        <h3 class="sidebar__title">Page Sections</h3>
+                        <ul class="sidebar__category-list list-unstyled">
+                            <li><a href="#general-terms" class="active">1. General Terms <span class="fas fa-angle-right"></span></a></li>
+                            <li><a href="#user-obligations">2. User Obligations <span class="fas fa-angle-right"></span></a></li>
+                            <li><a href="#privacy-policy">3. Privacy Policy <span class="fas fa-angle-right"></span></a></li>
+                            <li><a href="#claim-process">4. Claim Process <span class="fas fa-angle-right"></span></a></li>
+                            <li><a href="#limitation-of-liability">5. Limitation of Liability <span class="fas fa-angle-right"></span></a></li>
+                            <li><a href="#governing-law">6. Governing Law <span class="fas fa-angle-right"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="terms-content">
+                    <p class="terms-last-updated">Last Updated: July 2, 2025</p>
+                    <p>Welcome to PolicyPro360. Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using our website and services operated by us. Your access to and use of the service is conditioned on your acceptance of and compliance with these Terms.</p>
+
+                    <!-- Section 1 -->
+                    <div class="terms-section" id="general-terms">
+                        <h4 class="terms-section__title">1. General Terms</h4>
+                        <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. We reserve the right to modify these terms at any time. We recommend you review these terms periodically for any changes.</p>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div class="terms-section" id="user-obligations">
+                        <h4 class="terms-section__title">2. User Obligations</h4>
+                        <p>You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate, current, and complete. You are responsible for safeguarding your password and for any activities or actions under your password.</p>
+                        <ul class="terms-list list-unstyled">
+                            <li><i class="fa fa-check-circle"></i>You must be at least 18 years old to use our services.</li>
+                            <li><i class="fa fa-check-circle"></i>You may not use the service for any illegal or unauthorized purpose.</li>
+                            <li><i class="fa fa-check-circle"></i>You are solely responsible for your conduct and any data you submit.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 3 -->
+                    <div class="terms-section" id="privacy-policy">
+                        <h4 class="terms-section__title">3. Privacy Policy</h4>
+                        <p>Our Privacy Policy, which is available on a separate page, describes how we collect, use, and protect your personal information. By using our service, you agree to the collection and use of information in accordance with our Privacy Policy.</p>
+                    </div>
+
+                    <!-- Section 4 -->
+                    <div class="terms-section" id="claim-process">
+                        <h4 class="terms-section__title">4. Claim Process</h4>
+                        <p>All claims must be submitted in accordance with the procedures outlined in your specific policy document. We facilitate the claim process but the final decision regarding claim settlement rests with the respective insurance company. We are not liable for the approval or rejection of any claim.</p>
+                    </div>
+
+                    <!-- Section 5 -->
+                    <div class="terms-section" id="limitation-of-liability">
+                        <h4 class="terms-section__title">5. Limitation of Liability</h4>
+                        <p>In no event shall PolicyPro360, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.</p>
+                    </div>
+
+                    <!-- Section 6 -->
+                    <div class="terms-section" id="governing-law">
+                        <h4 class="terms-section__title">6. Governing Law</h4>
+                        <p>These Terms shall be governed and construed in accordance with the laws of [Your Country/State], without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Terms and Conditions Page End-->
+
+<style>
+    /* ---- Brand Color Variables ---- */
+    :root {
+        --policypro-primary: #f5a526;
+        --policypro-dark: #171827;
+        --policypro-light-bg: #f8f9fa;
+        --policypro-border: #e9ecef;
+    }
+
+    /* ---- General Page & Content Styling ---- */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 120px;
+    }
+
+    .terms-list li i {
+        color: var(--policypro-primary) !important;
+    }
+
+    .terms-page {
+        padding: 100px 0;
+        background-color: #fff;
+    }
+
+    .terms-content p {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.8;
+        font-size: 16px;
+    }
+
+    .terms-last-updated {
+        font-style: italic;
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .terms-section {
+        margin-bottom: 50px;
+    }
+
+    .terms-section__title {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--policypro-dark);
+        margin-bottom: 25px;
+        position: relative;
+        padding-bottom: 15px;
+    }
+        /* Creates a stylish underline */
+        .terms-section__title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--policypro-primary);
+        }
+
+    .terms-list {
+        padding-left: 0;
+        margin-top: 25px;
+    }
+
+        .terms-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            font-size: 16px;
+        }
+
+            .terms-list li i {
+                margin-right: 12px;
+                font-size: 18px;
+                margin-top: 3px;
+            }
+
+    /* ---- Sidebar Styling ---- */
+    .sidebar {
+        background-color: var(--policypro-light-bg);
+        border: 1px solid var(--policypro-border);
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        position: sticky;
+        top: 100px;
+    }
+
+    .sidebar__title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--policypro-dark);
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--policypro-border);
+    }
+
+    .sidebar__category-list li {
+        margin-bottom: 5px;
+    }
+
+        .sidebar__category-list li a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            color: #444;
+            font-weight: 500;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+
+            .sidebar__category-list li a:hover {
+                background-color: #e9ecef;
+                color: var(--policypro-dark);
+            }
+
+            /* Active state for sidebar links */
+            .sidebar__category-list li a.active {
+                background-color: rgba(245, 165, 38, 0.1);
+                color: var(--policypro-primary);
+                font-weight: 700;
+                border-left-color: var(--policypro-primary);
+            }
+
+            .sidebar__category-list li a .fas {
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar__category-list li a:hover .fas,
+            .sidebar__category-list li a.active .fas {
+                transform: translateX(5px);
+            }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll(".terms-section");
+            const navLinks = document.querySelectorAll(".sidebar__category-list li a");
+            const headerOffset = 120; 
+
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (event) {
+
+                    event.preventDefault();
+
+          
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+               
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+
+              
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+
+ 
+            const updateActiveLinkOnScroll = () => {
+                let currentSectionId = "";
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - headerOffset - 50) { 
+                        currentSectionId = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === "#" + currentSectionId) {
+                        link.classList.add("active");
+                    }
+                });
+
+          
+                if (!document.querySelector('.sidebar__category-list li a.active') && navLinks.length > 0) {
+                     navLinks[0].classList.add("active");
+                }
+            };
+
+            window.addEventListener("scroll", updateActiveLinkOnScroll);
+            updateActiveLinkOnScroll(); 
+        });
+    </script>
 }

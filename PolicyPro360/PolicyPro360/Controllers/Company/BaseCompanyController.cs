@@ -20,7 +20,11 @@ namespace PolicyPro360.Controllers.Company
             var actionHasAllowAnonymous = context.ActionDescriptor.EndpointMetadata
                 .Any(em => em.GetType() == typeof(AllowAnonymousCompanyAttribute));
 
- 
+
+            context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            context.HttpContext.Response.Headers["Pragma"] = "no-cache";
+            context.HttpContext.Response.Headers["Expires"] = "0";
+
             if (!actionHasAllowAnonymous && context.HttpContext.Session.GetString("companyname") == null)
             {
                 context.Result = new RedirectToActionResult("Login", "Company", null);

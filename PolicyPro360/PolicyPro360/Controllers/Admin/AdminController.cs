@@ -3,7 +3,7 @@ using PolicyPro360.Models;
 
 namespace PolicyPro360.Controllers.Admin
 {
-    public class AdminController : Controller
+    public class AdminController : BaseAdminController
     {
 
         private myContext _db;
