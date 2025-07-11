@@ -120,6 +120,7 @@ namespace PolicyPro360.Controllers.Company
                 {
                     HttpContext.Session.SetString("companyname", company.CompanyName);
                     HttpContext.Session.SetString("companyEmail", company.Email);
+                    HttpContext.Session.SetString("companyImg", company.CompanyLogoPath);
                     HttpContext.Session.SetInt32("companyId", company.Id);
 
                     TempData["success"] = "Login successful!";
@@ -278,6 +279,9 @@ namespace PolicyPro360.Controllers.Company
                 {
                     _db.Tbl_Company.Update(companyToUpdate);
                     await _db.SaveChangesAsync();
+                    HttpContext.Session.SetString("companyname", company.CompanyName);
+                    HttpContext.Session.SetString("companyEmail", company.Email);
+                    HttpContext.Session.SetString("companyImg", company.CompanyLogoPath);
                     TempData["success"] = "Profile updated successfully!";
                     return RedirectToAction(nameof(Profile));
                 }
@@ -288,7 +292,7 @@ namespace PolicyPro360.Controllers.Company
                 }
             }
 
-           
+            
             return View(company);
         }
 

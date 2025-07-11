@@ -3,24 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\userhome\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\controllers\\company\\companycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\company\\companycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\controllers\\user\\userhomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\user\\userhomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\company\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\company\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\userhome\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\shared\\_companylayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\shared\\_companylayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\company\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\company\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\shared\\_userdashboardlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\shared\\_userdashboardlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\controllers\\company\\companypolicycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\company\\companypolicycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\views\\userhome\\policy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\policy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|c:\\users\\msksa\\onedrive\\desktop\\policypro360\\policypro360\\policypro360\\controllers\\user\\userhomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\user\\userhomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,67 +50,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "profile.cshtml",
-              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\profile.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\profile.cshtml",
-              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\profile.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\profile.cshtml",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGQAAAAwAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Company\\Profile.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Company\\Profile.cshtml",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Company\\Profile.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\Company\\Profile.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-10T23:07:36.336Z",
+              "WhenOpened": "2025-07-11T00:31:25.32Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "dashboard.cshtml",
-              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\dashboard.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\dashboard.cshtml",
-              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\dashboard.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\dashboard.cshtml",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "_CompanyLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Shared\\_CompanyLayout.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Shared\\_CompanyLayout.cshtml",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Shared\\_CompanyLayout.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\Shared\\_CompanyLayout.cshtml",
+              "ViewState": "AgIAAMoCAAAAAAAAAAAAANcCAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-10T23:07:22.674Z",
+              "WhenOpened": "2025-07-11T00:13:26.13Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "_UserDashboardLayout.cshtml",
-              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
-              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAAAOwAAAAvAAAAAAAAAA==",
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Company\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Company\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Company\\Dashboard.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\Company\\Dashboard.cshtml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAC0AAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-10T23:01:40.809Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserHomeController.cs",
-              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "RelativeToolTip": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "ViewState": "AgIAAL4BAAAAAAAAAAAuwMwBAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-10T22:16:11.853Z",
+              "WhenOpened": "2025-07-11T00:09:33.501Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\appsettings.json",
-              "RelativeDocumentMoniker": "PolicyPro360\\appsettings.json",
-              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\appsettings.json",
-              "RelativeToolTip": "PolicyPro360\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-10T21:47:27.611Z",
+              "Title": "_UserDashboardLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\Shared\\_UserDashboardLayout.cshtml",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAAMUAAAByAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-11T00:08:22.16Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CompanyController.cs",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyController.cs",
+              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\Company\\CompanyController.cs",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyController.cs",
+              "RelativeToolTip": "PolicyPro360\\Controllers\\Company\\CompanyController.cs",
+              "ViewState": "AgIAAA0BAAAAAAAAAAAUwBsBAABZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-11T00:06:59.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CompanyPolicyController.cs",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "RelativeToolTip": "PolicyPro360\\Controllers\\Company\\CompanyPolicyController.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAUwFYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-10T23:28:18.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Policy.cshtml",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\Policy.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\Policy.cshtml",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\Policy.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\Policy.cshtml",
+              "ViewState": "AgIAAPAAAAAAAAAAAAAAAA0BAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-10T23:29:09.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserHomeController.cs",
+              "DocumentMoniker": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "ToolTip": "C:\\Users\\msksa\\OneDrive\\Desktop\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "RelativeToolTip": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAowCoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-10T22:16:11.853Z",
               "EditorCaption": ""
             }
           ]

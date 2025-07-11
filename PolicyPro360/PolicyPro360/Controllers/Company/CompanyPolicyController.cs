@@ -57,7 +57,16 @@ namespace PolicyPro360.Controllers.Company
 
         public IActionResult AllPolicies()
         {
-            var policies = _context.Tbl_Policy.ToList();
+            var policies = _context.Tbl_Policy
+                    .Include(p => p.Category)
+                    .Where(p => p.Category != null)
+                    .ToList();
+
+            if (policies == null || !policies.Any())
+            {
+                ViewBag.ErrorMessage = "No policies found from database.";
+            }
+
             return View(policies);
         }
 

@@ -84,13 +84,13 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
-                                <th>Description</th>
+                                <th>Category</th>
                                 <th>Sum Insured</th>
                                 <th>Premium</th>
                                 <th>Tenure</th>
-                                <th>Terms & Cconditions</th>
-                                <th>brochure Img</th>
+                                <th>Image</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,15 +99,14 @@
                                 <tr>
                                     <td>@policy.Id</td>
                                     <td>@policy.Name</td>
-                                    <td>@policy.Description</td>
+                                    <td>@policy.Category?.Name</td>
                                     <td>@policy.SumInsured</td>
                                     <td>@policy.Premium</td>
                                     <td>@policy.Tenure</td>
-                                    <td>@policy.TermsConditions</td>
                                     <td>
                                         @if (!string.IsNullOrEmpty(@policy.BrochureUrl))
                                         {
-                                            <img src="@policy.BrochureUrl" alt="Brochure" width="100" height="150" class="rounded" />
+                                            <img src="@policy.BrochureUrl" alt="Brochure" width="80" height="50" class="rounded" />
                                         }
                                         else
                                         {
@@ -119,6 +118,7 @@
                                             @(policy.Active ? "Active" : "Inactive")
                                         </span>
                                     </td>
+                                    <td> <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="text-danger">View</a> </td>
                                 </tr>
                             }
                         </tbody>
