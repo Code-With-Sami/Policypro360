@@ -615,11 +615,46 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult MyPolicies()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32("userId");
+
+            var myPolicies = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId)  // or the correct field name
+                .Include(up => up.Policy)
+                .ThenInclude(pol => pol.Company)
+                .ToList();
+
+            var activePolicies = myPolicies.Where(p => p.Status == "Active").ToList();
+            var activePolicyCount = activePolicies.Count;
+            ViewBag.activepolicies = activePolicyCount;
+
+            var totalPremium = activePolicies.Sum(p => p.CalculatedPremium);
+            ViewBag.totalPremium = totalPremium;
+
+            var nextPaymentDue = myPolicies
+                .Where(p => p.ExpiryDate > DateTime.Now)
+                .OrderBy(p => p.ExpiryDate)
+                .Select(p => p.ExpiryDate)
+                .FirstOrDefault();
+
+            ViewBag.nextPaymentDue = nextPaymentDue;
+
+            return View(myPolicies);
         }
-        public IActionResult MyPolicyDetail()
+        public IActionResult MyPolicyDetail(int id)
         {
-            return View();
+            ViewBag.name = HttpContext.Session.GetString("userName");
+
+            var policy = _context.Tbl_UserPolicy
+                .Include(p => p.Policy)
+                .ThenInclude(pol => pol.Company)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (policy == null)
+            {
+                return NotFound();
+            }
+
+            return View(policy);
         }
         public IActionResult ApplyLoan()
         {

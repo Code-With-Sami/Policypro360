@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<PolicyPro360.Models.UserPolicy>
+@{
     ViewData["Title"] = "My Policies - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
@@ -132,21 +133,21 @@
         <div class="col-lg-4 col-md-6">
             <div class="snapshot-card">
                 <i class="ti ti-shield-check snapshot-icon"></i>
-                <h3 class="snapshot-value text-white">3</h3>
+                <h3 class="snapshot-value text-white">@ViewBag.activepolicies</h3>
                 <p class="snapshot-label mb-0">Active Policies</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="snapshot-card">
                 <i class="ti ti-report-money snapshot-icon"></i>
-                <h3 class="snapshot-value text-white">$3,450</h3>
+                <h3 class="snapshot-value text-white">@ViewBag.totalPremium</h3>
                 <p class="snapshot-label mb-0">Total Annual Premium</p>
             </div>
         </div>
         <div class="col-lg-4 col-md-12">
             <div class="snapshot-card">
                 <i class="ti ti-calendar-event snapshot-icon"></i>
-                <h3 class="snapshot-value text-white">15 Dec, 2024</h3>
+                <h3 class="snapshot-value text-white">@ViewBag.nextPaymentDue.ToString("MMMM dd, yyyy")</h3>
                 <p class="snapshot-label mb-0">Next Payment Due</p>
             </div>
         </div>
@@ -181,168 +182,34 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var myPolicy in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@myPolicy?.Policy?.Company?.CompanyLogoPath" alt="Company Logo"
+                                             class="company-logo">
+                                        <div>
 
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/images/logos/company-1.png" alt="Company Logo"
-                                         class="company-logo">
-                                    <div>
-
-                                        <h6 class="fw-semibold mb-0">Max Life Health Plan</h6>
-                                        <small class="text-muted">Max Life Insurance</small>
+                                            <h6 class="fw-semibold mb-0 text-white">@myPolicy?.Policy?.Name</h6>
+                                            <small class="text-muted">@myPolicy?.Policy?.Company?.CompanyName</small>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
 
-                            <td class="text-end fw-semibold">$150.00 / mo</td>
-                            <td class="text-center text-muted">15 Dec, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-active rounded-pill px-3 py-1">Active</span>
-                            </td>
-                            <td class="text-end">
-                                <a href="@Url.Action("mypolicydetail","UserHome")" class="btn btn-sm btn-outline-light">
-                                    View
-                                    Details
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Policy Row 2: Expired -->
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/images/logos/company-2.png" alt="Company Logo"
-                                         class="company-logo">
-                                    <div>
-
-                                        <h6 class="fw-semibold mb-0">SecureDrive Car Insurance</h6>
-                                        <small class="text-muted">Bajaj Allianz</small>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="text-end fw-semibold">$850.00 / yr</td>
-                            <td class="text-center text-muted">01 Nov, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-expired rounded-pill px-3 py-1">Expired</span>
-                            </td>
-                            <td class="text-end">
-                                <a href="@Url.Action("mypolicydetail","UserHome")" class="btn btn-sm btn-outline-light">
-                                    View
-                                    Details
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Policy Row 3: Active -->
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/images/logos/company-3.png" alt="Company Logo"
-                                         class="company-logo">
-                                    <div>
-
-                                        <h6 class="fw-semibold mb-0">FutureInvest ULIP Plan</h6>
-                                        <small class="text-muted">HDFC Life</small>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="text-end fw-semibold">$2500.00 / yr</td>
-                            <td class="text-center text-muted">20 Jan, 2025</td>
-                            <td class="text-center">
-                                <span class="badge badge-active rounded-pill px-3 py-1">Active</span>
-                            </td>
-                            <td class="text-end">
-                                <a href="@Url.Action("mypolicydetail","UserHome")" class="btn btn-sm btn-outline-light">
-                                    View
-                                    Details
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Policy Row 4: Pending -->
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/images/logos/company-1.png" alt="Company Logo"
-                                         class="company-logo">
-                                    <div>
-                                        <h6 class="fw-semibold mb-0">HomeSecure Plus</h6>
-                                        <small class="text-muted">Tata AIG</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-end fw-semibold">$400.00 / yr</td>
-                            <td class="text-center text-muted">--</td>
-                            <td class="text-center">
-                                <span class="badge badge-pending rounded-pill px-3 py-1">
-                                    Pending
-                                    Approval
-                                </span>
-                            </td>
-                            <td class="text-end">
-                                <a href="@Url.Action("mypolicydetail","UserHome")" class="btn btn-sm btn-outline-light">
-                                    View
-                                    Details
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Policy Row 5: Active -->
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/images/logos/company-2.png" alt="Company Logo"
-                                         class="company-logo">
-                                    <div>
-
-                                        <h6 class="fw-semibold mb-0">LifeSecure Term Plan</h6>
-                                        <small class="text-muted">ICICI Prudential</small>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="text-end fw-semibold">$50.00 / mo</td>
-                            <td class="text-center text-muted">05 Jan, 2025</td>
-                            <td class="text-center">
-                                <span class="badge badge-active rounded-pill px-3 py-1">Active</span>
-                            </td>
-                            <td class="text-end">
-                                <a href="@Url.Action("mypolicydetail","UserHome")" class="btn btn-sm btn-outline-light">
-                                    View
-                                    Details
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- Policy Row 6: Expired -->
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/images/logos/company-3.png" alt="Company Logo"
-                                         class="company-logo">
-                                    <div>
-
-                                        <h6 class="fw-semibold mb-0">TravelSafe Global</h6>
-                                        <small class="text-muted">HDFC Ergo</small>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="text-end fw-semibold">$120.00 / yr</td>
-                            <td class="text-center text-muted">30 Sep, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-expired rounded-pill px-3 py-1">Expired</span>
-                            </td>
-                            <td class="text-end">
-                                <a href="@Url.Action("mypolicydetail","UserHome")" class="btn btn-sm btn-outline-light">
-                                    View
-                                    Details
-                                </a>
-                            </td>
-                        </tr>
+                                <td class="text-end fw-semibold">@myPolicy?.CalculatedPremium</td>
+                                <td class="text-center text-white">@myPolicy?.ExpiryDate.ToString("MMMM dd, yyyy")</td>
+                                <td class="text-center">
+                                    <span class="badge badge-active rounded-pill px-3 py-1">@myPolicy?.Status</span>
+                                </td>
+                                <td class="text-end">
+                                    <a href="@Url.Action("mypolicydetail","UserHome", new {id = @myPolicy?.Id})" class="btn btn-sm btn-outline-light">
+                                        View
+                                        Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
 
                     </tbody>
                 </table>

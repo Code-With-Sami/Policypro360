@@ -1,4 +1,5 @@
-﻿@{
+﻿@model PolicyPro360.Models.UserPolicy
+@{
     ViewData["Title"] = "My Policy Detail - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
@@ -98,10 +99,10 @@
                     <div class="policy-header pb-4 mb-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h4 class="fw-bolder text-white mb-1">Max Life Health Plan</h4>
-                                <small class="text-muted">Policy No: #HLTH-12345678</small>
+                                <h4 class="fw-bolder text-white mb-1">@Model.Policy.Name</h4>
+                                <small class="text-muted">Policy No: @Model.PolicyId</small>
                             </div>
-                            <span class="badge badge-active rounded-pill px-3 py-2 fs-2">Active</span>
+                            <span class="badge badge-active rounded-pill px-3 py-2 fs-2">@Model.Status</span>
                         </div>
                     </div>
 
@@ -113,7 +114,7 @@
                                 <i class="ti ti-umbrella info-icon"></i>
                                 <div class="info-content">
                                     <span class="info-label">Coverage Amount</span>
-                                    <span class="info-value">$100,000</span>
+                                    <span class="info-value">@Model.CoverageAmount</span>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +123,7 @@
                                 <i class="ti ti-report-money info-icon"></i>
                                 <div class="info-content">
                                     <span class="info-label">Premium</span>
-                                    <span class="info-value">$150.00 / Monthly</span>
+                                    <span class="info-value">@Model.CalculatedPremium</span>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +132,7 @@
                                 <i class="ti ti-calendar-plus info-icon"></i>
                                 <div class="info-content">
                                     <span class="info-label">Start Date</span>
-                                    <span class="info-value">15 Dec, 2022</span>
+                                    <span class="info-value">@Model.PurchaseDate.ToString("MMMM dd, yyyy")</span>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +141,7 @@
                                 <i class="ti ti-calendar-off info-icon"></i>
                                 <div class="info-content">
                                     <span class="info-label">End Date</span>
-                                    <span class="info-value">14 Dec, 2025</span>
+                                    <span class="info-value">@Model.ExpiryDate.ToString("MMMM dd, yyyy")</span>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +155,7 @@
                                 <i class="ti ti-user-check info-icon"></i>
                                 <div class="info-content">
                                     <span class="info-label">Person Insured</span>
-                                    <span class="info-value">John Doe</span>
+                                    <span class="info-value">@ViewBag.name</span>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +164,7 @@
                                 <i class="ti ti-users info-icon"></i>
                                 <div class="info-content">
                                     <span class="info-label">Nominee</span>
-                                    <span class="info-value">Jane Doe (Spouse)</span>
+                                    <span class="info-value">@ViewBag.name (Spouse)</span>
                                 </div>
                             </div>
                         </div>
