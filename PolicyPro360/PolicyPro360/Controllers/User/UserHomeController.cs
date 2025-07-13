@@ -303,7 +303,26 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("SignIn");
             }
 
-            // Save payment
+            // Step 1: Get the policy from database to access SumInsured
+            var policy = _context.Tbl_Policy.FirstOrDefault(p => p.Id == PolicyId);
+            if (policy == null)
+            {
+                TempData["ErrorMessage"] = "Policy not found.";
+                return RedirectToAction("Policy");
+            }
+
+            // Step 2: Determine final coverage amount
+            decimal finalCoverageAmount = 0;
+            if (CoverageAmount.HasValue && CoverageAmount.Value > 0)
+            {
+                finalCoverageAmount = CoverageAmount.Value;
+            }
+            else
+            {
+                finalCoverageAmount = policy.SumInsured; // fallback
+            }
+
+            // Step 3: Save payment
             var payment = new UserPayment
             {
                 PayerName = PayerName,
@@ -313,15 +332,16 @@ namespace PolicyPro360.Controllers.User
             };
             _context.Tbl_UserPayment.Add(payment);
 
-            // Save user policy
+            // Step 4: Save user policy
             DateTime purchaseDate = DateTime.Now;
             DateTime expiryDate = purchaseDate.AddYears(1);
+
             var userPolicy = new UserPolicy
             {
                 PolicyId = PolicyId,
                 UserId = userId.Value,
                 CalculatedPremium = CalculatedPremium,
-                CoverageAmount = CoverageAmount ?? 0,
+                CoverageAmount = finalCoverageAmount,
                 PurchaseDate = purchaseDate,
                 ExpiryDate = expiryDate,
                 Status = "Active"
@@ -333,6 +353,7 @@ namespace PolicyPro360.Controllers.User
             TempData["SuccessMessage"] = "Congratulations! Your payment was successful and your insurance policy is now active.";
             return RedirectToAction("Checkout");
         }
+
 
         public IActionResult Terms()
         {
@@ -477,6 +498,29 @@ namespace PolicyPro360.Controllers.User
             {
                 ViewBag.name = HttpContext.Session.GetString("userName");
                 ViewBag.email = HttpContext.Session.GetString("userEmail");
+                var userId = HttpContext.Session.GetInt32("userId");
+
+                var myPolicies = _context.Tbl_UserPolicy
+                    .Where(up => up.UserId == userId)  // or the correct field name
+                    .Include(up => up.Policy)
+                    .ThenInclude(pol => pol.Company)
+                    .OrderByDescending(up => up.PurchaseDate)
+                    .ToList();
+
+                var activePolicies = myPolicies.Where(p => p.Status == "Active").ToList();
+                var activePolicyCount = activePolicies.Count;
+                ViewBag.activepolicies = activePolicyCount;
+
+                var totalPremium = activePolicies.Sum(p => p.CalculatedPremium);
+                ViewBag.totalPremium = totalPremium;
+
+                var nextPaymentDue = myPolicies
+                    .Where(p => p.ExpiryDate > DateTime.Now)
+                    .OrderBy(p => p.ExpiryDate)
+                    .Select(p => p.ExpiryDate)
+                    .FirstOrDefault();
+
+                ViewBag.nextPaymentDue = nextPaymentDue;
             }
             else
             {
@@ -611,7 +655,19 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult MakePayment()
         {
-            return View();
+            int? userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                TempData["ErrorMessage"] = "User not logged in.";
+                return RedirectToAction("SignIn");
+            }
+            if (TempData["CheckoutModel"] is string serializedModel)
+            {
+                var model = JsonSerializer.Deserialize<PremiumCalculationViewModel>(serializedModel);
+                TempData.Keep("CheckoutModel");
+                return View(model);
+            }
+            return RedirectToAction("MyPolicies");
         }
         public IActionResult MyPolicies()
         {
@@ -621,6 +677,7 @@ namespace PolicyPro360.Controllers.User
                 .Where(up => up.UserId == userId)  // or the correct field name
                 .Include(up => up.Policy)
                 .ThenInclude(pol => pol.Company)
+                .OrderByDescending(up => up.PurchaseDate)
                 .ToList();
 
             var activePolicies = myPolicies.Where(p => p.Status == "Active").ToList();
@@ -658,11 +715,29 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult ApplyLoan()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32("userId");
+
+            var myPolicies = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId)  // or the correct field name
+                .Include(up => up.Policy)
+                .ThenInclude(pol => pol.Company)
+                .OrderByDescending(up => up.PurchaseDate)
+                .ToList();
+
+            return View(myPolicies);
         }
         public IActionResult FileClaim()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32("userId");
+
+            var myPolicies = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId)  // or the correct field name
+                .Include(up => up.Policy)
+                .ThenInclude(pol => pol.Company)
+                .OrderByDescending(up => up.PurchaseDate)
+                .ToList();
+
+            return View(myPolicies);
         }
         public IActionResult MyApplication()
         {

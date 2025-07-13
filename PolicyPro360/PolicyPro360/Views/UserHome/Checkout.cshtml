@@ -213,7 +213,22 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="PolicyId" value="@Model.PolicyId" />
                                     <input type="hidden" name="CalculatedPremium" value="@Model.CalculatedPremium" />
-                                    <input type="hidden" name="CoverageAmount" value="@Model.LifeCoverageAmount ?? @Model.PropertyValue" />
+                                    @if (Model.PolicyType.ToLower().Contains("life"))
+                                    {
+                                        <input type="hidden" name="CoverageAmount" value="@Model.LifeCoverageAmount" />
+                                    }
+                                    else if (Model.PolicyType.ToLower().Contains("home"))
+                                    {
+                                        <input type="hidden" name="CoverageAmount" value="@Model.PropertyValue" />
+                                    }
+                                    else if (Model.PolicyType.ToLower().Contains("motor"))
+                                    {
+                                        <input type="hidden" name="CoverageAmount" value="@Model.VehicleValue" />
+                                    }
+                                    else if (Model.PolicyType.ToLower().Contains("medical"))
+                                    {
+                                        <input type="hidden" name="CoverageAmount" value="@Model.NumberOfDependents" />
+                                    }
                                     <input type="hidden" name="PayerName" value="@userName" />
                                     <input type="hidden" name="PayerEmail" value="@userEmail" />
                                     <div class="mb-3">

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<PolicyPro360.Models.UserPolicy>
+@{
     ViewData["Title"] = "Apply For A Loan - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
@@ -9,82 +10,82 @@
 
     <style>
         #loan {
-            margin-top: 150px;
+        margin-top: 150px;
         }
 
         :root {
-            --loan-bg: #171827;
-            --loan-card-bg: #1e1f2f;
-            --loan-primary: #f5a526;
-            --loan-text: #e0e0e0;
-            --loan-text-muted: #8a99b5;
-            --loan-input-bg: #2a2c3c;
-            --loan-border-color: #404258;
+        --loan-bg: #171827;
+        --loan-card-bg: #1e1f2f;
+        --loan-primary: #f5a526;
+        --loan-text: #e0e0e0;
+        --loan-text-muted: #8a99b5;
+        --loan-input-bg: #2a2c3c;
+        --loan-border-color: #404258;
         }
 
         .loan-page-card {
-            background-color: var(--loan-card-bg);
-            border: none;
-            border-radius: 12px;
-            color: var(--loan-text);
+        background-color: var(--loan-card-bg);
+        border: none;
+        border-radius: 12px;
+        color: var(--loan-text);
         }
 
         .loan-form-control {
-            background-color: var(--loan-input-bg);
-            border: 1px solid var(--loan-border-color);
-            color: var(--loan-text);
-            border-radius: 8px;
-            padding: 10px;
+        background-color: var(--loan-input-bg);
+        border: 1px solid var(--loan-border-color);
+        color: var(--loan-text);
+        border-radius: 8px;
+        padding: 10px;
         }
 
-            .loan-form-control:focus {
-                background-color: var(--loan-input-bg);
-                border-color: var(--loan-primary);
-                color: var(--loan-text);
-                box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
-            }
+        .loan-form-control:focus {
+        background-color: var(--loan-input-bg);
+        border-color: var(--loan-primary);
+        color: var(--loan-text);
+        box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
+        }
 
-            .loan-form-control::placeholder {
-                color: var(--loan-text-muted);
-            }
+        .loan-form-control::placeholder {
+        color: var(--loan-text-muted);
+        }
 
         .input-group-text {
-            background-color: var(--loan-input-bg);
-            border: 1px solid var(--loan-border-color);
-            color: var(--loan-text-muted);
+        background-color: var(--loan-input-bg);
+        border: 1px solid var(--loan-border-color);
+        color: var(--loan-text-muted);
         }
 
         .btn-custom-primary {
-            background-color: var(--loan-primary);
-            border-color: var(--loan-primary);
-            color: var(--loan-bg);
-            font-weight: 600;
-            padding: 10px 25px;
-            border-radius: 8px;
+        background-color: var(--loan-primary);
+        border-color: var(--loan-primary);
+        color: var(--loan-bg);
+        font-weight: 600;
+        padding: 10px 25px;
+        border-radius: 8px;
         }
 
-            .btn-custom-primary:hover {
-                background-color: #d8901e;
-                border-color: #d8901e;
-                color: var(--loan-bg);
-            }
+        .btn-custom-primary:hover {
+        background-color: #d8901e;
+        border-color: #d8901e;
+        color: var(--loan-bg);
+        }
 
         .btn-custom-secondary {
-            background-color: transparent;
-            border: 1px solid var(--loan-border-color);
-            color: var(--loan-text-muted);
-            padding: 10px 25px;
-            border-radius: 8px;
+        background-color: transparent;
+        border: 1px solid var(--loan-border-color);
+        color: var(--loan-text-muted);
+        padding: 10px 25px;
+        border-radius: 8px;
         }
 
-            .btn-custom-secondary:hover {
-                background-color: var(--loan-border-color);
-                color: var(--loan-text);
-            }
+        .btn-custom-secondary:hover {
+        background-color: var(--loan-border-color);
+        color: var(--loan-text);
+        }
 
         .form-check-input:checked {
-            background-color: var(--loan-primary);
-            border-color: var(--loan-primary);
+        background-color: var(--loan-primary);
+        border-color: var(--loan-primary);
         }
     </style>
 
@@ -95,7 +96,7 @@
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
                         <i class="ti ti-cash-banknote"
-                           style="font-size: 3rem; color: var(--loan-primary);"></i>
+                        style="font-size: 3rem; color: var(--loan-primary);"></i>
                     </div>
                     <h4 class="fw-semibold text-center mb-2 text-white">Apply for a Loan Against Policy</h4>
                     <p class="text-center text-muted mb-5">
@@ -108,9 +109,10 @@
                             <label for="policySelect" class="form-label text-white">Select Policy</label>
                             <select class="form-select loan-form-control " id="policySelect" required>
                                 <option selected disabled value="">-- Choose an eligible policy --</option>
-                                <option value="1">Max Life Health Plan (#HLTH-12345678)</option>
-                                <option value="2">FutureInvest ULIP Plan (#ULIP-98765432)</option>
-                                <option value="3" disabled>SecureDrive Car Insurance (Not Eligible)</option>
+                                @foreach (var policies in Model)
+                                {
+                                    <option value="@policies?.Policy?.Id">@policies?.Policy?.Name</option>
+                                }
                             </select>
                         </div>
 

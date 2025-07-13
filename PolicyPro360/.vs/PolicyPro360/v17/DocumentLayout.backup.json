@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "D:\\Policypro360\\PolicyPro360\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\views\\userhome\\mypolicydetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\mypolicydetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\views\\userhome\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\models\\premiumcalculationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\models\\premiumcalculationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\views\\userhome\\premiumresult.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\premiumresult.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\controllers\\user\\userhomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\controllers\\user\\userhomecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\views\\userhome\\mypolicies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\mypolicies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\views\\userhome\\viewpolicydetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\viewpolicydetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|d:\\policypro360\\policypro360\\policypro360\\views\\userhome\\calculatepremium.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B67F82C7-0A31-41A4-BDA5-289871761A27}|PolicyPro360\\PolicyPro360.csproj|solutionrelative:policypro360\\views\\userhome\\calculatepremium.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,53 +43,79 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "mypolicydetail.cshtml",
-              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\mypolicydetail.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\mypolicydetail.cshtml",
-              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\mypolicydetail.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\mypolicydetail.cshtml",
-              "ViewState": "AgIAANEAAAAAAAAAAAAAAOcAAAAZAAAAAAAAAA==",
+              "Title": "Checkout.cshtml",
+              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\Checkout.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\Checkout.cshtml",
+              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\Checkout.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\Checkout.cshtml",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAAANwAAAB1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-12T09:54:29.434Z",
+              "WhenOpened": "2025-07-13T05:24:12.221Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MyPolicies.cshtml",
-              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\MyPolicies.cshtml",
-              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\MyPolicies.cshtml",
-              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\MyPolicies.cshtml",
-              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\MyPolicies.cshtml",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAAAMwAAAA1AAAAAAAAAA==",
+              "Title": "PremiumResult.cshtml",
+              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\PremiumResult.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\PremiumResult.cshtml",
+              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\PremiumResult.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\PremiumResult.cshtml",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAcwPAAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-12T09:53:59.271Z",
+              "WhenOpened": "2025-07-13T05:21:52.579Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserHomeController.cs",
-              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "RelativeToolTip": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
-              "ViewState": "AgIAAG4CAAAAAAAAAADwv4ICAAArAAAAAAAAAA==",
+              "Title": "PremiumCalculationViewModel.cs",
+              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\PremiumCalculationViewModel.cs",
+              "RelativeDocumentMoniker": "PolicyPro360\\Models\\PremiumCalculationViewModel.cs",
+              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Models\\PremiumCalculationViewModel.cs",
+              "RelativeToolTip": "PolicyPro360\\Models\\PremiumCalculationViewModel.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAIwCIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-12T09:53:05.546Z",
+              "WhenOpened": "2025-07-13T05:06:08.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CalculatePremium.cshtml",
+              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\CalculatePremium.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\CalculatePremium.cshtml",
+              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\CalculatePremium.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\CalculatePremium.cshtml",
+              "ViewState": "AgIAABABAAAAAAAAAAAcwDUBAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-13T05:05:34.062Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Viewpolicydetails.cshtml",
+              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\Viewpolicydetails.cshtml",
+              "RelativeDocumentMoniker": "PolicyPro360\\Views\\UserHome\\Viewpolicydetails.cshtml",
+              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Views\\UserHome\\Viewpolicydetails.cshtml",
+              "RelativeToolTip": "PolicyPro360\\Views\\UserHome\\Viewpolicydetails.cshtml",
+              "ViewState": "AgIAAHABAAAAAAAAAAAAAIUBAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-13T05:03:18.198Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\appsettings.json",
-              "RelativeDocumentMoniker": "PolicyPro360\\appsettings.json",
-              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\appsettings.json",
-              "RelativeToolTip": "PolicyPro360\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-12T09:51:12.384Z",
+              "Title": "UserHomeController.cs",
+              "DocumentMoniker": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "RelativeDocumentMoniker": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "ToolTip": "D:\\Policypro360\\PolicyPro360\\PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "RelativeToolTip": "PolicyPro360\\Controllers\\User\\UserHomeController.cs",
+              "ViewState": "AgIAACEBAAAAAAAAAAAcwFQBAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T04:54:41.943Z",
               "EditorCaption": ""
             }
           ]

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<PolicyPro360.Models.UserPolicy>
+@{
     ViewData["Title"] = "File a Claim - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
@@ -125,9 +126,10 @@
                             </label>
                             <select class="form-select claim-form-control" id="policySelect" required>
                                 <option selected disabled value="">-- Choose your policy --</option>
-                                <option value="1">Max Life Health Plan (#HLTH-12345678)</option>
-                                <option value="2">SecureDrive Car Insurance (#CAR-55667788)</option>
-                                <option value="3">FutureInvest ULIP Plan (#ULIP-98765432)</option>
+                                @foreach (var policies in Model)
+                                {
+                                    <option value="@policies?.Policy?.Id">@policies?.Policy?.Name</option>
+                                }
                             </select>
                         </div>
 

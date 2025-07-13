@@ -117,7 +117,7 @@
                                 <i class="ti ti-shield-check fs-6"></i>
                             </span>
                             <div class="ms-3">
-                                <h5 class="mb-0 fw-bolder fs-4">3</h5>
+                                <h5 class="mb-0 fw-bolder fs-4">@ViewBag.activepolicies</h5>
                                 <span class="text-muted fs-3">Active Policies</span>
                             </div>
                         </div>
@@ -126,7 +126,9 @@
                                 <i class="ti ti-report-money fs-6"></i>
                             </span>
                             <div class="ms-3">
-                                <h5 class="mb-0 fw-bolder fs-4">$2,500</h5>
+                                <h5 class="mb-0 fw-bolder fs-4">
+                                    PKR @ViewBag.totalPremium
+                                </h5>
                                 <span class="text-muted fs-3">Total Annual Premium</span>
                             </div>
                         </div>
@@ -135,7 +137,7 @@
                                 <i class="ti ti-alert-circle fs-6"></i>
                             </span>
                             <div class="ms-3">
-                                <h5 class="mb-0 fw-bolder fs-4">1</h5>
+                                <h5 class="mb-0 fw-bolder fs-4">@ViewBag.nextPaymentDue.ToString("MMMM dd, yyyy")</h5>
                                 <span class="text-muted fs-3">Payment Due Soon</span>
                             </div>
                         </div>

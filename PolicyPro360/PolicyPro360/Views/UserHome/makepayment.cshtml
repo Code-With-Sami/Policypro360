@@ -1,6 +1,10 @@
-﻿@{
+﻿@model PolicyPro360.ViewModels.PremiumCalculationViewModel
+
+@{
     ViewData["Title"] = "User Payment - PolicyPro360";
     Layout = "_UserDashboardLayout";
+    var userName = Context.Session.GetString("userName");
+    var userEmail = Context.Session.GetString("userEmail");
 }
 <!-- ============================================================== -->
 <!-- Start Page Content: Make Payment -->
@@ -103,29 +107,28 @@
                     <h5 class="fw-semibold text-white mb-4">Payment Summary</h5>
                     <div class="summary-item">
                         <span class="summary-label">Policy Name</span>
-                        <span class="summary-value">Max Life Health Plan</span>
+                        <span class="summary-value">@Model.PolicyName</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Policy Number</span>
-                        <span class="summary-value">#HLTH-12345678</span>
+                        <span class="summary-value">@Model.PolicyId</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Premium Amount</span>
-                        <span class="summary-value">$150.00</span>
+                        <span class="summary-value">PKR @Model.CalculatedPremium?.ToString("N2")</span>
                     </div>
-                    <div class="summary-item">
+                    <!-- <div class="summary-item">
                         <span class="summary-label">Due Date</span>
                         <span class="summary-value">
                             <span class="badge bg-danger-subtle text-danger">
-                                Due in 5
-                                days
+                                Due in 5 days
                             </span>
                         </span>
-                    </div>
+                    </div> -->
                     <div class="pt-4 mt-4">
                         <div class="d-flex justify-content-between">
                             <h6 class="fw-semibold text-white">Total Amount Payable</h6>
-                            <h6 class="fw-semibold total-amount">$150.00</h6>
+                            <h6 class="fw-semibold total-amount">PKR @Model.CalculatedPremium?.ToString("N2")</h6>
                         </div>
                     </div>
                 </div>
@@ -189,7 +192,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-custom-primary w-100">Pay $150.00 Now</button>
+                        <button type="submit" class="btn btn-custom-primary w-100">Pay @Model.CalculatedPremium?.ToString("N2")</button>
 
                         <div class="text-center mt-4">
                             <p class="text-muted fs-2">
