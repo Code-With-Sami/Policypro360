@@ -26,7 +26,6 @@ namespace PolicyPro360.Controllers.Company
                 return RedirectToAction("AllPolicies");
             }
 
-            //dynamically load view based on category name
             switch (category.Name.ToLower())
             {
                 case "life insurance":
@@ -155,7 +154,6 @@ namespace PolicyPro360.Controllers.Company
                     await BrochureFile.CopyToAsync(fileStream);
                 }
 
-                // Save path relative to wwwroot for serving on the web
                 policy.BrochureUrl = "/policies/brochure/" + uniqueFileName;
             }
 
@@ -242,7 +240,6 @@ namespace PolicyPro360.Controllers.Company
                     await BrochureFile.CopyToAsync(fileStream);
                 }
 
-                // Save path relative to wwwroot for serving on the web
                 policy.BrochureUrl = "/policies/brochure/" + uniqueFileName;
             }
 

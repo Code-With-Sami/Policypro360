@@ -1,56 +1,35 @@
-﻿@model List<PolicyPro360.Models.Users>
+﻿@model List<PolicyPro360.Models.UserPayment>
 @{
-    ViewData["Title"] = "Show User - PolicyPro360";
+    ViewData["Title"] = "All User Payments - PolicyPro360";
     Layout = "_Layout";
 }
-
-
 <style>
-
     .dataTables_paginate .paginate_button.page-item .page-link {
-        border-radius: 5px !important; 
+        border-radius: 5px !important;
         margin: 0 3px;
         border: 1px solid #ddd;
         color: #333;
         transition: all 0.2s ease-in-out;
     }
-
     .dataTables_paginate .paginate_button.active .page-link {
         background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%) !important;
         color: white !important;
         border-color: transparent !important;
         font-weight: bold;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transform: translateY(-2px); 
+        transform: translateY(-2px);
     }
-
-
     .dataTables_paginate .paginate_button:not(.active) .page-link:hover {
         background-color: #f0f0f0;
         border-color: #aaa;
     }
-
     .dataTables_paginate .page-link:focus {
         box-shadow: none;
     }
-
-   
-    div.dt-button-info h2 {
-        color: white !important;
-    }
-
+    div.dt-button-info h2,
     div.dt-button-info {
-       
-        background-color: #171827 !important;
         color: white !important;
-        border: none;
-        padding: 20px 30px;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        text-align: center;
-        z-index: 9999;
     }
-
     div.dt-button-info {
         position: fixed !important;
         top: 80% !important;
@@ -72,74 +51,38 @@
         margin-left: 5px;
     }
 </style>
-
 <main class="main-wrapper">
     <div class="main-content">
-        <!-- Breadcrumb -->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">All Users</div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Create", "AdminUsers")">Create User</a>
-                </div>
-            </div>
+            <div class="breadcrumb-title pe-3">All User Payments</div>
         </div>
-   
-        <!-- Users Table -->
         <div class="card">
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="alert alert-success mx-3 mt-3">@TempData["SuccessMessage"]</div>
-            }
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <div class="alert alert-danger mx-3 mt-3">@TempData["ErrorMessage"]</div>
-            }
             <div class="card-body">
-                <div class="table-responsive ">
-                    <table id="usersTable" class="table table-striped table-bordered" style="width:100%">
+                <div class="table-responsive">
+                    <table id="userPaymentsTable" class="table table-striped table-bordered" style="width:100%">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Profile</th>
+                                <th>Id</th>
+                                <th>Payer Name</th>
+                                <th>Payer Email</th>
+                                <th>Amount</th>
+                                <th>Reference</th>
+                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model != null && Model.Any())
+                            @foreach (var up in Model)
                             {
-                                int count = 1;
-                                foreach (var user in Model)
-                                {
-                                    <tr>
-                                        <td>@count</td>
-                                        <td>@user.Name</td>
-                                        <td>@user.Username</td>
-                                        <td>@user.Email</td>
-                                        <td>@user.MobileNumber</td>
-                                        <td>
-                                            @if (!string.IsNullOrEmpty(user.ProfileImagePath))
-                                            {
-                                                <img src="~/admin/assets/images/profiles/@user.ProfileImagePath" alt="Profile" width="50" height="50" class="rounded-circle" />
-                                            }
-                                            else
-                                            {
-                                                <span class="text-muted">No Image</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-sm btn-success" href="@Url.Action("Edit", "AdminUsers", new { id = user.Id })">Edit</a>
-                                            <form asp-action="Delete" asp-controller="AdminUsers" method="post" asp-route-id="@user.Id" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    count++;
-                                }
+                                <tr>
+                                    <td>@up.Id</td>
+                                    <td>@up.PayerName</td>
+                                    <td>@up.PayerEmail</td>
+                                    <td>@up.Amount</td>
+                                    <td>@up.Reference</td>
+                                    <td>@up.Date.ToString("yyyy-MM-dd")</td>
+                                    <td> <a href="@Url.Action("ViewPaymentDetail", new { id = up.Id })" class="text-danger">View</a> </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -148,9 +91,7 @@
         </div>
     </div>
 </main>
-
 @section Scripts {
-
     <script src="~/admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
     <script src="~/admin/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
     <script src="~/admin/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
@@ -160,26 +101,21 @@
     <script src="~/admin/assets/plugins/datatable/js/vfs_fonts.js"></script>
     <script src="~/admin/assets/plugins/datatable/js/buttons.html5.min.js"></script>
     <script src="~/admin/assets/plugins/datatable/js/buttons.print.min.js"></script>
-    
     <script>
         $(document).ready(function() {
-                  $('#usersTable').DataTable({
+                  $('#userPaymentsTable').DataTable({
             dom: '<"row align-items-center mb-3"<"col-sm-12 col-md-6"lB><"col-sm-12 col-md-6 d-flex justify-content-end"f>>' +
                  '<"row mt-3"<"col-sm-12"tr>>' +
                  '<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-
             lengthChange: true,
-
             buttons: [
                 { extend: 'copy', text: '<i class="bi bi-clipboard"></i> Copy', className: 'btn btn-outline-primary btn-sm mt-3' },
                 { extend: 'excel', text: '<i class="bi bi-file-earmark-excel"></i> Excel', className: 'btn btn-outline-success btn-sm mt-3' },
                 { extend: 'pdf', text: '<i class="bi bi-file-earmark-pdf"></i> PDF', className: 'btn btn-outline-danger btn-sm mt-3' },
                 { extend: 'print', text: '<i class="bi bi-printer"></i> Print', className: 'btn btn-outline-info btn-sm mt-3' }
             ],
-
           pagingType: "simple_numbers"
         });
         });
     </script>
-}
 }

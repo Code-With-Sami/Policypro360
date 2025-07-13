@@ -20,10 +20,18 @@ namespace PolicyPro360.Controllers.Admin
             context.HttpContext.Response.Headers["Pragma"] = "no-cache";
             context.HttpContext.Response.Headers["Expires"] = "0";
 
-            if (context.HttpContext.Session.GetString("name") == null)
+            var name = context.HttpContext.Session.GetString("name");
+            if (name == null)
             {
                 context.Result = new RedirectToActionResult("Login", "Admin", null);
             }
+            else
+            {
+                ViewBag.name = name;
+                var img = context.HttpContext.Session.GetString("Img");
+                ViewBag.img = string.IsNullOrEmpty(img) ? "/admin/assets/images/profiles/default.png" : img;
+            }
+
             base.OnActionExecuting(context);
         }
     }

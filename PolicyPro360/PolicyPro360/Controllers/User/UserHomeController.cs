@@ -718,7 +718,7 @@ namespace PolicyPro360.Controllers.User
             var userId = HttpContext.Session.GetInt32("userId");
 
             var myPolicies = _context.Tbl_UserPolicy
-                .Where(up => up.UserId == userId)  // or the correct field name
+                .Where(up => up.UserId == userId)  
                 .Include(up => up.Policy)
                 .ThenInclude(pol => pol.Company)
                 .OrderByDescending(up => up.PurchaseDate)
@@ -731,7 +731,7 @@ namespace PolicyPro360.Controllers.User
             var userId = HttpContext.Session.GetInt32("userId");
 
             var myPolicies = _context.Tbl_UserPolicy
-                .Where(up => up.UserId == userId)  // or the correct field name
+                .Where(up => up.UserId == userId)  
                 .Include(up => up.Policy)
                 .ThenInclude(pol => pol.Company)
                 .OrderByDescending(up => up.PurchaseDate)

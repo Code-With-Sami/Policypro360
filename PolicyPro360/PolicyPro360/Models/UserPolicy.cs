@@ -17,7 +17,9 @@ namespace PolicyPro360.Models
         public virtual Policy Policy { get; set; }
 
         [Required]
-        public int UserId { get; set; } 
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual Users User { get; set; }
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal CalculatedPremium { get; set; }
