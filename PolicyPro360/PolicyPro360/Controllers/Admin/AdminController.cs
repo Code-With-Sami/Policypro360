@@ -2,6 +2,7 @@
 using PolicyPro360.Models;
 using System.IO; 
 using System;
+using Microsoft.EntityFrameworkCore; 
 
 
 namespace PolicyPro360.Controllers.Admin
@@ -19,14 +20,82 @@ namespace PolicyPro360.Controllers.Admin
 
         public IActionResult Dashboard()
         {
-            if (HttpContext.Session.GetString("name") != null){
+
+            if (HttpContext.Session.GetString("name") != null)
+            {
                 ViewBag.name = HttpContext.Session.GetString("name");
             }
             else
             {
                 return RedirectToAction("Login");
             }
-      
+
+            ViewBag.TotalUsers = _db.Tbl_Users.Count();
+            ViewBag.PolicyHolders = _db.Tbl_UserPolicy
+                .Select(up => up.UserId)
+                .Distinct()
+                .Count();
+            ViewBag.TotalPoliciesSold = _db.Tbl_UserPolicy.Count();
+            ViewBag.TotalCompanies = _db.Tbl_Company.Count();
+            ViewBag.TotalCompanies = _db.Tbl_Company.Count(c => c.Status == "Approved");
+            ViewBag.TotalPolicyTypes = _db.Tbl_Category.Count(c => c.Status);
+
+            ViewBag.GrossRevenue = _db.Tbl_TransactionHistory.Sum(th => (decimal?)th.Amount) ?? 0;
+
+
+            var today = DateTime.Today;
+            var startDateOfMonth = new DateTime(today.Year, today.Month, 1);
+
+            ViewBag.AdminEarningsThisMonth = _db.Tbl_AdminWallet
+                .Where(aw => aw.TransactionDate >= startDateOfMonth)
+                .Sum(aw => (decimal?)aw.Amount) ?? 0;
+
+            ViewBag.GrossRevenueThisMonth = _db.Tbl_TransactionHistory
+                .Where(th => th.Date >= startDateOfMonth)
+                .Sum(th => (decimal?)th.Amount) ?? 0;
+
+            ViewBag.TransactionsThisMonth = _db.Tbl_TransactionHistory
+                .Where(th => th.Date >= startDateOfMonth)
+                .Count();
+
+            ViewBag.TotalAdminEarnings = _db.Tbl_AdminWallet.Sum(aw => (decimal?)aw.Amount) ?? 0;
+            ViewBag.TotalCompanyPayouts = _db.Tbl_CompanyWallet.Sum(cw => (decimal?)cw.Amount) ?? 0;
+
+  
+            ViewBag.RecentPolicies = _db.Tbl_UserPolicy
+                .Include(up => up.User)
+                .Include(up => up.Policy)
+                .OrderByDescending(up => up.PurchaseDate)
+                .Take(5)
+                .ToList();
+
+
+            ViewBag.TopCompanies = _db.Tbl_CompanyWallet
+                .Include(cw => cw.Company)
+                .GroupBy(cw => new { cw.CompanyId, cw.Company.CompanyName, cw.Company.CompanyLogoPath })
+                .Select(g => new
+                {
+                    CompanyName = g.Key.CompanyName,
+                    CompanyLogo = g.Key.CompanyLogoPath,
+                    TotalEarnings = g.Sum(cw => cw.Amount)
+                })
+                .OrderByDescending(x => x.TotalEarnings)
+                .Take(5)
+                .ToList();
+
+            ViewBag.NewUsers = _db.Tbl_Users
+    .OrderByDescending(u => u.Id) 
+    .Take(7)
+    .ToList();
+
+            ViewBag.RecentSales = _db.Tbl_UserPolicy
+                .Include(up => up.User) 
+                .Include(up => up.Policy)
+                    .ThenInclude(p => p.Company) 
+                .OrderByDescending(up => up.PurchaseDate)
+                .Take(6)
+                .ToList();
+
             return View();
         }
         public IActionResult Login()
@@ -270,7 +339,32 @@ namespace PolicyPro360.Controllers.Admin
         }
         public IActionResult AdminWallet()
         {
-            return View();
+            var transactions = _db.Set<AdminWallet>()
+                .Include(w => w.Policy)
+                .Include(w => w.Company)
+                .OrderByDescending(w => w.TransactionDate)
+                .Select(w => new
+                {
+                    Wallet = w,
+                    UserPolicy = _db.Tbl_UserPolicy
+                        .Where(up => up.PolicyId == w.PolicyId && up.UserId == w.UserId)
+                        .OrderByDescending(up => up.PurchaseDate)
+                        .FirstOrDefault()
+                })
+                .AsEnumerable()
+                .Select(x => new PolicyPro360.ViewModels.WalletTransactionViewModel
+                {
+                    TransactionId = x.Wallet.Id,
+                    PolicyName = x.Wallet.Policy != null ? x.Wallet.Policy.Name : "-",
+                    CompanyName = x.Wallet.Company != null ? x.Wallet.Company.CompanyName : "-",
+                    CompanyLogoUrl = x.Wallet.Company != null ? x.Wallet.Company.CompanyLogoPath : string.Empty,
+                    TotalPremium = x.UserPolicy != null ? x.UserPolicy.CalculatedPremium : 0,
+                    CommissionEarned = x.Wallet.Amount,
+                    Date = x.Wallet.TransactionDate,
+                    Status = "Credited"
+                })
+                .ToList();
+            return View(transactions);
         }
     }
 }

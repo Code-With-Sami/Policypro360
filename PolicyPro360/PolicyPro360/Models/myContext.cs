@@ -30,9 +30,78 @@ namespace PolicyPro360.Models
                 .HasOne(a => a.Policy)
                 .WithMany(p => p.Attributes)
                 .HasForeignKey(a => a.PolicyId);
+
+            modelBuilder.Entity<AdminWallet>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<CompanyWallet>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<TransactionHistory>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
+
+
+            modelBuilder.Entity<AdminWallet>()
+                .HasOne(aw => aw.User)
+                .WithMany()
+                .HasForeignKey(aw => aw.UserId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<AdminWallet>()
+                .HasOne(aw => aw.Company)
+                .WithMany()
+                .HasForeignKey(aw => aw.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<AdminWallet>()
+                .HasOne(aw => aw.Policy)
+                .WithMany()
+                .HasForeignKey(aw => aw.PolicyId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<CompanyWallet>()
+                .HasOne(cw => cw.User)
+                .WithMany()
+                .HasForeignKey(cw => cw.UserId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<CompanyWallet>()
+                .HasOne(cw => cw.Company)
+                .WithMany()
+                .HasForeignKey(cw => cw.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<CompanyWallet>()
+                .HasOne(cw => cw.Policy)
+                .WithMany()
+                .HasForeignKey(cw => cw.PolicyId)
+                .OnDelete(DeleteBehavior.Restrict); 
+
+         
+            modelBuilder.Entity<TransactionHistory>()
+                .HasOne(th => th.Company)
+                .WithMany()
+                .HasForeignKey(th => th.CompanyId)
+                .OnDelete(DeleteBehavior.NoAction); 
+
+            modelBuilder.Entity<TransactionHistory>()
+                .HasOne(th => th.Policy)
+                .WithMany()
+                .HasForeignKey(th => th.PolicyId)
+                .OnDelete(DeleteBehavior.NoAction); 
         }
 
         public DbSet<UserPolicy> Tbl_UserPolicy { get; set; }
         public DbSet<UserPayment> Tbl_UserPayment { get; set; }
+        public DbSet<AdminWallet> Tbl_AdminWallet { get; set; }
+        public DbSet<CompanyWallet> Tbl_CompanyWallet { get; set; }
+        public DbSet<TransactionHistory> Tbl_TransactionHistory { get; set; }
+
     }
 }

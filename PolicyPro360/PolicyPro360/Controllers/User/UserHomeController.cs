@@ -303,13 +303,15 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("SignIn");
             }
 
-            // Step 1: Get the policy from database to access SumInsured
+            // Step 1: Get the policy from database to access SumInsured and CompanyId
             var policy = _context.Tbl_Policy.FirstOrDefault(p => p.Id == PolicyId);
             if (policy == null)
             {
                 TempData["ErrorMessage"] = "Policy not found.";
                 return RedirectToAction("Policy");
             }
+
+            int companyId = policy.CompanyId;
 
             // Step 2: Determine final coverage amount
             decimal finalCoverageAmount = 0;
@@ -347,6 +349,64 @@ namespace PolicyPro360.Controllers.User
                 Status = "Active"
             };
             _context.Tbl_UserPolicy.Add(userPolicy);
+
+            // Step 5: Split payment and update wallets and transaction history
+            decimal adminAmount = Math.Round(Amount * 0.25m, 2);
+            decimal companyAmount = Amount - adminAmount; // 75%
+
+            // AdminWallet entry
+            var adminWallet = new AdminWallet
+            {
+                UserId = userId.Value,
+                CompanyId = companyId,
+                PolicyId = PolicyId,
+                Amount = adminAmount,
+                Description = $"25% commission from user payment (UserId: {userId.Value}) for PolicyId: {PolicyId}",
+                TransactionDate = DateTime.Now
+            };
+            _context.Set<AdminWallet>().Add(adminWallet);
+
+            // CompanyWallet entry
+            var companyWallet = new CompanyWallet
+            {
+                UserId = userId.Value,
+                CompanyId = companyId,
+                PolicyId = PolicyId,
+                Amount = companyAmount,
+                Description = $"75% share from user payment (UserId: {userId.Value}) for PolicyId: {PolicyId}",
+                TransactionDate = DateTime.Now
+            };
+            _context.Set<CompanyWallet>().Add(companyWallet);
+
+            // TransactionHistory for Admin
+            var adminTransaction = new TransactionHistory
+            {
+                FromType = "User",
+                FromId = userId.Value,
+                ToType = "Admin",
+                ToId = 1,
+                CompanyId = companyId,
+                PolicyId = PolicyId,
+                Amount = adminAmount,
+                Purpose = "Admin commission from user payment",
+                Date = DateTime.Now
+            };
+            _context.Set<TransactionHistory>().Add(adminTransaction);
+
+            // TransactionHistory for Company
+            var companyTransaction = new TransactionHistory
+            {
+                FromType = "User",
+                FromId = userId.Value,
+                ToType = "Company",
+                ToId = companyId,
+                CompanyId = companyId,
+                PolicyId = PolicyId,
+                Amount = companyAmount,
+                Purpose = "Company share from user payment",
+                Date = DateTime.Now
+            };
+            _context.Set<TransactionHistory>().Add(companyTransaction);
 
             _context.SaveChanges();
 

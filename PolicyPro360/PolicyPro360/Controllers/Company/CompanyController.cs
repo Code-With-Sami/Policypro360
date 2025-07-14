@@ -296,6 +296,42 @@ namespace PolicyPro360.Controllers.Company
             return View(company);
         }
 
+        public IActionResult CompanyWallet()
+        {
+            int? companyId = HttpContext.Session.GetInt32("companyId");
+            if (companyId == null)
+            {
+                return RedirectToAction("Login");
+            }
+            var transactions = _db.Set<CompanyWallet>()
+                .Include(w => w.Policy)
+                .Include(w => w.Company)
+                .Where(w => w.CompanyId == companyId.Value)
+                .OrderByDescending(w => w.TransactionDate)
+                .Select(w => new
+                {
+                    Wallet = w,
+                    UserPolicy = _db.Tbl_UserPolicy
+                        .Where(up => up.PolicyId == w.PolicyId && up.UserId == w.UserId)
+                        .OrderByDescending(up => up.PurchaseDate)
+                        .FirstOrDefault()
+                })
+                .AsEnumerable()
+                .Select(x => new PolicyPro360.ViewModels.WalletTransactionViewModel
+                {
+                    TransactionId = x.Wallet.Id,
+                    PolicyName = x.Wallet.Policy != null ? x.Wallet.Policy.Name : "-",
+                    CompanyName = x.Wallet.Company != null ? x.Wallet.Company.CompanyName : "-",
+                    CompanyLogoUrl = x.Wallet.Company != null ? x.Wallet.Company.CompanyLogoPath : string.Empty,
+                    TotalPremium = x.UserPolicy != null ? x.UserPolicy.CalculatedPremium : 0,
+                    CommissionEarned = x.Wallet.Amount,
+                    Date = x.Wallet.TransactionDate,
+                    Status = "Credited"
+                })
+                .ToList();
+            return View(transactions);
+        }
+
 
     }
 
