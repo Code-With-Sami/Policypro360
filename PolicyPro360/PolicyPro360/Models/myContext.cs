@@ -102,6 +102,8 @@ namespace PolicyPro360.Models
         public DbSet<AdminWallet> Tbl_AdminWallet { get; set; }
         public DbSet<CompanyWallet> Tbl_CompanyWallet { get; set; }
         public DbSet<TransactionHistory> Tbl_TransactionHistory { get; set; }
+        public DbSet<UserClaim> Tbl_UserClaim { get; set; }
+
 
     }
 }

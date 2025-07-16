@@ -1,4 +1,4 @@
-﻿@model List<PolicyPro360.Models.UserPolicy>
+﻿@model PolicyPro360.ViewModels.ClaimFormViewModel
 @{
     ViewData["Title"] = "File a Claim - PolicyPro360";
     Layout = "_UserDashboardLayout";
@@ -118,55 +118,60 @@
                     </div>
 
                     <!-- File a Claim Form -->
-                    <form action="#" method="POST" enctype="multipart/form-data">
-                        <div class="mb-4">
-                            <label for="policySelect" class="form-label text-white">
-                                Select Policy for
-                                Claim
-                            </label>
-                            <select class="form-select claim-form-control" id="policySelect" required>
-                                <option selected disabled value="">-- Choose your policy --</option>
-                                @foreach (var policies in Model)
+                    <form asp-action="FileClaim" enctype="multipart/form-data" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label asp-for="SelectedCategoryId" class="form-label text-white">Select Company</label>
+                            <select asp-for="SelectedCategoryId" class="form-select " id="SelectedCategoryId">
+                                <option value="">-- Select Category --</option>
+                                @foreach (var category in Model.Categories)
                                 {
-                                    <option value="@policies?.Policy?.Id">@policies?.Policy?.Name</option>
+                                    <option value="@category.Id">@category.Name</option>
                                 }
                             </select>
+                            <span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="incidentDate" class="form-label text-white">Date of Incident</label>
-                            <input type="date" class="form-control claim-form-control" id="incidentDate"
-                                   name="IncidentDate" required>
+                        <div class="mb-3">
+                            <label asp-for="SelectedPolicyId" class="form-label text-white"></label>
+                            <select asp-for="SelectedPolicyId" class="form-select " id="SelectedPolicyId">
+                                <option value="">-- Select Policy --</option>
+                            </select>
+                            <span asp-validation-for="SelectedPolicyId" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="claimDetails" class="form-label text-white">
-                                Details of the
-                                Incident
-                            </label>
-                            <textarea class="form-control claim-form-control" id="claimDetails"
-                                      name="ClaimDetails" rows="5"
-                                      placeholder="Please describe what happened in as much detail as possible..."
-                                      required></textarea>
+                        <div class="mb-3">
+                            <label asp-for="DateOfIncident" class="form-label text-white"></label>
+                            <input asp-for="DateOfIncident" class="form-control " type="date" />
+                            <span asp-validation-for="DateOfIncident" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-5">
-                            <label class="form-label text-white">Upload Necessary Documents</label>
-                            <div class="file-upload-wrapper"
-                                 onclick="document.getElementById('fileUploadInput').click();">
-                                <input type="file" id="fileUploadInput" name="ClaimDocuments[]" multiple
-                                       class="d-none">
-                                <i class="ti ti-cloud-upload"></i>
-                                <p class="mb-0 mt-2">Click to browse or drag & drop files here</p>
-                                <small class="text-muted">PDF, JPG, PNG, DOCX (Max 5MB per file)</small>
-                            </div>
+                        <div class="mb-3">
+                            <label asp-for="ClaimedAmount" class="form-label text-white"></label>
+                            <input asp-for="ClaimedAmount" class="form-control " type="number" step="0.01" />
+                            <span asp-validation-for="ClaimedAmount" class="text-danger"></span>
                         </div>
 
-                        <!-- Action Buttons -->
-                        <div class="d-flex justify-content-end gap-3">
-                            <a href="my_policies.html" class="btn btn-custom-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-custom-primary">Submit Claim</button>
+                        <div class="mb-3">
+                            <label asp-for="UserRequest" class="form-label text-white"></label>
+                            <textarea asp-for="UserRequest" class="form-control ">Describe your request...</textarea>
+                            <span asp-validation-for="UserRequest" class="text-danger"></span>
                         </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IncidentDetails" class="form-label text-white"></label>
+                            <textarea asp-for="IncidentDetails" class="form-control ">Describe your incident details...</textarea>
+                            <span asp-validation-for="IncidentDetails" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SupportingDocuments" class="form-label text-white"></label>
+                            <input asp-for="SupportingDocuments" type="file" class="form-control" multiple />
+                            <span asp-validation-for="SupportingDocuments" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit Claim</button>
                     </form>
                 </div>
             </div>
@@ -176,3 +181,24 @@
 <!-- ============================================================== -->
 <!-- End Page Content -->
 <!-- ============================================================== -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#SelectedCategoryId').change(function () {
+                var categoryId = $(this).val();
+                $('#SelectedPolicyId').html('<option>Loading...</option>');
+                if (categoryId) {
+                    $.getJSON('@Url.Action("GetPoliciesByCategory", "UserHome")', { categoryId: categoryId }, function (data) {
+                        $('#SelectedPolicyId').html('<option value="">-- Select Policy --</option>');
+                        $.each(data, function (i, policy) {
+                            $('#SelectedPolicyId').append('<option value="' + policy.id + '">' + policy.name + '</option>');
+                        });
+                    });
+                } else {
+                    $('#SelectedPolicyId').html('<option value="">-- Select Policy --</option>');
+                }
+            });
+        });
+    </script>
+}

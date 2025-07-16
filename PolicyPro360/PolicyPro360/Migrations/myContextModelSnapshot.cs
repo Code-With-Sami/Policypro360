@@ -374,6 +374,60 @@ namespace PolicyPro360.Migrations
                     b.ToTable("Tbl_TransactionHistory");
                 });
 
+            modelBuilder.Entity("PolicyPro360.Models.UserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("ClaimedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("DateOfIncident")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IncidentDetails")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("PolicyCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PolicyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SupportingDocumentPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserRequest")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PolicyCategoryId");
+
+                    b.HasIndex("PolicyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tbl_UserClaims");
+                });
+
             modelBuilder.Entity("PolicyPro360.Models.UserPayment", b =>
                 {
                     b.Property<int>("Id")
@@ -587,6 +641,33 @@ namespace PolicyPro360.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Policy");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.UserClaim", b =>
+                {
+                    b.HasOne("PolicyPro360.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("PolicyCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyPro360.Models.Policy", "Policy")
+                        .WithMany()
+                        .HasForeignKey("PolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyPro360.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Policy");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("PolicyPro360.Models.UserPolicy", b =>

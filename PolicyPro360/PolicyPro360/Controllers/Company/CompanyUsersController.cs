@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using PolicyPro360.Models;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 
@@ -22,157 +24,103 @@ namespace PolicyPro360.Controllers.Company
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var allUsers = await _context.Tbl_Users.ToListAsync();
-            return View(allUsers);
+            var companyId = HttpContext.Session.GetInt32("companyId");
+
+            var userPolicies = _context.Tbl_UserPolicy
+               .Include(up => up.Policy)
+               .ThenInclude(p => p.Company)
+               .Include(up => up.Policy)
+               .ThenInclude(p => p.Category)
+               .Include(up => up.User)
+               .Where(up => up.Policy.CompanyId == companyId)
+               .ToList();
+            return View(userPolicies);
         }
 
-        [HttpGet]
-        public IActionResult Create()
+        public IActionResult ViewUserPolicy(int id)
         {
-            return View(new Users());
-        }
+            var policy = _context.Tbl_UserPolicy
+               .Include(up => up.User)
+               .Include(up => up.Policy)
+               .ThenInclude(p => p.Company)
+               .FirstOrDefault(up => up.Id == id);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Users model)
-        {
-            if (model.ProfileImage != null)
-            {
-                model.ProfileImagePath = UploadFile(model.ProfileImage);
-            }
-            else
-            {
-                model.ProfileImagePath = string.Empty;
-            }
-
-            ModelState.Remove("ProfileImagePath");
-
-            if (await _context.Tbl_Users.AnyAsync(u => u.Email == model.Email))
-            {
-                ModelState.AddModelError("Email", "This email address is already in use.");
-            }
-
-            if (await _context.Tbl_Users.AnyAsync(u => u.Username == model.Username))
-            {
-                ModelState.AddModelError("Username", "This username is already taken.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            model.Password = BCrypt.Net.BCrypt.HashPassword(model.Password);
-
-            try
-            {
-                _context.Tbl_Users.Add(model);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = $"User '{model.Username}' has been created successfully!";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                var innerMessage = ex.InnerException?.Message ?? ex.Message;
-                ModelState.AddModelError("", "Database Error: " + innerMessage);
-                return View(model);
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var user = await _context.Tbl_Users.FindAsync(id);
-            if (user == null) return NotFound();
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Users model)
-        {
-            var existingUser = await _context.Tbl_Users.FindAsync(model.Id);
-            if (existingUser == null)
-            {
+            if (policy == null)
                 return NotFound();
-            }
 
-            if (model.ProfileImage != null)
-            {
-                existingUser.ProfileImagePath = UploadFile(model.ProfileImage);
-            }
-            else
-            {
-
-                existingUser.ProfileImagePath = model.ProfileImagePath ?? existingUser.ProfileImagePath ?? string.Empty;
-            }
-
-
-            ModelState.Remove("ProfileImagePath");
-
-            existingUser.Name = model.Name;
-            existingUser.Username = model.Username;
-            existingUser.Email = model.Email;
-            existingUser.MobileNumber = model.MobileNumber;
-            existingUser.Address = model.Address;
-            existingUser.DateOfBirth = model.DateOfBirth;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "User updated successfully!";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Error updating user: " + ex.Message);
-                return View(model);
-            }
+            return View(policy);
         }
 
-        private string UploadFile(IFormFile profileImage)
+
+        public IActionResult UserPoliciesByCategory(int categoryId)
         {
-            string? uniqueFileName = null;
+            var companyId = HttpContext.Session.GetInt32("companyId");
 
-            if (profileImage != null)
-            {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "company/users/images/profiles");
-
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(profileImage.FileName);
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    profileImage.CopyTo(fileStream);
-                }
-            }
-
-            return uniqueFileName ?? string.Empty;
+            var userPolicies = _context.Tbl_UserPolicy
+                .Include(up => up.Policy)
+                .ThenInclude(p => p.Company)
+                .Include(up => up.Policy)
+                .ThenInclude(p => p.Category)
+                .Include(up => up.User)
+                .Where(up => up.Policy != null && up.Policy.PolicyTypeId == categoryId && up.Policy.CompanyId == companyId)
+                .ToList();
+            return View("Index", userPolicies);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult UserClaims()
         {
-            var user = await _context.Tbl_Users.FindAsync(id);
-            if (user == null)
-            {
-                TempData["ErrorMessage"] = "User not found.";
-                return RedirectToAction("Index");
-            }
+            var companyId = HttpContext.Session.GetInt32("companyId");
+            var userClaims = _context.Tbl_UserClaim
+                .Where(c => _context.Tbl_Policy.Any(p => p.Id == c.PolicyId && p.CompanyId == companyId))
+                .Include(c => c.Category)
+                .Include(c => c.Policy)
+                .Include(c => c.Users)
+                .ToList();
 
-            _context.Tbl_Users.Remove(user);
-            await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "User deleted successfully!";
-            return RedirectToAction("Index");
+            return View(userClaims);
+
+        }
+
+        public IActionResult ViewUserClaim(int id)
+        {
+            var userclaim = _context.Tbl_UserClaim
+               .Include(up => up.Users)
+               .Include(up => up.Policy)
+               .ThenInclude(p => p.Company)
+               .FirstOrDefault(up => up.Id == id);
+
+            if (userclaim == null)
+                return NotFound();
+
+            return View(userclaim);
+
+        }
+
+
+        public IActionResult UserClaimsByCategory(int categoryId)
+        {
+            var companyId = HttpContext.Session.GetInt32("companyId");
+
+            var userClaims = _context.Tbl_UserClaim
+                .Include(c => c.Users)
+                .Include(c => c.Policy)
+                    .ThenInclude(p => p.Category)
+                .Include(c => c.Policy)
+                    .ThenInclude(p => p.Company)
+                .Where(c => c.Policy != null &&
+                            c.Policy.PolicyTypeId == categoryId &&
+                            c.Policy.CompanyId == companyId)
+                .ToList();
+
+            return View("UserClaims", userClaims);
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            ViewBag.PolicyCategories = _context.Tbl_Category.Where(c => c.Status).ToList();
         }
     }
 }

@@ -205,28 +205,28 @@ namespace PolicyPro360.Controllers.Admin
         }
 
 
-        public IActionResult LifeUserPolicy()
-        {
-            return View();
-        }
+        //public IActionResult LifeUserPolicy()
+        //{
+        //    return View();
+        //}
 
-        public IActionResult MotorUserPolicy()
-        {
+        //public IActionResult MotorUserPolicy()
+        //{
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public IActionResult HomeUserPolicy()
-        {
+        //public IActionResult HomeUserPolicy()
+        //{
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public IActionResult MedicalUserPolicy()
-        {
+        //public IActionResult MedicalUserPolicy()
+        //{
 
-            return View();
-        }
+        //    return View();
+        //}
         public IActionResult AllUserPayments()
         {
             var userPayments = _context.Tbl_UserPayment.ToList();

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PolicyPro360.Migrations;
 using PolicyPro360.Models;
+using System.ComponentModel.Design;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PolicyPro360.Controllers.Company
@@ -20,6 +21,8 @@ namespace PolicyPro360.Controllers.Company
         public IActionResult Index(int categoryId)
         {
             var category = _context.Tbl_Category.FirstOrDefault(c => c.Id == categoryId);
+            var companyId = HttpContext.Session.GetInt32("companyId");
+
 
             if (category == null)
             {
@@ -30,22 +33,22 @@ namespace PolicyPro360.Controllers.Company
             {
                 case "life insurance":
                     ViewBag.CategoryId = categoryId;
-                    var policies = _context.Tbl_Policy.Where(p => p.PolicyTypeId == categoryId).ToList();
+                    var policies = _context.Tbl_Policy.Where(p => p.CompanyId == companyId && p.PolicyTypeId == categoryId).ToList();
                     return View("LifePolicy", policies);
 
                 case "motor insurance":
                     ViewBag.CategoryId = categoryId;
-                    policies = _context.Tbl_Policy.Where(p => p.PolicyTypeId == categoryId).ToList();
+                    policies = _context.Tbl_Policy.Where(p => p.CompanyId == companyId && p.PolicyTypeId == categoryId).ToList();
                     return View("MotorPolicy", policies);
 
                 case "home insurance":
                     ViewBag.CategoryId = categoryId;
-                    policies = _context.Tbl_Policy.Where(p => p.PolicyTypeId == categoryId).ToList();
+                    policies = _context.Tbl_Policy.Where(p => p.CompanyId == companyId && p.PolicyTypeId == categoryId).ToList();
                     return View("HomePolicy", policies);
 
                 case "medical insurance":
                     ViewBag.CategoryId = categoryId;
-                    policies = _context.Tbl_Policy.Where(p => p.PolicyTypeId == categoryId).ToList();
+                    policies = _context.Tbl_Policy.Where(p => p.CompanyId == companyId && p.PolicyTypeId == categoryId).ToList();
                     return View("MedicalPolicy", policies);
 
                 default:
@@ -56,9 +59,11 @@ namespace PolicyPro360.Controllers.Company
 
         public IActionResult AllPolicies()
         {
+            var companyId = HttpContext.Session.GetInt32("companyId");
+
             var policies = _context.Tbl_Policy
                     .Include(p => p.Category)
-                    .Where(p => p.Category != null)
+                    .Where(p => p.CompanyId == companyId &&  p.Category != null)
                     .ToList();
 
             if (policies == null || !policies.Any())

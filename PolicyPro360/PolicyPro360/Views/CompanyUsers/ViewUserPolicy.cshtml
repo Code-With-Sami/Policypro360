@@ -1,0 +1,89 @@
+﻿@model PolicyPro360.Models.UserPolicy
+@{
+    ViewData["Title"] = "Policy Details - PolicyPro360";
+    Layout = "_CompanyLayout";
+}
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Policy Details</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "UserPolicies")"><i class="bx bx-home-alt"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Details</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Details for Policy ID: @Model.Id</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-3">Policy ID</dt>
+                    <dd class="col-sm-9">@Model.Id</dd>
+
+                    <dt class="col-sm-3">User Name</dt>
+                    <dd class="col-sm-9">@Model.User?.Name</dd>
+
+                    <dt class="col-sm-3">Policy Name</dt>
+                    <dd class="col-sm-9">@Model.Policy?.Name</dd>
+
+                    <dt class="col-sm-3">Calculated Premium</dt>
+                    <dd class="col-sm-9">@Model.CalculatedPremium.ToString("C")</dd>
+
+                    <dt class="col-sm-3">Coverage Amount</dt>
+                    <dd class="col-sm-9">@Model.CoverageAmount.ToString("C")</dd>
+
+                    <dt class="col-sm-3">Purchase Date</dt>
+                    <dd class="col-sm-9">@Model.PurchaseDate.ToString("yyyy-MM-dd")</dd>
+
+                    <dt class="col-sm-3">Expiry Date</dt>
+                    <dd class="col-sm-9">@Model.ExpiryDate.ToString("yyyy-MM-dd")</dd>
+
+                    <dt class="col-sm-3">Status</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-@(Model.Status == "Active" ? "success" : "secondary")">
+                            @Model.Status
+                        </span>
+                    </dd>
+                </dl>
+
+                <div class="mt-4">
+                    <a href="@Url.Action("Index", "CompanyUsers")" class="btn btn-outline-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@section Scripts {
+    <script src="~/admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/jszip.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/pdfmake.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/vfs_fonts.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/buttons.html5.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function() {
+                  $('#userPoliciesTable').DataTable({
+            dom: '<"row align-items-center mb-3"<"col-sm-12 col-md-6"lB><"col-sm-12 col-md-6 d-flex justify-content-end"f>>' +
+                 '<"row mt-3"<"col-sm-12"tr>>' +
+                 '<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            lengthChange: true,
+            buttons: [
+                { extend: 'copy', text: '<i class="bi bi-clipboard"></i> Copy', className: 'btn btn-outline-primary btn-sm mt-3' },
+                { extend: 'excel', text: '<i class="bi bi-file-earmark-excel"></i> Excel', className: 'btn btn-outline-success btn-sm mt-3' },
+                { extend: 'pdf', text: '<i class="bi bi-file-earmark-pdf"></i> PDF', className: 'btn btn-outline-danger btn-sm mt-3' },
+                { extend: 'print', text: '<i class="bi bi-printer"></i> Print', className: 'btn btn-outline-info btn-sm mt-3' }
+            ],
+          pagingType: "simple_numbers"
+        });
+        });
+    </script>
+}

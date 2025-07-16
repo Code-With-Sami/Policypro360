@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<PolicyPro360.Models.UserClaim>
+@{
     ViewData["Title"] = "My Application - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
@@ -121,58 +122,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Application 1: Approved Claim -->
-                        <tr>
-                            <td>
-                                <h6 class="fw-semibold mb-0 text-white">Claim: #CL-84521</h6>
-                                <small class="text-muted">Health Insurance Claim</small>
-                            </td>
-                            <td>Max Life Health Plan</td>
-                            <td class="text-center text-muted ">10 Oct, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-approved rounded-pill px-3 py-1">Approved</span>
-                            </td>
+                        @foreach(var myclaim in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <h6 class="fw-semibold mb-0 text-white">Claim: @myclaim.Id</h6>
+                                    <small class="text-muted">@myclaim?.Category?.Name</small>
+                                </td>
+                                <td>@myclaim?.Policy.Name</td>
+                                <td class="text-center text-muted ">@myclaim?.SubmittedAt.ToString("MM/dd/yyyy")</td>
+                                <td class="text-center">
+                                    <span class="badge badge-approved rounded-pill px-3 py-1">@myclaim?.Status</span>
+                                </td>
 
-                        </tr>
-                        <!-- Application 2: Pending Loan -->
-                        <tr>
-                            <td>
-                                <h6 class="fw-semibold mb-0 text-white">Loan: #LN-11209</h6>
-                                <small class="text-muted">Loan Against Policy</small>
-                            </td>
-                            <td>FutureInvest ULIP Plan</td>
-                            <td class="text-center text-muted">05 Nov, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-pending rounded-pill px-3 py-1">Pending</span>
-                            </td>
-
-                        </tr>
-                        <!-- Application 3: Rejected Claim -->
-                        <tr>
-                            <td>
-                                <h6 class="fw-semibold mb-0 text-white">Claim: #CL-84115</h6>
-                                <small class="text-muted">Car Insurance Claim</small>
-                            </td>
-                            <td>SecureDrive Car Insurance</td>
-                            <td class="text-center text-muted">22 Sep, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-rejected rounded-pill px-3 py-1">Rejected</span>
-                            </td>
-
-                        </tr>
-                        <!-- Application 4: Approved Loan -->
-                        <tr>
-                            <td>
-                                <h6 class="fw-semibold mb-0 text-white">Loan: #LN-10987</h6>
-                                <small class="text-muted">Loan Against Policy</small>
-                            </td>
-                            <td>LifeSecure Term Plan</td>
-                            <td class="text-center text-muted">15 Aug, 2024</td>
-                            <td class="text-center">
-                                <span class="badge badge-approved rounded-pill px-3 py-1">Approved</span>
-                            </td>
-
-                        </tr>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

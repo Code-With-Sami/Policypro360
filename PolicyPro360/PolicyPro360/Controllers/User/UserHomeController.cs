@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using PolicyPro360.Migrations;
 using PolicyPro360.Models;
 using PolicyPro360.ViewModels;
+using System.Security.Claims;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace PolicyPro360.Controllers.User
 {
@@ -483,7 +485,7 @@ namespace PolicyPro360.Controllers.User
         [HttpPost]
         public IActionResult SignIn(string userEmail, string userPassword)
         {
-            var user = _context.Tbl_Users.FirstOrDefault(u => u.Email == u.Email && u.Password == userPassword);
+            var user = _context.Tbl_Users.FirstOrDefault(u => u.Email == userEmail && u.Password == userPassword);
             if (user != null)
             {
 
@@ -788,20 +790,99 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult FileClaim()
         {
+            var model = new ClaimFormViewModel
+            {
+                Categories = _context.Tbl_Category.Where(c => c.Status).ToList(),
+                Policies = new List<Policy>()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FileClaim(ClaimFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Categories = _context.Tbl_Category.Where(c => c.Status).ToList();
+                return View(model);
+            }
+
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("Signin", "User");
+            }
+
+            string uploadFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/claims");
+            if (!Directory.Exists(uploadFolder))
+                Directory.CreateDirectory(uploadFolder);
+
+            List<string> filePaths = new List<string>();
+
+            if (model.SupportingDocuments != null && model.SupportingDocuments.Any())
+            {
+                foreach (var file in model.SupportingDocuments)
+                {
+                    var uniqueFileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                    var fullPath = Path.Combine(uploadFolder, uniqueFileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    filePaths.Add("/uploads/claims/" + uniqueFileName);
+                }
+            }
+
+            var userClaim = new PolicyPro360.Models.UserClaim
+            {
+                UserId = userId.Value,
+                PolicyCategoryId = model.SelectedCategoryId,
+                PolicyId = model.SelectedPolicyId,
+                DateOfIncident = model.DateOfIncident,
+                IncidentDetails = model.IncidentDetails,
+                ClaimedAmount = model.ClaimedAmount,
+                UserRequest = model.UserRequest,
+                SupportingDocumentPath = string.Join(",", filePaths),
+                Status = "Pending"
+            };
+
+            _context.Tbl_UserClaim.Add(userClaim);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Your claim has been submitted successfully!";
+            return RedirectToAction("MyApplication");
+        }
+
+        [HttpGet]
+        public JsonResult GetPoliciesByCategory(int categoryId)
+        {
             var userId = HttpContext.Session.GetInt32("userId");
 
-            var myPolicies = _context.Tbl_UserPolicy
-                .Where(up => up.UserId == userId)  
-                .Include(up => up.Policy)
-                .ThenInclude(pol => pol.Company)
-                .OrderByDescending(up => up.PurchaseDate)
-                .ToList();
+            if (userId == null)
+            {
+                return Json(new { success = false, message = "User not logged in." });
+            }
 
-            return View(myPolicies);
+            var policies = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId.Value && up.Policy.PolicyTypeId == categoryId)
+                .Select(up => new
+                {
+                    id = up.Policy.Id,
+                    name = up.Policy.Name
+                }).ToList();
+
+            return Json(policies);
         }
+
         public IActionResult MyApplication()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32("userId");
+            var claimApplications = _context.Tbl_UserClaim.Where(c => c.UserId ==  userId)
+                .Include(c=> c.Category)
+                .Include(c=> c.Policy)
+                .ToList();
+            return View(claimApplications);
+            
         }
         public IActionResult Support()
         {
@@ -813,6 +894,9 @@ namespace PolicyPro360.Controllers.User
             if (HttpContext.Session.GetString("userName") != null)
             {
                 HttpContext.Session.Remove("userName");
+                HttpContext.Session.Remove("userId");
+                HttpContext.Session.Remove("userEmail");
+                HttpContext.Session.Remove("userImg");
                 return RedirectToAction("signin");
             }
 
