@@ -846,7 +846,7 @@ namespace PolicyPro360.Controllers.User
                 Status = "Pending"
             };
 
-            _context.Tbl_UserClaim.Add(userClaim);
+            _context.Tbl_UserClaims.Add(userClaim);
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Your claim has been submitted successfully!";
@@ -877,7 +877,7 @@ namespace PolicyPro360.Controllers.User
         public IActionResult MyApplication()
         {
             var userId = HttpContext.Session.GetInt32("userId");
-            var claimApplications = _context.Tbl_UserClaim.Where(c => c.UserId ==  userId)
+            var claimApplications = _context.Tbl_UserClaims.Where(c => c.UserId ==  userId)
                 .Include(c=> c.Category)
                 .Include(c=> c.Policy)
                 .ToList();

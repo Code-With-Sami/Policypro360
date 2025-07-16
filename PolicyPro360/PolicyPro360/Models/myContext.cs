@@ -16,37 +16,59 @@ namespace PolicyPro360.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Policy relationships
             modelBuilder.Entity<Policy>()
                 .HasOne(p => p.Category)
                 .WithMany()
-                .HasForeignKey(p => p.PolicyTypeId);
+                .HasForeignKey(p => p.PolicyTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Policy>()
                 .HasOne(p => p.Company)
                 .WithMany()
-                .HasForeignKey(p => p.CompanyId);
+                .HasForeignKey(p => p.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // PolicyAttribute relationship
             modelBuilder.Entity<PolicyAttribute>()
                 .HasOne(a => a.Policy)
                 .WithMany(p => p.Attributes)
-                .HasForeignKey(a => a.PolicyId);
+                .HasForeignKey(a => a.PolicyId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<AdminWallet>(entity =>
-            {
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
-            });
+            // UserPolicy relationships
+            modelBuilder.Entity<UserPolicy>()
+                .HasOne(up => up.Policy)
+                .WithMany()
+                .HasForeignKey(up => up.PolicyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<CompanyWallet>(entity =>
-            {
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
-            });
+            modelBuilder.Entity<UserPolicy>()
+                .HasOne(up => up.User)
+                .WithMany()
+                .HasForeignKey(up => up.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<TransactionHistory>(entity =>
-            {
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
-            });
+            // UserClaim relationships
+            modelBuilder.Entity<UserClaim>()
+                .HasOne(uc => uc.Category)
+                .WithMany()
+                .HasForeignKey(uc => uc.PolicyCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserClaim>()
+                .HasOne(uc => uc.Policy)
+                .WithMany()
+                .HasForeignKey(uc => uc.PolicyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserClaim>()
+                .HasOne(uc => uc.Users)
+                .WithMany()
+                .HasForeignKey(uc => uc.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // AdminWallet relationships
             modelBuilder.Entity<AdminWallet>()
                 .HasOne(aw => aw.User)
                 .WithMany()
@@ -65,6 +87,7 @@ namespace PolicyPro360.Models
                 .HasForeignKey(aw => aw.PolicyId)
                 .OnDelete(DeleteBehavior.Restrict); 
 
+            // CompanyWallet relationships
             modelBuilder.Entity<CompanyWallet>()
                 .HasOne(cw => cw.User)
                 .WithMany()
@@ -83,7 +106,6 @@ namespace PolicyPro360.Models
                 .HasForeignKey(cw => cw.PolicyId)
                 .OnDelete(DeleteBehavior.Restrict); 
 
-         
             modelBuilder.Entity<TransactionHistory>()
                 .HasOne(th => th.Company)
                 .WithMany()
@@ -94,15 +116,31 @@ namespace PolicyPro360.Models
                 .HasOne(th => th.Policy)
                 .WithMany()
                 .HasForeignKey(th => th.PolicyId)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<AdminWallet>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<CompanyWallet>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<TransactionHistory>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
         }
+        
 
         public DbSet<UserPolicy> Tbl_UserPolicy { get; set; }
         public DbSet<UserPayment> Tbl_UserPayment { get; set; }
         public DbSet<AdminWallet> Tbl_AdminWallet { get; set; }
         public DbSet<CompanyWallet> Tbl_CompanyWallet { get; set; }
         public DbSet<TransactionHistory> Tbl_TransactionHistory { get; set; }
-        public DbSet<UserClaim> Tbl_UserClaim { get; set; }
+        public DbSet<UserClaim> Tbl_UserClaims { get; set; }
 
 
     }

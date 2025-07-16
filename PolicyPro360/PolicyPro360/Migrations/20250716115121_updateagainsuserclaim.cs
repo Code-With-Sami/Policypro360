@@ -38,7 +38,7 @@ namespace PolicyPro360.Migrations
                 column: "PolicyCategoryId",
                 principalTable: "Tbl_Category",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Tbl_UserClaims_Tbl_Users_UserId",
@@ -46,7 +46,7 @@ namespace PolicyPro360.Migrations
                 column: "UserId",
                 principalTable: "Tbl_Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         /// <inheritdoc />
@@ -86,7 +86,7 @@ namespace PolicyPro360.Migrations
                 column: "CategoryId",
                 principalTable: "Tbl_Category",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
     }
 }

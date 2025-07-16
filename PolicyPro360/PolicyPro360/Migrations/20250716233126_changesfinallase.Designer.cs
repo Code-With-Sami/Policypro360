@@ -12,8 +12,8 @@ using PolicyPro360.Models;
 namespace PolicyPro360.Migrations
 {
     [DbContext(typeof(myContext))]
-    [Migration("20250716114455_updateuserclaims")]
-    partial class updateuserclaims
+    [Migration("20250716233126_changesfinallase")]
+    partial class changesfinallase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -385,9 +385,6 @@ namespace PolicyPro360.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("ClaimedAmount")
                         .HasColumnType("decimal(18,2)");
 
@@ -425,9 +422,11 @@ namespace PolicyPro360.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("PolicyCategoryId");
 
                     b.HasIndex("PolicyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tbl_UserClaims");
                 });
@@ -605,13 +604,13 @@ namespace PolicyPro360.Migrations
                     b.HasOne("PolicyPro360.Models.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PolicyPro360.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("PolicyTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -651,19 +650,27 @@ namespace PolicyPro360.Migrations
                 {
                     b.HasOne("PolicyPro360.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("PolicyCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PolicyPro360.Models.Policy", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PolicyPro360.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
 
                     b.Navigation("Policy");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("PolicyPro360.Models.UserPolicy", b =>
@@ -671,13 +678,13 @@ namespace PolicyPro360.Migrations
                     b.HasOne("PolicyPro360.Models.Policy", "Policy")
                         .WithMany()
                         .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PolicyPro360.Models.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Policy");

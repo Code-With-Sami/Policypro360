@@ -72,7 +72,7 @@ namespace PolicyPro360.Controllers.Company
         public IActionResult UserClaims()
         {
             var companyId = HttpContext.Session.GetInt32("companyId");
-            var userClaims = _context.Tbl_UserClaim
+            var userClaims = _context.Tbl_UserClaims
                 .Where(c => _context.Tbl_Policy.Any(p => p.Id == c.PolicyId && p.CompanyId == companyId))
                 .Include(c => c.Category)
                 .Include(c => c.Policy)
@@ -85,7 +85,7 @@ namespace PolicyPro360.Controllers.Company
 
         public IActionResult ViewUserClaim(int id)
         {
-            var userclaim = _context.Tbl_UserClaim
+            var userclaim = _context.Tbl_UserClaims
                .Include(up => up.Users)
                .Include(up => up.Policy)
                .ThenInclude(p => p.Company)
@@ -103,7 +103,7 @@ namespace PolicyPro360.Controllers.Company
         {
             var companyId = HttpContext.Session.GetInt32("companyId");
 
-            var userClaims = _context.Tbl_UserClaim
+            var userClaims = _context.Tbl_UserClaims
                 .Include(c => c.Users)
                 .Include(c => c.Policy)
                     .ThenInclude(p => p.Category)
