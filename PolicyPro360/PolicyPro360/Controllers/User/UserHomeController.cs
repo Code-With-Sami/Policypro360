@@ -55,9 +55,35 @@ namespace PolicyPro360.Controllers.User
         {
             return View();
         }
+        [HttpGet]
         public IActionResult Contact()
         {
-            return View();
+            return View(new ContactViewModel());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Contact(ContactViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var contact = new Contact
+            {
+                Name = model.Name,
+                Email = model.Email,
+                Phone = model.Phone,
+                Subject = model.Subject,
+                Message = model.Message,
+                CreatedDate = DateTime.Now
+            };
+
+            _context.Tbl_Contact.Add(contact);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Your message has been sent successfully!";
+            return RedirectToAction("Contact");
         }
         public IActionResult Insurance()
         {
@@ -305,7 +331,7 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("SignIn");
             }
 
-            // Step 1: Get the policy from database to access SumInsured and CompanyId
+
             var policy = _context.Tbl_Policy.FirstOrDefault(p => p.Id == PolicyId);
             if (policy == null)
             {
@@ -315,7 +341,7 @@ namespace PolicyPro360.Controllers.User
 
             int companyId = policy.CompanyId;
 
-            // Step 2: Determine final coverage amount
+          
             decimal finalCoverageAmount = 0;
             if (CoverageAmount.HasValue && CoverageAmount.Value > 0)
             {
@@ -323,10 +349,10 @@ namespace PolicyPro360.Controllers.User
             }
             else
             {
-                finalCoverageAmount = policy.SumInsured; // fallback
+                finalCoverageAmount = policy.SumInsured; 
             }
 
-            // Step 3: Save payment
+   
             var payment = new UserPayment
             {
                 PayerName = PayerName,
@@ -336,7 +362,7 @@ namespace PolicyPro360.Controllers.User
             };
             _context.Tbl_UserPayment.Add(payment);
 
-            // Step 4: Save user policy
+    
             DateTime purchaseDate = DateTime.Now;
             DateTime expiryDate = purchaseDate.AddYears(1);
 
@@ -352,11 +378,11 @@ namespace PolicyPro360.Controllers.User
             };
             _context.Tbl_UserPolicy.Add(userPolicy);
 
-            // Step 5: Split payment and update wallets and transaction history
+       
             decimal adminAmount = Math.Round(Amount * 0.25m, 2);
             decimal companyAmount = Amount - adminAmount; // 75%
 
-            // AdminWallet entry
+     
             var adminWallet = new AdminWallet
             {
                 UserId = userId.Value,
@@ -368,7 +394,7 @@ namespace PolicyPro360.Controllers.User
             };
             _context.Set<AdminWallet>().Add(adminWallet);
 
-            // CompanyWallet entry
+       
             var companyWallet = new CompanyWallet
             {
                 UserId = userId.Value,
@@ -380,7 +406,7 @@ namespace PolicyPro360.Controllers.User
             };
             _context.Set<CompanyWallet>().Add(companyWallet);
 
-            // TransactionHistory for Admin
+    
             var adminTransaction = new TransactionHistory
             {
                 FromType = "User",
@@ -395,7 +421,7 @@ namespace PolicyPro360.Controllers.User
             };
             _context.Set<TransactionHistory>().Add(adminTransaction);
 
-            // TransactionHistory for Company
+
             var companyTransaction = new TransactionHistory
             {
                 FromType = "User",
@@ -413,10 +439,111 @@ namespace PolicyPro360.Controllers.User
             _context.SaveChanges();
 
             TempData["SuccessMessage"] = "Congratulations! Your payment was successful and your insurance policy is now active.";
-            return RedirectToAction("Checkout");
+            return RedirectToAction("MyPolicies");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SubmitManualPaymentForUserPolicy(string PayerName, string PayerEmail, decimal Amount, string Reference, int UserPolicyId, decimal CalculatedPremium)
+        {
+            int? userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                TempData["ErrorMessage"] = "User not logged in.";
+                return RedirectToAction("SignIn");
+            }
 
+
+            var userPolicy = _context.Tbl_UserPolicy
+                .Include(up => up.Policy)
+                .FirstOrDefault(up => up.Id == UserPolicyId && up.UserId == userId.Value);
+            
+            if (userPolicy == null)
+            {
+                TempData["ErrorMessage"] = "User policy not found.";
+                return RedirectToAction("MyPolicies");
+            }
+
+            int policyId = userPolicy.PolicyId;
+            int companyId = userPolicy.Policy.CompanyId;
+
+        
+            var payment = new UserPayment
+            {
+                PayerName = PayerName,
+                PayerEmail = PayerEmail,
+                Amount = Amount,
+                Reference = Reference
+            };
+            _context.Tbl_UserPayment.Add(payment);
+
+
+            userPolicy.ExpiryDate = DateTime.Now.AddYears(1);
+            userPolicy.CalculatedPremium = CalculatedPremium;
+
+ 
+            decimal adminAmount = Math.Round(Amount * 0.25m, 2);
+            decimal companyAmount = Amount - adminAmount; // 75%
+
+          
+            var adminWallet = new AdminWallet
+            {
+                UserId = userId.Value,
+                CompanyId = companyId,
+                PolicyId = policyId,
+                Amount = adminAmount,
+                Description = $"25% commission from user policy payment (UserId: {userId.Value}) for UserPolicyId: {UserPolicyId}",
+                TransactionDate = DateTime.Now
+            };
+            _context.Set<AdminWallet>().Add(adminWallet);
+
+    
+            var companyWallet = new CompanyWallet
+            {
+                UserId = userId.Value,
+                CompanyId = companyId,
+                PolicyId = policyId,
+                Amount = companyAmount,
+                Description = $"75% share from user policy payment (UserId: {userId.Value}) for UserPolicyId: {UserPolicyId}",
+                TransactionDate = DateTime.Now
+            };
+            _context.Set<CompanyWallet>().Add(companyWallet);
+
+
+            var adminTransaction = new TransactionHistory
+            {
+                FromType = "User",
+                FromId = userId.Value,
+                ToType = "Admin",
+                ToId = 1,
+                CompanyId = companyId,
+                PolicyId = policyId,
+                Amount = adminAmount,
+                Purpose = "Admin commission from user policy payment",
+                Date = DateTime.Now
+            };
+            _context.Set<TransactionHistory>().Add(adminTransaction);
+
+
+            var companyTransaction = new TransactionHistory
+            {
+                FromType = "User",
+                FromId = userId.Value,
+                ToType = "Company",
+                ToId = companyId,
+                CompanyId = companyId,
+                PolicyId = policyId,
+                Amount = companyAmount,
+                Purpose = "Company share from user policy payment",
+                Date = DateTime.Now
+            };
+            _context.Set<TransactionHistory>().Add(companyTransaction);
+
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Congratulations! Your payment was successful and your insurance policy has been renewed.";
+            return RedirectToAction("MyPolicies");
+        }
         public IActionResult Terms()
         {
             return View();
@@ -431,7 +558,11 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult Faq()
         {
-            return View();
+            var faqs = _context.Tbl_FAQ
+                .Where(f => f.IsActive)
+                .OrderBy(f => f.CreatedDate)
+                .ToList();
+            return View(faqs);
         }
         public IActionResult Life()
         {
@@ -723,41 +854,105 @@ namespace PolicyPro360.Controllers.User
                 TempData["ErrorMessage"] = "User not logged in.";
                 return RedirectToAction("SignIn");
             }
-            if (TempData["CheckoutModel"] is string serializedModel)
-            {
-                var model = JsonSerializer.Deserialize<PremiumCalculationViewModel>(serializedModel);
-                TempData.Keep("CheckoutModel");
-                return View(model);
-            }
-            return RedirectToAction("MyPolicies");
-        }
-        public IActionResult MyPolicies()
-        {
-            var userId = HttpContext.Session.GetInt32("userId");
-
-            var myPolicies = _context.Tbl_UserPolicy
-                .Where(up => up.UserId == userId)  // or the correct field name
+            
+    
+            var userPolicies = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId && up.Status == "Active")
                 .Include(up => up.Policy)
-                .ThenInclude(pol => pol.Company)
+                .ThenInclude(p => p.Company)
                 .OrderByDescending(up => up.PurchaseDate)
                 .ToList();
+            
+            if (!userPolicies.Any())
+            {
+                TempData["ErrorMessage"] = "No active policies found for payment.";
+                return RedirectToAction("MyPolicies");
+            }
+            
+            // Create a default model for payment page
+            var defaultPolicy = userPolicies.First();
+            var model = new PremiumCalculationViewModel
+            {
+                PolicyId = defaultPolicy.PolicyId,
+                PolicyName = defaultPolicy.Policy.Name,
+                PolicyType = defaultPolicy.Policy.Category?.Name ?? "Insurance",
+                CalculatedPremium = defaultPolicy.CalculatedPremium,
+                BasePremium = defaultPolicy.Policy.Premium
+            };
+            
+            ViewBag.UserPolicies = userPolicies;
 
-            var activePolicies = myPolicies.Where(p => p.Status == "Active").ToList();
-            var activePolicyCount = activePolicies.Count;
-            ViewBag.activepolicies = activePolicyCount;
 
-            var totalPremium = activePolicies.Sum(p => p.CalculatedPremium);
-            ViewBag.totalPremium = totalPremium;
+            var userLoans = _context.Tbl_LoanRequests.Where(lr => lr.UserId == userId && lr.Status == "Approved").ToList();
+            ViewBag.HasAnyLoan = userLoans.Any();
 
-            var nextPaymentDue = myPolicies
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+            var loanInstallment = _context.Tbl_LoanInstallments
+                .Include(i => i.LoanRequest)
+                .Where(i => i.LoanRequest.UserId == userId
+                    && i.Status == "Unpaid"
+                    && i.DueDate.Month == currentMonth
+                    && i.DueDate.Year == currentYear)
+                .FirstOrDefault();
+
+            ViewBag.LoanInstallment = loanInstallment;
+
+            return View(model);
+        }
+
+
+        public IActionResult MyPolicies(string searchTerm, string status)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("Login"); 
+            }
+
+
+            var myPoliciesQuery = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId)
+                .Include(up => up.Policy)
+                .ThenInclude(pol => pol.Company);
+
+            var allMyPolicies = myPoliciesQuery.ToList();
+
+
+            var activePolicies = allMyPolicies.Where(p => p.Status == "Active").ToList();
+            ViewBag.activepolicies = activePolicies.Count;
+            ViewBag.totalPremium = activePolicies.Sum(p => p.CalculatedPremium);
+            ViewBag.nextPaymentDue = allMyPolicies
                 .Where(p => p.ExpiryDate > DateTime.Now)
                 .OrderBy(p => p.ExpiryDate)
                 .Select(p => p.ExpiryDate)
                 .FirstOrDefault();
 
-            ViewBag.nextPaymentDue = nextPaymentDue;
 
-            return View(myPolicies);
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                allMyPolicies = allMyPolicies.Where(up =>
+                    up.Policy.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    up.Policy.Company.CompanyName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) 
+                ).ToList();
+            }
+
+   
+            if (!String.IsNullOrEmpty(status))
+            {
+                allMyPolicies = allMyPolicies.Where(up => up.Status == status).ToList();
+            }
+
+       
+            ViewData["CurrentSearchTerm"] = searchTerm;
+            ViewData["CurrentStatus"] = status;
+
+      
+            var filteredAndSortedPolicies = allMyPolicies
+                .OrderByDescending(up => up.PurchaseDate)
+                .ToList();
+
+            return View(filteredAndSortedPolicies);
         }
         public IActionResult MyPolicyDetail(int id)
         {
@@ -778,15 +973,46 @@ namespace PolicyPro360.Controllers.User
         public IActionResult ApplyLoan()
         {
             var userId = HttpContext.Session.GetInt32("userId");
-
             var myPolicies = _context.Tbl_UserPolicy
-                .Where(up => up.UserId == userId)  
+                .Where(up => up.UserId == userId && up.Status == "Active")
                 .Include(up => up.Policy)
-                .ThenInclude(pol => pol.Company)
-                .OrderByDescending(up => up.PurchaseDate)
                 .ToList();
 
-            return View(myPolicies);
+            ViewBag.Policies = myPolicies;
+            return View(new ApplyLoanViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ApplyLoan(ApplyLoanViewModel model)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (!ModelState.IsValid)
+            {
+          
+                ViewBag.Policies = _context.Tbl_UserPolicy
+                    .Where(up => up.UserId == userId && up.Status == "Active")
+                    .Include(up => up.Policy)
+                    .ToList();
+                return View(model);
+            }
+
+            var loanRequest = new LoanRequest
+            {
+                UserId = userId.Value,
+                PolicyId = model.PolicyId,
+                LoanAmount = model.LoanAmount,
+                LoanType = model.LoanType,
+                Purpose = model.Purpose,
+                DurationInMonths = model.DurationInMonths,
+                Status = "Pending",
+                RequestDate = DateTime.Now
+            };
+            _context.Tbl_LoanRequests.Add(loanRequest);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Your loan application has been submitted!";
+            return RedirectToAction("MyLoans"); 
         }
         public IActionResult FileClaim()
         {
@@ -874,15 +1100,64 @@ namespace PolicyPro360.Controllers.User
             return Json(policies);
         }
 
-        public IActionResult MyApplication()
+        public IActionResult MyApplication(string filter = "All")
         {
             var userId = HttpContext.Session.GetInt32("userId");
-            var claimApplications = _context.Tbl_UserClaims.Where(c => c.UserId ==  userId)
-                .Include(c=> c.Category)
-                .Include(c=> c.Policy)
-                .ToList();
-            return View(claimApplications);
-            
+            if (userId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Fetch Claims
+            var claimApplications = _context.Tbl_UserClaims
+                .Where(c => c.UserId == userId)
+                .Include(c => c.Category)
+                .Include(c => c.Policy)
+                .Select(c => new MyApplicationViewModel
+                {
+                    ApplicationId = "Claim: " + c.Id,
+                    ApplicationType = "Claim",
+                    CategoryOrType = c.Category.Name,
+                    PolicyName = c.Policy.Name,
+                    SubmittedAt = c.SubmittedAt,
+                    Status = c.Status
+                });
+
+            // Fetch Loans
+            var loanApplications = _context.Tbl_LoanRequests
+                .Where(l => l.UserId == userId)
+                .Include(l => l.Policy)
+                .Select(l => new MyApplicationViewModel
+                {
+                    ApplicationId = "Loan: " + l.Id,
+                    ApplicationType = "Loan",
+                    CategoryOrType = l.LoanType,
+                    PolicyName = l.Policy.Name,
+                    SubmittedAt = l.RequestDate,
+                    Status = l.Status
+                });
+
+       
+            List<MyApplicationViewModel> filteredApplications;
+
+            if (filter == "Claims")
+            {
+                filteredApplications = claimApplications.ToList();
+            }
+            else if (filter == "Loans")
+            {
+                filteredApplications = loanApplications.ToList();
+            }
+            else // "All"
+            {
+                filteredApplications = claimApplications.Concat(loanApplications).ToList();
+            }
+
+            var allApplications = filteredApplications.OrderByDescending(a => a.SubmittedAt).ToList();
+
+            ViewData["CurrentFilter"] = filter; 
+
+            return View(allApplications);
         }
         public IActionResult Support()
         {
@@ -926,6 +1201,226 @@ namespace PolicyPro360.Controllers.User
             }
 
             return uniqueFileName ?? string.Empty;
+        }
+
+        public IActionResult MyLoans()
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            var myLoans = _context.Tbl_LoanRequests
+                .Where(lr => lr.UserId == userId)
+                .Include(lr => lr.Installments)
+                .OrderByDescending(lr => lr.RequestDate)
+                .ToList();
+
+            return View(myLoans);
+        }
+
+        public IActionResult PayLoanInstallment(int installmentId)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            var installment = _context.Tbl_LoanInstallments
+                .Include(i => i.LoanRequest)
+                .ThenInclude(lr => lr.Policy) 
+                .FirstOrDefault(i => i.Id == installmentId && i.LoanRequest.UserId == userId);
+
+            if (installment == null)
+            {
+                TempData["ErrorMessage"] = "Installment not found.";
+                return RedirectToAction("MyLoans");
+            }
+            if (installment.LoanRequest == null)
+            {
+                TempData["ErrorMessage"] = "LoanRequest is null for this installment. Please contact support.";
+                return RedirectToAction("MyLoans");
+            }
+            if (installment.LoanRequest.Policy == null)
+            {
+                TempData["ErrorMessage"] = "Policy is null for this loan request. Please contact support.";
+                return RedirectToAction("MyLoans");
+            }
+
+            return View(installment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PayLoanInstallment(int installmentId, string paymentMode)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            var installment = _context.Tbl_LoanInstallments
+                .Include(i => i.LoanRequest)
+                .FirstOrDefault(i => i.Id == installmentId && i.LoanRequest.UserId == userId);
+
+            if (installment == null)
+            {
+                TempData["ErrorMessage"] = "Installment not found.";
+                return RedirectToAction("MyLoans");
+            }
+
+            if (installment.Status == "Paid")
+            {
+                TempData["ErrorMessage"] = "This installment has already been paid.";
+                return RedirectToAction("MyLoans");
+            }
+
+            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(uw => uw.UserId == userId);
+            if (userWallet == null || userWallet.Balance < installment.Amount)
+            {
+                TempData["ErrorMessage"] = "Insufficient balance in wallet. Please add funds first.";
+                return RedirectToAction("PayLoanInstallment", new { installmentId });
+            }
+
+            userWallet.Balance -= installment.Amount;
+            userWallet.LastUpdated = DateTime.Now;
+
+
+            installment.Status = "Paid";
+            installment.PaidDate = DateTime.Now;
+
+
+            var payment = new LoanPayment
+            {
+                UserId = userId.Value,
+                LoanInstallmentId = installmentId,
+                PaidAmount = installment.Amount,
+                PaymentMode = paymentMode,
+                PaymentDate = DateTime.Now
+            };
+            _context.Tbl_LoanPayments.Add(payment);
+
+            var userWalletEntry = new UserWallet
+            {
+                UserId = userId.Value,
+                PolicyId = installment.LoanRequest.PolicyId, 
+                Description = "Loan installment payment",
+                LastUpdated = DateTime.Now,
+                Balance = userWallet.Balance 
+            };
+            _context.Tbl_UserWallet.Add(userWalletEntry);
+
+         
+            var companyWalletEntry = new CompanyWallet
+            {
+                UserId = userId.Value,
+                CompanyId = installment.LoanRequest.Policy.CompanyId,
+                PolicyId = installment.LoanRequest.PolicyId,
+                Amount = installment.Amount, 
+                Description = "Loan installment received from user"
+            };
+            _context.Tbl_CompanyWallet.Add(companyWalletEntry);
+
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = $"Payment successful! Installment paid: {installment.Amount:C}";
+            return RedirectToAction("MyLoans");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PayLoanInstallmentManual(int installmentId)
+        {
+            int? userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                TempData["ErrorMessage"] = "User not logged in.";
+                return RedirectToAction("SignIn");
+            }
+
+            var installment = _context.Tbl_LoanInstallments
+                .Include(i => i.LoanRequest)
+                .ThenInclude(lr => lr.Policy) 
+                .FirstOrDefault(i => i.Id == installmentId && i.LoanRequest.UserId == userId);
+
+            if (installment == null)
+            {
+                TempData["ErrorMessage"] = "Installment not found.";
+                return RedirectToAction("MyLoans");
+            }
+            if (installment.LoanRequest == null)
+            {
+                TempData["ErrorMessage"] = "LoanRequest is null for this installment. Please contact support.";
+                return RedirectToAction("MyLoans");
+            }
+            if (installment.LoanRequest.Policy == null)
+            {
+                TempData["ErrorMessage"] = "Policy is null for this loan request. Please contact support.";
+                return RedirectToAction("MyLoans");
+            }
+
+            if (installment.Status == "Paid")
+            {
+                TempData["ErrorMessage"] = "This installment has already been paid.";
+                return RedirectToAction("MyLoans");
+            }
+
+       
+            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(uw => uw.UserId == userId);
+            if (userWallet == null || userWallet.Balance < installment.Amount)
+            {
+                TempData["ErrorMessage"] = "Insufficient balance in wallet. Please add funds first.";
+                return RedirectToAction("PayLoanInstallmentManual", new { installmentId });
+            }
+
+
+            userWallet.Balance -= installment.Amount;
+            userWallet.LastUpdated = DateTime.Now;
+
+            installment.Status = "Paid";
+            installment.PaidDate = DateTime.Now;
+
+ 
+            var payment = new LoanPayment
+            {
+                UserId = userId.Value,
+                LoanInstallmentId = installmentId,
+                PaidAmount = installment.Amount,
+                PaymentMode = "Manual", 
+                PaymentDate = DateTime.Now
+            };
+            _context.Tbl_LoanPayments.Add(payment);
+
+           
+            var userWalletEntry = new UserWallet
+            {
+                UserId = userId.Value,
+                PolicyId = installment.LoanRequest.PolicyId,
+                Description = "Loan installment payment",
+                LastUpdated = DateTime.Now,
+                Balance = userWallet.Balance 
+            };
+            _context.Tbl_UserWallet.Add(userWalletEntry);
+
+       
+            var companyWalletEntry = new CompanyWallet
+            {
+                UserId = userId.Value,
+                CompanyId = installment.LoanRequest.Policy.CompanyId, 
+                PolicyId = installment.LoanRequest.PolicyId, 
+                Amount = installment.Amount, 
+                Description = "Loan installment received from user"
+            };
+            _context.Tbl_CompanyWallet.Add(companyWalletEntry);
+
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = $"Payment successful! Installment paid: Rs. {installment.Amount:N0}";
+
+            return RedirectToAction("MyLoans");
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿@model List<PolicyPro360.Models.UserPolicy>
+﻿@model PolicyPro360.ViewModels.ApplyLoanViewModel
 @{
     ViewData["Title"] = "Apply For A Loan - PolicyPro360";
     Layout = "_UserDashboardLayout";
+    var policies = ViewBag.Policies as List<PolicyPro360.Models.UserPolicy>;
 }
 <!-- ============================================================== -->
 <!-- Start Page Content -->
@@ -98,42 +99,57 @@
                         <i class="ti ti-cash-banknote"
                         style="font-size: 3rem; color: var(--loan-primary);"></i>
                     </div>
-                    <h4 class="fw-semibold text-center mb-2 text-white">Apply for a Loan Against Policy</h4>
-                    <p class="text-center text-muted mb-5">
+
+                    <!-- Card Header with Title and Button -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4 class="fw-semibold text-white mb-0">Apply for a Loan Against Policy</h4>
+                        <a href="@Url.Action("MyLoans","UserHome")" class="btn btn-custom-primary btn-sm">My Loans</a>
+                    </div>
+
+                    <p class="text-muted mb-5">
                         Please select an eligible policy and fill in the required details below.
                     </p>
 
                     <!-- Apply Loan Form -->
-                    <form action="#" method="POST">
+                    <form asp-action="ApplyLoan" method="POST">
+                        @Html.AntiForgeryToken()
                         <div class="mb-4">
                             <label for="policySelect" class="form-label text-white">Select Policy</label>
-                            <select class="form-select loan-form-control " id="policySelect" required>
+                            <select asp-for="PolicyId" class="form-select loan-form-control" required>
                                 <option selected disabled value="">-- Choose an eligible policy --</option>
-                                @foreach (var policies in Model)
+                                @foreach (var p in policies)
                                 {
-                                    <option value="@policies?.Policy?.Id">@policies?.Policy?.Name</option>
+                                    <option value="@p.Policy.Id">@p.Policy.Name</option>
                                 }
                             </select>
+                            @Html.ValidationMessageFor(m => m.PolicyId)
                         </div>
 
                         <div class="mb-4">
-                            <label for="loanAmount" class="form-label text-white">
-                                Required Loan
-                                Amount
-                            </label>
+                            <label for="loanAmount" class="form-label text-white">Required Loan Amount</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" class="form-control loan-form-control" id="loanAmount"
-                                       name="LoanAmount" placeholder="e.g., 5000" required />
+                                <span class="input-group-text">₨</span>
+                                <input asp-for="LoanAmount" class="form-control loan-form-control" placeholder="e.g., 5000" required />
                             </div>
+                            @Html.ValidationMessageFor(m => m.LoanAmount)
                         </div>
 
                         <div class="mb-4">
-                            <label for="loanReason" class="form-label text-white">Reason for Loan</label>
-                            <textarea class="form-control loan-form-control" id="loanReason"
-                                      name="LoanReason" rows="4"
-                                      placeholder="e.g., Medical emergency, Child's education, etc."
-                                      required></textarea>
+                            <label for="loanType" class="form-label text-white">Loan Type</label>
+                            <input asp-for="LoanType" class="form-control loan-form-control" placeholder="e.g., Personal, Education, Medical" required />
+                            @Html.ValidationMessageFor(m => m.LoanType)
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="Purpose" class="form-label text-white">Reason for Loan</label>
+                            <textarea asp-for="Purpose" class="form-control loan-form-control" rows="4" placeholder="e.g., Medical emergency, Child's education, etc." required></textarea>
+                            @Html.ValidationMessageFor(m => m.Purpose)
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="DurationInMonths" class="form-label text-white">Duration (Months)</label>
+                            <input asp-for="DurationInMonths" class="form-control loan-form-control" placeholder="e.g., 12" required />
+                            @Html.ValidationMessageFor(m => m.DurationInMonths)
                         </div>
 
                         <div class="form-check mb-5">
@@ -141,7 +157,7 @@
                                    required>
                             <label class="form-check-label" for="termsCheck">
                                 I have read and agree to the loan <a href="#"
-                                                                     style="color: var(--loan-primary);">terms and conditions</a>.
+                                                                     style="color: var(--loan-primary);">terms and conditions</a>
                             </label>
                         </div>
 

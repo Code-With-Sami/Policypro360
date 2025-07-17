@@ -3,101 +3,152 @@
 @{
     ViewData["Title"] = "User Payment - PolicyPro360";
     Layout = "_UserDashboardLayout";
-    var userName = Context.Session.GetString("userName");
-    var userEmail = Context.Session.GetString("userEmail");
+    var userName = Context?.Session?.GetString("userName") ?? "";
+    var userEmail = Context?.Session?.GetString("userEmail") ?? "";
+    var userPolicies = ViewBag.UserPolicies as List<PolicyPro360.Models.UserPolicy> ?? new List<PolicyPro360.Models.UserPolicy>();
 }
 <!-- ============================================================== -->
 <!-- Start Page Content: Make Payment -->
 <!-- ============================================================== -->
-<div class="container-fluid pt-4" id="payment">
+<style>
+    #payment {
+        margin-top: 150px;
+    }
 
-    <style>
-        #payment {
-            margin-top: 150px;
+    :root {
+        --pay-card-bg: #1e1f2f;
+        --pay-primary: #f5a526;
+        --pay-text: #e0e0e0;
+        --pay-text-muted: #8a99b5;
+        --pay-input-bg: #2a2c3c;
+        --pay-border-color: #404258;
+    }
+
+    .payment-card {
+        background-color: var(--pay-card-bg);
+        border-radius: 12px;
+        border: none;
+        color: var(--pay-text);
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--pay-border-color);
+    }
+
+        .summary-item:last-of-type {
+            border-bottom: none;
         }
 
-        :root {
-            --pay-card-bg: #1e1f2f;
-            --pay-primary: #f5a526;
-            --pay-text: #e0e0e0;
-            --pay-text-muted: #8a99b5;
-            --pay-input-bg: #2a2c3c;
-            --pay-border-color: #404258;
-        }
+    .summary-label {
+        color: var(--pay-text-muted);
+    }
 
-        .payment-card {
-            background-color: var(--pay-card-bg);
-            border-radius: 12px;
-            border: none;
-            color: var(--pay-text);
-        }
+    .summary-value {
+        font-weight: 600;
+    }
 
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--pay-border-color);
-        }
+    .total-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--pay-primary);
+    }
 
-            .summary-item:last-of-type {
-                border-bottom: none;
-            }
+    .payment-form-control {
+        background-color: var(--pay-input-bg);
+        border-color: var(--pay-border-color);
+        color: var(--pay-text);
+    }
 
-        .summary-label {
-            color: var(--pay-text-muted);
-        }
-
-        .summary-value {
-            font-weight: 600;
-        }
-
-        .total-amount {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--pay-primary);
-        }
-
-        .payment-form-control {
+        .payment-form-control:focus {
             background-color: var(--pay-input-bg);
-            border-color: var(--pay-border-color);
-            color: var(--pay-text);
-        }
-
-            .payment-form-control:focus {
-                background-color: var(--pay-input-bg);
-                border-color: var(--pay-primary);
-                color: var(--pay-text);
-                box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
-            }
-
-        .btn-custom-primary {
-            background-color: var(--pay-primary);
             border-color: var(--pay-primary);
-            color: #171827;
-            font-weight: 600;
-            padding: 12px 25px;
-            font-size: 1.1rem;
+            color: var(--pay-text);
+            box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
         }
 
-        /* Custom Radio Buttons for Payment Methods */
-        .payment-method-card {
-            border: 1px solid var(--pay-border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
+    .btn-custom-primary {
+        background-color: var(--pay-primary);
+        border-color: var(--pay-primary);
+        color: #171827;
+        font-weight: 600;
+        padding: 12px 25px;
+        font-size: 1.1rem;
+    }
+
+    /* Payment Options Styling */
+    .payment-options .payment-option-card {
+        background-color: #2a2c41;
+        border: 2px solid #4a4e69;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+
+        .payment-options .payment-option-card:hover {
+            border-color: var(--pay-primary);
+            transform: translateY(-3px);
         }
 
-        .form-check-input[type="radio"] {
-            display: none;
+        .payment-options .payment-option-card.active {
+            border-color: var(--pay-primary);
+            background-color: #171827;
+            box-shadow: 0 0 15px rgba(245, 165, 38, 0.2);
         }
 
-            .form-check-input[type="radio"]:checked + .payment-method-card {
-                border-color: var(--pay-primary);
-                background-color: var(--pay-input-bg);
-                box-shadow: 0 0 10px rgba(245, 165, 38, 0.2);
-            }
-    </style>
+    .payment-form {
+        display: none;
+    }
+
+        .payment-form.active {
+            display: block;
+        }
+
+    .secure-connection-text {
+        color: #28a745;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+        .secure-connection-text i {
+            margin-right: 5px;
+        }
+
+    .manual-payment-card {
+        background-color: var(--pay-card-bg);
+        border: 1px solid var(--pay-primary);
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .manual-payment-header {
+        background-color: var(--pay-primary);
+        color: #171827;
+        font-weight: 700;
+        padding: 15px 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .policy-selector {
+        background-color: var(--pay-input-bg);
+        border-color: var(--pay-border-color);
+        color: var(--pay-text);
+        padding: 10px;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+        .policy-selector:focus {
+            border-color: var(--pay-primary);
+            box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
+        }
+</style>
+
+<div class="container-fluid pt-4" id="payment">
 
     <div class="row">
         <!-- Left Column: Payment Summary -->
@@ -105,30 +156,49 @@
             <div class="card payment-card">
                 <div class="card-body p-4">
                     <h5 class="fw-semibold text-white mb-4">Payment Summary</h5>
+                    
+                    @if (userPolicies.Count > 1)
+                    {
+                        <div class="summary-item">
+                            <span class="summary-label">Select Policy</span>
+                            <select id="policySelector" class="policy-selector">
+                                @foreach (var policy in userPolicies)
+                                {
+                                    <option value="@policy.Id" 
+                                            data-policy-id="@policy.PolicyId"
+                                            data-policy-name="@policy.Policy.Name"
+                                            data-policy-type="@(policy.Policy.Category?.Name ?? "Insurance")"
+                                            data-premium="@policy.CalculatedPremium"
+                                            data-company="@policy.Policy.Company?.CompanyName">
+                                        @policy.Policy.Name - @policy.Policy.Company?.CompanyName
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    
                     <div class="summary-item">
                         <span class="summary-label">Policy Name</span>
-                        <span class="summary-value">@Model.PolicyName</span>
+                        <span class="summary-value" id="policyName">@Model.PolicyName</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Policy Number</span>
-                        <span class="summary-value">@Model.PolicyId</span>
+                        <span class="summary-value" id="policyNumber">@Model.PolicyId</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Premium Amount</span>
-                        <span class="summary-value">PKR @Model.CalculatedPremium?.ToString("N2")</span>
+                        <span class="summary-value" id="premiumAmount">PKR @Model.CalculatedPremium?.ToString("N2")</span>
                     </div>
-                    <!-- <div class="summary-item">
-                        <span class="summary-label">Due Date</span>
+                    <div class="summary-item">
+                        <span class="summary-label">Payment Type</span>
                         <span class="summary-value">
-                            <span class="badge bg-danger-subtle text-danger">
-                                Due in 5 days
-                            </span>
+                            <span class="badge bg-warning text-dark">Annual Premium</span>
                         </span>
-                    </div> -->
+                    </div>
                     <div class="pt-4 mt-4">
                         <div class="d-flex justify-content-between">
                             <h6 class="fw-semibold text-white">Total Amount Payable</h6>
-                            <h6 class="fw-semibold total-amount">PKR @Model.CalculatedPremium?.ToString("N2")</h6>
+                            <h6 class="fw-semibold total-amount" id="totalAmount">PKR @Model.CalculatedPremium?.ToString("N2")</h6>
                         </div>
                     </div>
                 </div>
@@ -140,34 +210,98 @@
             <div class="card payment-card">
                 <div class="card-body p-4">
                     <h5 class="fw-semibold text-white mb-4">Choose Payment Method</h5>
-                    <form action="#" method="POST">
-                        <!-- Payment Method Options -->
-                        <div class="d-flex gap-3 mb-4">
-                            <div class="form-check flex-fill">
-                                <input type="radio" class="form-check-input" name="paymentMethod" id="creditCard" checked>
-                                <label class="payment-method-card text-center" for="creditCard">
-                                    <i class="ti ti-credit-card fs-4"></i>
-                                    <p class="mb-0 mt-1">Credit/Debit Card</p>
-                                </label>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success text-dark">@TempData["SuccessMessage"]</div>
+                    }
+
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger text-dark">@TempData["ErrorMessage"]</div>
+                    }
+
+                    @if (ViewBag.LoanInstallment != null)
+                    {
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5>Loan Installment Payment (This Month)</h5>
                             </div>
-                            <div class="form-check flex-fill">
-                                <input type="radio" class="form-check-input" name="paymentMethod" id="netBanking">
-                                <label class="payment-method-card text-center" for="netBanking">
-                                    <i class="ti ti-building-bank fs-4"></i>
-                                    <p class="mb-0 mt-1">Net Banking</p>
-                                </label>
-                            </div>
-                            <div class="form-check flex-fill">
-                                <input type="radio" class="form-check-input" name="paymentMethod" id="upi">
-                                <label class="payment-method-card text-center" for="upi">
-                                    <i class="ti ti-brand-google fs-4"></i>
-                                    <p class="mb-0 mt-1">UPI</p>
-                                </label>
+                            <div class="card-body">
+                                <p><strong>Amount Due:</strong> @ViewBag.LoanInstallment.Amount.ToString("N0") PKR</p>
+                                <form asp-action="PayLoanInstallmentManual" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="installmentId" value="@ViewBag.LoanInstallment.Id" />
+                                    <button type="submit" class="btn btn-primary">Pay Now</button>
+                                </form>
                             </div>
                         </div>
+                    }
+                    else if (ViewBag.HasAnyLoan == true)
+                    {
+                        <div class="alert alert-success text-dark mt-4">
+                            You have paid your loan installment for this month.
+                        </div>
+                    }
 
-                        <!-- Credit Card Form -->
-                        <div id="creditCardForm">
+                    <!-- Manual Payment Option -->
+                    <div class="d-grid gap-2 mb-4">
+                        <button id="showManualPaymentBtn" class="btn btn-custom-primary">Submit Manual/Offline Payment</button>
+                    </div>
+
+                    <!-- Manual Payment Form -->
+                    <div id="manualPaymentForm" style="display:none;" class="manual-payment-card">
+                        <div class="manual-payment-header">
+                            <strong>Manual/Offline Payment Submission</strong>
+                        </div>
+                        <div class="card-body">
+                            <form asp-action="SubmitManualPaymentForUserPolicy" asp-controller="UserHome" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="UserPolicyId" id="hiddenUserPolicyId" value="@userPolicies.FirstOrDefault()?.Id" />
+                                <input type="hidden" name="CalculatedPremium" id="hiddenCalculatedPremium" value="@Model.CalculatedPremium" />
+                                <input type="hidden" name="PayerName" value="@userName" />
+                                <input type="hidden" name="PayerEmail" value="@userEmail" />
+                                <div class="mb-3">
+                                    <label class="form-label text-white">Amount</label>
+                                    <input name="Amount" type="number" class="form-control payment-form-control" id="paymentAmount" value="@Model.CalculatedPremium" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-white">Payment Reference / Notes</label>
+                                    <input name="Reference" class="form-control payment-form-control" placeholder="Enter payment reference or notes" />
+                                </div>
+                                <button type="submit" class="btn btn-custom-primary w-100">
+                                    Submit Payment Details
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Options -->
+                    <div class="payment-options">
+                        <div class="payment-option-card d-flex align-items-center gap-3 active" data-payment-target="#credit-card-form">
+                            <i class="fas fa-credit-card fa-2x text-white"></i>
+                            <div>
+                                <h6 class="mb-0 text-white">Credit / Debit Card</h6>
+                                <small class="text-muted">Visa, MasterCard</small>
+                            </div>
+                        </div>
+                        <div class="payment-option-card d-flex align-items-center gap-3" data-payment-target="#jazzcash-form">
+                            <img src="@Url.Content("~/user/assets/images/resources/jazz.png")" height="32" alt="JazzCash" />
+                            <div>
+                                <h6 class="mb-0 text-white">JazzCash</h6>
+                                <small class="text-muted">Mobile Account</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credit Card Payment Form -->
+                    <div id="credit-card-form" class="payment-form active">
+                        <form asp-action="SubmitCreditCardPayment" asp-controller="UserHome" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="PolicyId" id="creditCardPolicyId" value="@Model.PolicyId" />
+                            <input type="hidden" name="CalculatedPremium" id="creditCardCalculatedPremium" value="@Model.CalculatedPremium" />
+                            
                             <div class="mb-3">
                                 <label for="cardNumber" class="form-label text-white">Card Number</label>
                                 <input type="text" class="form-control payment-form-control" id="cardNumber"
@@ -190,17 +324,27 @@
                                 <input type="text" class="form-control payment-form-control" id="cardHolderName"
                                        placeholder="John Doe" required>
                             </div>
-                        </div>
+                            <button type="submit" class="btn btn-custom-primary w-100">Pay PKR @Model.CalculatedPremium?.ToString("N2")</button>
+                        </form>
+                    </div>
 
-                        <button type="submit" class="btn btn-custom-primary w-100">Pay @Model.CalculatedPremium?.ToString("N2")</button>
-
-                        <div class="text-center mt-4">
-                            <p class="text-muted fs-2">
-                                <i class="ti ti-lock me-1"></i> Secure payment powered by Stripe &
-                                Razorpay
-                            </p>
+                    <!-- JazzCash Payment Redirect -->
+                    <div id="jazzcash-form" class="payment-form">
+                        <div class="text-center p-4">
+                            <p class="text-white">You will be redirected to the official JazzCash page to complete your payment securely.</p>
+                            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                            <a href="https://payments.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/"
+                               class="btn btn-custom-primary w-100">
+                                Pay with JazzCash
+                            </a>
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="secure-connection-text">
+                            <i class="fas fa-lock"></i> Secure payment powered by Stripe & Razorpay
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,3 +353,71 @@
 <!-- ============================================================== -->
 <!-- End Page Content: Make Payment -->
 <!-- ============================================================== -->
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const paymentOptions = document.querySelectorAll('.payment-options .payment-option-card');
+            const paymentForms = document.querySelectorAll('.payment-form');
+            const policySelector = document.getElementById('policySelector');
+
+            // Policy selector functionality
+            if (policySelector)
+            {
+                policySelector.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    const policyId = selectedOption.getAttribute('data-policy-id');
+                    const policyName = selectedOption.getAttribute('data-policy-name');
+                    const policyType = selectedOption.getAttribute('data-policy-type');
+                    const premium = selectedOption.getAttribute('data-premium');
+                    const company = selectedOption.getAttribute('data-company');
+
+                    // Update summary display
+                    document.getElementById('policyName').textContent = policyName;
+                    document.getElementById('policyNumber').textContent = policyId;
+                    document.getElementById('premiumAmount').textContent = 'PKR ' + parseFloat(premium).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    document.getElementById('totalAmount').textContent = 'PKR ' + parseFloat(premium).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                    // Update hidden fields
+                    document.getElementById('hiddenUserPolicyId').value = selectedOption.value;
+                    document.getElementById('hiddenCalculatedPremium').value = premium;
+                    document.getElementById('creditCardPolicyId').value = policyId;
+                    document.getElementById('creditCardCalculatedPremium').value = premium;
+                    document.getElementById('paymentAmount').value = premium;
+
+                    // Update credit card form button
+                    const creditCardButton = document.querySelector('#credit-card-form button[type="submit"]');
+                    if (creditCardButton) {
+                        creditCardButton.textContent = 'Pay PKR ' + parseFloat(premium).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    }
+                });
+            }
+
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    paymentOptions.forEach(o => o.classList.remove('active'));
+                    paymentForms.forEach(f => f.classList.remove('active'));
+
+                    this.classList.add('active');
+
+                    const targetFormId = this.getAttribute('data-payment-target');
+                    if(targetFormId) {
+                        document.querySelector(targetFormId).classList.add('active');
+                    }
+                });
+            });
+
+            // Manual Payment Button
+            document.getElementById('showManualPaymentBtn').onclick = function() {
+                const manualForm = document.getElementById('manualPaymentForm');
+                if (manualForm.style.display === 'none') {
+                    manualForm.style.display = 'block';
+                    this.textContent = 'Hide Manual Payment';
+                } else {
+                    manualForm.style.display = 'none';
+                    this.textContent = 'Submit Manual/Offline Payment';
+                }
+            };
+        });
+    </script>
+}

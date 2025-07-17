@@ -7,8 +7,9 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <div class="container-fluid pt-4" id="policy">
-    <!-- Custom Styles for My Policies Page -->
+
     <style>
+
         #policy {
             margin-top: 150px;
         }
@@ -20,7 +21,7 @@
             --policy-text: #e0e0e0;
             --policy-text-muted: #8a99b5;
             --policy-input-bg: #2a2c3c;
-            /* Yeh color hum boxes ke liye istemal karenge */
+
             --policy-border-color: #404258;
         }
 
@@ -147,7 +148,16 @@
         <div class="col-lg-4 col-md-12">
             <div class="snapshot-card">
                 <i class="ti ti-calendar-event snapshot-icon"></i>
-                <h3 class="snapshot-value text-white">@ViewBag.nextPaymentDue.ToString("MMMM dd, yyyy")</h3>
+                <h3 class="snapshot-value text-white">
+                    @if (ViewBag.nextPaymentDue != null)
+                    {
+                        @(((DateTime)ViewBag.nextPaymentDue).ToString("MMMM dd, yyyy"))
+                    }
+                    else
+                    {
+                        @("N/A")
+                    }
+                </h3>
                 <p class="snapshot-label mb-0">Next Payment Due</p>
             </div>
         </div>
@@ -158,16 +168,21 @@
         <div class="card-body p-4">
             <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
                 <h5 class="card-title fw-semibold mb-0 text-white">My Insurance Policies</h5>
-                <div class="d-flex flex-wrap">
-                    <input type="search" class="form-control" placeholder="Search Policy..."
-                           style="background-color: var(--policy-input-bg); color: var(--policy-text); border-color: var(--policy-border-color); width: 200px;">
-                    <select class="form-select"
-                            style="background-color: var(--policy-input-bg); color: var(--policy-text); border-color: var(--policy-border-color); width: 200px;">
-                        <option value="">All Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Expired">Expired</option>
-                    </select>
-                </div>
+                <form asp-action="MyPolicies" method="get">
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <input type="search" class="form-control" placeholder="Search Policy..." name="searchTerm" value="@ViewData["CurrentSearchTerm"]"
+                               style="background-color: var(--policy-input-bg); color: var(--policy-text); border-color: var(--policy-border-color); width: 200px;">
+
+                        <select class="form-select" name="status" onchange="this.form.submit()"
+                                style="background-color: var(--policy-input-bg); color: var(--policy-text); border-color: var(--policy-border-color); width: 200px;">
+                            <option value="">All Status</option>
+                            <option value="Active" selected="@(ViewData["CurrentStatus"] as string == "Active")">Active</option>
+                            <option value="Expired" selected="@(ViewData["CurrentStatus"] as string == "Expired")">Expired</option>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
             </div>
 
             <div class="table-responsive">
@@ -187,23 +202,35 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="@myPolicy?.Policy?.Company?.CompanyLogoPath" alt="Company Logo"
+                                        <img src="@(myPolicy.Policy?.Company?.CompanyLogoPath ?? "/path/to/default/logo.png")" alt="Company Logo"
                                              class="company-logo">
                                         <div>
 
-                                            <h6 class="fw-semibold mb-0 text-white">@myPolicy?.Policy?.Name</h6>
-                                            <small class="text-muted">@myPolicy?.Policy?.Company?.CompanyName</small>
+                                            <h6 class="fw-semibold mb-0 text-white">@(myPolicy.Policy?.Name ?? "N/A")</h6>
+                                            <small class="text-muted">@(myPolicy.Policy?.Company?.CompanyName ?? "Unknown Company")</small>
                                         </div>
                                     </div>
                                 </td>
 
-                                <td class="text-end fw-semibold">@myPolicy?.CalculatedPremium</td>
-                                <td class="text-center text-white">@myPolicy?.ExpiryDate.ToString("MMMM dd, yyyy")</td>
+                                <td class="text-end fw-semibold">@myPolicy.CalculatedPremium</td>
+                                <td class="text-center text-white">@myPolicy.ExpiryDate.ToString("MMMM dd, yyyy")</td>
                                 <td class="text-center">
-                                    <span class="badge badge-active rounded-pill px-3 py-1">@myPolicy?.Status</span>
+                                    @{
+                                        var status = myPolicy.Status ?? "Pending";
+                                        var badgeClass = "badge-pending";
+                                        if (status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            badgeClass = "badge-active";
+                                        }
+                                        else if (status.Equals("Expired", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            badgeClass = "badge-expired";
+                                        }
+                                    }
+                                    <span class="badge @badgeClass rounded-pill px-3 py-1">@status</span>
                                 </td>
                                 <td class="text-end">
-                                    <a href="@Url.Action("mypolicydetail","UserHome", new {id = @myPolicy?.Id})" class="btn btn-sm btn-outline-light">
+                                    <a href="@Url.Action("mypolicydetail", "UserHome", new { id = myPolicy.Id })" class="btn btn-sm btn-outline-light">
                                         View
                                         Details
                                     </a>

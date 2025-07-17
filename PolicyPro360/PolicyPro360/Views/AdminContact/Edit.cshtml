@@ -1,0 +1,94 @@
+@model PolicyPro360.Models.Contact
+
+@{
+    ViewData["Title"] = "Edit Contact - PolicyPro360";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Edit Contact</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index", "Contact")"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Edit Contact
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Edit Contact</h5>
+
+                            <form asp-controller="Contact" asp-action="Edit" method="post" class="row g-3">
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.Id)
+                                @Html.HiddenFor(m => m.CreatedDate)
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <!-- Name -->
+                                <div class="col-md-12">
+                                    <label asp-for="Name" class="form-label">Name</label>
+                                    <input asp-for="Name" class="form-control @(ViewData.ModelState["Name"]?.Errors.Count > 0 ? "is-invalid" : "")" placeholder="Enter name..." />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <!-- Email -->
+                                <div class="col-md-12">
+                                    <label asp-for="Email" class="form-label">Email</label>
+                                    <input asp-for="Email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" placeholder="Enter email..." />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <!-- Phone -->
+                                <div class="col-md-12">
+                                    <label asp-for="Phone" class="form-label">Phone</label>
+                                    <input asp-for="Phone" class="form-control @(ViewData.ModelState["Phone"]?.Errors.Count > 0 ? "is-invalid" : "")" placeholder="Enter phone..." />
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                                <!-- Subject -->
+                                <div class="col-md-12">
+                                    <label asp-for="Subject" class="form-label">Subject</label>
+                                    <input asp-for="Subject" class="form-control @(ViewData.ModelState["Subject"]?.Errors.Count > 0 ? "is-invalid" : "")" placeholder="Enter subject..." />
+                                    <span asp-validation-for="Subject" class="text-danger"></span>
+                                </div>
+                                <!-- Message -->
+                                <div class="col-md-12">
+                                    <label asp-for="Message" class="form-label">Message</label>
+                                    <textarea asp-for="Message" class="form-control @(ViewData.ModelState["Message"]?.Errors.Count > 0 ? "is-invalid" : "")" rows="5" placeholder="Enter message..."></textarea>
+                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                </div>
+                                <!-- Created Date Info -->
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <strong>Created Information:</strong><br />
+                                        Created on: @Model.CreatedDate.ToString("dd MMM, yyyy 'at' hh:mm tt")
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="d-md-flex d-grid align-items-center gap-3">
+                                        <button type="submit" class="btn btn-grd-primary px-4 text-white">Update</button>
+                                        <a href="@Url.Action("Index", "Contact")" class="btn btn-secondary px-4">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

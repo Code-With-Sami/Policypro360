@@ -1,0 +1,38 @@
+@model PolicyPro360.Models.Contact
+@{
+    ViewData["Title"] = "Contact Details - PolicyPro360";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<main class="main-wrapper">
+    <div class="main-content">
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Contact Details</div>
+        </div>
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Contact Details</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Name</dt>
+                                <dd class="col-sm-8">@Model.Name</dd>
+                                <dt class="col-sm-4">Email</dt>
+                                <dd class="col-sm-8">@Model.Email</dd>
+                                <dt class="col-sm-4">Phone</dt>
+                                <dd class="col-sm-8">@Model.Phone</dd>
+                                <dt class="col-sm-4">Subject</dt>
+                                <dd class="col-sm-8">@Model.Subject</dd>
+                                <dt class="col-sm-4">Message</dt>
+                                <dd class="col-sm-8">@Model.Message</dd>
+                                <dt class="col-sm-4">Created Date</dt>
+                                <dd class="col-sm-8">@Model.CreatedDate.ToString("dd MMM, yyyy 'at' hh:mm tt")</dd>
+                            </dl>
+                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main> 

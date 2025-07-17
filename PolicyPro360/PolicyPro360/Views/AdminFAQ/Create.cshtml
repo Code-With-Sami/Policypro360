@@ -1,0 +1,110 @@
+@model PolicyPro360.Models.FAQ
+
+@{
+    ViewData["Title"] = "Create FAQ - PolicyPro360";
+    Layout = "_Layout";
+}
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">FAQ Form</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Add a FAQ
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Index", "FAQ")">
+                        Show FAQs
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Add a FAQ</h5>
+
+                            <form asp-controller="FAQ" asp-action="Create" method="post" class="row g-3">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        @TempData["SuccessMessage"]
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                }
+
+                                <!-- Question -->
+                                <div class="col-md-12">
+                                    <label asp-for="Question" class="form-label">Question</label>
+                                    <div class="position-relative input-icon">
+                                        <textarea asp-for="Question" 
+                                                  class="form-control @(ViewData.ModelState["Question"]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                                                  rows="3" 
+                                                  placeholder="Enter the question that users frequently ask..."></textarea>
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">help_outline</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Question" class="text-danger"></span>
+                                </div>
+
+                                <!-- Answer -->
+                                <div class="col-md-12">
+                                    <label asp-for="Answer" class="form-label">Answer</label>
+                                    <div class="position-relative input-icon">
+                                        <textarea asp-for="Answer" 
+                                                  class="form-control @(ViewData.ModelState["Answer"]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                                                  rows="6" 
+                                                  placeholder="Provide a detailed and helpful answer..."></textarea>
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">description</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Answer" class="text-danger"></span>
+                                </div>
+
+                                <!-- Active Status -->
+                                <div class="col-md-12">
+                                    <div class="form-check">
+                                        <input asp-for="IsActive" class="form-check-input" type="checkbox" id="isActiveCheck" />
+                                        <label class="form-check-label" for="isActiveCheck">
+                                            Active (Show on user side)
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit and Reset Buttons -->
+                                <div class="col-md-12">
+                                    <div class="d-md-flex d-grid align-items-center gap-3">
+                                        <button type="submit" class="btn btn-grd-primary px-4 text-white">Submit</button>
+                                        <button type="reset" class="btn btn-grd-royal px-4 text-white">Reset</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

@@ -247,6 +247,197 @@ namespace PolicyPro360.Migrations
                     b.ToTable("Tbl_CompanyWallet");
                 });
 
+            modelBuilder.Entity("PolicyPro360.Models.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tbl_Contact");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.FAQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tbl_FAQ");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanInstallment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LoanRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PaidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoanRequestId");
+
+                    b.ToTable("Tbl_LoanInstallments");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanPayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("LoanInstallmentId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PaidAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoanInstallmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tbl_LoanPayments");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("DisbursedAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("DurationInMonths")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("LoanAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("LoanType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("PolicyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PolicyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tbl_LoanRequests");
+                });
+
             modelBuilder.Entity("PolicyPro360.Models.Policy", b =>
                 {
                     b.Property<int>("Id")
@@ -498,6 +689,39 @@ namespace PolicyPro360.Migrations
                     b.ToTable("Tbl_UserPolicy");
                 });
 
+            modelBuilder.Entity("PolicyPro360.Models.UserWallet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PolicyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PolicyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tbl_UserWallet");
+                });
+
             modelBuilder.Entity("PolicyPro360.Models.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -596,10 +820,59 @@ namespace PolicyPro360.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PolicyPro360.Models.LoanInstallment", b =>
+                {
+                    b.HasOne("PolicyPro360.Models.LoanRequest", "LoanRequest")
+                        .WithMany("Installments")
+                        .HasForeignKey("LoanRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LoanRequest");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanPayment", b =>
+                {
+                    b.HasOne("PolicyPro360.Models.LoanInstallment", "LoanInstallment")
+                        .WithMany("Payments")
+                        .HasForeignKey("LoanInstallmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PolicyPro360.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("LoanInstallment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanRequest", b =>
+                {
+                    b.HasOne("PolicyPro360.Models.Policy", "Policy")
+                        .WithMany()
+                        .HasForeignKey("PolicyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PolicyPro360.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Policy");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PolicyPro360.Models.Policy", b =>
                 {
                     b.HasOne("PolicyPro360.Models.Company", "Company")
-                        .WithMany()
+                        .WithMany("Policies")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -687,6 +960,38 @@ namespace PolicyPro360.Migrations
                     b.Navigation("Policy");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.UserWallet", b =>
+                {
+                    b.HasOne("PolicyPro360.Models.Policy", "Policy")
+                        .WithMany()
+                        .HasForeignKey("PolicyId");
+
+                    b.HasOne("PolicyPro360.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Policy");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.Company", b =>
+                {
+                    b.Navigation("Policies");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanInstallment", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("PolicyPro360.Models.LoanRequest", b =>
+                {
+                    b.Navigation("Installments");
                 });
 
             modelBuilder.Entity("PolicyPro360.Models.Policy", b =>

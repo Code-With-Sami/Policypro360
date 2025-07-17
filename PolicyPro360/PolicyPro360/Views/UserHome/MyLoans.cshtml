@@ -1,0 +1,257 @@
+@model List<PolicyPro360.Models.LoanRequest>
+@{
+    ViewData["Title"] = "My Loans - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="container-fluid pt-4" id="loans">
+    <style>
+        #loans {
+            margin-top: 150px;
+            color: #e0e0e0;
+        }
+
+        .loan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+            .loan-header h2 {
+                color: #fff;
+                font-weight: 600;
+            }
+
+        .loan-card {
+            background-color: #1e1f2f;
+            border: 1px solid #2a2c3c;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+            .loan-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+        .loan-card-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a2c3c;
+        }
+
+        .loan-card-body {
+            padding: 20px;
+        }
+
+        .loan-status {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-approved {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .status-rejected {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+
+        .loan-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-item {
+            font-size: 0.9rem;
+        }
+
+            .detail-item strong {
+                display: block;
+                color: #8a99b5;
+                font-weight: 500;
+                margin-bottom: 5px;
+            }
+
+        .installments-accordion .accordion-button {
+            background-color: #171827;
+            color: #f5a526;
+            font-weight: 600;
+        }
+
+            .installments-accordion .accordion-button:not(.collapsed) {
+                box-shadow: none;
+            }
+
+        .installments-accordion .accordion-body {
+            background-color: #171827;
+            padding: 20px;
+        }
+
+        .installment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+
+        .installment-paid {
+            background-color: #2a2c3c;
+            border-color: #28a745;
+        }
+
+        .installment-unpaid {
+            background-color: #2a2c3c;
+            border-color: #ffc107;
+        }
+
+        .installment-late {
+            background-color: #2a2c3c;
+            border-color: #dc3545;
+        }
+
+        .no-loans-card {
+            background-color: #1e1f2f;
+            border-radius: 12px;
+            padding: 50px;
+            text-align: center;
+        }
+
+            .no-loans-card i {
+                font-size: 4rem;
+                color: #f5a526;
+                margin-bottom: 20px;
+            }
+
+        .btn-primary {
+            background-color: #f5a526;
+            border-color: #f5a526;
+        }
+
+            .btn-primary:hover {
+                background-color: #d8901e;
+                border-color: #d8901e;
+            }
+
+    </style>
+
+    <div class="loan-header">
+        <h2>My Loan History</h2>
+        <a href="@Url.Action("ApplyLoan")" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Apply for a New Loan</a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-dark">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="no-loans-card">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <h4 class="text-white mb-3">No Loan History Found</h4>
+            <p class="text-muted mb-4">It looks like you haven't applied for any loans yet. <br />You can start your first loan application now.</p>
+            <a href="@Url.Action("ApplyLoan")" class="btn btn-primary">Apply for a Loan</a>
+        </div>
+    }
+    else
+    {
+        foreach (var loan in Model.OrderByDescending(l => l.RequestDate))
+        {
+            <div class="card loan-card">
+                <div class="loan-card-header">
+                    <div>
+                        <h5 class="mb-0 text-white">Loan Request #@loan.Id</h5>
+                        <small class="text-muted">Applied on @loan.RequestDate.ToString("MMM dd, yyyy")</small>
+                    </div>
+                    <span class="loan-status status-@loan.Status.ToLower()">
+                        @if (loan.Status == "Approved")
+                        {
+                            <i class="fas fa-check-circle"></i>
+                        }
+                        @if (loan.Status == "Pending")
+                        {
+                            <i class="fas fa-clock"></i>
+                        }
+                        @if (loan.Status == "Rejected")
+                        {
+                            <i class="fas fa-times-circle"></i>
+                        }
+                        @loan.Status.ToUpper()
+                    </span>
+                </div>
+                <div class="loan-card-body">
+                    <div class="loan-details-grid mb-4">
+                        <div class="detail-item"><strong>Loan Amount</strong> @loan.LoanAmount.ToString("N0") PKR</div>
+                        <div class="detail-item"><strong>Loan Type</strong> @loan.LoanType</div>
+                        <div class="detail-item"><strong>Duration</strong> @loan.DurationInMonths months</div>
+                        <div class="detail-item"><strong>Purpose</strong> @loan.Purpose</div>
+                        @if (loan.DisbursedAmount.HasValue)
+                        {
+                            <div class="detail-item"><strong>Disbursed Amount</strong> @loan.DisbursedAmount.Value.ToString("N0") PKR</div>
+                        }
+                        @if (loan.ApprovalDate.HasValue)
+                        {
+                            <div class="detail-item"><strong>Processed Date</strong> @loan.ApprovalDate.Value.ToString("MMM dd, yyyy")</div>
+                        }
+                    </div>
+
+                    @if (loan.Status == "Approved" && loan.Installments != null && loan.Installments.Any())
+                    {
+                        <div class="accordion installments-accordion" id="accordion-@loan.Id">
+                            <div class="accordion-item" style="border:none;">
+                                <h2 class="accordion-header" id="heading-@loan.Id">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@loan.Id" aria-expanded="false" aria-controls="collapse-@loan.Id">
+                                        View Installment Schedule
+                                    </button>
+                                </h2>
+                                <div id="collapse-@loan.Id" class="accordion-collapse collapse" aria-labelledby="heading-@loan.Id" data-bs-parent="#accordion-@loan.Id">
+                                    <div class="accordion-body">
+                                        @foreach (var installment in loan.Installments.OrderBy(i => i.DueDate))
+                                        {
+                                            var statusClass = "unpaid";
+                                            if (installment.Status == "Paid") { statusClass = "paid"; }
+                                            else if (installment.Status == "Late") { statusClass = "late"; }
+
+                                            <div class="installment-item installment-@statusClass">
+                                                <div>
+                                                    <strong class="text-white">@installment.DueDate.ToString("MMMM dd, yyyy")</strong>
+                                                    <p class="mb-0 text-muted">Amount: @installment.Amount.ToString("N0") PKR</p>
+                                                </div>
+                                                <span class="badge bg-@((installment.Status == "Paid") ? "success" : (installment.Status == "Late") ? "danger" : "warning")">@installment.Status</span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

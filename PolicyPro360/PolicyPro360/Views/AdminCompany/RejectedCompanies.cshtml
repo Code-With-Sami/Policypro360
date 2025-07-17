@@ -78,7 +78,7 @@
         <!-- Breadcrumb -->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="breadcrumb-title pe-3">Rejected Companies</div>
-            
+           
         </div>
 
         <!-- Users Table -->
@@ -93,23 +93,16 @@
             }
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id ="rejectedCompaniesTable" class="table table-striped table-bordered" style="width:100%">
+                    <table id="rejectedCompaniesTable" class="table table-striped table-bordered" style="width:100%">
                         <thead class="table-dark">
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
+                                <th>Company Name</th>
                                 <th>Business Type</th>
-                                <th>Industry Type</th>
-                                <th>Description</th>
-                                <th>Country</th>
-                                <th>City</th>
-                                <th>Address</th>
                                 <th>Email</th>
-                                <th>Phone No</th>
-                                <th>Logo</th>
+                                <th>Phone</th>
                                 <th>Status</th>
                                 <th>Action</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -122,27 +115,16 @@
                                         <td>@count</td>
                                         <td>@company.CompanyName</td>
                                         <td>@company.BusinessType</td>
-                                        <td>@company.IndustryType</td>
-                                        <td>@company.Description</td>
-                                        <td>@company.Country</td>
-                                        <td>@company.City</td>
-                                        <td>@company.Address</td>
                                         <td>@company.Email</td>
                                         <td>@company.PhoneNo</td>
                                         <td>
-                                            @if (!string.IsNullOrEmpty(company.CompanyLogoPath))
-                                            {
-                                                <img src="@company.CompanyLogoPath" alt="Profile" width="50" height="50" class="rounded-circle" />
-                                            }
-                                            else
-                                            {
-                                                <span class="text-muted">No Image</span>
-                                            }
+                                            <span class="badge bg-danger">@company.Status</span>
                                         </td>
-                                        <td>@company.Status</td>
                                         <td>
-                                            <a asp-action="Approve" asp-route-id="@company.Id" asp-route-status="Approved" class="btn btn-sm btn-success">Approve</a>
-                                            @* <a asp-action="Reject" asp-route-id="@company.Id" asp-route-status="Declined" class="btn btn-sm btn-danger">Decline</a> *@
+                                            <a asp-action="View" asp-route-id="@company.Id" class="btn btn-sm btn-info">View</a>
+                                            <a asp-action="Approve" asp-route-id="@company.Id" class="btn btn-sm btn-success">Approve</a>
+                                            <a asp-action="Delete" asp-route-id="@company.Id" class="btn btn-sm btn-danger" 
+                                               onclick="return confirm('Are you sure you want to delete this company?')">Delete</a>
                                         </td>
                                     </tr>
                                     count++;
@@ -151,7 +133,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="13" class="text-center text-muted">No pending companies found.</td>
+                                    <td colspan="7" class="text-center text-muted">No rejected companies found.</td>
                                 </tr>
                             }
                         </tbody>

@@ -40,6 +40,20 @@ namespace PolicyPro360.Controllers.Admin
             return View(companies);
         }
 
+        public IActionResult View(int id)
+        {
+            var company = _context.Tbl_Company
+                .Include(c => c.Policies)
+                .FirstOrDefault(c => c.Id == id);
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return View(company);
+        }
+
         public IActionResult Approve(int id)
         {
             var company = _context.Tbl_Company.Find(id);
@@ -59,6 +73,39 @@ namespace PolicyPro360.Controllers.Admin
                 company.Status = "Rejected";
                 _context.SaveChanges();
             }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var company = _context.Tbl_Company
+                .Include(c => c.Policies)
+                .FirstOrDefault(c => c.Id == id);
+
+            if (company == null)
+            {
+                TempData["ErrorMessage"] = "Company not found.";
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+ 
+                if (company.Policies != null && company.Policies.Any())
+                {
+                    TempData["ErrorMessage"] = "Cannot delete company. It has associated policies. Please delete policies first.";
+                    return RedirectToAction("Index");
+                }
+
+                _context.Tbl_Company.Remove(company);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Company deleted successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error deleting company. Please try again.";
+            }
+
             return RedirectToAction("Index");
         }
         public IActionResult AllCompanyPolicies()
@@ -138,6 +185,125 @@ namespace PolicyPro360.Controllers.Admin
             return View("AllCompanyPolicies", policies);
         }
 
+        public IActionResult DeletePolicy(int id)
+        {
+            var policy = _context.Tbl_Policy
+                .Include(p => p.Attributes)
+                .Include(p => p.Company)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (policy == null)
+            {
+                TempData["ErrorMessage"] = "Policy not found.";
+                return RedirectToAction("AllCompanyPolicies");
+            }
+
+            try
+            {
+                // Check if policy has any related data
+                var hasUserPolicies = _context.Tbl_UserPolicy.Any(up => up.PolicyId == id);
+                var hasUserClaims = _context.Tbl_UserClaims.Any(uc => uc.PolicyId == id);
+                var hasAdminWallets = _context.Tbl_AdminWallet.Any(aw => aw.PolicyId == id);
+                var hasCompanyWallets = _context.Tbl_CompanyWallet.Any(cw => cw.PolicyId == id);
+                var hasTransactions = _context.Tbl_TransactionHistory.Any(th => th.PolicyId == id);
+
+                if (hasUserPolicies || hasUserClaims || hasAdminWallets || hasCompanyWallets || hasTransactions)
+                {
+                    // Store policy info in TempData for the confirmation view
+                    TempData["PolicyToDelete"] = id;
+                    TempData["PolicyName"] = policy.Name;
+                    TempData["HasUserPolicies"] = hasUserPolicies;
+                    TempData["HasUserClaims"] = hasUserClaims;
+                    TempData["HasAdminWallets"] = hasAdminWallets;
+                    TempData["HasCompanyWallets"] = hasCompanyWallets;
+                    TempData["HasTransactions"] = hasTransactions;
+                    
+                    return RedirectToAction("ConfirmPolicyDeletion");
+                }
+
+                // If no related data, delete directly
+                DeletePolicyAndRelatedData(id);
+                TempData["SuccessMessage"] = $"Policy '{policy.Name}' deleted successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error deleting policy. Please try again.";
+            }
+
+            return RedirectToAction("AllCompanyPolicies");
+        }
+
+        public IActionResult ConfirmPolicyDeletion()
+        {
+            if (TempData["PolicyToDelete"] == null)
+            {
+                return RedirectToAction("AllCompanyPolicies");
+            }
+
+            ViewBag.PolicyId = TempData["PolicyToDelete"];
+            ViewBag.PolicyName = TempData["PolicyName"];
+            ViewBag.HasUserPolicies = TempData["HasUserPolicies"];
+            ViewBag.HasUserClaims = TempData["HasUserClaims"];
+            ViewBag.HasAdminWallets = TempData["HasAdminWallets"];
+            ViewBag.HasCompanyWallets = TempData["HasCompanyWallets"];
+            ViewBag.HasTransactions = TempData["HasTransactions"];
+
+            return View();
+        }
+
+        public IActionResult ForceDeletePolicy(int id)
+        {
+            var policy = _context.Tbl_Policy
+                .Include(p => p.Attributes)
+                .Include(p => p.Company)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (policy == null)
+            {
+                TempData["ErrorMessage"] = "Policy not found.";
+                return RedirectToAction("AllCompanyPolicies");
+            }
+
+            try
+            {
+                DeletePolicyAndRelatedData(id);
+                TempData["SuccessMessage"] = $"Policy '{policy.Name}' and all related data deleted successfully.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error deleting policy. Please try again.";
+            }
+
+            return RedirectToAction("AllCompanyPolicies");
+        }
+
+        private void DeletePolicyAndRelatedData(int policyId)
+        {
+            // Delete related data in order
+            var userPolicies = _context.Tbl_UserPolicy.Where(up => up.PolicyId == policyId).ToList();
+            var userClaims = _context.Tbl_UserClaims.Where(uc => uc.PolicyId == policyId).ToList();
+            var adminWallets = _context.Tbl_AdminWallet.Where(aw => aw.PolicyId == policyId).ToList();
+            var companyWallets = _context.Tbl_CompanyWallet.Where(cw => cw.PolicyId == policyId).ToList();
+            var transactions = _context.Tbl_TransactionHistory.Where(th => th.PolicyId == policyId).ToList();
+
+            // Remove related data
+            if (userPolicies.Any()) _context.Tbl_UserPolicy.RemoveRange(userPolicies);
+            if (userClaims.Any()) _context.Tbl_UserClaims.RemoveRange(userClaims);
+            if (adminWallets.Any()) _context.Tbl_AdminWallet.RemoveRange(adminWallets);
+            if (companyWallets.Any()) _context.Tbl_CompanyWallet.RemoveRange(companyWallets);
+            if (transactions.Any()) _context.Tbl_TransactionHistory.RemoveRange(transactions);
+
+            // Get and delete policy attributes
+            var policy = _context.Tbl_Policy.Include(p => p.Attributes).FirstOrDefault(p => p.Id == policyId);
+            if (policy?.Attributes != null && policy.Attributes.Any())
+            {
+                _context.Tbl_PolicyAttributes.RemoveRange(policy.Attributes);
+            }
+
+            // Finally delete the policy
+            _context.Tbl_Policy.Remove(policy);
+            _context.SaveChanges();
+        }
 
 
     }

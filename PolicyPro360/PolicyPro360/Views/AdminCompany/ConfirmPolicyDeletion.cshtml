@@ -1,0 +1,153 @@
+@{
+    ViewData["Title"] = "Confirm Policy Deletion - PolicyPro360";
+    Layout = "_Layout";
+}
+
+<style>
+    .warning-card {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .data-card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #ff6b6b;
+    }
+
+    .data-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+    .data-item:last-child {
+        border-bottom: none;
+    }
+
+    .data-label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .data-value {
+        color: #6c757d;
+        font-weight: 600;
+    }
+
+    .btn-custom {
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin: 0 10px;
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .warning-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+</style>
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Confirm Policy Deletion</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("AllCompanyPolicies", "AdminCompany")">All Policies</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Confirm Deletion</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Warning Header -->
+        <div class="warning-card text-center">
+            <i class="bi bi-exclamation-triangle warning-icon"></i>
+            <h2 class="mb-3">Policy Deletion Warning</h2>
+            <p class="mb-0">You are about to delete the policy: <strong>@ViewBag.PolicyName</strong></p>
+        </div>
+
+        <!-- Related Data Information -->
+        <div class="data-card">
+            <h5 class="text-danger mb-4"><i class="bi bi-info-circle me-2"></i>Related Data Found</h5>
+            <p class="text-muted mb-4">This policy has associated data that will also be deleted. Please review the following:</p>
+            
+            <div class="data-item">
+                <span class="data-label">User Policies:</span>
+                <span class="data-value @(ViewBag.HasUserPolicies ? "text-danger" : "text-success")">
+                    @(ViewBag.HasUserPolicies ? "Yes" : "No")
+                </span>
+            </div>
+            
+            <div class="data-item">
+                <span class="data-label">User Claims:</span>
+                <span class="data-value @(ViewBag.HasUserClaims ? "text-danger" : "text-success")">
+                    @(ViewBag.HasUserClaims ? "Yes" : "No")
+                </span>
+            </div>
+            
+            <div class="data-item">
+                <span class="data-label">Admin Wallets:</span>
+                <span class="data-value @(ViewBag.HasAdminWallets ? "text-danger" : "text-success")">
+                    @(ViewBag.HasAdminWallets ? "Yes" : "No")
+                </span>
+            </div>
+            
+            <div class="data-item">
+                <span class="data-label">Company Wallets:</span>
+                <span class="data-value @(ViewBag.HasCompanyWallets ? "text-danger" : "text-success")">
+                    @(ViewBag.HasCompanyWallets ? "Yes" : "No")
+                </span>
+            </div>
+            
+            <div class="data-item">
+                <span class="data-label">Transaction History:</span>
+                <span class="data-value @(ViewBag.HasTransactions ? "text-danger" : "text-success")">
+                    @(ViewBag.HasTransactions ? "Yes" : "No")
+                </span>
+            </div>
+        </div>
+
+        <!-- Impact Warning -->
+        <div class="data-card">
+            <h5 class="text-warning mb-3"><i class="bi bi-exclamation-triangle me-2"></i>Impact of Deletion</h5>
+            <ul class="text-muted">
+                <li>All user policies associated with this policy will be permanently deleted</li>
+                <li>All claims filed for this policy will be permanently deleted</li>
+                <li>All wallet transactions related to this policy will be permanently deleted</li>
+                <li>All policy attributes and settings will be permanently deleted</li>
+                <li>This action cannot be undone</li>
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center">
+            <a href="@Url.Action("AllCompanyPolicies", "AdminCompany")" class="btn btn-secondary btn-custom">
+                <i class="bi bi-arrow-left me-2"></i>Cancel
+            </a>
+            <a href="@Url.Action("ForceDeletePolicy", "AdminCompany", new { id = ViewBag.PolicyId })" 
+               class="btn btn-danger btn-custom"
+               onclick="return confirm('⚠️ FINAL WARNING: This will permanently delete the policy and ALL related data. This action cannot be undone. Are you absolutely sure?')">
+                <i class="bi bi-trash me-2"></i>Delete Policy & All Related Data
+            </a>
+        </div>
+    </div>
+</main> 

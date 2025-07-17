@@ -698,12 +698,26 @@
             <!--navigation-->
             <ul class="metismenu" id="sidenav">
                 <li>
-                    <a href="@Url.Action("Dashboard","Admin")" >
-                        <div>
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon">
                             <i class="material-icons-outlined">home</i>
                         </div>
                         <div class="menu-title">Dashboard</div>
                     </a>
+                    <ul>
+                        <li>
+                            <a href="@Url.Action("Dashboard", "Admin")">
+                                <i class="material-icons-outlined">arrow_right</i>
+                                Admin Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "UserHome")">
+                                <i class="material-icons-outlined">arrow_right</i>
+                                Visit Site
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="@Url.Action("adminwallet", "Admin")">
@@ -840,13 +854,13 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="@Url.Action("Index", "Admin")">
+                            <a href="@Url.Action("Index", "FAQ")">
                                 <i class="material-icons-outlined">arrow_right</i>
-                                FAQ
+                                Manage FAQs
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "Admin")">
+                            <a href="@Url.Action("Index", "Contact")">
                                 <i class="material-icons-outlined">arrow_right</i>
                                 Contact Form
                             </a>

@@ -1,4 +1,5 @@
-﻿@model List<PolicyPro360.Models.UserClaim>
+﻿@using PolicyPro360.ViewModels
+@model List<MyApplicationViewModel>
 @{
     ViewData["Title"] = "My Application - PolicyPro360";
     Layout = "_UserDashboardLayout";
@@ -105,9 +106,9 @@
             <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
                 <h5 class="card-title fw-semibold mb-0 text-white">My Application History</h5>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn filter-btn active">All</button>
-                    <button type="button" class="btn filter-btn">Claims</button>
-                    <button type="button" class="btn filter-btn">Loans</button>
+                    <a asp-action="MyApplication" asp-route-filter="All" class="btn filter-btn @(ViewData["CurrentFilter"] as string == "All" ? "active" : "")">All</a>
+                    <a asp-action="MyApplication" asp-route-filter="Claims" class="btn filter-btn @(ViewData["CurrentFilter"] as string == "Claims" ? "active" : "")">Claims</a>
+                    <a asp-action="MyApplication" asp-route-filter="Loans" class="btn filter-btn @(ViewData["CurrentFilter"] as string == "Loans" ? "active" : "")">Loans</a>
                 </div>
             </div>
 
@@ -122,19 +123,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var myclaim in Model)
+                        @foreach (var app in Model)
                         {
                             <tr>
                                 <td>
-                                    <h6 class="fw-semibold mb-0 text-white">Claim: @myclaim.Id</h6>
-                                    <small class="text-muted">@myclaim?.Category?.Name</small>
+                                    <h6 class="fw-semibold mb-0 text-white">@app.ApplicationId</h6>
+                                    <small class="text-muted">@app.CategoryOrType</small>
                                 </td>
-                                <td>@myclaim?.Policy.Name</td>
-                                <td class="text-center text-muted ">@myclaim?.SubmittedAt.ToString("MM/dd/yyyy")</td>
+                                <td>@app.PolicyName</td>
+                                <td class="text-center text-muted">@app.SubmittedAt.ToString("MM/dd/yyyy")</td>
                                 <td class="text-center">
-                                    <span class="badge badge-approved rounded-pill px-3 py-1">@myclaim?.Status</span>
+                                    @{
+                                        var statusClass = "badge-pending"; // Default
+                                        if (app.Status.Equals("Approved", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            statusClass = "badge-approved";
+                                        }
+                                        else if (app.Status.Equals("Rejected", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            statusClass = "badge-rejected";
+                                        }
+                                    }
+                                    <span class="badge @statusClass rounded-pill px-3 py-1">@app.Status</span>
                                 </td>
-
                             </tr>
                         }
                     </tbody>

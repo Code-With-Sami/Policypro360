@@ -101,5 +101,8 @@ namespace PolicyPro360.Models
         public string ConfirmPassword { get; set; }
 
         public string? Status { get; set; } = "Pending";
+
+        // Navigation Properties
+        public virtual ICollection<Policy> Policies { get; set; } = new List<Policy>();
     }
 }

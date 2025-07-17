@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PolicyPro360.Migrations;
 using PolicyPro360.Models;
 
 namespace PolicyPro360.Models
@@ -25,7 +26,7 @@ namespace PolicyPro360.Models
 
             modelBuilder.Entity<Policy>()
                 .HasOne(p => p.Company)
-                .WithMany()
+                .WithMany(c => c.Policies)
                 .HasForeignKey(p => p.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -118,6 +119,7 @@ namespace PolicyPro360.Models
                 .HasForeignKey(th => th.PolicyId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // Decimal configurations
             modelBuilder.Entity<AdminWallet>(entity =>
             {
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
@@ -132,16 +134,74 @@ namespace PolicyPro360.Models
             {
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
             });
+
+            // UserWallet relationships
+            modelBuilder.Entity<UserWallet>()
+                .HasOne(uw => uw.User)
+                .WithMany()
+                .HasForeignKey(uw => uw.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserWallet>(entity =>
+            {
+                entity.Property(e => e.Balance).HasColumnType("decimal(18, 2)");
+            });
+
+            // Loan relationships
+            modelBuilder.Entity<LoanRequest>()
+                .HasOne(lr => lr.User)
+                .WithMany()
+                .HasForeignKey(lr => lr.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LoanInstallment>()
+                .HasOne(li => li.LoanRequest)
+                .WithMany(lr => lr.Installments)
+                .HasForeignKey(li => li.LoanRequestId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<LoanPayment>()
+                .HasOne(lp => lp.User)
+                .WithMany()
+                .HasForeignKey(lp => lp.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LoanPayment>()
+                .HasOne(lp => lp.LoanInstallment)
+                .WithMany(li => li.Payments)
+                .HasForeignKey(lp => lp.LoanInstallmentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LoanRequest>(entity =>
+            {
+                entity.Property(e => e.LoanAmount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.DisbursedAmount).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<LoanInstallment>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            });
+
+            modelBuilder.Entity<LoanPayment>(entity =>
+            {
+                entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
+            });
         }
         
 
         public DbSet<UserPolicy> Tbl_UserPolicy { get; set; }
         public DbSet<UserPayment> Tbl_UserPayment { get; set; }
+        public DbSet<UserWallet> Tbl_UserWallet { get; set; }
         public DbSet<AdminWallet> Tbl_AdminWallet { get; set; }
         public DbSet<CompanyWallet> Tbl_CompanyWallet { get; set; }
         public DbSet<TransactionHistory> Tbl_TransactionHistory { get; set; }
         public DbSet<UserClaim> Tbl_UserClaims { get; set; }
-
+        public DbSet<LoanRequest> Tbl_LoanRequests { get; set; }
+        public DbSet<LoanInstallment> Tbl_LoanInstallments { get; set; }
+        public DbSet<LoanPayment> Tbl_LoanPayments { get; set; }
+        public DbSet<FAQ> Tbl_FAQ { get; set; }
+        public DbSet<Contact> Tbl_Contact { get; set; }
 
     }
 }

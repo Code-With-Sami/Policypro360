@@ -410,6 +410,7 @@
 	<script src="~/user/assets/vendors/jquery-circle-progress/jquery.circle-progress.min.js"></script>
 	<script src="~/user/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.min.js"></script>
 	<script src="~/user/assets/vendors/jquery-validate/jquery.validate.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 	<script src="~/user/assets/vendors/nouislider/nouislider.min.js"></script>
 	<script src="~/user/assets/vendors/odometer/odometer.min.js"></script>
 	<script src="~/user/assets/vendors/swiper/swiper.min.js"></script>
@@ -427,7 +428,11 @@
 	<script src="~/user/assets/vendors/circleType/jquery.circleType.js"></script>
 	<script src="~/user/assets/vendors/circleType/jquery.lettering.min.js"></script>
 	<script src="~/user/assets/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
+	<script src="~/user/assets/vendors/jquery-magnific-popup/jquery.magnific-popup.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 	<script src="~/user/assets/js/insur.js"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
-@RenderSection("Scripts", required: false)
+
 </html>

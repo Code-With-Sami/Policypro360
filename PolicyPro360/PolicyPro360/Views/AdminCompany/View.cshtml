@@ -1,0 +1,363 @@
+@model PolicyPro360.Models.Company
+
+@{
+    ViewData["Title"] = "Company Details - PolicyPro360";
+    Layout = "_Layout";
+}
+
+<style>
+    .company-details {
+        background: linear-gradient(310deg, #7928ca, #ff0080) !important;
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #667eea;
+    }
+
+    .detail-card h5 {
+        color: #667eea;
+        font-weight: 600;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f8f9fa;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 150px;
+    }
+
+    .detail-value {
+        color: #6c757d;
+        text-align: right;
+        flex: 1;
+    }
+
+    .status-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+    }
+
+    .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .company-logo {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 3px solid white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .owner-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #667eea;
+    }
+
+    .policies-table {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .policies-table th {
+            background: linear-gradient(310deg, #7928ca, #ff0080) !important;
+        color: white;
+        border: none;
+        padding: 15px;
+    }
+
+    .policies-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-custom {
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Company Details</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "AdminCompany")">Companies</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.CompanyName</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Company Header -->
+        <div class="company-details">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center">
+                    @if (!string.IsNullOrEmpty(Model.CompanyLogoPath))
+                    {
+                        <img src="@Model.CompanyLogoPath" alt="Company Logo" class="company-logo" />
+                    }
+                    else
+                    {
+                        <div class="company-logo d-flex align-items-center justify-content-center bg-light text-muted">
+                            <i class="bi bi-building" style="font-size: 3rem;"></i>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-8">
+                    <h2 class="mb-2 text-white">@Model.CompanyName</h2>
+                    <p class="mb-1"><strong>Business Type:</strong> @Model.BusinessType</p>
+                    <p class="mb-1"><strong>Industry:</strong> @Model.IndustryType</p>
+                    <p class="mb-0"><strong>Registration No:</strong> @Model.RegistrationNo</p>
+                </div>
+                <div class="col-md-2 text-end">
+                    <span class="status-badge status-@Model.Status?.ToLower()">@Model.Status</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Company Information -->
+            <div class="col-md-6">
+                <div class="detail-card">
+                    <h5><i class="bi bi-building me-2"></i>Company Information</h5>
+                    <div class="detail-row">
+                        <span class="detail-label">Company Name:</span>
+                        <span class="detail-value">@Model.CompanyName</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Business Type:</span>
+                        <span class="detail-value">@Model.BusinessType</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Industry Type:</span>
+                        <span class="detail-value">@Model.IndustryType</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Description:</span>
+                        <span class="detail-value">@Model.Description</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Registration No:</span>
+                        <span class="detail-value">@Model.RegistrationNo</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">
+                            <span class="status-badge status-@Model.Status?.ToLower()">@Model.Status</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="col-md-6">
+                <div class="detail-card">
+                    <h5><i class="bi bi-envelope me-2"></i>Contact Information</h5>
+                    <div class="detail-row">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value">@Model.Email</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value">@Model.PhoneNo</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Country:</span>
+                        <span class="detail-value">@Model.Country</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">City:</span>
+                        <span class="detail-value">@Model.City</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value">@Model.Address</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Owner Information -->
+        <div class="detail-card">
+            <h5><i class="bi bi-person me-2"></i>Owner Information</h5>
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    @if (!string.IsNullOrEmpty(Model.OwnerImagePath))
+                    {
+                        <img src="@Model.OwnerImagePath" alt="Owner" class="owner-image" />
+                    }
+                    else
+                    {
+                        <div class="owner-image d-flex align-items-center justify-content-center bg-light text-muted mx-auto">
+                            <i class="bi bi-person" style="font-size: 2rem;"></i>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-row">
+                                <span class="detail-label">Owner Name:</span>
+                                <span class="detail-value">@Model.OwnerName</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Date of Birth:</span>
+                                <span class="detail-value">@Model.OwnerDOB?.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Nationality:</span>
+                                <span class="detail-value">@Model.OwnerNationality</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="detail-row">
+                                <span class="detail-label">Owner Email:</span>
+                                <span class="detail-value">@Model.OwnerEmail</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Owner Phone:</span>
+                                <span class="detail-value">@Model.OwnerPhoneNo</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Role/Position:</span>
+                                <span class="detail-value">@Model.OwnerRole</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">CNIC:</span>
+                                <span class="detail-value">@Model.OwnerCNIC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Policies -->
+        @if (Model.Policies != null && Model.Policies.Any())
+        {
+            <div class="detail-card">
+                <h5><i class="bi bi-shield me-2"></i>Company Policies (@Model.Policies.Count)</h5>
+                <div class="table-responsive">
+                    <table class="table policies-table">
+                        <thead>
+                            <tr>
+                                <th>Policy Name</th>
+                                <th>Category</th>
+                                <th>Sum Insured</th>
+                                <th>Premium</th>
+                                <th>Tenure</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var policy in Model.Policies)
+                            {
+                                <tr>
+                                    <td>@policy.Name</td>
+                                    <td>@policy.Category?.Name</td>
+                                    <td>@policy.SumInsured.ToString("C")</td>
+                                    <td>@policy.Premium.ToString("C")</td>
+                                    <td>@policy.Tenure</td>
+                                    <td>
+                                        <span class="badge @(policy.Active ? "bg-success" : "bg-secondary")">
+                                            @(policy.Active ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="detail-card">
+                <h5><i class="bi bi-shield me-2"></i>Company Policies</h5>
+                <div class="text-center text-muted py-4">
+                    <i class="bi bi-shield-x" style="font-size: 3rem;"></i>
+                    <p class="mt-3">No policies found for this company.</p>
+                </div>
+            </div>
+        }
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="@Url.Action("Index", "AdminCompany")" class="btn btn-secondary btn-custom">
+                <i class="bi bi-arrow-left me-2"></i>Back to List
+            </a>
+            @if (Model.Status == "Pending")
+            {
+                <a href="@Url.Action("Approve", "AdminCompany", new { id = Model.Id })" class="btn btn-success btn-custom">
+                    <i class="bi bi-check-circle me-2"></i>Approve
+                </a>
+                <a href="@Url.Action("Reject", "AdminCompany", new { id = Model.Id })" class="btn btn-danger btn-custom">
+                    <i class="bi bi-x-circle me-2"></i>Reject
+                </a>
+            }
+        </div>
+    </div>
+</main> 

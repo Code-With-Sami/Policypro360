@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<PolicyPro360.Models.FAQ>
+@{
     ViewData["Title"] = "Faqs - PolicyPro360";
     Layout = "_UserLayout";
 }
@@ -24,108 +25,72 @@
 <section class="faq-one">
     <div class="container">
         <div class="row">
-            <!-- Left Column of FAQs -->
-            <div class="col-xl-6 col-lg-6">
-                <div class="faq-one__single">
-                    <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion-1">
-                        <!-- FAQ 1 -->
-                        <div class="accrodion active">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> What is insurance and why do I need it?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>Insurance is a contract (policy) where an insurer provides financial protection against losses from an unexpected event. You need it to safeguard yourself and your family from financial hardship caused by events like accidents, illness, or property damage.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <!-- FAQ 2 -->
-                        <div class="accrodion">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> What is the difference between a Premium and a Deductible?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>A 'Premium' is the fixed amount you pay regularly (monthly or yearly) to keep your policy active. A 'Deductible' is the initial amount you must pay out-of-pocket for a claim before the insurance company starts paying.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <!-- FAQ 3 -->
-                        <div class="accrodion">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> How do I choose the right insurance policy?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>To choose the right policy, first assess your needs (e.g., family size, income, ~/user/assets). Then, compare different plans for their coverage, benefits, exclusions, and premium. Always check the insurer's claim settlement ratio.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <!-- FAQ 4 -->
-                        <div class="accrodion last-chiled">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> What is a 'nominee' in a life insurance policy?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>A nominee is the person you appoint to receive the policy benefits (the death benefit) in the unfortunate event of your passing. It is crucial to appoint a nominee to ensure your family receives the funds smoothly.</p>
-                                </div><!-- /.inner -->
-                            </div>
+            @if (Model != null && Model.Any())
+            {
+                var leftColumnFaqs = Model.Take((Model.Count + 1) / 2).ToList();
+                var rightColumnFaqs = Model.Skip((Model.Count + 1) / 2).ToList();
+
+                <!-- Left Column of FAQs -->
+                <div class="col-xl-6 col-lg-6">
+                    <div class="faq-one__single">
+                        <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion-1">
+                            @for (int i = 0; i < leftColumnFaqs.Count; i++)
+                            {
+                                var faq = leftColumnFaqs[i];
+                                var isActive = i == 0 ? "active" : "";
+                                var isLastChild = i == leftColumnFaqs.Count - 1 ? "last-chiled" : "";
+                                
+                                <div class="accrodion @isActive @isLastChild">
+                                    <div class="accrodion-title">
+                                        <h4><span>?</span> @faq.Question</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>@faq.Answer</p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Right Column of FAQs -->
-            <div class="col-xl-6 col-lg-6">
-                <div class="faq-one__single">
-                    <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion-2">
-                        <!-- FAQ 5 -->
-                        <div class="accrodion active">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> How do I file an insurance claim?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>The first step is to inform the insurance company about the incident (claim intimation) as soon as possible. Then, you'll need to fill out a claim form and submit all the required documents. You can do this through our user dashboard.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <!-- FAQ 6 -->
-                        <div class="accrodion">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> What documents are typically required for a claim?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>Documents vary by claim type. Generally, you need the filled claim form, policy document, and ID proof. For health claims, you need medical bills; for motor claims, a police report (FIR) might be needed; for death claims, the death certificate is required.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <!-- FAQ 7 -->
-                        <div class="accrodion">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> What is No Claim Bonus (NCB) in motor insurance?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>No Claim Bonus (NCB) is a reward given by the insurer for not making any claims during a policy year. It is a significant discount on your renewal premium, which increases for every consecutive claim-free year.</p>
-                                </div><!-- /.inner -->
-                            </div>
-                        </div>
-                        <!-- FAQ 8 -->
-                        <div class="accrodion last-chiled">
-                            <div class="accrodion-title">
-                                <h4><span>?</span> Can I have multiple insurance policies?</h4>
-                            </div>
-                            <div class="accrodion-content">
-                                <div class="inner">
-                                    <p>Yes, you can absolutely have multiple insurance policies. For example, you can have separate policies for life, health, and motor insurance. You can even have multiple life or health insurance policies from different companies.</p>
-                                </div><!-- /.inner -->
-                            </div>
+                
+                <!-- Right Column of FAQs -->
+                <div class="col-xl-6 col-lg-6">
+                    <div class="faq-one__single">
+                        <div class="accrodion-grp faq-one-accrodion" data-grp-name="faq-one-accrodion-2">
+                            @for (int i = 0; i < rightColumnFaqs.Count; i++)
+                            {
+                                var faq = rightColumnFaqs[i];
+                                var isActive = i == 0 ? "active" : "";
+                                var isLastChild = i == rightColumnFaqs.Count - 1 ? "last-chiled" : "";
+                                
+                                <div class="accrodion @isActive @isLastChild">
+                                    <div class="accrodion-title">
+                                        <h4><span>?</span> @faq.Question</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>@faq.Answer</p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <!-- No FAQs Available -->
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="material-icons-outlined" style="font-size: 4rem; color: #ccc;">help_outline</i>
+                        <h5 class="mt-3 text-muted">No FAQs Available</h5>
+                        <p class="text-muted">We're working on adding frequently asked questions. Please check back later or contact our support team.</p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>

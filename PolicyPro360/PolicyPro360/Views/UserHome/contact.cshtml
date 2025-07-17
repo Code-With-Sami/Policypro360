@@ -1,7 +1,22 @@
-﻿@{
+﻿@using PolicyPro360.ViewModels
+@model ContactViewModel
+
+    @{
     ViewData["Title"] = "Contact Us - PolicyPro360";
     Layout = "_UserLayout";
 }
+
+<style>
+.comment-form__input-box input[type="text"],
+.comment-form__input-box input[type="email"],
+.comment-form__input-box input[type="tel"], 
+.comment-form__input-box textarea {
+    background-color: #f5f5f5;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+</style>
 <!--Page Header Start-->
 <section class="page-header">
     <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/page-header-bg.jpg")')">
@@ -55,39 +70,47 @@
             <div class="col-xl-8 col-lg-7">
                 <div class="contact-page__right">
                     <div class="contact-page__form">
-                        <form action="https://pixydrops.com/insur-html/main-html/~/user/assets/inc/sendemail.php" class="comment-one__form contact-form-validated"
-                              novalidate="novalidate">
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                        }
+                        <form asp-action="Contact" asp-controller="UserHome" method="post">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row">
                                 <div class="col-xl-6">
                                     <div class="comment-form__input-box">
-                                        <input type="text" placeholder="Your name" name="name">
+                                        <input name="Name" type="text" placeholder="Your name" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="comment-form__input-box">
-                                        <input type="email" placeholder="Email address" name="email">
+                                        <input name="Email" type="email" placeholder="Email address" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="comment-form__input-box">
-                                        <input type="text" placeholder="Phone number" name="phone">
+                                        <input name="Phone" type="text" placeholder="Phone number" />
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="comment-form__input-box">
-                                        <input type="text" placeholder="Subject" name="subject">
+                                        <input name="Subject" type="text" placeholder="Subject" />
+                                        <span asp-validation-for="Subject" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-12">
                                     <div class="comment-form__input-box text-message-box">
-                                        <textarea name="message" placeholder="Write a message"></textarea>
+                                        <textarea name="Message" placeholder="Write a message"></textarea>
+                                        <span asp-validation-for="Message" class="text-danger"></span>
                                     </div>
                                     <div class="comment-form__btn-box">
                                         <button type="submit" class="thm-btn comment-form__btn">
-                                            Send a
-                                            Message
+                                            Send Message
                                         </button>
                                     </div>
                                 </div>
@@ -100,40 +123,6 @@
     </div>
 </section>
 <!--Contact Page End-->
-<!--CTA One Start-->
-<section class="cta-one cta-three">
-    <div class="container">
-        <div class="cta-one__content">
-            <div class="cta-one__inner">
-                <div class="cta-one__left">
-                    <h3 class="cta-one__title">Find a local insurance agent</h3>
-                </div>
-                <div class="cta-one__right">
-                    <div class="cta-one__call">
-                        <div class="cta-one__call-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="cta-one__call-number">
-                            <a href="tel:9200368090">+92 (003) 68-090</a>
-                            <p>Call to Our Experts</p>
-                        </div>
-                    </div>
-                    <div class="cta-one__btn-box">
-                        <a href="contact.html" class="thm-btn cta-one__btn">Get a Quote</a>
-                    </div>
-                </div>
-                <div class="cta-one__img">
-                    <img src="~/user/assets/images/resources/cta-one-img.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--CTA One End-->
-<!--Google Map Start-->
-<section class="google-map-two">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4562.753041141002!2d-118.80123790098536!3d34.152323469614075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80e82469c2162619%3A0xba03efb7998eef6d!2sCostco+Wholesale!5e0!3m2!1sbn!2sbd!4v1562518641290!5m2!1sbn!2sbd"
-            class="google-map__two" allowfullscreen></iframe>
-
-</section>
-<!--Google Map End-->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

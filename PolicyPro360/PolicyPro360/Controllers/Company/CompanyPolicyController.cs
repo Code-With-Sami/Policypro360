@@ -313,7 +313,7 @@ namespace PolicyPro360.Controllers.Company
                 return RedirectToAction("Login", "Company");
             }
 
-            // Handle brochure upload
+     
             if (BrochureFile != null && BrochureFile.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/policies/brochure");
@@ -330,7 +330,7 @@ namespace PolicyPro360.Controllers.Company
                     await BrochureFile.CopyToAsync(fileStream);
                 }
 
-                // Save path relative to wwwroot for serving on the web
+      
                 policy.BrochureUrl = "/policies/brochure/" + uniqueFileName;
             }
 
@@ -398,7 +398,7 @@ namespace PolicyPro360.Controllers.Company
                 return RedirectToAction("Login", "Company");
             }
 
-            // Handle brochure upload
+ 
             if (BrochureFile != null && BrochureFile.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/policies/brochure");
@@ -415,7 +415,7 @@ namespace PolicyPro360.Controllers.Company
                     await BrochureFile.CopyToAsync(fileStream);
                 }
 
-                // Save path relative to wwwroot for serving on the web
+            
                 policy.BrochureUrl = "/policies/brochure/" + uniqueFileName;
             }
 
@@ -470,7 +470,7 @@ namespace PolicyPro360.Controllers.Company
             return View(policy);
         }
 
-        // Edit Post Action For Editing Policies
+
 
         [HttpPost]
         public async Task<IActionResult> EditPolicy(Policy policy, List<PolicyAttribute> attributes, IFormFile BrochureFile)
@@ -483,7 +483,7 @@ namespace PolicyPro360.Controllers.Company
                 return RedirectToAction("AllPolicies");
             }
 
-            // Brochure upload (if new)
+        
             if (BrochureFile != null && BrochureFile.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/policies/brochure");
@@ -503,7 +503,7 @@ namespace PolicyPro360.Controllers.Company
                 existingPolicy.BrochureUrl = "/policies/brochure/" + uniqueFileName;
             }
 
-            // Update fields
+   
             existingPolicy.Name = policy.Name;
             existingPolicy.Description = policy.Description;
             existingPolicy.SumInsured = policy.SumInsured;
@@ -512,7 +512,7 @@ namespace PolicyPro360.Controllers.Company
             existingPolicy.TermsConditions = policy.TermsConditions;
             existingPolicy.Active = policy.Active;
 
-            // Remove existing attributes and re-add updated ones
+         
             var oldAttributes = _context.Tbl_PolicyAttributes.Where(a => a.PolicyId == policy.Id);
             _context.Tbl_PolicyAttributes.RemoveRange(oldAttributes);
 
@@ -532,7 +532,7 @@ namespace PolicyPro360.Controllers.Company
             return RedirectToAction("Index", new { categoryId = existingPolicy.PolicyTypeId });
         }
 
-        //Delete Action For Deleting Policy
+   
 
         [HttpPost]
         public IActionResult Delete(int id)
@@ -540,14 +540,14 @@ namespace PolicyPro360.Controllers.Company
             var policy = _context.Tbl_Policy.Find(id);
             if (policy != null)
             {
-                // Step 1: Delete related policy attributes
+              
                 var attributes = _context.Tbl_PolicyAttributes
                     .Where(attr => attr.PolicyId == id)
                     .ToList();
 
                 _context.Tbl_PolicyAttributes.RemoveRange(attributes);
 
-                // Step 2: Delete the policy
+
                 _context.Tbl_Policy.Remove(policy);
                 _context.SaveChanges();
 
