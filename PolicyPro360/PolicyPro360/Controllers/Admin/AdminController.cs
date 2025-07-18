@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using PolicyPro360.Models;
-using System.IO; 
+using PolicyPro360.ViewModels;
+using System.IO;
 using System;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace PolicyPro360.Controllers.Admin
@@ -18,6 +20,7 @@ namespace PolicyPro360.Controllers.Admin
             _db = db;
 
         }
+
 
         public IActionResult Dashboard()
         {
@@ -62,7 +65,7 @@ namespace PolicyPro360.Controllers.Admin
             ViewBag.TotalAdminEarnings = _db.Tbl_AdminWallet.Sum(aw => (decimal?)aw.Amount) ?? 0;
             ViewBag.TotalCompanyPayouts = _db.Tbl_CompanyWallet.Sum(cw => (decimal?)cw.Amount) ?? 0;
 
-  
+
             ViewBag.RecentPolicies = _db.Tbl_UserPolicy
                 .Include(up => up.User)
                 .Include(up => up.Policy)
@@ -85,17 +88,37 @@ namespace PolicyPro360.Controllers.Admin
                 .ToList();
 
             ViewBag.NewUsers = _db.Tbl_Users
-    .OrderByDescending(u => u.Id) 
-    .Take(7)
-    .ToList();
+                   .OrderByDescending(u => u.Id)
+                   .Take(7)
+                   .ToList();
 
             ViewBag.RecentSales = _db.Tbl_UserPolicy
-                .Include(up => up.User) 
+                .Include(up => up.User)
                 .Include(up => up.Policy)
-                    .ThenInclude(p => p.Company) 
+                    .ThenInclude(p => p.Company)
                 .OrderByDescending(up => up.PurchaseDate)
                 .Take(6)
                 .ToList();
+            ViewBag.TotalUserLoans = _db.Tbl_LoanRequests.Count();
+            ViewBag.TotalUserClaims = _db.Tbl_UserClaims.Count();
+
+
+            var categories = _db.Tbl_Category.Where(c => c.Status).ToList();
+
+            var categoryStats = categories.Select(cat => new {
+                CategoryName = cat.Name,
+                ClaimsCount = _db.Tbl_UserClaims.Count(c => c.PolicyCategoryId == cat.Id),
+                LoansCount = _db.Tbl_LoanRequests.Count(l => l.Policy.PolicyTypeId == cat.Id)
+            }).ToList();
+
+            ViewBag.CategoryStats = categoryStats;
+
+            var categoryPolicyStats = categories.Select(cat => new {
+                CategoryName = cat.Name,
+                PoliciesCount = _db.Tbl_Policy.Count(p => p.PolicyTypeId == cat.Id)
+            }).ToList();
+
+            ViewBag.CategoryPolicyStats = categoryPolicyStats;
 
             return View();
         }
@@ -235,76 +258,85 @@ namespace PolicyPro360.Controllers.Admin
                 return RedirectToAction("Login");
             }
 
-     
+
             var admin = _db.Tbl_Admin.FirstOrDefault(a => a.Email == adminEmail);
             if (admin == null)
             {
                 return NotFound();
             }
 
-       
-            return View(admin);
+
+            var vm = new EditAdminViewModel
+            {
+                Id = admin.Id,
+                Name = admin.Name,
+                Email = admin.Email,
+                Img = admin.Img
+            };
+            return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditProfile(PolicyPro360.Models.Admin admin, string currentPassword, string confirmPassword, IFormFile? ProfileImage)
+        public IActionResult EditProfile(EditAdminViewModel vm, IFormFile? ProfileImage)
         {
-       
-        
-            if (string.IsNullOrEmpty(admin.Password))
-            {
-                ModelState.Remove("Password");
-            }
-            else 
-            {
-         
-                if (admin.Password != confirmPassword)
-                {
-                    ModelState.AddModelError("ConfirmPassword", "The new password and confirmation password do not match.");
-                }
 
-             
-                if (string.IsNullOrEmpty(currentPassword))
-                {
-                    ModelState.AddModelError("CurrentPassword", "Current password is required to set a new password.");
-                }
-            }
 
+            ModelState.Remove("Password");
+            ModelState.Remove("CurrentPassword");
+            ModelState.Remove("ConfirmPassword");
 
             if (ModelState.IsValid)
             {
-                var adminToUpdate = _db.Tbl_Admin.Find(admin.Id);
+                var adminToUpdate = _db.Tbl_Admin.Find(vm.Id);
                 if (adminToUpdate == null)
                 {
                     return NotFound();
                 }
 
-       
-                if (!string.IsNullOrEmpty(admin.Password))
+
+                if (!string.IsNullOrEmpty(vm.Password))
                 {
-               
-                    if (adminToUpdate.Password != currentPassword)
+
+                    if (string.IsNullOrEmpty(vm.CurrentPassword))
+                    {
+                        ModelState.AddModelError("CurrentPassword", "Current password is required to set a new password.");
+                    }
+                    else if (adminToUpdate.Password != vm.CurrentPassword)
                     {
                         ModelState.AddModelError("CurrentPassword", "The current password you entered is incorrect.");
-                        return View(admin); 
                     }
 
-               
-                    adminToUpdate.Password = admin.Password; 
+                    if (string.IsNullOrEmpty(vm.ConfirmPassword))
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "The confirm password field is required.");
+                    }
+
+                    if (vm.Password != vm.ConfirmPassword)
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "The new password and confirmation password do not match.");
+                    }
+
+
+                    if (!ModelState.IsValid)
+                    {
+                        return View(vm);
+                    }
+
+
+                    adminToUpdate.Password = vm.Password;
                 }
 
+                adminToUpdate.Name = vm.Name;
+                adminToUpdate.Email = vm.Email;
 
-                adminToUpdate.Name = admin.Name;
-                adminToUpdate.Email = admin.Email;
 
-            
                 if (ProfileImage != null && ProfileImage.Length > 0)
                 {
                     if (!string.IsNullOrEmpty(adminToUpdate.Img))
                     {
                         var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", adminToUpdate.Img.TrimStart('/'));
-                        if (System.IO.File.Exists(oldImagePath))
+                        if (System.IO.File.Exists(oldImagePath) && !adminToUpdate.Img.Contains("default.png"))
                         {
                             System.IO.File.Delete(oldImagePath);
                         }
@@ -323,6 +355,7 @@ namespace PolicyPro360.Controllers.Admin
                         ProfileImage.CopyTo(stream);
                     }
                     adminToUpdate.Img = "/admin/assets/images/profiles/" + fileName;
+                    HttpContext.Session.SetString("Img", adminToUpdate.Img);
                 }
 
                 _db.SaveChanges();
@@ -332,11 +365,11 @@ namespace PolicyPro360.Controllers.Admin
                 HttpContext.Session.SetString("name", adminToUpdate.Name);
                 HttpContext.Session.SetString("email", adminToUpdate.Email);
 
+
                 return RedirectToAction("Profile");
             }
 
-    
-            return View(admin);
+            return View(vm);
         }
         public IActionResult AdminWallet()
         {
@@ -369,3 +402,4 @@ namespace PolicyPro360.Controllers.Admin
         }
     }
 }
+

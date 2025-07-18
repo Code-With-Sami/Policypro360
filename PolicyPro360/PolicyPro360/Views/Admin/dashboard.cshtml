@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard - PolicyPro360";
     Layout = "_Layout";
+
 }
 
 <style>
@@ -9,6 +10,22 @@
         background: linear-gradient(310deg, #7928ca, #ff0080);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+
+
+    .bg-primary-subtle {
+        background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+        border: 1px solid rgba(var(--bs-primary-rgb), 0.2);
+    }
+
+    .bg-danger-subtle {
+        background-color: rgba(var(--bs-danger-rgb), 0.1) !important;
+        border: 1px solid rgba(var(--bs-danger-rgb), 0.2);
+    }
+
+    .fs-tiny {
+        font-size: 0.75rem;
+        padding: .3em .6em;
     }
 
 </style>
@@ -53,7 +70,7 @@
                             Blogs
                         </a>
 
-                        <a href="@Url.Action("Index", "Admin")" class="dropdown-item">
+                        @* <a href="@Url.Action("Index", "Admin")" class="dropdown-item">
                          
                             Privacy Policy
                         </a>
@@ -61,7 +78,7 @@
                         <a href="@Url.Action("Index", "Admin")" class="dropdown-item">
                      
                             Terms & Conditions
-                        </a>
+                        </a> *@
         
                     </div>
                 </div>
@@ -150,6 +167,7 @@
                 </div>
             </div>
 
+          
             <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
                 <div class="card w-100 rounded-4">
                     <div class="card-body">
@@ -297,27 +315,100 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card rounded-4 h-100 mb-3">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-4">Policies by Category</h5>
+
+                            <div class="d-flex flex-column gap-3">
+                                @if (ViewBag.CategoryPolicyStats != null && ((IEnumerable<dynamic>)ViewBag.CategoryPolicyStats).Any())
+                                {
+                                    foreach (var cat in ViewBag.CategoryPolicyStats)
+                                    {
+
+                                        <div class="d-flex justify-content-between align-items-center">
+
+
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle" style="width: 40px; height: 40px;">
+
+                                                    <span class="material-icons-outlined">sell</span>
+                                                </div>
+                                                <p class="mb-0 fw-medium">@cat.CategoryName</p>
+                                            </div>
+
+
+                                            <h5 class="mb-0 text-primary-emphasis">@cat.PoliciesCount</h5>
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+
+                                    <div class="text-center py-4 text-secondary">
+                                        <span class="material-icons-outlined fs-2 d-block mb-1">info</span>
+                                        No category data available.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center gap-3 mb-2">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0">Gross Revenue</p>
-                                    <h4 class="mb-0">@ViewBag.GrossRevenue.ToString("C")</h4>
+           
+            </div>
+            <div class="col-xl-4 col-xxl-4 d-flex">
+                <div class="card w-100 rounded-4">
+                    <div class="card-body p-4">
+
+                        <!-- === Section 1: Loans & Claims Overview === -->
+                        <h5 class="card-title mb-4 text-center">Loans & Claims Overview</h5>
+                        <div class="row g-0 align-items-center">
+                            <!-- Total User Loans Section -->
+                            <div class="col text-center border-end">
+                                <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-2" style="width: 50px; height: 50px;">
+                                    <span class="material-icons-outlined fs-2">request_quote</span>
                                 </div>
-                                <div class="ms-auto bg-danger-subtle rounded-circle">
-                                    <span class="material-icons-outlined fs-3 text-danger">monetization_on</span>
+                                <h4 class="mb-0">@ViewBag.TotalUserLoans</h4>
+                                <p class="mb-0 text-secondary">Total Loans</p>
+                            </div>
+
+                            <!-- Total User Claims Section -->
+                            <div class="col text-center">
+                                <div class="d-inline-flex align-items-center justify-content-center bg-danger-subtle text-danger rounded-circle mb-2" style="width: 50px; height: 50px;">
+                                    <span class="material-icons-outlined fs-2">fact_check</span>
                                 </div>
+                                <h4 class="mb-0">@ViewBag.TotalUserClaims</h4>
+                                <p class="mb-0 text-secondary">Total Claims</p>
                             </div>
                         </div>
 
-                        <div id="chart7"></div>
+                        <!-- Separator -->
+                        <hr class="my-4">
+
+                        <!-- === Section 2: Breakdown by Category === -->
+                        <h6 class="mb-3">Breakdown by Category</h6>
+                        <div class="d-flex flex-column gap-3">
+                            @if (ViewBag.CategoryStats != null && ((IEnumerable<dynamic>)ViewBag.CategoryStats).Any())
+                            {
+                                @foreach (var cat in ViewBag.CategoryStats)
+                                {
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">@cat.CategoryName</p>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge fs-tiny rounded-pill bg-primary-subtle text-primary">Loans: @cat.LoansCount</span>
+                                            <span class="badge fs-tiny rounded-pill bg-danger-subtle text-danger">Claims: @cat.ClaimsCount</span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-center text-secondary">No category data available.</p>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-
- 
             <!-- Revenue This Month Card -->
             <div class="col-12 col-lg-6 col-xl-4 d-flex">
                 <div class="card w-100 rounded-4">
@@ -423,6 +514,7 @@
                 </div>
             </div>
 
+         
     
         
         </div>

@@ -2,6 +2,9 @@
     ViewData["Title"] = "Home - PolicyPro360";
     Layout = "_UserLayout";
 }
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <!--Main Slider Start-->
 <section class="main-slider-nine">
     <div class="main-slider-nine__carousel owl-carousel owl-theme thm-owl__carousel" data-owl-options='{
@@ -18,107 +21,102 @@
                 "autoplayTimeout": 7000,
                 "autoplayHoverPause": false
                 }'>
-                <div class="item">
-                    <div class="main-slider-nine__item">
-                        <div class="main-slider-nine__bg"
-                         style="background-image: url('@Url.Content("~/user/assets/images/update-15-2-2024/backgrounds/slider-9-1.jpg")');">
+             <!-- Slide 1: Life Insurance -->
+        <div class="item">
+    <div class="main-slider-nine__item">
+        <div class="main-slider-nine__bg"
+            style="background-image: url('@Url.Content("~/user/assets/images/update-15-2-2024/backgrounds/slider-9-1.jpg")');">
+        </div>
+        <div class="main-slider-nine__shape-one"><img src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-1.png" alt="insur"></div>
+        <div class="main-slider-nine__shape-two"><img src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-2.png" alt="insur"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <div class="main-slider-nine__content">
+                        <div class="main-slider-nine__title-wrapper">
+                           <h2 class="main-slider-nine__title">Secure Your Future with Life Insurance</h2>
+                        </div>
+                        <div class="main-slider-nine__text-wrapper">
+                            <p class="main-slider-nine__text">
+                                Financial protection for your loved ones, even when you're not around.<br>
+                                Explore flexible life coverage options designed just for you.
+                            </p>
+                        </div>
+                        <div class="main-slider-nine__btn">
+                            <a href="@Url.Action("life", "UserHome")" class="thm-btn thm-btn--eight">Discover More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        <!-- Slide 2: Medical Insurance -->
+        <div class="item">
+    <div class="main-slider-nine__item">
+        <div class="main-slider-nine__bg"
+            style="background-image: url('@Url.Content("~/user/assets/images/update-15-2-2024/backgrounds/health.webp")');">
+        </div>
+        <div class="main-slider-nine__shape-one"><img src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-1.png" alt="insur"></div>
+        <div class="main-slider-nine__shape-two"><img src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-2.png" alt="insur"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-left">
+                    <div class="main-slider-nine__content">
+                        <div class="main-slider-nine__title-wrapper">
+                     <h2 class="main-slider-nine__title">Protect Your Health with Medical Insurance</h2>
 
                         </div>
-                        <div class="main-slider-nine__shape-one"><img
-                                src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-1.png" alt="insur"></div>
-                        <div class="main-slider-nine__shape-two"><img
-                                src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-2.png" alt="insur"></div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12 text-left">
-                                    <div class="main-slider-nine__content">
-                                        <div class="main-slider-nine__title-wrapper">
-                                            <h2 class="main-slider-nine__title">The Ultimate<br> Guide to Peaceful<br>
-                                                Assurance</h2><!-- slider-title -->
-                                        </div>
-                                        <div class="main-slider-nine__text-wrapper">
-                                            <p class="main-slider-nine__text">
-                                                There are many variations of passages of Lorem Ip available, but<br> the
-                                                majority have suffered aeration in some form,
-                                            </p>
-                                        </div>
-                                        <div class="main-slider-nine__btn">
-                                            <a href="about.html" class="thm-btn thm-btn--eight">Discover
-                                                More</a><!-- slider-btn -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="main-slider-nine__text-wrapper">
+                            <p class="main-slider-nine__text">
+                                From hospital stays to medication, we've got you covered.<br>
+                                Affordable healthcare protection for you and your family.
+                            </p>
+                        </div>
+                        <div class="main-slider-nine__btn">
+                            <a href="@Url.Action("medical", "UserHome")" class="thm-btn thm-btn--eight">Discover More</a>
                         </div>
                     </div>
-                </div><!-- item -->
-                <div class="item">
-                    <div class="main-slider-nine__item">
-                        <div class="main-slider-nine__bg"
-                            style="background-image: url('@Url.Content("~/user/assets/images/update-15-2-2024/backgrounds/slider-9-2.jpg")');">
-                        </div>
-                        <div class="main-slider-nine__shape-one"><img
-                                src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-1.png" alt="insur"></div>
-                        <div class="main-slider-nine__shape-two"><img
-                                src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-2.png" alt="insur"></div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12 text-left">
-                                    <div class="main-slider-nine__content">
-                                        <div class="main-slider-nine__title-wrapper">
-                                            <h2 class="main-slider-nine__title">The Ultimate<br> Guide to Peaceful<br>
-                                                Assurance</h2><!-- slider-title -->
-                                        </div>
-                                        <div class="main-slider-nine__text-wrapper">
-                                            <p class="main-slider-nine__text">
-                                                There are many variations of passages of Lorem Ip available, but<br> the
-                                                majority have suffered aeration in some form,
-                                            </p>
-                                        </div>
-                                        <div class="main-slider-nine__btn">
-                                            <a href="about.html" class="thm-btn thm-btn--eight">Discover
-                                                More</a><!-- slider-btn -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- item -->
-                <div class="item">
-                    <div class="main-slider-nine__item">
-                        <div class="main-slider-nine__bg"
-                            style="background-image: url('@Url.Content("~/user/assets/images/update-15-2-2024/backgrounds/slider-9-3.jpg")');">
-                        </div>
-                        <div class="main-slider-nine__shape-one"><img
-                                src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-1.png" alt="insur"></div>
-                        <div class="main-slider-nine__shape-two"><img
-                                src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-2.png" alt="insur"></div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12 text-left">
-                                    <div class="main-slider-nine__content">
-                                        <div class="main-slider-nine__title-wrapper">
-                                            <h2 class="main-slider-nine__title">The Ultimate<br> Guide to Peaceful<br>
-                                                Assurance</h2><!-- slider-title -->
-                                        </div>
-                                        <div class="main-slider-nine__text-wrapper">
-                                            <p class="main-slider-nine__text">
-                                                There are many variations of passages of Lorem Ip available, but<br> the
-                                                majority have suffered aeration in some form,
-                                            </p>
-                                        </div>
-                                        <div class="main-slider-nine__btn">
-                                            <a href="about.html" class="thm-btn thm-btn--eight">Discover
-                                                More</a><!-- slider-btn -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- item -->
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Slide 4: Home Insurance -->
+        <div class="item">
+        <div class="main-slider-nine__item">
+            <div class="main-slider-nine__bg"
+                 style="background-image: url('@Url.Content("~/user/assets/images/update-15-2-2024/backgrounds/slider-9-3.jpg")');">
+            </div>
+            <div class="main-slider-nine__shape-one"><img src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-1.png" alt="insur"></div>
+            <div class="main-slider-nine__shape-two"><img src="~/user/assets/images/update-15-2-2024/shapes/slider-9-shape-2.png" alt="insur"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <div class="main-slider-nine__content">
+                            <div class="main-slider-nine__title-wrapper">
+                             <h2 class="main-slider-nine__title">Protect Your Home with Trusted Insurance</h2>
+                            </div>
+                            <div class="main-slider-nine__text-wrapper">
+                                <p class="main-slider-nine__text">
+                                    Ensure your home is protected from fire, theft,<br>
+                                    and natural disasters with our flexible plans.
+                                </p>
+                            </div>
+                            <div class="main-slider-nine__btn">
+                                <a href="@Url.Action("home", "UserHome")" class="thm-btn thm-btn--eight">Discover More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!--Main Slider End-->
 <!--About Ten Start-->
@@ -198,7 +196,7 @@
                                             Variations
                                         </li>
                                     </ul>
-                                    <a href="about.html" class="thm-btn thm-btn--eight">Discover More</a>
+                                    <a href="@Url.Action("about", "UserHome")" class="thm-btn thm-btn--eight">Discover More</a>
                                 </div>
                             </div>
                         </div>
@@ -224,24 +222,23 @@
             <h2 class="section-title-seven__title">We’re Covering All the<br> Insurance Services Files</h2>
         </div>
         <div class="row gutter-y-30">
+
+            <!-- Motor Insurance -->
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="00ms">
                 <div class="services-nine__single">
                     <div class="services-nine__single__content">
                         <div class="services-nine__single__icon">
-                            <span class="insur-four-icon-governance"></span>
+                            <span class="fa-solid fa-car"></span>
                         </div>
                         <h3 class="services-nine__single__title">
-                            <a href="motor-insurance.html">
-                                Motors
-                                Insurance
-                            </a>
+                            <a href="motor-insurance.html">Motors Insurance</a>
                         </h3>
                         <p class="services-nine__single__text">
                             Protects your vehicle from accidents, theft, and natural disasters.
                             Covers damage repair, third-party liability, and more.
                             Drive with confidence — stay legally and financially secure.
                         </p>
-                        <a class="services-nine__single__rm" href="motor-insurance.html">
+                        <a class="services-nine__single__rm" href="@Url.Action("Motor", "UserHome")">
                             Read More<span class="insur-four-icon-right-arrow"></span>
                         </a>
                     </div>
@@ -250,6 +247,7 @@
                     </div>
                 </div>
             </div><!--item-->
+            <!-- Life Insurance -->
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="100ms">
                 <div class="services-nine__single">
                     <div class="services-nine__single__image">
@@ -257,43 +255,38 @@
                     </div>
                     <div class="services-nine__single__content">
                         <div class="services-nine__single__icon">
-                            <span class="insur-four-icon-safety"></span>
+                            <span class="fa-solid fa-heart"></span>
                         </div>
                         <h3 class="services-nine__single__title">
-                            <a href="life-insurance.html">
-                                Life
-                                Insurance
-                            </a>
+                            <a href="life-insurance.html">Life Insurance</a>
                         </h3>
                         <p class="services-nine__single__text">
                             Provides financial support to your family after your passing.
                             Covers expenses like debts, education, and daily needs.
                             Secure your loved ones’ future with trusted protection.
                         </p>
-                        <a class="services-nine__single__rm" href="life-insurance.html">
+                        <a class="services-nine__single__rm" href="@Url.Action("Life", "UserHome")">
                             Read More<span class="insur-four-icon-right-arrow"></span>
                         </a>
                     </div>
                 </div>
             </div><!--item-->
+            <!-- Medical Insurance -->
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="200ms">
                 <div class="services-nine__single">
                     <div class="services-nine__single__content">
                         <div class="services-nine__single__icon">
-                            <span class="insur-four-icon-insurance"></span>
+                            <span class="fa-solid fa-briefcase-medical"></span>
                         </div>
                         <h3 class="services-nine__single__title">
-                            <a href="business-insurance.html">
-                                Medical
-                                insurance
-                            </a>
+                            <a href="medical-insurance.html">Medical Insurance</a>
                         </h3>
                         <p class="services-nine__single__text">
                             Covers hospital stays, doctor visits, surgeries, and medications.
                             Protects you and your family from rising healthcare costs.
                             Stay healthy without financial worry or stress.
                         </p>
-                        <a class="services-nine__single__rm" href="business-insurance.html">
+                        <a class="services-nine__single__rm" href="@Url.Action("medical", "UserHome")">
                             Read More<span class="insur-four-icon-right-arrow"></span>
                         </a>
                     </div>
@@ -302,6 +295,7 @@
                     </div>
                 </div>
             </div><!--item-->
+
         </div>
     </div>
 </section>
@@ -432,6 +426,7 @@
         </div>
         <div class="row gutter-y-30">
             <!--Team Start-->
+            <!--Team Start-->
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="00ms">
                 <div class="team-eight__single">
                     <div class="team-eight__single__image">
@@ -440,31 +435,16 @@
                     <div class="team-eight__single__hover">
                         <div class="team-eight__single__hover__iconwrap"><i class="fa fa-share-alt"></i></div>
                         <div class="team-eight__single__social">
-                            <a href="https://facebook.com/">
-                                <i class="fab fa-facebook-f"></i>
-                                <span class="sr-only">Facebook</span>
-                            </a>
-                            <a href="https://twitter.com/">
-                                <i class="fab fa-twitter" aria-hidden="true"></i>
-                                <span class="sr-only">Twitter</span>
-                            </a>
-                            <a href="https://linkedin.com/">
-                                <i class="fab fa-linkedin-in"></i>
-                                <span class="sr-only">Linkedin</span>
-                            </a>
-                            <a href="https://www.instagram.com/">
-                                <i class="fab fa-instagram"></i>
-                                <span class="sr-only">Instagram</span>
-                            </a>
-                        </div><!-- /.team-card__social -->
+                            <!-- social icons -->
+                        </div>
                     </div>
                     <div class="team-eight__single__content">
-                        <h3 class="team-eight__single__name"><a href="team-details.html">Jacob Jones</a></h3>
-                        <span class="team-eight__single__designation">Director</span>
+                        <h3 class="team-eight__single__name"><a href="team-details.html">Amit Sharma</a></h3>
+                        <span class="team-eight__single__designation">Claims Manager</span>
                     </div>
                 </div>
             </div>
-            <!--Team End-->
+
             <!--Team Start-->
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="100ms">
                 <div class="team-eight__single">
@@ -493,12 +473,12 @@
                         </div><!-- /.team-card__social -->
                     </div>
                     <div class="team-eight__single__content">
-                        <h3 class="team-eight__single__name"><a href="team-details.html">Jenny Wilson</a></h3>
-                        <span class="team-eight__single__designation">Designer</span>
+                        <h3 class="team-eight__single__name"><a href="team-details.html">Neha Verma</a></h3>
+                        <span class="team-eight__single__designation">Insurance Advisor</span>
                     </div>
                 </div>
             </div>
-            <!--Team End-->
+
             <!--Team Start-->
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="200ms">
                 <div class="team-eight__single">
@@ -527,12 +507,12 @@
                         </div><!-- /.team-card__social -->
                     </div>
                     <div class="team-eight__single__content">
-                        <h3 class="team-eight__single__name"><a href="team-details.html">Mike Hardson</a></h3>
-                        <span class="team-eight__single__designation">Manager</span>
+                        <h3 class="team-eight__single__name"><a href="team-details.html">Ravi Kapoor</a></h3>
+                        <span class="team-eight__single__designation">Underwriting Specialist</span>
                     </div>
                 </div>
             </div>
-            <!--Team End-->
+
             <!--Team Start-->
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="300ms">
                 <div class="team-eight__single">
@@ -561,8 +541,8 @@
                         </div><!-- /.team-card__social -->
                     </div>
                     <div class="team-eight__single__content">
-                        <h3 class="team-eight__single__name"><a href="team-details.html">Robert Fox</a></h3>
-                        <span class="team-eight__single__designation">Developer</span>
+                        <h3 class="team-eight__single__name"><a href="team-details.html">Priya Mehra</a></h3>
+                        <span class="team-eight__single__designation">Customer Service Lead</span>
                     </div>
                 </div>
             </div>
@@ -603,7 +583,7 @@
                         <div class="why-choose-eight__box__image">
                             <img src="~/user/assets/images/update-15-2-2024/resources/why-choose-two-1.jpg"
                                  alt="insur">
-                            <a href="about.html" class="why-choose-eight__box__image__rm">
+                            <a href="@Url.Action("policy", "UserHome")" class="why-choose-eight__box__image__rm">
                                 <span class="insur-four-icon-right-arrow"></span>
                             </a>
                         </div>
@@ -616,7 +596,7 @@
                         <div class="why-choose-eight__box__image">
                             <img src="~/user/assets/images/update-15-2-2024/resources/why-choose-two-2.jpg"
                                  alt="insur">
-                            <a href="about.html" class="why-choose-eight__box__image__rm">
+                            <a href="@Url.Action("makeaclaim", "UserHome")" class="why-choose-eight__box__image__rm">
                                 <span class="insur-four-icon-right-arrow"></span>
                             </a>
                         </div>

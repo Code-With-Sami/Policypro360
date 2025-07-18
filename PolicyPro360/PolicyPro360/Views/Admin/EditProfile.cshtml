@@ -1,4 +1,4 @@
-﻿@model PolicyPro360.Models.Admin
+﻿@model PolicyPro360.ViewModels.EditAdminViewModel
 @{
     ViewData["Title"] = "Edit Profile - PolicyPro360";
     Layout = "_Layout";
@@ -26,6 +26,7 @@
                 <h5 class="mb-4">Update Your Profile Information</h5>
                 <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <input type="hidden" asp-for="Id" />
 
                     <div class="row">
@@ -49,22 +50,21 @@
                                 <p class="text-secondary small mt-0">Leave all password fields blank if you do not want to change the password.</p>
 
                                 <div class="col-12">
-                                    <label class="form-label">Current Password</label>
-                                    <input name="currentPassword" type="password" class="form-control" placeholder="Enter your current password" />
-                                
-                                    @Html.ValidationMessage("CurrentPassword", new { @class = "text-danger" })
+                                    <label>Current Password</label>
+                                    <input asp-for="CurrentPassword" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="CurrentPassword" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label asp-for="Password" class="form-label">New Password</label>
-                                    <input asp-for="Password" class="form-control" type="password" value="" placeholder="Enter new password" />
+                                    <input asp-for="Password" class="form-control" autocomplete="off" />
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">Confirm New Password</label>
-                                    <input name="confirmPassword" type="password" class="form-control" placeholder="Confirm new password" />
-                                    @Html.ValidationMessage("ConfirmPassword", new { @class = "text-danger" })
+                                    <label>Confirm New Password</label>
+                                    <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" />
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                 </div>
 
                             </div>
@@ -76,7 +76,7 @@
                                 <div class="card shadow-none border">
                                     <div class="card-body">
                                         <h6 class="mb-3">Profile Image</h6>
-                                        <img src="@(string.IsNullOrEmpty(Model.Img) ? "/admin/assets/images/avatars/avatar-2.png" : Model.Img)" alt="Profile Image" class="mb-3 img-fluid rounded" />
+                                        <img src="@(string.IsNullOrEmpty(Model.Img) ? "/admin/assets/images/profiles/default.png" : Model.Img)" alt="Profile Image" class="mb-3 img-fluid rounded" />
                                         <p class="text-secondary small">Upload a new image to replace the current one.</p>
                                         <input class="form-control" type="file" name="ProfileImage" accept="image/*">
                                     </div>
@@ -94,3 +94,9 @@
         </div>
     </div>
 </div>
+
+<!-- jQuery (must be first) -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<!-- Validation -->
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

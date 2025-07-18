@@ -249,17 +249,47 @@ namespace PolicyPro360.Controllers.Admin
             ViewBag.PolicyCategories = _context.Tbl_Category.Where(c => c.Status).ToList();
         }
 
-        public IActionResult UserPoliciesByCategory(int categoryId)
+
+        public IActionResult AllUserLoans()
         {
-            var userPolicies = _context.Tbl_UserPolicy
-                .Include(up => up.Policy)
-                .ThenInclude(p => p.Company)
-                .Include(up => up.Policy)
-                .ThenInclude(p => p.Category)
-                .Include(up => up.User)
-                .Where(up => up.Policy != null && up.Policy.PolicyTypeId == categoryId)
+            var userLoans = _context.Tbl_LoanRequests
+                .Include(l => l.User)
+                .Include(l => l.Policy)
                 .ToList();
-            return View("AllUserPolicies", userPolicies);
+            return View(userLoans);
+        }
+
+
+        public IActionResult AllUserClaims()
+        {
+            var userClaims = _context.Tbl_UserClaims
+                .Include(c => c.Users)
+                .Include(c => c.Policy)
+                .Include(c => c.Category)
+                .ToList();
+            return View(userClaims);
+        }
+
+
+        public IActionResult UserLoansByCategory(int categoryId)
+        {
+            var userLoans = _context.Tbl_LoanRequests
+                .Include(l => l.User)
+                .Include(l => l.Policy)
+                .Where(l => l.Policy.PolicyTypeId == categoryId)
+                .ToList();
+            return View("AllUserLoans", userLoans);
+        }
+
+        public IActionResult UserClaimsByCategory(int categoryId)
+        {
+            var userClaims = _context.Tbl_UserClaims
+                .Include(c => c.Users)
+                .Include(c => c.Policy)
+                .Include(c => c.Category)
+                .Where(c => c.Policy.PolicyTypeId == categoryId)
+                .ToList();
+            return View("AllUserClaims", userClaims);
         }
     }
 }

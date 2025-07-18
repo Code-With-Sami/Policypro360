@@ -30369,30 +30369,30 @@ ul li ul .is-new-menu > a > span::after {
   overflow: hidden;
 }
 .main-slider-nine__title {
-  font-weight: 700;
-  font-size: 70px;
-  line-height: 80px;
-  color: var(--insur-white);
-  letter-spacing: -2px;
-  margin: 0 0 28px;
-  opacity: 0;
-  transition: transform 1200ms ease, opacity 1200ms ease;
-  transform: translateY(200px);
+    font-weight: 700;
+    font-size: 47px;
+    line-height: 80px;
+    color: var(--insur-white);
+    letter-spacing: -2px;
+    margin: 0 0 28px;
+    opacity: 0;
+    transition: transform 1200ms ease, opacity 1200ms ease;
+    transform: translateY(200px);
 }
 @media (max-width: 1199px) {
-  .main-slider-nine__title {
-    font-size: 60px;
-  }
+    .main-slider-nine__title {
+        font-size: 45px;
+    }
 }
 @media (max-width: 991px) {
   .main-slider-nine__title {
-    font-size: 50px;
+    font-size: 40px;
     line-height: 60px;
   }
 }
 @media (max-width: 767px) {
   .main-slider-nine__title {
-    font-size: 36px;
+    font-size: 30px;
     line-height: 46px;
   }
 }
