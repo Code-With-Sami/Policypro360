@@ -299,6 +299,14 @@ namespace PolicyPro360.Controllers.User
         public IActionResult ProceedToCheckout(PremiumCalculationViewModel model)
         {
             TempData["CheckoutModel"] = JsonSerializer.Serialize(model);
+
+            if (HttpContext.Session.GetInt32("userId") == null)
+            {
+                // Redirect to SignIn with encoded returnUrl to Checkout
+                return RedirectToAction("SignIn", new { returnUrl = Url.Action("Checkout", "UserHome") });
+            }
+
+
             return RedirectToAction("Checkout");
         }
 
@@ -309,7 +317,7 @@ namespace PolicyPro360.Controllers.User
             if (userId == null)
             {
                 TempData["ErrorMessage"] = "User not logged in.";
-                return RedirectToAction("SignIn");
+                return RedirectToAction("SignIn", new { returnUrl = Url.Action("Checkout", "UserHome") });
             }
             if (TempData["CheckoutModel"] is string serializedModel)
             {
@@ -604,18 +612,22 @@ namespace PolicyPro360.Controllers.User
         {
             return View();
         }
-        public IActionResult SignIn()
+        public IActionResult SignIn(string returnUrl = null)
         {
-            if (HttpContext.Session.GetString("userName") != null)
-            {
-                return RedirectToAction("Dashboard");
-            }
+            
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult SignIn(string userEmail, string userPassword)
+        public IActionResult SignIn(string userEmail, string userPassword, string ReturnUrl = null)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ReturnUrl = ReturnUrl;
+                return View();
+            }
+
             var user = _context.Tbl_Users.FirstOrDefault(u => u.Email == userEmail && u.Password == userPassword);
             if (user != null)
             {
@@ -624,14 +636,17 @@ namespace PolicyPro360.Controllers.User
                 HttpContext.Session.SetInt32("userId", value: user.Id);
                 HttpContext.Session.SetString("userEmail", value: user.Email);
                 HttpContext.Session.SetString("userImg", value: user.ProfileImagePath);
+
+                if (!string.IsNullOrEmpty(ReturnUrl))
+                {
+                    return Redirect(ReturnUrl);
+                }
+
                 TempData["success"] = "Login successful!";
                 return RedirectToAction("Dashboard");
             }
-            else
-            {
-                ViewBag.ErrorMessage = "Invalid email or password.";
-
-            }
+            ViewBag.ErrorMessage = "Invalid email or password.";
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
         public IActionResult SignUp()
@@ -1077,6 +1092,21 @@ namespace PolicyPro360.Controllers.User
 
             TempData["Success"] = "Your claim has been submitted successfully!";
             return RedirectToAction("MyApplication");
+        }
+
+        public IActionResult MyWallet()
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            var userName = HttpContext.Session.GetString("userName");
+            ViewBag.Name = userName;
+
+            if (userId == null)
+            {
+                return RedirectToAction("Signin", "User");
+            }
+
+            var myWallet = _context.Tbl_UserWallet.FirstOrDefault();
+            return View(myWallet);
         }
 
         [HttpGet]

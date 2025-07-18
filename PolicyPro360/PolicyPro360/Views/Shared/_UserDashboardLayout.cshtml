@@ -56,10 +56,20 @@
                         </li>
 
                         <!-- =================== -->
+                        <!-- My Wallet -->
+                        <!-- =================== -->
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("MyWallet","UserHome")" aria-expanded="false">
+                                <i class="ti ti-report-money"></i>
+                                <span class="hide-menu">My Wallet</span>
+                            </a>
+                        </li>
+
+                        <!-- =================== -->
                         <!-- My Policies -->
                         <!-- =================== -->
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("MyPolicies","UserHome")" aria-expanded="false">
+                            <a class="sidebar-link" href="@Url.Action("MyPolicies", "UserHome")" aria-expanded="false">
                                 <i class="ti ti-shield"></i>
                                 <span class="hide-menu">My Policies</span>
                             </a>
@@ -204,6 +214,11 @@
                                         <a href="@Url.Action("profile", "UserHome")" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-user fs-6"></i>
                                             <p class="mb-0 fs-3">My Profile</p>
+                                        </a>
+                                        <!-- Link to MyWallet Page -->
+                                        <a href="@Url.Action("MyWallet", "UserHome")" class="d-flex align-items-center gap-2 dropdown-item">
+                                            <i class="ti ti-report-money fs-6"></i>
+                                            <p class="mb-0 fs-3">My Wallet</p>
                                         </a>
                                         <!-- Link to Policies Page -->
                                         <a href="@Url.Action("MyPolicies", "UserHome")" class="d-flex align-items-center gap-2 dropdown-item">

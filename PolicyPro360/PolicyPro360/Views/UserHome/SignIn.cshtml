@@ -74,6 +74,9 @@
                         {
                             <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
                         }
+
+                        <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+
                         <!-- Email/Username Input -->
                         <div class="sign-in__form-input-box mb-3">
                             <label for="userEmail" class="form-label">Username or Email</label>

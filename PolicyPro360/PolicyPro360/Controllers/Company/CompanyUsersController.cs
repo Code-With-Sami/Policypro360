@@ -53,7 +53,6 @@ namespace PolicyPro360.Controllers.Company
             return View(policy);
         }
 
-
         public IActionResult UserPoliciesByCategory(int categoryId)
         {
             var companyId = HttpContext.Session.GetInt32("companyId");
@@ -96,6 +95,81 @@ namespace PolicyPro360.Controllers.Company
 
             return View(userclaim);
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateClaimStatus(int ClaimId, string Status)
+        {
+            var claim = _context.Tbl_UserClaims.FirstOrDefault(c => c.Id == ClaimId);
+            if (claim == null)
+            {
+                TempData["ErrorMessage"] = "Claim not found!";
+                return RedirectToAction("CompanyClaims");
+            }
+
+            var companyId = HttpContext.Session.GetInt32("companyId");
+            if (companyId == null)
+            {
+                TempData["ErrorMessage"] = "Session expired. Please login again.";
+                return RedirectToAction("Login");
+            }
+
+            claim.Status = Status;
+
+            if (Status == "Accepted")
+            {
+                var companyWallet = _context.Tbl_CompanyWallet
+                    .FirstOrDefault(w => w.CompanyId == companyId && w.UserId == claim.UserId && w.PolicyId == claim.PolicyId);
+
+                if (companyWallet != null && companyWallet.Amount >= claim.ClaimedAmount)
+                {
+                    companyWallet.Amount -= claim.ClaimedAmount;
+                    companyWallet.TransactionDate = DateTime.Now;
+                    companyWallet.Description = $"Claim payout for Claim ID: {claim.Id}";
+                    _context.Tbl_CompanyWallet.Update(companyWallet);
+
+                    // Credit to User Wallet
+                    var userWallet = _context.Tbl_UserWallet.FirstOrDefault(uw => uw.UserId == claim.UserId);
+                    if (userWallet == null)
+                    {
+                        userWallet = new UserWallet
+                        {
+                            UserId = claim.UserId,
+                            Balance = claim.ClaimedAmount,
+                            PolicyId = claim.PolicyId,
+                            Description = $"Claim received for Claim ID: {claim.Id}",
+                            LastUpdated = DateTime.Now
+                        };
+                        _context.Tbl_UserWallet.Add(userWallet);
+                    }
+                    else
+                    {
+                        userWallet.Balance += claim.ClaimedAmount;
+                        userWallet.LastUpdated = DateTime.Now;
+                        userWallet.Description = $"Claim received for Claim ID: {claim.Id}";
+                        _context.Tbl_UserWallet.Update(userWallet);
+                    }
+
+                    _context.Tbl_UserClaims.Update(claim);
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Status updated and funds transferred successfully!";
+                }
+                else
+                {
+                    _context.Tbl_UserClaims.Update(claim); // Save status even if wallet has insufficient funds
+                    _context.SaveChanges();
+                    TempData["ErrorMessage"] = "Insufficient company wallet balance! Status updated but funds not transferred.";
+                }
+            }
+            else
+            {
+                _context.Tbl_UserClaims.Update(claim);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Claim status updated successfully!";
+            }
+
+            return RedirectToAction("ViewUserClaim", new { id = ClaimId });
         }
 
 

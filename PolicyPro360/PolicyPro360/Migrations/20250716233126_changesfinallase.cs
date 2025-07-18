@@ -34,9 +34,9 @@ namespace PolicyPro360.Migrations
                 name: "FK_Tbl_UserPolicy_Tbl_Policy_PolicyId",
                 table: "Tbl_UserPolicy");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Tbl_UserPolicy_Tbl_Users_UserId",
-                table: "Tbl_UserPolicy");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Tbl_UserPolicy_Tbl_Users_UserId",
+            //    table: "Tbl_UserPolicy");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Tbl_Policy_Tbl_Category_PolicyTypeId",
@@ -86,13 +86,13 @@ namespace PolicyPro360.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Tbl_UserPolicy_Tbl_Users_UserId",
-                table: "Tbl_UserPolicy",
-                column: "UserId",
-                principalTable: "Tbl_Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            //migrationBuilder.AddForeignKey(
+            //    name: "FK_Tbl_UserPolicy_Tbl_Users_UserId",
+            //    table: "Tbl_UserPolicy",
+            //    column: "UserId",
+            //    principalTable: "Tbl_Users",
+            //    principalColumn: "Id",
+            //    onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />

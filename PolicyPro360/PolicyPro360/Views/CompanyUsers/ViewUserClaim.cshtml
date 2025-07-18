@@ -82,6 +82,41 @@
 
                 <div class="mt-4">
                     <a href="@Url.Action("UserClaims", "CompanyUsers")" class="btn btn-outline-secondary">Back to List</a>
+                    <!-- Trigger Button -->
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changeStatusModal">
+                        Change Status
+                    </button>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="changeStatusModal" tabindex="-1" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form asp-action="UpdateClaimStatus" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="changeStatusModalLabel">Update Claim Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="ClaimId" value="@Model.Id" />
+
+                                <div class="mb-3">
+                                    <label for="Status" class="form-label">Select Status</label>
+                                    <select class="form-select" name="Status" required>
+                                        <option value="Pending" selected>Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Accepted">Accepted</option>
+                                        <option value="Rejected">Rejected</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Update Status</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
