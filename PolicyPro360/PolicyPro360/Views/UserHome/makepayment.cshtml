@@ -211,15 +211,14 @@
                 <div class="card-body p-4">
                     <h5 class="fw-semibold text-white mb-4">Choose Payment Method</h5>
 
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="alert alert-success text-dark">@TempData["SuccessMessage"]</div>
-                    }
-
-
                     @if (TempData["ErrorMessage"] != null)
                     {
                         <div class="alert alert-danger text-dark">@TempData["ErrorMessage"]</div>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success text-dark">@TempData["SuccessMessage"]</div>
                     }
 
                     @if (ViewBag.LoanInstallment != null)
@@ -238,7 +237,7 @@
                             </div>
                         </div>
                     }
-                    else if (ViewBag.HasAnyLoan == true)
+                    else if (ViewBag.LoanInstallment != null && ViewBag.LoanInstallment.Status == "Paid")
                     {
                         <div class="alert alert-success text-dark mt-4">
                             You have paid your loan installment for this month.

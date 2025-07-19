@@ -124,6 +124,27 @@
                     @(ViewBag.HasTransactions ? "Yes" : "No")
                 </span>
             </div>
+            
+            <div class="data-item">
+                <span class="data-label">Loan Requests:</span>
+                <span class="data-value @(ViewBag.HasLoanRequests ? "text-danger" : "text-success")">
+                    @(ViewBag.HasLoanRequests ? "Yes" : "No")
+                </span>
+            </div>
+            
+            <div class="data-item">
+                <span class="data-label">Loan Installments:</span>
+                <span class="data-value @(ViewBag.HasLoanInstallments ? "text-danger" : "text-success")">
+                    @(ViewBag.HasLoanInstallments ? "Yes" : "No")
+                </span>
+            </div>
+            
+            <div class="data-item">
+                <span class="data-label">Loan Payments:</span>
+                <span class="data-value @(ViewBag.HasLoanPayments ? "text-danger" : "text-success")">
+                    @(ViewBag.HasLoanPayments ? "Yes" : "No")
+                </span>
+            </div>
         </div>
 
         <!-- Impact Warning -->
@@ -133,6 +154,7 @@
                 <li>All user policies associated with this policy will be permanently deleted</li>
                 <li>All claims filed for this policy will be permanently deleted</li>
                 <li>All wallet transactions related to this policy will be permanently deleted</li>
+                <li>All loan requests, installments, and payments related to this policy will be permanently deleted</li>
                 <li>All policy attributes and settings will be permanently deleted</li>
                 <li>This action cannot be undone</li>
             </ul>

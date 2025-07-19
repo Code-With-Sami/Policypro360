@@ -206,8 +206,11 @@ namespace PolicyPro360.Controllers.Admin
                 var hasAdminWallets = _context.Tbl_AdminWallet.Any(aw => aw.PolicyId == id);
                 var hasCompanyWallets = _context.Tbl_CompanyWallet.Any(cw => cw.PolicyId == id);
                 var hasTransactions = _context.Tbl_TransactionHistory.Any(th => th.PolicyId == id);
+                var hasLoanRequests = _context.Tbl_LoanRequests.Any(lr => lr.PolicyId == id);
+                var hasLoanInstallments = _context.Tbl_LoanInstallments.Any(li => _context.Tbl_LoanRequests.Any(lr => lr.Id == li.LoanRequestId && lr.PolicyId == id));
+                var hasLoanPayments = _context.Tbl_LoanPayments.Any(lp => _context.Tbl_LoanInstallments.Any(li => li.Id == lp.LoanInstallmentId && _context.Tbl_LoanRequests.Any(lr => lr.Id == li.LoanRequestId && lr.PolicyId == id)));
 
-                if (hasUserPolicies || hasUserClaims || hasAdminWallets || hasCompanyWallets || hasTransactions)
+                if (hasUserPolicies || hasUserClaims || hasAdminWallets || hasCompanyWallets || hasTransactions || hasLoanRequests || hasLoanInstallments || hasLoanPayments)
                 {
                     // Store policy info in TempData for the confirmation view
                     TempData["PolicyToDelete"] = id;
@@ -217,6 +220,9 @@ namespace PolicyPro360.Controllers.Admin
                     TempData["HasAdminWallets"] = hasAdminWallets;
                     TempData["HasCompanyWallets"] = hasCompanyWallets;
                     TempData["HasTransactions"] = hasTransactions;
+                    TempData["HasLoanRequests"] = hasLoanRequests;
+                    TempData["HasLoanInstallments"] = hasLoanInstallments;
+                    TempData["HasLoanPayments"] = hasLoanPayments;
                     
                     return RedirectToAction("ConfirmPolicyDeletion");
                 }
@@ -247,6 +253,9 @@ namespace PolicyPro360.Controllers.Admin
             ViewBag.HasAdminWallets = TempData["HasAdminWallets"];
             ViewBag.HasCompanyWallets = TempData["HasCompanyWallets"];
             ViewBag.HasTransactions = TempData["HasTransactions"];
+            ViewBag.HasLoanRequests = TempData["HasLoanRequests"];
+            ViewBag.HasLoanInstallments = TempData["HasLoanInstallments"];
+            ViewBag.HasLoanPayments = TempData["HasLoanPayments"];
 
             return View();
         }
@@ -285,6 +294,13 @@ namespace PolicyPro360.Controllers.Admin
             var adminWallets = _context.Tbl_AdminWallet.Where(aw => aw.PolicyId == policyId).ToList();
             var companyWallets = _context.Tbl_CompanyWallet.Where(cw => cw.PolicyId == policyId).ToList();
             var transactions = _context.Tbl_TransactionHistory.Where(th => th.PolicyId == policyId).ToList();
+            
+            // Delete loan-related data
+            var loanRequests = _context.Tbl_LoanRequests.Where(lr => lr.PolicyId == policyId).ToList();
+            var loanRequestIds = loanRequests.Select(lr => lr.Id).ToList();
+            var loanInstallments = _context.Tbl_LoanInstallments.Where(li => loanRequestIds.Contains(li.LoanRequestId)).ToList();
+            var loanInstallmentIds = loanInstallments.Select(li => li.Id).ToList();
+            var loanPayments = _context.Tbl_LoanPayments.Where(lp => loanInstallmentIds.Contains(lp.LoanInstallmentId)).ToList();
 
             // Remove related data
             if (userPolicies.Any()) _context.Tbl_UserPolicy.RemoveRange(userPolicies);
@@ -292,6 +308,11 @@ namespace PolicyPro360.Controllers.Admin
             if (adminWallets.Any()) _context.Tbl_AdminWallet.RemoveRange(adminWallets);
             if (companyWallets.Any()) _context.Tbl_CompanyWallet.RemoveRange(companyWallets);
             if (transactions.Any()) _context.Tbl_TransactionHistory.RemoveRange(transactions);
+            
+            // Remove loan-related data in correct order
+            if (loanPayments.Any()) _context.Tbl_LoanPayments.RemoveRange(loanPayments);
+            if (loanInstallments.Any()) _context.Tbl_LoanInstallments.RemoveRange(loanInstallments);
+            if (loanRequests.Any()) _context.Tbl_LoanRequests.RemoveRange(loanRequests);
 
             // Get and delete policy attributes
             var policy = _context.Tbl_Policy.Include(p => p.Attributes).FirstOrDefault(p => p.Id == policyId);

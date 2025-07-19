@@ -193,11 +193,6 @@
                             <input type="hidden" asp-for="PolicyName" />
                             <input type="hidden" asp-for="PolicyType" />
 
-                            @if (TempData["ErrorMessage"] != null)
-                            {
-                                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-                            }
-
                             <!-- Show base premium to user -->
                             <div class="mb-4">
                                 <label class="form-label">Base Premium (by Company)</label>

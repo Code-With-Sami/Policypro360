@@ -90,11 +90,12 @@ namespace PolicyPro360.Controllers.Company
                     company.OwnerImagePath = "/companies/ownerimages/" + uniqueOwnerImageName;
                 }
 
+                company.Status = "Pending"; // Ensure status is set to Pending
                 _db.Tbl_Company.Add(company);
                 await _db.SaveChangesAsync();
 
-                TempData["success"] = "Company registered successfully! Please login to continue.";
-                return RedirectToAction("Login");
+                ViewBag.SuccessMessage = "Company registered successfully! Please wait for admin approval before logging in.";
+                return View("Login");
             }
 
             return View(company);
@@ -126,15 +127,20 @@ namespace PolicyPro360.Controllers.Company
                     TempData["success"] = "Login successful!";
                     return RedirectToAction("Dashboard");
                 }
+                else if (company.Status == "Pending")
+                {
+                    ViewBag.ErrorMessage = "Your account is pending admin approval. Please wait for approval before logging in.";
+                    return View();
+                }
                 else
                 {
-                    TempData["ErrorMessage"] = "Your account has not been approved.";
+                    ViewBag.ErrorMessage = "Your account has not been approved or has been rejected.";
                     return View();
                 }
             }
             else
             {
-                TempData["ErrorMessage"] = "invalied email or username.";
+                ViewBag.ErrorMessage = "Invalid email or password.";
             }
             return View();
 
@@ -303,6 +309,8 @@ namespace PolicyPro360.Controllers.Company
             {
                 return RedirectToAction("Login");
             }
+
+          
             var transactions = _db.Set<CompanyWallet>()
                 .Include(w => w.Policy)
                 .Include(w => w.Company)
@@ -326,10 +334,85 @@ namespace PolicyPro360.Controllers.Company
                     TotalPremium = x.UserPolicy != null ? x.UserPolicy.CalculatedPremium : 0,
                     CommissionEarned = x.Wallet.Amount,
                     Date = x.Wallet.TransactionDate,
-                    Status = "Credited"
+                    Status = x.Wallet.Amount >= 0 ? "Credited" : "Withdrawn"
                 })
                 .ToList();
+
+          
+            var actualBalance = transactions.Sum(x => x.CommissionEarned);
+            ViewBag.ActualBalance = actualBalance;
+
             return View(transactions);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> WithdrawFunds(decimal withdrawAmount, string withdrawalReason, string bankDetails)
+        {
+            try
+            {
+                int? companyId = HttpContext.Session.GetInt32("companyId");
+                if (companyId == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                if (withdrawAmount <= 0)
+                {
+                    TempData["ErrorMessage"] = "Withdrawal amount must be greater than zero.";
+                    return RedirectToAction("CompanyWallet");
+                }
+
+             
+                var company = await _db.Tbl_Company.FindAsync(companyId.Value);
+                if (company == null)
+                {
+                    TempData["ErrorMessage"] = "Company not found.";
+                    return RedirectToAction("CompanyWallet");
+                }
+
+             
+                var allTransactions = _db.Set<CompanyWallet>()
+                    .Where(w => w.CompanyId == companyId.Value)
+                    .ToList();
+                var currentBalance = allTransactions.Sum(x => x.Amount);
+
+                if (withdrawAmount > currentBalance)
+                {
+                    TempData["ErrorMessage"] = "Insufficient balance. Available balance: PKR " + currentBalance.ToString("N2");
+                    return RedirectToAction("CompanyWallet");
+                }
+
+                var validUser = _db.Tbl_Users.FirstOrDefault();
+                var validPolicy = _db.Tbl_Policy.FirstOrDefault();
+
+                if (validUser == null || validPolicy == null)
+                {
+                    TempData["ErrorMessage"] = "System configuration error. Please contact administrator.";
+                    return RedirectToAction("CompanyWallet");
+                }
+
+                var withdrawalTransaction = new CompanyWallet
+                {
+                    CompanyId = companyId.Value,
+                    UserId = validUser.Id,
+                    PolicyId = validPolicy.Id,
+                    Amount = -withdrawAmount,
+                    TransactionDate = DateTime.Now,
+                    Description = string.IsNullOrEmpty(withdrawalReason) ? "Fund withdrawal" : withdrawalReason
+                };
+
+                _db.Set<CompanyWallet>().Add(withdrawalTransaction);
+                await _db.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = $"Withdrawal request submitted successfully! Amount: PKR {withdrawAmount:N2}. Funds will be transferred to your bank account within 2-3 business days.";
+                return RedirectToAction("CompanyWallet");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "An error occurred while processing your withdrawal request. Please try again.";
+                return RedirectToAction("CompanyWallet");
+            }
         }
 
 

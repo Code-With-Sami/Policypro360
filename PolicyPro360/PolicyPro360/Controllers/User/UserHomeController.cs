@@ -106,6 +106,18 @@ namespace PolicyPro360.Controllers.User
                     ViewBag.ErrorMessage = "No policies found from database.";
                 }
 
+     
+                var userId = HttpContext.Session.GetInt32("userId");
+                if (userId.HasValue)
+                {
+                    var userBoughtPolicies = _context.Tbl_UserPolicy
+                        .Where(up => up.UserId == userId.Value)
+                        .Select(up => up.PolicyId)
+                        .ToList();
+                    
+                    ViewBag.UserBoughtPolicyIds = userBoughtPolicies;
+                }
+
                 return View(policies);
             }
             catch (Exception ex)
@@ -126,6 +138,16 @@ namespace PolicyPro360.Controllers.User
             {
                 TempData["ErrorMessage"] = "Policy not found.";
                 return RedirectToAction("Policy", "UserHome");
+            }
+
+
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId.HasValue)
+            {
+                var userHasBoughtPolicy = _context.Tbl_UserPolicy
+                    .Any(up => up.UserId == userId.Value && up.PolicyId == id);
+                
+                ViewBag.UserHasBoughtPolicy = userHasBoughtPolicy;
             }
 
             return View(policy);
@@ -302,7 +324,7 @@ namespace PolicyPro360.Controllers.User
 
             if (HttpContext.Session.GetInt32("userId") == null)
             {
-                // Redirect to SignIn with encoded returnUrl to Checkout
+  
                 return RedirectToAction("SignIn", new { returnUrl = Url.Action("Checkout", "UserHome") });
             }
 
@@ -446,6 +468,7 @@ namespace PolicyPro360.Controllers.User
 
             _context.SaveChanges();
 
+            // Set checkout message
             TempData["SuccessMessage"] = "Congratulations! Your payment was successful and your insurance policy is now active.";
             return RedirectToAction("MyPolicies");
         }
@@ -549,8 +572,9 @@ namespace PolicyPro360.Controllers.User
 
             _context.SaveChanges();
 
-            TempData["SuccessMessage"] = "Congratulations! Your payment was successful and your insurance policy has been renewed.";
-            return RedirectToAction("MyPolicies");
+            // Set makepayment message
+            TempData["SuccessMessage"] = "Congratulations! Your payment was successful.";
+            return RedirectToAction("MakePayment");
         }
         public IActionResult Terms()
         {
@@ -614,6 +638,16 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult SignIn(string returnUrl = null)
         {
+           
+            if (HttpContext.Session.GetString("userName") != null)
+            {
+  
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Dashboard");
+            }
             
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -709,33 +743,75 @@ namespace PolicyPro360.Controllers.User
                 var userId = HttpContext.Session.GetInt32("userId");
 
                 var myPolicies = _context.Tbl_UserPolicy
-                    .Where(up => up.UserId == userId)  // or the correct field name
+                    .Where(up => up.UserId == userId)
                     .Include(up => up.Policy)
-                    .ThenInclude(pol => pol.Company)
+                        .ThenInclude(p => p.Category)
+                    .Include(up => up.Policy)
+                        .ThenInclude(pol => pol.Company)
                     .OrderByDescending(up => up.PurchaseDate)
                     .ToList();
 
                 var activePolicies = myPolicies.Where(p => p.Status == "Active").ToList();
                 var activePolicyCount = activePolicies.Count;
-                ViewBag.activepolicies = activePolicyCount;
-
                 var totalPremium = activePolicies.Sum(p => p.CalculatedPremium);
-                ViewBag.totalPremium = totalPremium;
-
                 var nextPaymentDue = myPolicies
                     .Where(p => p.ExpiryDate > DateTime.Now)
                     .OrderBy(p => p.ExpiryDate)
                     .Select(p => p.ExpiryDate)
                     .FirstOrDefault();
 
-                ViewBag.nextPaymentDue = nextPaymentDue;
+                // Recent Applications (claims + loans)
+                var claimApplications = _context.Tbl_UserClaims
+                    .Where(c => c.UserId == userId)
+                    .Include(c => c.Category)
+                    .Include(c => c.Policy)
+                    .Select(c => new MyApplicationViewModel
+                    {
+                        ApplicationId = "Claim: " + c.Id,
+                        ApplicationType = "Claim",
+                        CategoryOrType = c.Category.Name,
+                        PolicyName = c.Policy.Name,
+                        SubmittedAt = c.SubmittedAt,
+                        Status = c.Status
+                    });
+                var loanApplications = _context.Tbl_LoanRequests
+                    .Where(l => l.UserId == userId)
+                    .Include(l => l.Policy)
+                    .Select(l => new MyApplicationViewModel
+                    {
+                        ApplicationId = "Loan: " + l.Id,
+                        ApplicationType = "Loan",
+                        CategoryOrType = l.LoanType,
+                        PolicyName = l.Policy.Name,
+                        SubmittedAt = l.RequestDate,
+                        Status = l.Status
+                    });
+                var allApplications = claimApplications.Concat(loanApplications)
+                    .OrderByDescending(a => a.SubmittedAt)
+                    .Take(5)
+                    .ToList();
+
+                // Upcoming Premium Payments (next 30 days)
+                var upcomingPremiums = myPolicies
+                    .Where(p => p.ExpiryDate > DateTime.Now)
+                    .OrderBy(p => p.ExpiryDate)
+                    .ToList();
+
+                var dashboardModel = new DashboardViewModel
+                {
+                    ActivePolicies = activePolicyCount,
+                    TotalPremium = totalPremium,
+                    NextPaymentDue = nextPaymentDue,
+                    Policies = myPolicies,
+                    RecentApplications = allApplications,
+                    UpcomingPremiums = upcomingPremiums
+                };
+                return View(dashboardModel);
             }
             else
             {
                 return RedirectToAction("Signin");
             }
-
-            return View();
         }
         public IActionResult Profile()
         {
@@ -870,7 +946,10 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("SignIn");
             }
             
-    
+       
+            TempData.Remove("SuccessMessage");
+            TempData.Remove("ErrorMessage");
+            
             var userPolicies = _context.Tbl_UserPolicy
                 .Where(up => up.UserId == userId && up.Status == "Active")
                 .Include(up => up.Policy)
@@ -880,7 +959,6 @@ namespace PolicyPro360.Controllers.User
             
             if (!userPolicies.Any())
             {
-                TempData["ErrorMessage"] = "No active policies found for payment.";
                 return RedirectToAction("MyPolicies");
             }
             
@@ -912,6 +990,7 @@ namespace PolicyPro360.Controllers.User
                 .FirstOrDefault();
 
             ViewBag.LoanInstallment = loanInstallment;
+            ViewBag.HasPaidLoanInstallment = loanInstallment != null && loanInstallment.Status == "Paid";
 
             return View(model);
         }
@@ -943,6 +1022,13 @@ namespace PolicyPro360.Controllers.User
                 .Select(p => p.ExpiryDate)
                 .FirstOrDefault();
 
+          
+            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+            ViewBag.walletBalance = userWallet != null ? userWallet.Balance : 0m;
+
+
+
+            ViewBag.totalSumInsured = allMyPolicies.Sum(p => p.CoverageAmount);
 
             if (!String.IsNullOrEmpty(searchTerm))
             {
@@ -972,18 +1058,23 @@ namespace PolicyPro360.Controllers.User
         public IActionResult MyPolicyDetail(int id)
         {
             ViewBag.name = HttpContext.Session.GetString("userName");
+            var userId = HttpContext.Session.GetInt32("userId");
 
-            var policy = _context.Tbl_UserPolicy
-                .Include(p => p.Policy)
-                .ThenInclude(pol => pol.Company)
-                .FirstOrDefault(p => p.Id == id);
+            var userPolicy = _context.Tbl_UserPolicy
+                .Include(up => up.Policy)
+                    .ThenInclude(p => p.Category) 
+                .Include(up => up.Policy)
+                    .ThenInclude(p => p.Attributes) 
+                .FirstOrDefault(p => p.Id == id && p.UserId == userId);
 
-            if (policy == null)
+            if (userPolicy == null)
             {
-                return NotFound();
+              
+                TempData["ErrorMessage"] = "Policy not found or you do not have permission to view it.";
+                return RedirectToAction("MyPolicies");
             }
 
-            return View(policy);
+            return View(userPolicy);
         }
         public IActionResult ApplyLoan()
         {
@@ -1105,8 +1196,60 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("Signin", "User");
             }
 
-            var myWallet = _context.Tbl_UserWallet.FirstOrDefault();
+       
+            var myWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+
+
+            if (myWallet == null)
+            {
+             
+                myWallet = new UserWallet
+                {
+                    UserId = userId.Value,
+                    Balance = 0,
+                    Description = "No transactions yet.",
+                    LastUpdated = DateTime.Now
+                };
+            }
+
             return View(myWallet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult WithdrawWallet()
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+            if (userWallet == null)
+            {
+                TempData["ErrorMessage"] = "Wallet not found.";
+                return RedirectToAction("MyWallet");
+            }
+
+            if (userWallet.Balance <= 0)
+            {
+                TempData["ErrorMessage"] = "No balance available for withdrawal.";
+                return RedirectToAction("MyWallet");
+            }
+
+         
+            var withdrawnAmount = userWallet.Balance;
+
+       
+            userWallet.Balance = 0;
+            userWallet.Description = "Wallet emptied via withdrawal.";
+            userWallet.LastUpdated = DateTime.Now;
+
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = $"Successfully withdrawn Rs. {withdrawnAmount:N0} from your wallet.";
+            return RedirectToAction("MyWallet");
         }
 
         [HttpGet]

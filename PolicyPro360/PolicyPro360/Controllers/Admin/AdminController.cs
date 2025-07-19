@@ -393,12 +393,94 @@ namespace PolicyPro360.Controllers.Admin
                     CompanyName = x.Wallet.Company != null ? x.Wallet.Company.CompanyName : "-",
                     CompanyLogoUrl = x.Wallet.Company != null ? x.Wallet.Company.CompanyLogoPath : string.Empty,
                     TotalPremium = x.UserPolicy != null ? x.UserPolicy.CalculatedPremium : 0,
-                    CommissionEarned = x.Wallet.Amount,
+                    CommissionEarned = x.Wallet.Amount, // Show actual amount (positive or negative)
                     Date = x.Wallet.TransactionDate,
-                    Status = "Credited"
+                    Status = x.Wallet.Amount >= 0 ? "Credited" : "Withdrawn"
                 })
                 .ToList();
+
+            // Calculate actual available balance (sum of all transactions including withdrawals)
+            var actualBalance = _db.Set<AdminWallet>().Sum(w => w.Amount);
+            ViewBag.ActualBalance = actualBalance;
+            
+            // Also calculate total commission earned (only positive amounts)
+            var totalCommissionEarned = _db.Set<AdminWallet>().Where(w => w.Amount > 0).Sum(w => w.Amount);
+            ViewBag.TotalCommissionEarned = totalCommissionEarned;
+
             return View(transactions);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult WithdrawFunds(decimal withdrawAmount, string withdrawalReason, string bankDetails)
+        {
+            try
+            {
+             
+                var adminEmail = HttpContext.Session.GetString("email");
+                if (string.IsNullOrEmpty(adminEmail))
+                {
+                    TempData["ErrorMessage"] = "Please login to perform this action.";
+                    return RedirectToAction("Login");
+                }
+
+                // Validate withdrawal amount
+                if (withdrawAmount <= 0)
+                {
+                    TempData["ErrorMessage"] = "Withdrawal amount must be greater than 0.";
+                    return RedirectToAction("AdminWallet");
+                }
+
+                // Calculate total available balance
+                var totalBalance = _db.Set<AdminWallet>().Sum(w => w.Amount);
+                
+                if (withdrawAmount > totalBalance)
+                {
+                    TempData["ErrorMessage"] = $"Insufficient balance. Available: PKR {totalBalance:N2}, Requested: PKR {withdrawAmount:N2}";
+                    return RedirectToAction("AdminWallet");
+                }
+
+                // Get admin details for the transaction
+                var admin = _db.Tbl_Admin.FirstOrDefault(a => a.Email == adminEmail);
+                if (admin == null)
+                {
+                    TempData["ErrorMessage"] = "Admin profile not found.";
+                    return RedirectToAction("AdminWallet");
+                }
+
+                // Get valid references for admin withdrawal
+                var firstUser = _db.Tbl_Users.FirstOrDefault();
+                var firstCompany = _db.Tbl_Company.FirstOrDefault();
+                var firstPolicy = _db.Tbl_Policy.FirstOrDefault();
+
+                if (firstUser == null || firstCompany == null || firstPolicy == null)
+                {
+                    TempData["ErrorMessage"] = "System configuration error. Please contact support.";
+                    return RedirectToAction("AdminWallet");
+                }
+
+                // Create withdrawal transaction (negative amount)
+                var withdrawalTransaction = new AdminWallet
+                {
+                    UserId = firstUser.Id, // Use first user ID (required foreign key)
+                    CompanyId = firstCompany.Id, // Use first company ID
+                    PolicyId = firstPolicy.Id, // Use first policy ID
+                    Amount = -withdrawAmount, // Negative for withdrawal
+                    Description = $"Admin withdrawal by {admin.Name}: {withdrawalReason}. Bank details: {bankDetails}",
+                    TransactionDate = DateTime.Now
+                };
+
+                _db.Set<AdminWallet>().Add(withdrawalTransaction);
+                _db.SaveChanges();
+
+                TempData["SuccessMessage"] = $"Withdrawal request submitted successfully! Amount: PKR {withdrawAmount:N2}. Funds will be transferred to your bank account within 2-3 business days.";
+                return RedirectToAction("AdminWallet");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while processing your withdrawal request: {ex.Message}";
+                return RedirectToAction("AdminWallet");
+            }
         }
     }
 }

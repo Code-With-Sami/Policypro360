@@ -103,48 +103,89 @@
                 </nav>
             </div>
         </div>
-        <!-- Row 1: KPI Cards -->
-        <div class="row mb-4">
-            <!-- Total Commission Card -->
-            <div class="col-lg-6">
-                <div class="card kpi-card btn-grd-primary">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="kpi-label mb-1">Total Commission Earned</p>
-                                <h2 class="kpi-value text-white mb-0">
-                                    PKR @Model?.Sum(x => x.CommissionEarned).ToString("N2")
-                                </h2>
-                            </div>
-                            <div class="kpi-icon-lg">
-                                <i class="material-icons-outlined fs-1 text-white">account_balance_wallet</i>
-                            </div>
-                        </div>
+       <!-- Row 1: KPI Cards -->
+<div class="row mb-4">
+    <!-- Total Commission Card -->
+    <div class="col-lg-4">
+        <div class="card kpi-card btn-grd-primary h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="kpi-label mb-1">Total Commission Earned</p>
+                        <h2 class="kpi-value text-white mb-0">
+                            PKR @ViewBag.TotalCommissionEarned.ToString("N2")
+                        </h2>
                     </div>
-                </div>
-            </div>
-            <!-- This Month's Earnings Card -->
-            <div class="col-lg-6">
-                <div class="card kpi-card btn-grd-primary text-white">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <p class="kpi-label mb-1">This Month's Earnings</p>
-                                <h2 class="kpi-value text-white mb-0">
-                                    PKR @Model?.Where(x => x.Date.Month == DateTime.Now.Month && x.Date.Year == DateTime.Now.Year).Sum(x => x.CommissionEarned).ToString("N2")
-                                </h2>
-                            </div>
-                            <div class="kpi-icon-lg">
-                                <i class="material-icons-outlined fs-1 text-white">bar_chart</i>
-                            </div>
-                        </div>
+                    <div class="kpi-icon-lg">
+                        <i class="material-icons-outlined fs-1 text-white">account_balance_wallet</i>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <!-- This Month's Earnings Card -->
+    <div class="col-lg-4">
+        <div class="card kpi-card btn-grd-primary text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="kpi-label mb-1">This Month's Earnings</p>
+                        <h2 class="kpi-value text-white mb-0">
+                            PKR @Model?.Where(x => x.Date.Month == DateTime.Now.Month && x.Date.Year == DateTime.Now.Year && x.CommissionEarned > 0).Sum(x => x.CommissionEarned).ToString("N2")
+                        </h2>
+                    </div>
+                    <div class="kpi-icon-lg">
+                        <i class="material-icons-outlined fs-1 text-white">bar_chart</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Wallet Balance Card -->
+    <div class="col-lg-4">
+        <div class="card kpi-card btn-grd-warning h-100">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="kpi-label mb-1">Wallet Balance</p>
+                            <h2 class="kpi-value text-white mb-0">
+                                PKR @ViewBag.ActualBalance.ToString("N2")
+                            </h2>
+                        </div>
+                        <div class="kpi-icon-lg">
+                            <i class="material-icons-outlined fs-1 text-white">account_balance</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-light btn-sm w-100" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+                        <i class="bi bi-cash-stack me-2"></i>Withdraw Funds
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <!-- Row 2: Data Table -->
+    
         <div class="card">
             <div class="card-body">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>@TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>@TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+              
                 <h5 class="card-title fw-semibold mb-4">Commission Transaction History</h5>
                 <div class="table-responsive">
                     <table id="walletTable" class="table table-striped table-bordered" style="width:100%">
@@ -176,8 +217,17 @@
                                                 <span>@(string.IsNullOrEmpty(transaction.CompanyName) || transaction.CompanyName == "-" ? "N/A" : transaction.CompanyName)</span>
                                             </div>
                                         </td>
-                                        <td>PKR @string.Format("{0:N2}", transaction.TotalPremium)</td>
-                                        <td><span class="fw-bold text-success">+PKR @string.Format("{0:N2}", transaction.CommissionEarned)</span></td>
+                                                                <td>PKR @string.Format("{0:N2}", transaction.TotalPremium)</td>
+                        <td>
+                            @if (transaction.Status == "Credited")
+                            {
+                                <span class="fw-bold text-success">+PKR @string.Format("{0:N2}", transaction.CommissionEarned)</span>
+                            }
+                            else
+                            {
+                                <span class="fw-bold text-danger">-PKR @string.Format("{0:N2}", Math.Abs(transaction.CommissionEarned))</span>
+                            }
+                        </td>
                                         <td>@transaction.Date.ToString("dd MMM, yyyy")</td>
                                         <td>
                                             @if (transaction.Status == "Credited")
@@ -200,6 +250,75 @@
         </div>
     </div>
 </main>
+
+<!-- Withdraw Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-action="WithdrawFunds" method="post">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="withdrawModalLabel">
+                        <i class="bi bi-cash-stack me-2"></i>Withdraw Funds
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Available Balance:</strong> PKR @ViewBag.ActualBalance.ToString("N2")
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="withdrawAmount" class="form-label fw-semibold">Withdrawal Amount (PKR)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">PKR</span>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="withdrawAmount" 
+                                   name="withdrawAmount" 
+                                   step="0.01" 
+                                   min="0.01" 
+                                   max="@ViewBag.ActualBalance" 
+                                   required 
+                                   placeholder="Enter amount to withdraw">
+                        </div>
+                        <div class="form-text">Maximum withdrawal: PKR @ViewBag.ActualBalance.ToString("N2")</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="withdrawalReason" class="form-label fw-semibold">Withdrawal Reason (Optional)</label>
+                        <textarea class="form-control" 
+                                  id="withdrawalReason" 
+                                  name="withdrawalReason" 
+                                  rows="3" 
+                                  placeholder="Enter reason for withdrawal (optional)"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bankDetails" class="form-label fw-semibold">Bank Account Details</label>
+                        <textarea class="form-control" 
+                                  id="bankDetails" 
+                                  name="bankDetails" 
+                                  rows="3" 
+                                  required 
+                                  placeholder="Enter your bank account details for transfer"></textarea>
+                        <div class="form-text">Please provide complete bank account information for fund transfer</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-cash-stack me-2"></i>Confirm Withdrawal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
@@ -226,6 +345,35 @@
                     { extend: 'print', text: '<i class="bi bi-printer"></i> Print', className: 'btn btn-outline-info btn-sm mt-3' }
                 ],
                 pagingType: "simple_numbers"
+            });
+
+            // Withdraw form validation
+            $('#withdrawModal form').on('submit', function(e) {
+                var amount = parseFloat($('#withdrawAmount').val());
+                var maxAmount = parseFloat('@ViewBag.ActualBalance');
+                
+                if (amount <= 0) {
+                    e.preventDefault();
+                    alert('Please enter a valid amount greater than 0.');
+                    return false;
+                }
+                
+                if (amount > maxAmount) {
+                    e.preventDefault();
+                    alert('Withdrawal amount cannot exceed available balance.');
+                    return false;
+                }
+                
+                if (!confirm('Are you sure you want to withdraw PKR ' + amount.toFixed(2) + '?')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Update max attribute when modal opens
+            $('#withdrawModal').on('show.bs.modal', function() {
+                var maxAmount = parseFloat('@ViewBag.ActualBalance');
+                $('#withdrawAmount').attr('max', maxAmount);
             });
         });
     </script>

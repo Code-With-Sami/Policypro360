@@ -46,7 +46,7 @@ namespace PolicyPro360.Controllers.Company
 
             if (loan == null)
             {
-                TempData["ErrorMessage"] = "Loan request not found.";
+                ViewBag.ErrorMessage = "Loan request not found.";
                 return RedirectToAction("PendingLoans");
             }
 
@@ -54,7 +54,7 @@ namespace PolicyPro360.Controllers.Company
             bool isCompanyUser = _db.Tbl_UserPolicy.Any(up => up.UserId == loan.UserId && up.Policy.CompanyId == companyId);
             if (!isCompanyUser)
             {
-                TempData["ErrorMessage"] = "You are not authorized to approve this loan.";
+                ViewBag.ErrorMessage = "You are not authorized to approve this loan.";
                 return RedirectToAction("PendingLoans");
             }
 
@@ -115,7 +115,7 @@ namespace PolicyPro360.Controllers.Company
 
             _db.SaveChanges();
 
-            TempData["SuccessMessage"] = $"Loan request approved. Amount {disbursedAmount:C} disbursed to user wallet.";
+            ViewBag.SuccessMessage = $"Loan request approved. Amount {disbursedAmount:C} disbursed to user wallet.";
             return RedirectToAction("PendingLoans");
         }
 
@@ -130,7 +130,7 @@ namespace PolicyPro360.Controllers.Company
             var loan = _db.Tbl_LoanRequests.Find(loanId);
             if (loan == null)
             {
-                TempData["ErrorMessage"] = "Loan request not found.";
+                ViewBag.ErrorMessage = "Loan request not found.";
                 return RedirectToAction("PendingLoans");
             }
 
@@ -138,7 +138,7 @@ namespace PolicyPro360.Controllers.Company
             bool isCompanyUser = _db.Tbl_UserPolicy.Any(up => up.UserId == loan.UserId && up.Policy.CompanyId == companyId);
             if (!isCompanyUser)
             {
-                TempData["ErrorMessage"] = "You are not authorized to reject this loan.";
+                ViewBag.ErrorMessage = "You are not authorized to reject this loan.";
                 return RedirectToAction("PendingLoans");
             }
 
@@ -147,7 +147,7 @@ namespace PolicyPro360.Controllers.Company
 
             _db.SaveChanges();
 
-            TempData["SuccessMessage"] = "Request rejected successfully.";
+            ViewBag.SuccessMessage = "Request rejected successfully.";
             return RedirectToAction("PendingLoans");
         }
 

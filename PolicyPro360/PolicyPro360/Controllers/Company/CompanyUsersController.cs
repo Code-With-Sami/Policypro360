@@ -119,17 +119,34 @@ namespace PolicyPro360.Controllers.Company
 
             if (Status == "Accepted")
             {
-                var companyWallet = _context.Tbl_CompanyWallet
-                    .FirstOrDefault(w => w.CompanyId == companyId && w.UserId == claim.UserId && w.PolicyId == claim.PolicyId);
+                // Calculate total company wallet balance by summing all transactions
+                var totalCompanyBalance = _context.Tbl_CompanyWallet
+                    .Where(w => w.CompanyId == companyId)
+                    .Sum(w => w.Amount);
 
-                if (companyWallet != null && companyWallet.Amount >= claim.ClaimedAmount)
+                // Debug information
+                var companyTransactions = _context.Tbl_CompanyWallet
+                    .Where(w => w.CompanyId == companyId)
+                    .ToList();
+
+                if (totalCompanyBalance >= claim.ClaimedAmount)
                 {
-                    companyWallet.Amount -= claim.ClaimedAmount;
-                    companyWallet.TransactionDate = DateTime.Now;
-                    companyWallet.Description = $"Claim payout for Claim ID: {claim.Id}";
-                    _context.Tbl_CompanyWallet.Update(companyWallet);
+                  
+                    var claimPayoutTransaction = new CompanyWallet
+                    {
+                        CompanyId = companyId.Value,
+                        UserId = claim.UserId,
+                        PolicyId = claim.PolicyId,
+                        Amount = -claim.ClaimedAmount, 
+                        Description = $"Claim payout for Claim ID: {claim.Id}",
+                        TransactionDate = DateTime.Now
+                    };
+                    _context.Tbl_CompanyWallet.Add(claimPayoutTransaction);
+                    
+                  
+                    var transactionCount = _context.Tbl_CompanyWallet.Count(w => w.CompanyId == companyId);
 
-                    // Credit to User Wallet
+          
                     var userWallet = _context.Tbl_UserWallet.FirstOrDefault(uw => uw.UserId == claim.UserId);
                     if (userWallet == null)
                     {
@@ -151,15 +168,26 @@ namespace PolicyPro360.Controllers.Company
                         _context.Tbl_UserWallet.Update(userWallet);
                     }
 
-                    _context.Tbl_UserClaims.Update(claim);
-                    _context.SaveChanges();
-                    TempData["SuccessMessage"] = "Status updated and funds transferred successfully!";
+                    // Update claim status
+                    claim.Status = Status;
+
+                    try
+                    {
+                        _context.Tbl_UserClaims.Update(claim);
+                        _context.SaveChanges();
+                        TempData["SuccessMessage"] = $"Claim approved! Amount {claim.ClaimedAmount:C} deducted from company wallet and credited to user wallet. Company balance after transaction: {(totalCompanyBalance - claim.ClaimedAmount):C}";
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["ErrorMessage"] = $"Error processing claim: {ex.Message}";
+                        return RedirectToAction("ViewUserClaim", new { id = ClaimId });
+                    }
                 }
                 else
                 {
                     _context.Tbl_UserClaims.Update(claim); // Save status even if wallet has insufficient funds
                     _context.SaveChanges();
-                    TempData["ErrorMessage"] = "Insufficient company wallet balance! Status updated but funds not transferred.";
+                    TempData["ErrorMessage"] = $"Insufficient company wallet balance! Required: {claim.ClaimedAmount:C}, Available: {totalCompanyBalance:C}. Status updated but funds not transferred.";
                 }
             }
             else

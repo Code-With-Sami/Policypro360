@@ -382,7 +382,16 @@
                             }
                         </div>
                     }
-                    <a asp-action="CalculatePremium" asp-controller="UserHome" asp-route-id="@Model.Id" class="sidebar-button mt-3">Get This Policy</a>
+                    @if (ViewBag.UserHasBoughtPolicy == true)
+                    {
+                        <div class="sidebar-button mt-3 text-white" style="background-color:#171827 ; cursor: default; opacity: 0.8; border:1px solid #f5a526 ;">
+                            <i class="ti ti-check me-2"></i>Already Purchased
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-action="CalculatePremium" asp-controller="UserHome" asp-route-id="@Model.Id" class="sidebar-button mt-3">Get This Policy</a>
+                    }
                 </div>
             </div>
         </div>

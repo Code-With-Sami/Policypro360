@@ -1,0 +1,150 @@
+﻿sqlserver,PolicyPro360,dbo,Tbl_Policy,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,Name,2,nvarchar,100,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,Description,3,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,PolicyTypeId,4,int,NULL,FOREIGN KEY,dbo,Tbl_Category,Id
+sqlserver,PolicyPro360,dbo,Tbl_Policy,CompanyId,5,int,NULL,FOREIGN KEY,dbo,Tbl_Company,Id
+sqlserver,PolicyPro360,dbo,Tbl_Policy,SumInsured,6,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,Premium,7,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,Tenure,8,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,TermsConditions,9,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,BrochureUrl,10,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,Active,11,bit,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Policy,CreatedAt,12,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_FAQ,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_FAQ,Question,2,nvarchar,500,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_FAQ,Answer,3,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_FAQ,IsActive,4,bit,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_FAQ,CreatedDate,5,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_PolicyAttributes,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_PolicyAttributes,PolicyId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_PolicyAttributes,Key,3,nvarchar,100,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_PolicyAttributes,Value,4,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,Name,2,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,Email,3,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,Phone,4,nvarchar,20,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,Subject,5,nvarchar,200,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,Message,6,nvarchar,2000,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Contact,CreatedDate,7,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,Name,2,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,Username,3,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,Email,4,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,Password,5,nvarchar,100,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,MobileNumber,6,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,DateOfBirth,7,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,Address,8,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Users,ProfileImagePath,9,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,PolicyId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,UserId,3,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,CalculatedPremium,4,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,CoverageAmount,5,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,PurchaseDate,6,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,ExpiryDate,7,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPolicy,Status,8,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,FromType,2,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,FromId,3,int,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,ToType,4,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,ToId,5,int,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,CompanyId,6,int,NULL,FOREIGN KEY,dbo,Tbl_Company,Id
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,PolicyId,7,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,Amount,8,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,Purpose,9,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_TransactionHistory,Date,10,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,UserId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,CompanyId,3,int,NULL,FOREIGN KEY,dbo,Tbl_Company,Id
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,PolicyId,4,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,Amount,5,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,Description,6,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_CompanyWallet,TransactionDate,7,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Admin,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Admin,Name,2,nvarchar,100,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Admin,Email,3,nvarchar,150,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Admin,Password,4,nvarchar,255,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Admin,Img,5,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,UserId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,CompanyId,3,int,NULL,FOREIGN KEY,dbo,Tbl_Company,Id
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,PolicyId,4,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,Amount,5,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,Description,6,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_AdminWallet,TransactionDate,7,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,__EFMigrationsHistory,MigrationId,1,nvarchar,150,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,__EFMigrationsHistory,ProductVersion,2,nvarchar,32,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,CompanyName,2,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,BusinessType,3,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,IndustryType,4,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Description,5,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Country,6,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,City,7,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Address,8,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Email,9,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,PhoneNo,10,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,CompanyLogoPath,11,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerName,12,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerDOB,13,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerNationality,14,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerEmail,15,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerPhoneNo,16,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerRole,17,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerCNIC,18,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,OwnerImagePath,19,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,RegistrationNo,20,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Status,21,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Company,Password,22,nvarchar,100,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanPayments,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanPayments,UserId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_LoanPayments,LoanInstallmentId,3,int,NULL,FOREIGN KEY,dbo,Tbl_LoanInstallments,Id
+sqlserver,PolicyPro360,dbo,Tbl_LoanPayments,PaidAmount,4,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanPayments,PaymentDate,5,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanPayments,PaymentMode,6,nvarchar,50,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanInstallments,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanInstallments,LoanRequestId,2,int,NULL,FOREIGN KEY,dbo,Tbl_LoanRequests,Id
+sqlserver,PolicyPro360,dbo,Tbl_LoanInstallments,DueDate,3,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanInstallments,Amount,4,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanInstallments,Status,5,nvarchar,20,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanInstallments,PaidDate,6,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserWallet,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserWallet,UserId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserWallet,Balance,3,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserWallet,LastUpdated,4,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserWallet,Description,5,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserWallet,PolicyId,6,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,UserId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,LoanAmount,3,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,LoanType,4,nvarchar,50,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,Purpose,5,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,DurationInMonths,6,int,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,Status,7,nvarchar,20,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,RequestDate,8,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,ApprovalDate,9,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,DisbursedAmount,10,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,StartDate,11,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,EndDate,12,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_LoanRequests,PolicyId,13,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,UserId,2,int,NULL,FOREIGN KEY,dbo,Tbl_Users,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,PolicyCategoryId,3,int,NULL,FOREIGN KEY,dbo,Tbl_Category,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,PolicyId,4,int,NULL,FOREIGN KEY,dbo,Tbl_Policy,Id
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,DateOfIncident,5,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,IncidentDetails,6,nvarchar,1000,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,ClaimedAmount,7,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,UserRequest,8,nvarchar,500,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,SupportingDocumentPath,9,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,Status,10,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserClaims,SubmittedAt,11,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPayment,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPayment,PayerName,2,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPayment,PayerEmail,3,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPayment,Amount,4,decimal,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPayment,Reference,5,nvarchar,-1,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_UserPayment,Date,6,datetime2,NULL,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Category,Id,1,int,NULL,PRIMARY KEY,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Category,Name,2,nvarchar,100,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Category,Description,3,nvarchar,500,NULL,NULL,NULL,NULL
+sqlserver,PolicyPro360,dbo,Tbl_Category,Status,4,bit,NULL,NULL,NULL,NULL,NULL

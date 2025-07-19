@@ -2,6 +2,106 @@
     ViewData["Title"] = "User Dashboard - PolicyPro360";
     Layout = "_UserDashboardLayout";
 }
+@model PolicyPro360.ViewModels.DashboardViewModel
+
+@{
+    var typeCounts = Model.Policies
+        .GroupBy(p => p.Policy.Category?.Name ?? "Other")
+        .Select(g => new { Type = g.Key, Count = g.Count() })
+        .OrderByDescending(g => g.Count)
+        .ToList();
+    var total = typeCounts.Sum(x => x.Count);
+}
+
+
+<style>
+    /* Gradient Cards ke liye General Styling */
+    .gradient-card {
+        border-radius: 12px;
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+        .gradient-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .gradient-card .card-title {
+            color: white;
+            opacity: 0.9;
+        }
+
+    /* "Recent Purchases" Card ka Gradient */
+    .card-gradient-purple {
+        background-image: linear-gradient(45deg, #aa4b6b, #6b6b83 ,#3b8d99);
+    }
+
+    /* "Applications Summary" Card ka Gradient */
+    .card-gradient-teal {
+        background-image: linear-gradient(45deg, #f5a526, #f5a526 );
+    }
+
+    /* Recent Purchases List ki Styling */
+    .timeline-list-light {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .timeline-list-item-light {
+        position: relative;
+        padding-left: 25px;
+        padding-bottom: 15px;
+        border-left: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+        .timeline-list-item-light:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+
+        .timeline-list-item-light::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ffffff;
+        }
+
+        .timeline-list-item-light h6 {
+            color: white;
+        }
+
+        .timeline-list-item-light small {
+            color: white;
+            opacity: 0.7;
+        }
+
+    /* Applications Summary ki Styling */
+    .summary-item-light {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .summary-icon-light {
+        font-size: 1.2rem;
+        color: white;
+    }
+
+    .summary-item-light .fw-semibold {
+        color: white;
+    }
+
+    .summary-item-light .fw-bolder {
+        color: white;
+    }
+</style>
 <div class="body-wrapper-inner">
     <div class="container-fluid">
         <!--  Row 1: Welcome Message and Quick Actions -->
@@ -117,7 +217,7 @@
                                 <i class="ti ti-shield-check fs-6"></i>
                             </span>
                             <div class="ms-3">
-                                <h5 class="mb-0 fw-bolder fs-4">@ViewBag.activepolicies</h5>
+                                <h5 class="mb-0 fw-bolder fs-4">@Model.ActivePolicies</h5>
                                 <span class="text-muted fs-3">Active Policies</span>
                             </div>
                         </div>
@@ -126,9 +226,7 @@
                                 <i class="ti ti-report-money fs-6"></i>
                             </span>
                             <div class="ms-3">
-                                <h5 class="mb-0 fw-bolder fs-4">
-                                    PKR @ViewBag.totalPremium
-                                </h5>
+                                <h5 class="mb-0 fw-bolder fs-4">PKR @Model.TotalPremium</h5>
                                 <span class="text-muted fs-3">Total Annual Premium</span>
                             </div>
                         </div>
@@ -137,7 +235,7 @@
                                 <i class="ti ti-alert-circle fs-6"></i>
                             </span>
                             <div class="ms-3">
-                                <h5 class="mb-0 fw-bolder fs-4">@ViewBag.nextPaymentDue.ToString("MMMM dd, yyyy")</h5>
+                                <h5 class="mb-0 fw-bolder fs-4">@(Model.NextPaymentDue.HasValue ? Model.NextPaymentDue.Value.ToString("MMMM dd, yyyy") : "N/A")</h5>
                                 <span class="text-muted fs-3">Payment Due Soon</span>
                             </div>
                         </div>
@@ -151,30 +249,20 @@
             <div class="col-lg-5 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold">My Policy Coverage</h5>
-                        <div id="policyCoverageChart" class="mt-4"></div>
+                        <h5 class="card-title fw-semibold">My Policy Types</h5>
                         <div class="d-flex flex-column gap-3 mt-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="round-8 bg-primary rounded-circle"></span>
-                                    <p class="mb-0">Health Insurance</p>
+                            @foreach (var t in typeCounts)
+                            {
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="round-8 bg-primary rounded-circle"></span>
+                                        <p class="mb-0">@t.Type</p>
+                                    </div>
+                                    <p class="mb-0 fw-bolder">
+                                        @t.Count (@(total > 0 ? ((t.Count * 100) / total) : 0)%)
+                                    </p>
                                 </div>
-                                <p class="mb-0 fw-bolder">45%</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="round-8 bg-secondary rounded-circle"></span>
-                                    <p class="mb-0">Life Insurance</p>
-                                </div>
-                                <p class="mb-0 fw-bolder">30%</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="round-8 bg-warning rounded-circle"></span>
-                                    <p class="mb-0">Auto Insurance</p>
-                                </div>
-                                <p class="mb-0 fw-bolder">25%</p>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -190,27 +278,16 @@
                         <div class="table-responsive">
                             <table class="table text-nowrap mb-0 align-middle">
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <h6 class="fw-semibold mb-1">Claim: #CL-84521</h6>
-                                            <span class="fw-normal">For Max Life Health Plan</span>
-                                        </td>
-                                        <td><span class="badge bg-success-subtle text-success">Approved</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="fw-semibold mb-1">Loan: #LN-11209</h6>
-                                            <span class="fw-normal">Against Life Insurance Policy</span>
-                                        </td>
-                                        <td><span class="badge bg-warning-subtle text-warning">Pending Review</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6 class="fw-semibold mb-1">Claim: #CL-84115</h6>
-                                            <span class="fw-normal">For Bajaj Allianz Car Insurance</span>
-                                        </td>
-                                        <td><span class="badge bg-danger-subtle text-danger">Rejected</span></td>
-                                    </tr>
+                                    @foreach (var app in Model.RecentApplications)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <h6 class="fw-semibold mb-1">@app.ApplicationId</h6>
+                                                <span class="fw-normal">For @app.PolicyName</span>
+                                            </td>
+                                            <td><span class="badge @(app.Status == "Approved" ? "bg-success-subtle text-success" : app.Status == "Pending" ? "bg-warning-subtle text-warning" : "bg-danger-subtle text-danger")">@app.Status</span></td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -218,74 +295,127 @@
                 </div>
             </div>
         </div>
-
-        <!--  Row 4: Upcoming Premium Payments -->
+        <!-- Row 2: Upcoming Payments & Applications Summary -->
         <div class="row">
-            <div class="col-12">
-                <div class="card">
+
+            <!-- Left Column: Upcoming Premium Payments -->
+            <div class="col-lg-8 d-flex align-items-stretch">
+                <div class="card w-100">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold mb-4">Upcoming Premium Payments</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title fw-semibold mb-0">Upcoming Premium Payments</h5>
+                            <a href="@Url.Action("MyPolicies", "UserHome")" class="btn btn-sm btn-light">View All</a>
+                        </div>
                         <div class="table-responsive">
-                            <table class="table mb-0 text-nowrap align-middle fs-3">
-                                <thead class="text-dark fs-4">
+                            <table class="table payments-table align-middle">
+                                <thead>
                                     <tr>
-                                        <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Policy Name</h6>
-                                        </th>
-                                        <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Premium Amount</h6>
-                                        </th>
-                                        <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Due Date</h6>
-                                        </th>
-                                        <th class="border-bottom-0">
-                                            <h6 class="fw-semibold mb-0">Action</h6>
-                                        </th>
+                                        <th>Policy Details</th>
+                                        <th>Amount</th>
+                                        <th>Due In</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="border-bottom-0">
-                                            <h6 class="fw-normal mb-0">Max Life Health Plan</h6>
-                                        </td>
-                                        <td class="border-bottom-0">
-                                            <p class="mb-0 fw-normal">$150.00</p>
-                                        </td>
-                                        <td class="border-bottom-0">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="badge bg-danger-subtle text-danger">Due in 5 days</span>
-                                            </div>
-                                        </td>
-                                        <td class="border-bottom-0">
-                                            <a href="payment.php?policy_id=123"
-                                               class="btn btn-primary btn-sm">Pay Now</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-bottom-0">
-                                            <h6 class="fw-normal mb-0">Bajaj Allianz Car Insurance</h6>
-                                        </td>
-                                        <td class="border-bottom-0">
-                                            <p class="mb-0 fw-normal">$85.50</p>
-                                        </td>
-                                        <td class="border-bottom-0">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="badge bg-warning-subtle text-warning">15-Nov-2024</span>
-                                            </div>
-                                        </td>
-                                        <td class="border-bottom-0">
-                                            <a href="payment.php?policy_id=456"
-                                               class="btn btn-secondary btn-sm">Pay Now</a>
-                                        </td>
-                                    </tr>
+                                    @if (Model.UpcomingPremiums != null && Model.UpcomingPremiums.Any())
+                                    {
+                                        @foreach (var pol in Model.UpcomingPremiums)
+                                        {
+                                            var daysRemaining = (pol.ExpiryDate - DateTime.Now).Days;
+                                            var badgeColor = daysRemaining <= 7 ? "danger" : (daysRemaining <= 15 ? "warning" : "primary");
+                                            var badgeText = daysRemaining <= 0 ? "Overdue" : $"{daysRemaining} days";
+
+                                            <tr>
+                                                <td>
+                                                    <h6 class="fw-semibold mb-1">@pol.Policy.Name</h6>
+                                                    <span class="fw-normal text-muted fs-3">@pol.Policy.Category.Name</span>
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0 fw-semibold">PKR @pol.CalculatedPremium.ToString("N0")</p>
+                                                </td>
+                                                <td>
+                                                    <span class="badge rounded-pill bg-@(badgeColor)-subtle text-@(badgeColor)">
+                                                        @badgeText
+                                                    </span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <a href="@Url.Action("MakePayment", "UserHome", new { policyId = pol.Id })" class="btn btn-primary btn-sm rounded-pill">Pay Now</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center py-5">
+                                                <i class="ti ti-circle-check fs-6 text-success"></i>
+                                                <p class="text-muted mt-2 mb-0">No upcoming payments. You're all set!</p>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- Right Column: Recent Purchases & Applications Summary -->
+            <div class="col-lg-4">
+                <div class="d-flex flex-column gap-4">
+
+                    <!-- Colorful Card 1: Recent Policy Purchases -->
+                    <div class="card gradient-card card-gradient-purple">
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold mb-4">Recent Policy Purchases</h5>
+                            <ul class="timeline-list-light">
+                                @if (Model.Policies != null && Model.Policies.Any())
+                                {
+                                    @foreach (var p in Model.Policies.OrderByDescending(x => x.PurchaseDate).Take(3))
+                                    {
+                                        <li class="timeline-list-item-light">
+                                            <h6 class="fw-semibold mb-1">@p.Policy.Name</h6>
+                                            <small>Purchased On: @p.PurchaseDate.ToString("MMM dd, yyyy")</small>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li class="timeline-list-item-light border-0">
+                                        <p class="mb-0" style="opacity: 0.7;">No recent purchases found.</p>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Colorful Card 2: Applications Summary -->
+                    <div class="card gradient-card card-gradient-teal">
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold mb-4">My Applications Summary</h5>
+                            <div class="d-flex flex-column gap-3">
+                                <div class="summary-item-light d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="ti ti-clipboard-text summary-icon-light"></i>
+                                        <span class="fw-semibold">Total Claims Filed</span>
+                                    </div>
+                                    <span class="fw-bolder fs-5">@Model.RecentApplications.Count(x => x.ApplicationType == "Claim")</span>
+                                </div>
+                                <div class="summary-item-light d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <i class="ti ti-cash summary-icon-light"></i>
+                                        <span class="fw-semibold">Total Loans Taken</span>
+                                    </div>
+                                    <span class="fw-bolder fs-5">@Model.RecentApplications.Count(x => x.ApplicationType == "Loan")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
      
     </div>
 </div>

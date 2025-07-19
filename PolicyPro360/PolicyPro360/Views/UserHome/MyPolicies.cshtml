@@ -6,6 +6,8 @@
 <!-- ============================================================== -->
 <!-- Start Page Content -->
 <!-- ============================================================== -->
+
+
 <div class="container-fluid pt-4" id="policy">
 
     <style>
@@ -147,18 +149,11 @@
         </div>
         <div class="col-lg-4 col-md-12">
             <div class="snapshot-card">
-                <i class="ti ti-calendar-event snapshot-icon"></i>
+<i class="ti ti-shield-check snapshot-icon"></i>
                 <h3 class="snapshot-value text-white">
-                    @if (ViewBag.nextPaymentDue != null)
-                    {
-                        @(((DateTime)ViewBag.nextPaymentDue).ToString("MMMM dd, yyyy"))
-                    }
-                    else
-                    {
-                        @("N/A")
-                    }
+                    Rs. @String.Format("{0:N2}", (decimal)ViewBag.totalSumInsured)
                 </h3>
-                <p class="snapshot-label mb-0">Next Payment Due</p>
+                <p class="snapshot-label mb-0">Total Sum Insured</p>
             </div>
         </div>
     </div>

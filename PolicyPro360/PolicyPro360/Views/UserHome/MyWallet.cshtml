@@ -147,18 +147,47 @@
                             </div>
                         </div>
 
-                        <!-- Security Section -->
+                        
+
+                        <!-- Withdraw Section -->
                         <div class="mt-5 pt-4" style="border-top: 1px solid var(--profile-border-color);">
                             <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-                                <button type="submit" class="btn btn-primary w-100">Go To WithDraw</button>
+                                @if (Model.Balance > 0)
+                                {
+                                    <button type="button" class="btn btn-custom-primary w-100" onclick="confirmWithdraw()">
+                                        <i class="ti ti-cash me-2"></i>Withdraw All (Rs. @Model.Balance.ToString("N0"))
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-warning w-100" disabled>
+                                        <i class="ti ti-cash me-2"></i>No Balance to Withdraw
+                                    </button>
+                                }
                             </div>
                         </div>
+
+                        <!-- Hidden Form for Withdrawal -->
+                        <form id="withdrawForm" asp-action="WithdrawWallet" asp-controller="UserHome" method="post" style="display: none;">
+                            @Html.AntiForgeryToken()
+                        </form>
 
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- JavaScript for Confirmation Dialog -->
+        <script>
+            function confirmWithdraw() {
+                const balance = @Model.Balance;
+                const confirmMessage = `Are you sure you want to withdraw Rs. ${balance.toLocaleString()} from your wallet?\n\nThis action cannot be undone.`;
+                
+                if (confirm(confirmMessage)) {
+                    document.getElementById('withdrawForm').submit();
+                }
+            }
+        </script>
 
     </div>
 </div>

@@ -37,6 +37,29 @@
         border: 1px solid rgba(245, 165, 38, 0.5);
     }
 
+    .policy-bought-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 3;
+        background: linear-gradient(135deg, #f5a526);
+        color: #171827 ;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+   
+        animation: pulse 2s infinite;
+    }
+
+    .policy-bought-badge i {
+        font-size: 0.7rem;
+    }
+
+   
     /* --- Card Image Container --- */
     .policy-card-image-container {
         height: 240px;
@@ -268,6 +291,14 @@
                         @* --- NEW POLICY CARD MARKUP (V3) --- *@
                         <div class="policy-card">
                             <span class="policy-card-category">@policy.Category?.Name</span>
+                            
+                            @if (ViewBag.UserBoughtPolicyIds != null && ((List<int>)ViewBag.UserBoughtPolicyIds).Contains(policy.Id))
+                            {
+                                <div class="policy-bought-badge" title="You have already purchased this policy">
+                                    <i class="ti ti-check"></i>
+                                    <span>Purchased</span>
+                                </div>
+                            }
 
                             <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="policy-card-image-container">
                                 <img src="@Url.Content("~" + (policy.BrochureUrl ?? "/user/assets/images/project/default.jpg"))" class="policy-card-image" alt="@policy.Name">
