@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PolicyPro360.Migrations;
 using PolicyPro360.Models;
 using System;
 using System.Linq;
@@ -159,5 +160,40 @@ namespace PolicyPro360.Controllers.Company
             emi = emi / ((decimal)Math.Pow((double)(1 + rate), months) - 1);
             return Math.Round(emi, 2);
         }
+
+        public IActionResult CompanyLoans()
+        {
+            int? companyId = HttpContext.Session.GetInt32("companyId");
+            if (companyId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var loans = _db.Tbl_LoanRequests
+                .Include(l => l.User)
+                .Include(l => l.Policy)
+                .Where(l => l.Policy.CompanyId == companyId)
+                .OrderByDescending(l => l.RequestDate)
+                .ToList();
+
+            return View(loans);
+        }
+
+        public IActionResult ViewLoanDetails(int id)
+        {
+            var loan = _db.Tbl_LoanRequests
+                .Include(l => l.User)
+                .Include(l => l.Policy)
+                .Include(l => l.Installments)
+                .FirstOrDefault(l => l.Id == id);
+
+            if (loan == null)
+            {
+                return RedirectToAction("CompanyLoans");
+            }
+
+            return View(loan);
+        }
+
     }
 } 

@@ -1,0 +1,60 @@
+﻿@model PolicyPro360.Models.Blog
+@{
+    ViewData["Title"] = "Blog Details - PolicyPro360";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<main class="main-wrapper">
+    <div class="main-content">
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Blog Details</div>
+        </div>
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Blog Details</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Id</dt>
+                                <dd class="col-sm-8">@Model.Id</dd>
+                                <dt class="col-sm-4">Title</dt>
+                                <dd class="col-sm-8">@Model.Title</dd>
+                                <dt class="col-sm-4">Content</dt>
+                                <dd class="col-sm-8">@Model.Content</dd>
+                                <dt class="col-sm-4">Featured Image</dt>
+                                <dd class="col-sm-8">
+                                    @if (!string.IsNullOrEmpty(@Model.FeaturedImageUrl))
+                                    {
+                                        <img src="@Model.FeaturedImageUrl" alt="Featured Image" width="160" height="100" class="rounded" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No Featured Image</span>
+                                    }
+                                </dd>
+                                <dt class="col-sm-4">Is Publishd</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.IsPublished)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactive</span>
+                                    }
+                                </dd>
+                                <dt class="col-sm-4">Created Date</dt>
+                                <dd class="col-sm-8">@Model.CreatedAt.ToString("dd MMM, yyyy 'at' hh:mm tt")</dd>
+                                <dt class="col-sm-4">Updated Date</dt>
+                                <dd class="col-sm-8">@Model.UpdatedAt</dd>
+                                <dt class="col-sm-4">Author Name</dt>
+                                <dd class="col-sm-8">@Model.AuthorName</dd>
+                            </dl>
+                            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main> 

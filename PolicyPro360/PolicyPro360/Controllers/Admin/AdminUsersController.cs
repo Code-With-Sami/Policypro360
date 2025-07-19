@@ -291,5 +291,15 @@ namespace PolicyPro360.Controllers.Admin
                 .ToList();
             return View("AllUserClaims", userClaims);
         }
+
+        public IActionResult UserSupport()
+        {
+            var supportRequests = _context.Tbl_UserSupport
+                .Include(sr => sr.User)
+                .OrderByDescending(sr => sr.SubmittedAt)
+                .ToList();
+
+            return View(supportRequests);
+        }
     }
 }

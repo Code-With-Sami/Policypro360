@@ -84,7 +84,7 @@
     </style>
 
     <div class="text-center mb-5">
-        <h2 class="text-white">How can we help you?</h2>
+        <h2 class="text-dark">How can we help you?</h2>
         <p style="color: var(--support-text-muted);">Find answers to your questions or get in touch with our team.</p>
     </div>
 
@@ -193,17 +193,25 @@
         <div class="col-lg-4">
             <div class="card support-card">
                 <div class="card-body p-4">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success mx-3 mt-3 text-dark">@TempData["SuccessMessage"]</div>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger mx-3 mt-3">@TempData["ErrorMessage"]</div>
+                    }
                     <h5 class="mb-4 fw-semibold text-white">Contact Support</h5>
                     <p class="text-muted">If you can't find an answer in the FAQ, feel free to contact us directly.</p>
-                    <form action="#" method="POST">
+                    <form asp-action="SubmitSupport" method="post">
+                        @Html.AntiForgeryToken()
                         <div class="mb-3">
                             <label for="subject" class="form-label text-white">Subject</label>
-                            <input type="text" class="form-control" id="subject" placeholder="e.g., Issue with policy #123">
+                            <input type="text" name="Subject" class="form-control" id="subject" placeholder="e.g., Issue with policy #123" required>
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label text-white">Your Message</label>
-                            <textarea class="form-control" id="message" rows="5"
-                                      placeholder="Describe your issue here..."></textarea>
+                            <textarea name="Message" class="form-control" id="message" rows="5" placeholder="Describe your issue here..." required></textarea>
                         </div>
                         <button type="submit" class="btn btn-custom-primary w-100">Send Message</button>
                     </form>

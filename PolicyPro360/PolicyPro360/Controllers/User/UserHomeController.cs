@@ -17,7 +17,7 @@ namespace PolicyPro360.Controllers.User
             var controllerName = context.ActionDescriptor.RouteValues["controller"];
 
 
-            var allowAnonymousActions = new[] { "index", "signin", "signup", "about", "contact", "insurance", "policy", "viewpolicydetails", "calculatepremium", "premiumresult", "terms", "privacy", "news", "faq", "life", "home", "motor", "medical", "makeaclaim", "makeahomeclaim", "makealifeclaim", "makeamotorclaim", "makeamedicalclaim", "makeloanagainstpolicy" };
+            var allowAnonymousActions = new[] { "index", "signin", "signup", "about", "contact", "insurance", "policy", "viewpolicydetails", "calculatepremium", "premiumresult", "TermsConditions", "PrivacyPolicy", "news", "faq", "life", "home", "motor", "medical", "makeaclaim", "makeahomeclaim", "makealifeclaim", "makeamotorclaim", "makeamedicalclaim", "makeloanagainstpolicy" };
 
 
             context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
@@ -48,11 +48,56 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult Index()
         {
+            var testimonials = _context.Tbl_Testimonial
+            .Include(t => t.User)
+            .Where(t => t.Status == "Published")
+            .OrderByDescending(t => t.SubmittedAt)
+            .Take(5)
+            .ToList();
+
+            ViewBag.testimonials = testimonials;
+
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SubmitTestimonial(int Rating, string Feedback)
+        {
+            if (Rating < 1 || Rating > 5 || string.IsNullOrWhiteSpace(Feedback))
+            {
+                TempData["ErrorMessage"] = "Invalid rating or feedback!";
+                return RedirectToAction("Index");
+            }
+
+            int? userId = HttpContext.Session.GetInt32("userId");
+
+            if (userId == null)
+            {
+                TempData["ErrorMessage"] = "Please login before submitting feedback.";
+                return RedirectToAction("SignIn");
+            }
+
+            var testimonial = new Testimonial
+            {
+                UserId = userId ?? 0,
+                Rating = Rating,
+                Feedback = Feedback,
+                Status = "Pending",
+                SubmittedAt = DateTime.Now
+            };
+
+            _context.Tbl_Testimonial.Add(testimonial);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Thank you! Your feedback has been submitted for review.";
+            return RedirectToAction("Index");
+        }
+
+
         public IActionResult About()
         {
+            var companiesLogo = _context.Tbl_Company.Where(c => c.Status == "Approved").ToList();
+            ViewBag.CompanyLogo = companiesLogo;
             return View();
         }
         [HttpGet]
@@ -325,7 +370,7 @@ namespace PolicyPro360.Controllers.User
             if (HttpContext.Session.GetInt32("userId") == null)
             {
   
-                return RedirectToAction("SignIn", new { returnUrl = Url.Action("Checkout", "UserHome") });
+                return RedirectToAction("SignIn");
             }
 
 
@@ -339,7 +384,7 @@ namespace PolicyPro360.Controllers.User
             if (userId == null)
             {
                 TempData["ErrorMessage"] = "User not logged in.";
-                return RedirectToAction("SignIn", new { returnUrl = Url.Action("Checkout", "UserHome") });
+                return RedirectToAction("SignIn");
             }
             if (TempData["CheckoutModel"] is string serializedModel)
             {
@@ -576,17 +621,48 @@ namespace PolicyPro360.Controllers.User
             TempData["SuccessMessage"] = "Congratulations! Your payment was successful.";
             return RedirectToAction("MakePayment");
         }
-        public IActionResult Terms()
+        public IActionResult TermsConditions()
         {
-            return View();
+            var terms = _context.Set<TermsCondition>().Where(t => t.IsActive).ToList();
+            return View(terms);
         }
-        public IActionResult Privacy()
+        public IActionResult PrivacyPolicy()
         {
-            return View();
+            var privacypolicy = _context.Set<PrivacyPolicy>().Where(p => p.IsActive).ToList();
+            return View(privacypolicy);
         }
         public IActionResult News()
         {
-            return View();
+            var blogs = _context.Set<Blog>().Where(b=> b.IsPublished).OrderByDescending(b => b.CreatedAt).ToList();
+
+            var recentBlogs = _context.Tbl_Blog
+            .Where(b => b.IsPublished)
+            .OrderByDescending(b => b.CreatedAt)
+            .Take(3)
+            .ToList();
+
+            ViewBag.RecentBlogs = recentBlogs;
+
+            return View(blogs);
+        }
+
+        public IActionResult detailedNews(int id)
+        {
+            var blog = _context.Tbl_Blog.FirstOrDefault(b => b.Id == id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            var recentBlogs = _context.Tbl_Blog
+            .Where(b => b.Id != id && b.IsPublished)
+            .OrderByDescending(b => b.CreatedAt) 
+            .Take(3)
+            .ToList();
+
+            ViewBag.RecentBlogs = recentBlogs;
+
+            return View(blog);
         }
         public IActionResult Faq()
         {
@@ -636,32 +712,21 @@ namespace PolicyPro360.Controllers.User
         {
             return View();
         }
-        public IActionResult SignIn(string returnUrl = null)
+        public IActionResult SignIn()
         {
            
             if (HttpContext.Session.GetString("userName") != null)
             {
-  
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
                 return RedirectToAction("Dashboard");
             }
             
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult SignIn(string userEmail, string userPassword, string ReturnUrl = null)
+        public IActionResult SignIn(string userEmail, string userPassword)
         {
-            if (!ModelState.IsValid)
-            {
-                ViewBag.ReturnUrl = ReturnUrl;
-                return View();
-            }
-
+            
             var user = _context.Tbl_Users.FirstOrDefault(u => u.Email == userEmail && u.Password == userPassword);
             if (user != null)
             {
@@ -671,16 +736,11 @@ namespace PolicyPro360.Controllers.User
                 HttpContext.Session.SetString("userEmail", value: user.Email);
                 HttpContext.Session.SetString("userImg", value: user.ProfileImagePath);
 
-                if (!string.IsNullOrEmpty(ReturnUrl))
-                {
-                    return Redirect(ReturnUrl);
-                }
 
                 TempData["success"] = "Login successful!";
                 return RedirectToAction("Dashboard");
             }
             ViewBag.ErrorMessage = "Invalid email or password.";
-            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
         public IActionResult SignUp()
@@ -1335,6 +1395,36 @@ namespace PolicyPro360.Controllers.User
         public IActionResult Support()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult SubmitSupport(string Subject, string Message)
+        {
+            if (string.IsNullOrWhiteSpace(Subject) || string.IsNullOrWhiteSpace(Message))
+            {
+                TempData["ErrorMessage"] = "Subject and Message are required!";
+                return RedirectToAction("Support");
+            }
+
+            int? userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            var userSupport = new UserSupport
+            {
+                UserId = userId.Value,
+                Subject = Subject,
+                Message = Message,
+            };
+
+            _context.Tbl_UserSupport.Add(userSupport);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Your support request has been submitted!";
+            return RedirectToAction("Support");
         }
 
         public IActionResult Logout()

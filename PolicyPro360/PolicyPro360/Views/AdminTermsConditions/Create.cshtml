@@ -1,0 +1,105 @@
+﻿@model PolicyPro360.Models.TermsCondition
+
+@{
+    ViewData["Title"] = "Create Terms & Conditions - PolicyPro360";
+    Layout = "_Layout";
+}
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Terms & Conditions Form</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Add a Terms & Conditions
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="ms-auto">
+                <div class="btn-group">
+                    <a class="btn btn-grd-primary px-4 text-white" href="@Url.Action("Index", "TermsCondition")">
+                        Show Terms & Conditions
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-xl-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Add a Terms & Conditions</h5>
+
+                            <form asp-controller="TermsCondition" asp-action="Create" method="post" class="row g-3">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        @TempData["SuccessMessage"]
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                }
+
+                                <!-- Title -->
+                                <div class="col-md-12">
+                                    <label asp-for="Title" class="form-label">Title</label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="Title" class="form-control" placeholder="Enter Title">
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">title</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="col-md-12">
+                                    <label asp-for="Content" class="form-label">Content</label>
+                                    <div class="position-relative input-icon">
+                                        <textarea asp-for="Content" class="form-control" rows="6"></textarea>
+                                        <span class="position-absolute top-50 translate-middle-y">
+                                            <i class="material-icons-outlined fs-5">description</i>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Content" class="text-danger"></span>
+                                </div>
+
+                                <!-- IsPublished -->
+                                <div class="col-md-12">
+                                    <label asp-for="IsActive" class="form-label">Publish Now</label>
+                                    <div class="position-relative input-icon">
+                                        <input asp-for="IsActive" class="form-check-input">
+                                    </div>
+                                </div>
+
+                                <!-- Submit and Reset Buttons -->
+                                <div class="col-md-12">
+                                    <div class="d-md-flex d-grid align-items-center gap-3">
+                                        <button type="submit" class="btn btn-grd-primary px-4 text-white">Submit</button>
+                                        <button type="reset" class="btn btn-grd-royal px-4 text-white">Reset</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

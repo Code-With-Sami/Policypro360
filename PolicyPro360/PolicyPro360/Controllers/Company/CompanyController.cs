@@ -33,8 +33,76 @@ namespace PolicyPro360.Controllers.Company
             {
                 return RedirectToAction("Login");
             }
+
+            ViewBag.TotalUsers = _db.Tbl_Users.Count();
+            ViewBag.PolicyHolders = _db.Tbl_UserPolicy
+                .Select(up => up.UserId)
+                .Distinct()
+                .Count();
+            ViewBag.TotalPoliciesSold = _db.Tbl_UserPolicy.Count();
+            ViewBag.TotalCompanies = _db.Tbl_Company.Count();
+            ViewBag.TotalCompanies = _db.Tbl_Company.Count(c => c.Status == "Approved");
+            ViewBag.TotalPolicyTypes = _db.Tbl_Category.Count(c => c.Status);
+
+            ViewBag.GrossRevenue = _db.Tbl_TransactionHistory.Sum(th => (decimal?)th.Amount) ?? 0;
+
+
+            var today = DateTime.Today;
+            var startDateOfMonth = new DateTime(today.Year, today.Month, 1);
+
+            ViewBag.ComapnyEarningsThisMonth = _db.Tbl_CompanyWallet
+                .Where(aw => aw.TransactionDate >= startDateOfMonth)
+                .Sum(aw => (decimal?)aw.Amount) ?? 0;
+
+            ViewBag.GrossRevenueThisMonth = _db.Tbl_TransactionHistory
+                .Where(th => th.Date >= startDateOfMonth)
+                .Sum(th => (decimal?)th.Amount) ?? 0;
+
+            ViewBag.RecentPolicies = _db.Tbl_UserPolicy
+                .Include(up => up.User)
+                .Include(up => up.Policy)
+                .OrderByDescending(up => up.PurchaseDate)
+                .Take(5)
+                .ToList();
+
+
+            ViewBag.NewUsers = _db.Tbl_Users
+                   .OrderByDescending(u => u.Id)
+                   .Take(7)
+                   .ToList();
+
+            ViewBag.RecentSales = _db.Tbl_UserPolicy
+                .Include(up => up.User)
+                .Include(up => up.Policy)
+                    .ThenInclude(p => p.Company)
+                .OrderByDescending(up => up.PurchaseDate)
+                .Take(6)
+                .ToList();
+            ViewBag.TotalUserLoans = _db.Tbl_LoanRequests.Count();
+            ViewBag.TotalUserClaims = _db.Tbl_UserClaims.Count();
+
+
+            var categories = _db.Tbl_Category.Where(c => c.Status).ToList();
+
+            var categoryStats = categories.Select(cat => new {
+                CategoryName = cat.Name,
+                ClaimsCount = _db.Tbl_UserClaims.Count(c => c.PolicyCategoryId == cat.Id),
+                LoansCount = _db.Tbl_LoanRequests.Count(l => l.Policy.PolicyTypeId == cat.Id)
+            }).ToList();
+
+            ViewBag.CategoryStats = categoryStats;
+
+            var categoryPolicyStats = categories.Select(cat => new {
+                CategoryName = cat.Name,
+                PoliciesCount = _db.Tbl_Policy.Count(p => p.PolicyTypeId == cat.Id)
+            }).ToList();
+
+            ViewBag.CategoryPolicyStats = categoryPolicyStats;
+
             return View();
         }
+
+
         [AllowAnonymousCompany]
         public IActionResult Register()
         {

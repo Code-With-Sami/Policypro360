@@ -154,9 +154,12 @@
 									<a href="@Url.Action("news","UserHome")">News</a>
 								
 								</li>
-								<li>
-									<a href="@Url.Action("faq","UserHome")">Faqs</a>
-
+								<li class="dropdown">
+									<a href="@Url.Action("faq", "UserHome")">Faqs</a>
+									<ul>
+										<li><a href="@Url.Action("TermsConditions", "UserHome")">Terms & Conditions</a></li>
+										<li><a href="@Url.Action("PrivacyPolicy", "UserHome")">Privacy Policy</a></li>
+									</ul>
 								</li>
 								
 								<li class="dropdown">
@@ -164,6 +167,8 @@
 									<ul>
 										<li><a href="@Url.Action("SignIn","UserHome")">Sign In/Up</a></li>
 										<li><a href="@Url.Action("Login","Company")">Join as a Company</a></li>
+										<li><a href="@Url.Action("Login", "Admin")">Join as an Admin</a></li>
+
 									</ul>
 								</li>
 							
@@ -298,10 +303,10 @@
 										<a href="@Url.Action("faq","UserHome")">Faqs</a>
 									</li>
 									<li>
-										<a href="@Url.Action("terms","UserHome")">Terms & Conditions</a>
+										<a href="@Url.Action("TermsConditions", "UserHome")">Terms & Conditions</a>
 									</li>
 									<li>
-										<a href="@Url.Action("privacy","UserHome")">Privacy Policy</a>
+										<a href="@Url.Action("PrivacyPolicy", "UserHome")">Privacy Policy</a>
 									</li>
 								</ul>
 							</div>

@@ -203,5 +203,19 @@ namespace PolicyPro360.Models
         public DbSet<FAQ> Tbl_FAQ { get; set; }
         public DbSet<Contact> Tbl_Contact { get; set; }
 
+        public DbSet<Blog> Tbl_Blog { get; set; }
+
+        public DbSet<PrivacyPolicy> Tbl_PrivacyPolicy { get; set; }
+
+        public DbSet<TermsCondition> Tbl_TermsCondition { get; set; }
+
+        public DbSet<Testimonial> Tbl_Testimonial { get; set; }
+
+        public DbSet<UserSupport> Tbl_UserSupport { get; set; }
+
+
+
+
+
     }
 }

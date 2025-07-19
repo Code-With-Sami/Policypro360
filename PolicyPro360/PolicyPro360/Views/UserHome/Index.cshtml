@@ -1,9 +1,27 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home - PolicyPro360";
     Layout = "_UserLayout";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    .customClass{
+        height: 60px;
+        width: 100%;
+        border: 1px solid var(--insur-bdr-color);
+        background-color: transparent;
+        padding-left: 30px;
+        padding-right: 30px;
+        outline: none;
+        font-size: 14px;
+        color: var(--insur-gray);
+        display: block;
+        font-weight: 700;
+        border-radius: 10px;
+    }
+</style>
 
 <!--Main Slider Start-->
 <section class="main-slider-nine">
@@ -300,6 +318,7 @@
     </div>
 </section>
 <!--Services Eight End-->
+
 <!--Testimonial Eight Start-->
 <section class="testimonial-nine">
     <div class="testimonial-nine__bg"
@@ -317,58 +336,36 @@
                  "dots" :false,
                  "URLhashListener" :true,
                  "navText" : ["<span class=\"insur-four-icon-left-arrow\"></span>","<span class=\"insur-four-icon-right-arrow\"></span>"],
-                            "items": 1
-                        }'>
-                        <div class="item" data-hash="item1">
-                            <div class="testimonial-nine__single">
-                                <div class="testimonial-nine__single__quote"><i class=" insur-four-icon-quote"></i>
+                 "items": 1
+            }'>
+
+            @if (ViewBag.testimonials != null)
+            {
+                    int count = 1;
+                    foreach (var item in ViewBag.testimonials)
+                    {
+                            <div class="item" data-hash="item@count">
+                                <div class="testimonial-nine__single">
+                                    <div class="testimonial-nine__single__quote">
+                                        <i class=" insur-four-icon-quote"></i>
+                                    </div>
+                                    <div class="testimonial-nine__single__rating">
+                                        @for (int i = 0; i < item.Rating; i++)
+                                        {
+                                                <span class="fa fa-star"></span>
+                                        }
+                                    </div>
+                                    <p class="testimonial-nine__single__text">
+                                        @item.Feedback
+                                    </p>
                                 </div>
-                                <div class="testimonial-nine__single__rating">
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                </div>
-                                <p class="testimonial-nine__single__text">
-                                    Robert Smith is an experienced manager known for his leadership, strategic planning, and ability to drive team performance. He ensures smooth operations, fosters collaboration, and consistently meets organizational objectives through efficient management and strong decision-making skills.
-                                </p>
                             </div>
-                        </div><!--item-->
-                        <div class="item" data-hash="item2">
-                            <div class="testimonial-nine__single">
-                                <div class="testimonial-nine__single__quote"><i class=" insur-four-icon-quote"></i>
-                                </div>
-                                <div class="testimonial-nine__single__rating">
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                </div>
-                                <p class="testimonial-nine__single__text">
-                                    Luna Martin is a dedicated and innovative developer with a passion for building efficient, user-friendly applications. She combines technical expertise with creative problem-solving to deliver high-quality digital solutions that enhance user experience and functionality.
-                                </p>
-                            </div>
-                        </div><!--item-->
-                        <div class="item" data-hash="item3">
-                            <div class="testimonial-nine__single">
-                                <div class="testimonial-nine__single__quote"><i class=" insur-four-icon-quote"></i>
-                                </div>
-                                <div class="testimonial-nine__single__rating">
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                </div>
-                                <p class="testimonial-nine__single__text">
-                                  Mike Hardson is a dedicated customer service professional focused on delivering exceptional support. With excellent communication skills and a helpful attitude, he resolves issues efficiently, builds strong client relationships, and ensures a smooth customer experience at every step.
-                                </p>
-                            </div>
-                        </div><!--item-->
-                    </div>
-            <!-- Testimonial Thumb -->
+                            count++;
+                    }
+            }
+
+            </div>
+
             <div class="testimonial-nine__carousel-thumb thm-owl__carousel owl-theme owl-carousel"
                  data-owl-options='{
                         "items": 3,
@@ -380,39 +377,30 @@
                         "URLhashListener":true,
                         "center": true,
                         "dots":false
-                        }'>
-                <a href="#item1" class="item" data-hash="item1">
-                    <span class="testimonial-nine__meta">
-                        <span class="testimonial-nine__meta__name">Robert Smith</span>
-                        <span class="testimonial-nine__meta__designation">Manager</span>
-                    </span>
-                    <span class="testimonial-nine__meta-thumb">
-                        <img src="~/user/assets/images/update-15-2-2024/resources/author-1.jpg" alt="insur">
-                    </span>
-                </a><!-- testimonial-author -->
-                <a href="#item1" class="item" data-hash="item2">
-                    <span class="testimonial-nine__meta">
-                        <span class="testimonial-nine__meta__name">Luna Martin</span>
-                        <span class="testimonial-nine__meta__designation">Developer</span>
-                    </span>
-                    <span class="testimonial-nine__meta-thumb">
-                        <img src="~/user/assets/images/update-15-2-2024/resources/author-2.jpg" alt="insur">
-                    </span>
-                </a><!-- testimonial-author -->
-                <a href="#item1" class="item" data-hash="item3">
-                    <span class="testimonial-nine__meta">
-                        <span class="testimonial-nine__meta__name">Mike Hardson</span>
-                        <span class="testimonial-nine__meta__designation">Customer</span>
-                    </span>
-                    <span class="testimonial-nine__meta-thumb">
-                        <img src="~/user/assets/images/update-15-2-2024/resources/author-3.jpg" alt="insur">
-                    </span>
-                </a><!-- testimonial-author -->
+                 }'>
+
+                @if (ViewBag.testimonials != null)
+                {
+                    int count = 1;
+                    foreach (var item in ViewBag.testimonials)
+                    {
+                        <a href="#item@count" class="item" data-hash="item@count">
+                            <span class="testimonial-nine__meta">
+                                <span class="testimonial-nine__meta__name">@item.User.Name</span>
+                                <span class="testimonial-nine__meta__designation">Customer</span>
+                            </span>
+                            <span class="testimonial-nine__meta-thumb">
+                                <img src="~/admin/assets/images/profiles/@item.User.ProfileImagePath" alt="user image" />
+                            </span>
+                        </a>
+                        count++;
+                    }
+                }
+
             </div>
         </div>
     </div>
 </section>
-<!--Testimonial Eight End-->
 <!--Team Eight Start-->
 <section class="team-eight">
     <div class="container">
@@ -626,216 +614,43 @@
             <span class="section-title-seven__tagline">
                 <span class="section-title-seven__tagline__icon">
                     <i class="insur-four-icon-check"></i>
-                </span>Get a Free Estimate
+                </span>Tell us what we're doing well and where we can do better
             </span>
-            <h2 class="section-title-seven__title">Get an Insurance Quote to<br> Get Standard!</h2>
+            <h2 class="section-title-seven__title">Your Opinion Matters:<br> Help Us Improve!</h2>
         </div>
-        <ul class="get-insurance-six__tabs tab-buttons clearfix list-unstyled">
-            <li data-tab="#motor-insurance" class="tab-btn active-btn">Car Insurance</li>
-            <li data-tab="#life-insurance" class="tab-btn">Life Insurance</li>
-            <li data-tab="#home-insurance" class="tab-btn">Home Insurance</li>
-            <li data-tab="#health-insurance" class="tab-btn">Health Insurance</li>
-        </ul><!-- tab-title -->
-        <!-- tab-content -->
+   
         <div class="tabs-content">
             <div class="tab active-tab" id="motor-insurance">
                 <div class="get-insurance-six__content">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <form class="get-insurance-six__form">
+                        <div class="col-lg-12">
+                            <form action="@Url.Action("SubmitTestimonial", "UserHome")" method="post" class="get-insurance-six__form">
+                                @Html.AntiForgeryToken()
                                 <div class="get-insurance-six__form__input">
-                                    <input type="text" placeholder="Full Name" name="name">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <input type="email" placeholder="Email Address" name="email">
+                                    <input name="Rating" type="number" class="customClass" placeholder="Give your rating (1-5)" min="1" max="5" required />
                                 </div>
                                 <div class="get-insurance-six__form__input">
-                                    <select class="selectpicker" aria-label="Default select example">
-                                        <option selected>Subject Type of Insurance</option>
-                                        <option value="1">Car Insurance</option>
-                                        <option value="2">Life Insurance</option>
-                                        <option value="3">Home Insurance</option>
-                                        <option value="4">Health Insurance</option>
-                                    </select>
+                                    <input name="Feedback" type="text" placeholder="Enter Your Feedback" required />
                                 </div>
-                                <div class="get-insurance-six__form__progress">
-                                    <h4 class="get-insurance-six__form__progress__title">Limits of Balance:</h4>
-                                    <div class="get-insurance__progress-range">
-                                        <input type="text" class="balance-range-slider" data-hide-min-max="true"
-                                               data-step="100" data-from="4000" data-min="0" data-max="7000"
-                                               value="">
-                                        <div class="get-insurance__balance-box">
-                                            <p class="get-insurance__balance">$<span></span></p>
-                                        </div>
-                                        <input type="hidden" class="get-insurance__balance__input">
-                                    </div><!-- /.get-insurance__progress-range -->
-                                </div>
-                                <button type="submit" class="thm-btn thm-btn--eight">Get a Quote Now</button>
+                                <button type="submit" class="thm-btn thm-btn--eight w-100">Give Feedback</button>
                             </form>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="get-insurance-six__content__right">
-                                <img src="~/user/assets/images/update-15-2-2024/resources/motor-insurance-two.jpg"
-                                     alt="insur">
-                                <p class="get-insurance-six__content__right__text">
-                                    There are many variations of passages of Lorem Ipsum available, but the
-                                    majority have suffered alteration
-                                    some form, by injected humour, or randomised words which don't look even
-                                </p>
-                            </div>
+
+                            @if (TempData["SuccessMessage"] != null)
+                            {
+                                <div class="alert alert-success mt-3">@TempData["SuccessMessage"]</div>
+                            }
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger mt-3">@TempData["ErrorMessage"]</div>
+                            }
+
                         </div>
                     </div>
                 </div>
             </div><!-- motor-insurance -->
-            <div class="tab" id="life-insurance">
-                <div class="get-insurance-six__content">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <form class="get-insurance-six__form">
-                                <div class="get-insurance-six__form__input">
-                                    <input type="text" placeholder="Full Name" name="name">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <input type="email" placeholder="Email Address" name="email">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <select class="selectpicker" aria-label="Default select example">
-                                        <option selected>Subject Type of Insurance</option>
-                                        <option value="1">Car Insurance</option>
-                                        <option value="2">Life Insurance</option>
-                                        <option value="3">Home Insurance</option>
-                                        <option value="4">Health Insurance</option>
-                                    </select>
-                                </div>
-                                <div class="get-insurance-six__form__progress">
-                                    <h4 class="get-insurance-six__form__progress__title">Limits of Balance:</h4>
-                                    <div class="get-insurance__progress-range">
-                                        <input type="text" class="balance-range-slider" data-hide-min-max="true"
-                                               data-step="100" data-from="4000" data-min="0" data-max="7000"
-                                               value="">
-                                        <div class="get-insurance__balance-box">
-                                            <p class="get-insurance__balance">$<span></span></p>
-                                        </div>
-                                        <input type="hidden" class="get-insurance__balance__input">
-                                    </div><!-- /.get-insurance__progress-range -->
-                                </div>
-                                <button type="submit" class="thm-btn thm-btn--eight">Get a Quote Now</button>
-                            </form>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="get-insurance-six__content__right">
-                                <img src="~/user/assets/images/update-15-2-2024/resources/life-insurance-two.jpg"
-                                     alt="insur">
-                                <p class="get-insurance-six__content__right__text">
-                                    There are many variations of passages of Lorem Ipsum available, but the
-                                    majority have suffered alteration
-                                    some form, by injected humour, or randomised words which don't look even
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- life-insurance -->
-            <div class="tab" id="home-insurance">
-                <div class="get-insurance-six__content">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <form class="get-insurance-six__form">
-                                <div class="get-insurance-six__form__input">
-                                    <input type="text" placeholder="Full Name" name="name">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <input type="email" placeholder="Email Address" name="email">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <select class="selectpicker" aria-label="Default select example">
-                                        <option selected>Subject Type of Insurance</option>
-                                        <option value="1">Car Insurance</option>
-                                        <option value="2">Life Insurance</option>
-                                        <option value="3">Home Insurance</option>
-                                        <option value="4">Health Insurance</option>
-                                    </select>
-                                </div>
-                                <div class="get-insurance-six__form__progress">
-                                    <h4 class="get-insurance-six__form__progress__title">Limits of Balance:</h4>
-                                    <div class="get-insurance__progress-range">
-                                        <input type="text" class="balance-range-slider" data-hide-min-max="true"
-                                               data-step="100" data-from="4000" data-min="0" data-max="7000"
-                                               value="">
-                                        <div class="get-insurance__balance-box">
-                                            <p class="get-insurance__balance">$<span></span></p>
-                                        </div>
-                                        <input type="hidden" class="get-insurance__balance__input">
-                                    </div><!-- /.get-insurance__progress-range -->
-                                </div>
-                                <button type="submit" class="thm-btn thm-btn--eight">Get a Quote Now</button>
-                            </form>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="get-insurance-six__content__right">
-                                <img src="~/user/assets/images/update-15-2-2024/resources/home-insurance-two.jpg"
-                                     alt="insur">
-                                <p class="get-insurance-six__content__right__text">
-                                    There are many variations of passages of Lorem Ipsum available, but the
-                                    majority have suffered alteration
-                                    some form, by injected humour, or randomised words which don't look even
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- home-insurance -->
-            <div class="tab" id="health-insurance">
-                <div class="get-insurance-six__content">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <form class="get-insurance-six__form">
-                                <div class="get-insurance-six__form__input">
-                                    <input type="text" placeholder="Full Name" name="name">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <input type="email" placeholder="Email Address" name="email">
-                                </div>
-                                <div class="get-insurance-six__form__input">
-                                    <select class="selectpicker" aria-label="Default select example">
-                                        <option selected>Subject Type of Insurance</option>
-                                        <option value="1">Car Insurance</option>
-                                        <option value="2">Life Insurance</option>
-                                        <option value="3">Home Insurance</option>
-                                        <option value="4">Health Insurance</option>
-                                    </select>
-                                </div>
-                                <div class="get-insurance-six__form__progress">
-                                    <h4 class="get-insurance-six__form__progress__title">Limits of Balance:</h4>
-                                    <div class="get-insurance__progress-range">
-                                        <input type="text" class="balance-range-slider" data-hide-min-max="true"
-                                               data-step="100" data-from="4000" data-min="0" data-max="7000"
-                                               value="">
-                                        <div class="get-insurance__balance-box">
-                                            <p class="get-insurance__balance">$<span></span></p>
-                                        </div>
-                                        <input type="hidden" class="get-insurance__balance__input">
-                                    </div><!-- /.get-insurance__progress-range -->
-                                </div>
-                                <button type="submit" class="thm-btn thm-btn--eight">Get a Quote Now</button>
-                            </form>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="get-insurance-six__content__right">
-                                <img src="~/user/assets/images/update-15-2-2024/resources/health-insurance-two.jpg"
-                                     alt="insur">
-                                <p class="get-insurance-six__content__right__text">
-                                    There are many variations of passages of Lorem Ipsum available, but the
-                                    majority have suffered alteration
-                                    some form, by injected humour, or randomised words which don't look even
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- health-insurance -->
+            
         </div>
-        <!-- tab-content -->
+
     </div>
 </section>
 <!--Get Insurance Six End-->

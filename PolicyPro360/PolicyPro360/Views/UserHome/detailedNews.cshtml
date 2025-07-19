@@ -1,0 +1,93 @@
+﻿@model PolicyPro360.Models.Blog
+@{
+    ViewData["Title"] = @Model.Title + "- Blogs - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/news.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="@Url.Action("Index", "UserHome")">Home</a></li>
+                <li><span>/</span></li>
+                <li><a href="@Url.Action("news", "UserHome")">News</a></li>
+            </ul>
+            <h2>@Model.Title</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+
+<section class="news-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-7">
+                <div class="news-details__left">
+                    <div class="news-details__img">
+                        @if (!string.IsNullOrEmpty(Model.FeaturedImageUrl))
+                        {
+                            <img src="@Model.FeaturedImageUrl" alt="@Model.Title" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Featured Image</span>
+                        }
+                    </div>
+                    <div class="news-details__content">
+                        <ul class="list-unstyled news-details__meta">
+                            <li>
+                                <a href="news-details.html"><i class="far fa-calendar"></i> @Model.CreatedAt </a>
+                            </li>
+                            <li>
+                                <a href="news-details.html"><i class="far fa-comments"></i> @Model.AuthorName</a>
+                            </li>
+                        </ul>
+                        <h3 class="news-details__title">@Model.Title</h3>
+                        <p class="news-details__text-1">
+                            @Html.Raw(Model.Content.Replace(".", ".<br /><br />"))
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+                <div class="sidebar">
+                    
+                    <div class="sidebar__single sidebar__post">
+                        <h3 class="sidebar__title">Latest Posts</h3>
+                        <ul class="sidebar__post-list list-unstyled">
+                            @foreach (var recent in ViewBag.RecentBlogs as List<PolicyPro360.Models.Blog>)
+                            {
+                                <li>
+                                    <div class="sidebar__post-image">
+                                        @if (!string.IsNullOrEmpty(@recent.FeaturedImageUrl))
+                                        {
+                                            <img src="@recent.FeaturedImageUrl" alt="@recent.Title" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No Featured Image</span>
+                                        }
+                                    </div>
+                                    <div class="sidebar__post-content">
+                                        <h3>
+                                            <span class="sidebar__post-content-meta">
+                                                <i class="far fa-user-circle"></i> @recent.Title
+                                            </span>
+                                            <a href="@Url.Action("detailedNews", new { id = recent.Id })">
+                                                @recent.Title
+                                            </a>
+                                        </h3>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<PolicyPro360.Models.TermsCondition>
+@{
+    ViewData["Title"] = "Terms & Conditions - PolicyPro360";
+    Layout = "_UserLayout";
+}
+
+<!--Page Header Start-->
+<section class="page-header">
+    <div class="page-header-bg" style="background-image: url('@Url.Content("~/user/assets/images/backgrounds/news.jpg")')">
+    </div>
+    <div class="page-header-shape-1"><img src="~/user/assets/images/shapes/page-header-shape-1.png" alt=""></div>
+    <div class="container">
+        <div class="page-header__inner">
+            <ul class="thm-breadcrumb list-unstyled">
+                <li><a href="@Url.Action("Index", "UserHome")">Home</a></li>
+                <li><span>/</span></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+            <h2>Terms & Conditions</h2>
+        </div>
+    </div>
+</section>
+<!--Page Header End-->
+
+<section class="news-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12">
+                <div class="news-details__left">
+                    @foreach (var terms  in Model)
+                    {
+                        <div class="news-details__content">
+                            <ul class="list-unstyled news-details__meta">
+                                <li>
+                                    <a href="#"><i class="far fa-calendar"></i> @terms.CreatedAt </a>
+                                </li>
+                            </ul>
+                            <h3 class="news-details__title">@terms.Title</h3>
+                            <p class="news-details__text-1">
+                                @Html.Raw(terms.Content.Replace(".", ".<br /><br />"))
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
