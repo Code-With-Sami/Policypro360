@@ -135,44 +135,8 @@
             <div class="col-xl-8 col-lg-7">
                 <div class="contact-page__right">
                     <div class="contact-page__form">
-                        <form action="https://pixydrops.com/insur-html/main-html/~/user/assets/inc/sendemail.php" class="comment-one__form contact-form-validated"
-                              novalidate="novalidate">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <div class="comment-form__input-box">
-                                        <input type="text" placeholder="Your name" name="name">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="comment-form__input-box">
-                                        <input type="email" placeholder="Email address" name="email">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="comment-form__input-box">
-                                        <input type="text" placeholder="Phone number" name="phone">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="comment-form__input-box">
-                                        <input type="text" placeholder="Subject" name="subject">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="comment-form__input-box text-message-box">
-                                        <textarea name="message" placeholder="Write a message"></textarea>
-                                    </div>
-                                    <div class="comment-form__btn-box">
-                                        <button type="submit" class="thm-btn comment-form__btn">
-                                            Send a
-                                            Message
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        @await Html.PartialAsync("_ContactFormPartial", (PolicyPro360.ViewModels.ContactViewModel)ViewBag.ContactModel)
+
                     </div>
                 </div>
             </div>

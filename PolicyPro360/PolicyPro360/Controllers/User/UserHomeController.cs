@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using PolicyPro360.Migrations;
@@ -17,7 +18,7 @@ namespace PolicyPro360.Controllers.User
             var controllerName = context.ActionDescriptor.RouteValues["controller"];
 
 
-            var allowAnonymousActions = new[] { "index", "signin", "signup", "about", "contact", "insurance", "policy", "viewpolicydetails", "calculatepremium", "premiumresult", "TermsConditions", "PrivacyPolicy", "news", "faq", "life", "home", "motor", "medical", "makeaclaim", "makeahomeclaim", "makealifeclaim", "makeamotorclaim", "makeamedicalclaim", "makeloanagainstpolicy" };
+            var allowAnonymousActions = new[] { "index", "signin", "signup", "about", "contact", "insurance", "policy", "viewpolicydetails", "calculatepremium", "premiumresult", "termsconditions", "privacypolicy", "news", "detailednews", "faq", "life", "home", "motor", "medical", "makeaclaim", "makeahomeclaim", "makealifeclaim", "makeamotorclaim", "makeamedicalclaim", "makeloanagainstpolicy" };
 
 
             context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
@@ -56,6 +57,15 @@ namespace PolicyPro360.Controllers.User
             .ToList();
 
             ViewBag.testimonials = testimonials;
+
+            var recentBlogs = _context.Tbl_Blog
+           .Where(b => b.IsPublished)
+           .OrderByDescending(b => b.CreatedAt)
+           .Take(3)
+           .ToList();
+
+            ViewBag.recentBlogs = recentBlogs;
+
 
             return View();
         }
@@ -98,6 +108,15 @@ namespace PolicyPro360.Controllers.User
         {
             var companiesLogo = _context.Tbl_Company.Where(c => c.Status == "Approved").ToList();
             ViewBag.CompanyLogo = companiesLogo;
+
+            var testimonials = _context.Tbl_Testimonial
+            .Include(t => t.User)
+            .Where(t => t.Status == "Published")
+            .OrderByDescending(t => t.SubmittedAt)
+            .Take(5)
+            .ToList();
+
+            ViewBag.testimonials = testimonials;
             return View();
         }
         [HttpGet]
@@ -621,11 +640,14 @@ namespace PolicyPro360.Controllers.User
             TempData["SuccessMessage"] = "Congratulations! Your payment was successful.";
             return RedirectToAction("MakePayment");
         }
+
+        [AllowAnonymous]
         public IActionResult TermsConditions()
         {
             var terms = _context.Set<TermsCondition>().Where(t => t.IsActive).ToList();
             return View(terms);
         }
+        [AllowAnonymous]
         public IActionResult PrivacyPolicy()
         {
             var privacypolicy = _context.Set<PrivacyPolicy>().Where(p => p.IsActive).ToList();
@@ -646,6 +668,7 @@ namespace PolicyPro360.Controllers.User
             return View(blogs);
         }
 
+        [AllowAnonymous]
         public IActionResult detailedNews(int id)
         {
             var blog = _context.Tbl_Blog.FirstOrDefault(b => b.Id == id);
@@ -670,6 +693,8 @@ namespace PolicyPro360.Controllers.User
                 .Where(f => f.IsActive)
                 .OrderBy(f => f.CreatedDate)
                 .ToList();
+
+            ViewBag.ContactModel = new ContactViewModel();
             return View(faqs);
         }
         public IActionResult Life()

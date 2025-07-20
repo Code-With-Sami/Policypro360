@@ -267,7 +267,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label text-white">Payment Reference / Notes</label>
-                                    <input name="Reference" class="form-control payment-form-control" placeholder="Enter payment reference or notes" />
+                                    <select class="form-select" name="Reference">
+                                        <option>Select Refrence Method</option>
+                                        <option value="Bank Transfer">Bank Transfer</option>
+                                        <option value="Easy Paisa">Easy Paisa</option>
+                                        <option value="Jazz Cash">Jazz Cash</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="Online Payment">Online Payment</option>
+                                        <option value="Cash Deposit">Cash Deposit</option>
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn btn-custom-primary w-100">
                                     Submit Payment Details

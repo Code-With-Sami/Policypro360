@@ -192,29 +192,25 @@
                 <div class="testimonial-two__right">
                     <div class="owl-carousel owl-theme thm-owl__carousel testimonial-two__carousel"
                          data-owl-options='{
-                         "loop" : true,
-                         "autoplay" : true,
-                         "margin" : 0,
-                         "nav" : false,
-                         "dots" : true,
-                         "smartSpeed" : 500,
-                         "autoplayTimeout" : 10000,
-                         "navText" : ["<span class=\"fa fa-angle-left\"></span>","<span class=\"fa fa-angle-right\"></span>"],
-                                "responsive": {
-                                    "0": {
-                                        "items": 1
-                                    },
-                                    "768": {
-                                        "items": 1
-                                    },
-                                    "992": {
-                                        "items": 1
-                                    },
-                                    "1200": {
-                                        "items": 1
-                                    }
-                                }
-                            }'>
+                 "loop" : true,
+                 "autoplay" : true,
+                 "margin" : 0,
+                 "nav" : false,
+                 "dots" : true,
+                 "smartSpeed" : 500,
+                 "autoplayTimeout" : 10000,
+                 "responsive": {
+                     "0": {"items": 1},
+                     "768": {"items": 1},
+                     "992": {"items": 1},
+                     "1200": {"items": 1}
+                 }
+             }'>
+
+                        @if (ViewBag.testimonials != null)
+                        {
+                            foreach (var item in ViewBag.testimonials)
+                            {
                                 <div class="testimonial-two__wrap">
                                     <div class="testimonial-two__single">
                                         <div class="testimonial-two__single-inner">
@@ -222,63 +218,30 @@
                                                 <img src="~/user/assets/images/shapes/testimonial-two-shape-2.png" alt="">
                                             </div>
                                             <div class="testimonial-two__content-box">
-                                                <h5 class="testimonial-two__client-name">Ayesha Khan, Lahore</h5>
-                                                <p class="testimonial-two__text-2">“I recently purchased a life insurance policy from PolicyPro360, and the process was smooth and transparent. Their team guided me at every step. Highly recommended!”.</p>
+                                                <h5 class="testimonial-two__client-name text-capitalize">
+                                                    @item.User.Name
+                                                </h5>
+                                                <p class="testimonial-two__text-2">
+                                                    “@item.Feedback”
+                                                </p>
                                             </div>
                                             <div class="testimonial-two__client-review">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                @for (int i = 0; i < item.Rating; i++)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                }
                                             </div>
                                         </div>
                                         <div class="testimonial-two__founder-box">
                                             <div class="testimonial-two__founder">
-                                                <p class="testimonial-two__founder-text">CEO & Co founder</p>
+                                                <p class="testimonial-two__founder-text">Customer</p>
                                                 <div class="testimonial-two__founder-shape">
-                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png"
-                                                        alt="">
+                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png" alt="">
                                                 </div>
                                             </div>
                                             <div class="testimonial-two__client-img-box">
                                                 <div class="testimonial-two__client-img">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-3-1.jpg" alt="">
-                                                </div>
-                                                <div class="testimonial-two__quote">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-1-quote.png" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-two__single">
-                                        <div class="testimonial-two__single-inner">
-                                            <div class="testimonial-two-shape-2">
-                                                <img src="~/user/assets/images/shapes/testimonial-two-shape-2.png" alt="">
-                                            </div>
-                                            <div class="testimonial-two__content-box">
-                                                <h5 class="testimonial-two__client-name">Saad Ahmed, Karachi</h5>
-                                                <p class="testimonial-two__text-2">“Excellent service! I was able to claim my vehicle insurance within 3 days. The staff is cooperative and professional.”</p>
-                                            </div>
-                                            <div class="testimonial-two__client-review">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="testimonial-two__founder-box">
-                                            <div class="testimonial-two__founder">
-                                                <p class="testimonial-two__founder-text">Manager</p>
-                                                <div class="testimonial-two__founder-shape">
-                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-two__client-img-box">
-                                                <div class="testimonial-two__client-img">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-3-2.jpg" alt="">
+                                                    <img src="~/admin/assets/images/profiles/@item.User.ProfileImagePath" alt="user">
                                                 </div>
                                                 <div class="testimonial-two__quote">
                                                     <img src="~/user/assets/images/testimonial/testimonial-1-quote.png" alt="">
@@ -287,153 +250,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="testimonial-two__wrap">
-                                    <div class="testimonial-two__single">
-                                        <div class="testimonial-two__single-inner">
-                                            <div class="testimonial-two-shape-2">
-                                                <img src="~/user/assets/images/shapes/testimonial-two-shape-2.png" alt="">
-                                            </div>
-                                            <div class="testimonial-two__content-box">
-                                                <h5 class="testimonial-two__client-name">Hina Malik, Faisalabad</h5>
-                                                <p class="testimonial-two__text-2">“As a business owner, I feel more secure knowing my assets are insured. Their business policy plans are truly helpful.”</p>
-                                            </div>
-                                            <div class="testimonial-two__client-review">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="testimonial-two__founder-box">
-                                            <div class="testimonial-two__founder">
-                                                <p class="testimonial-two__founder-text">Accounting</p>
-                                                <div class="testimonial-two__founder-shape">
-                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-two__client-img-box">
-                                                <div class="testimonial-two__client-img">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-3-3.jpg" alt="">
-                                                </div>
-                                                <div class="testimonial-two__quote">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-1-quote.png" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-two__single">
-                                        <div class="testimonial-two__single-inner">
-                                            <div class="testimonial-two-shape-2">
-                                                <img src="~/user/assets/images/shapes/testimonial-two-shape-2.png" alt="">
-                                            </div>
-                                            <div class="testimonial-two__content-box">
-                                                <h5 class="testimonial-two__client-name">Bilal Raza, Islamabad</h5>
-                                                <p class="testimonial-two__text-2">“What I loved the most was their support. Even on weekends, they responded to my queries and helped me update my health insurance.”</p>
-                                            </div>
-                                            <div class="testimonial-two__client-review">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="testimonial-two__founder-box">
-                                            <div class="testimonial-two__founder">
-                                                <p class="testimonial-two__founder-text">Director</p>
-                                                <div class="testimonial-two__founder-shape">
-                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-two__client-img-box">
-                                                <div class="testimonial-two__client-img">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-3-4.jpg" alt="">
-                                                </div>
-                                                <div class="testimonial-two__quote">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-1-quote.png" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="testimonial-two__wrap">
-                                    <div class="testimonial-two__single">
-                                        <div class="testimonial-two__single-inner">
-                                            <div class="testimonial-two-shape-2">
-                                                <img src="~/user/assets/images/shapes/testimonial-two-shape-2.png" alt="">
-                                            </div>
-                                            <div class="testimonial-two__content-box">
-                                                <h5 class="testimonial-two__client-name">Mahnoor Sheikh, Multan</h5>
-                                                <p class="testimonial-two__text-2">“The premium rates are affordable and the claim process is hassle-free. I’m glad I trusted them for my family’s future.”</p>
-                                            </div>
-                                            <div class="testimonial-two__client-review">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="testimonial-two__founder-box">
-                                            <div class="testimonial-two__founder">
-                                                <p class="testimonial-two__founder-text">Executive officer</p>
-                                                <div class="testimonial-two__founder-shape">
-                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-two__client-img-box">
-                                                <div class="testimonial-two__client-img">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-3-1.jpg" alt="">
-                                                </div>
-                                                <div class="testimonial-two__quote">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-1-quote.png" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-two__single">
-                                        <div class="testimonial-two__single-inner">
-                                            <div class="testimonial-two-shape-2">
-                                                <img src="~/user/assets/images/shapes/testimonial-two-shape-2.png" alt="">
-                                            </div>
-                                            <div class="testimonial-two__content-box">
-                                                <h5 class="testimonial-two__client-name">Farhan Iqbal, Rawalpindi</h5>
-                                                <p class="testimonial-two__text-2">“PolicyPro360 provided me with a customized insurance plan that fit my budget perfectly. Their advisors are very knowledgeable.”</p>
-                                            </div>
-                                            <div class="testimonial-two__client-review">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="testimonial-two__founder-box">
-                                            <div class="testimonial-two__founder">
-                                                <p class="testimonial-two__founder-text">Marketing specialist</p>
-                                                <div class="testimonial-two__founder-shape">
-                                                    <img src="~/user/assets/images/shapes/testimonial-two-founder-shape.png"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-two__client-img-box">
-                                                <div class="testimonial-two__client-img">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-3-2.jpg" alt="">
-                                                </div>
-                                                <div class="testimonial-two__quote">
-                                                    <img src="~/user/assets/images/testimonial/testimonial-1-quote.png" alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            }
+                        }
+
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>

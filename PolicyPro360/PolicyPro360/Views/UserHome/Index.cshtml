@@ -386,7 +386,7 @@
                     {
                         <a href="#item@count" class="item" data-hash="item@count">
                             <span class="testimonial-nine__meta">
-                                <span class="testimonial-nine__meta__name">@item.User.Name</span>
+                                <span class="testimonial-nine__meta__name text-capitalize ">@item.User.Name</span>
                                 <span class="testimonial-nine__meta__designation">Customer</span>
                             </span>
                             <span class="testimonial-nine__meta-thumb">
@@ -748,95 +748,70 @@
             <h2 class="section-title-seven__title">Latest News & Articles from<br> the Blog Posts</h2>
         </div>
         <div class="row">
-            <!--News Eight Single Start-->
-            <div class="col-xl-7 wow fadeInUp" data-wow-delay="00ms">
-                <div class="news-eight__single">
-                    <div class="news-eight__single__content">
-                        <ul class="news-eight__single__meta">
-                            <li>
-                                <span class="fas fa-comments"></span><a href="news-details.html">2 Comment</a>
-                            </li>
-                            <li>
-                                <span class="fas fa-user-circle"></span><a href="news-details.html">by Admin</a>
-                            </li>
-                        </ul>
-                        <h3 class="news-eight__single__title">
-                            <a href="news-details.html">
-                                It is a Long
-                                Established Fact that a Reader
-                            </a>
-                        </h3>
-                        <p class="news-eight__single__text">It’s a proven fact that people trust clear, reliable, and secure insurance solutions.</p>
-                    </div>
-                    <div class="news-eight__single__image">
-                        <img src="~/user/assets/images/update-15-2-2024/blog/news-8-1.jpg" alt="insur">
-                        <a href="news-details.html" class="news-eight__single__image__link"></a>
-                        <div class="news-eight__single__date">
-                            <span class="news-eight__single__date__day">20</span>
-                            <span class="news-eight__single__date__month">Jan</span>
+            @if (ViewBag.recentBlogs != null)
+            {
+                var blogs = ViewBag.recentBlogs as List<PolicyPro360.Models.Blog>;
+
+                <div class="col-xl-7 wow fadeInUp" data-wow-delay="00ms">
+                    @foreach (var blog in blogs.Take(2))
+                    {
+                        <div class="news-eight__single">
+                            <div class="news-eight__single__content">
+                                <ul class="news-eight__single__meta">
+                                    <li>
+                                        <span class="fas fa-user-circle"></span><a href="@Url.Action("detailedNews", "Home", new { id = blog.Id })">@blog.AuthorName</a>
+                                    </li>
+                                </ul>
+                                <h3 class="news-eight__single__title">
+                                    <a href="@Url.Action("detailedNews", "UserHome", new { id = blog.Id })">
+                                        @blog.Title
+                                    </a>
+                                </h3>
+                                @* <p class="news-eight__single__text">@blog.Summary</p> *@
+                            </div>
+                            <div class="news-eight__single__image">
+                                <img src="@blog.FeaturedImageUrl" alt="blog image">
+                                <a href="@Url.Action("detailedNews", "UserHome", new { id = blog.Id })" class="news-eight__single__image__link"></a>
+                                <div class="news-eight__single__date">
+                                    <span class="news-eight__single__date__day">@blog.CreatedAt.Day</span>
+                                    <span class="news-eight__single__date__month">@blog.CreatedAt.ToString("MMM")</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
-                <div class="news-eight__single">
-                    <div class="news-eight__single__content">
-                        <ul class="news-eight__single__meta">
-                            <li>
-                                <span class="fas fa-comments"></span><a href="news-details.html">2 Comment</a>
-                            </li>
-                            <li>
-                                <span class="fas fa-user-circle"></span><a href="news-details.html">by Admin</a>
-                            </li>
-                        </ul>
-                        <h3 class="news-eight__single__title">
-                            <a href="news-details.html">
-                                5 Essential Tips for
-                                Managing whelming
-                            </a>
-                        </h3>
-                        <p class="news-eight__single__text">Stay calm,prioritize tasks,take breaks,seek support,practice self-care to manage overwhelm effectively.</p>
-                    </div>
-                    <div class="news-eight__single__image">
-                        <img src="~/user/assets/images/update-15-2-2024/blog/news-8-2.jpg" alt="insur">
-                        <a href="news-details.html" class="news-eight__single__image__link"></a>
-                        <div class="news-eight__single__date">
-                            <span class="news-eight__single__date__day">20</span>
-                            <span class="news-eight__single__date__month">Jan</span>
+
+                <div class="col-xl-5 wow fadeInUp" data-wow-delay="200ms">
+                    @if (blogs.Count > 2)
+                    {
+                        var blog = blogs[2];
+                        <div class="news-eight__single news-eight__single--two">
+                            <div class="news-eight__single__image">
+                                <img src="@blog.FeaturedImageUrl" alt="blog image">
+                                <a href="@Url.Action("detailedNews", "UserHome", new { id = blog.Id })" class="news-eight__single__image__link"></a>
+                            </div>
+                            <div class="news-eight__single__content">
+                                <div class="news-eight__single__date">
+                                    <span class="news-eight__single__date__day">@blog.CreatedAt.Day</span>
+                                    <span class="news-eight__single__date__month">@blog.CreatedAt.ToString("MMM")</span>
+                                </div>
+                                <ul class="news-eight__single__meta">
+                                    <li>
+                                        <span class="fas fa-user-circle"></span><a href ="@Url.Action("detailedNews", "Home", new { id = blog.Id })">@blog.AuthorName</a>
+                                    </li>
+                                </ul>
+                                <h3 class="news-eight__single__title">
+                                    <a href="@Url.Action("detailedNews", "Home", new { id = blog.Id })">
+                                        @blog.Title
+                                    </a>
+                                </h3>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
-            </div>
-            <!--News Eight Single End-->
-            <!--News Eight Single Start-->
-            <div class="col-xl-5 wow fadeInUp" data-wow-delay="200ms">
-                <div class="news-eight__single news-eight__single--two">
-                    <div class="news-eight__single__image">
-                        <img src="~/user/assets/images/update-15-2-2024/blog/news-8-3.jpg" alt="insur">
-                        <a href="news-details.html" class="news-eight__single__image__link"></a>
-                    </div>
-                    <div class="news-eight__single__content">
-                        <div class="news-eight__single__date">
-                            <span class="news-eight__single__date__day">20</span>
-                            <span class="news-eight__single__date__month">Jan</span>
-                        </div>
-                        <ul class="news-eight__single__meta">
-                            <li>
-                                <span class="fas fa-comments"></span><a href="news-details.html">2 Comment</a>
-                            </li>
-                            <li>
-                                <span class="fas fa-user-circle"></span><a href="news-details.html">by Admin</a>
-                            </li>
-                        </ul>
-                        <h3 class="news-eight__single__title">
-                            <a href="news-details.html">
-                                See What is an Energy
-                                and How to Protect
-                            </a>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <!--News Eight Single End-->
+            }
         </div>
+
     </div>
 </section>
 <!--News Eight End-->
