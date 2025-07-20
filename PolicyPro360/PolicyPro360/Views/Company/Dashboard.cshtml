@@ -45,20 +45,7 @@
                     </ol>
                 </nav>
             </div>
-            <div class="ms-auto">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary">Settings</button>
-                    <button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">
-                        <a class="dropdown-item" href="javascript:;">Action</a>
-                        <a class="dropdown-item" href="javascript:;">Another action</a>
-                        <a class="dropdown-item" href="javascript:;">Something else here</a>
-                        <div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-                    </div>
-                </div>
-            </div>
+         
         </div>
         <!--end breadcrumb-->
 
@@ -108,8 +95,7 @@
             </div>
 
             @{
-                // Dono arrays: ek gradient ke liye, ek text color ke liye
-                // IMPORTANT: Inka order same hona chahiye
+            
                 var gradientClasses = new[] { "bg-gradient-1", "bg-gradient-2", "bg-gradient-3", "bg-gradient-4", "bg-gradient-5", "bg-gradient-6" };
                 var themeColors = new[] { "primary", "success", "danger", "warning", "purple", "info" };
                 var gradIndex = 0;
@@ -125,11 +111,11 @@
                         <div class="card w-100 rounded-4 shadow-sm border-0 card-gradient @gradientClass">
                             <div class="card-body d-flex flex-column">
 
-                                <!-- 1. Top Section (No Change) -->
+                     
                                 <div class="d-flex align-items-start justify-content-between mb-3">
                                     <div>
                                          <h3 class="mb-0">
-                                            @(new Random().Next(5, 50))
+                                            @ViewBag.PoliciesCountDict[category.Id]
                                         </h3> 
                                         <p class="mb-0">Total Policies</p>
                                     </div>
@@ -140,7 +126,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 2. Middle Section (No Change) -->
+                     
                                 <div class="my-3">
                                     <h5 class="mb-1 card-title">@category.Name</h5>
                                     <p class="mb-0" style="font-size: 14px; line-height: 1.5;">
@@ -149,17 +135,16 @@
                                 </div>
 
                                 <div class="mt-auto pt-3">
-                                    <!-- d-flex aur gap-2 se buttons ko manage karein -->
+                                 
                                     <div class="d-flex align-items-center gap-2">
 
-                                        <!-- Add Policy Button (Primary Action) -->
+                                    
                                         <a href="@Url.Action("Create", "CompanyPolicy", new { categoryId = category.Id })"
                                            class="btn btn-light fw-bold text-@themeColor rounded-pill w-100">
                                             <span class="material-icons-outlined fs-6 me-1" style="vertical-align: middle;">add</span>
                                             Add Policy
                                         </a>
 
-                                        <!-- View Policy Button (Secondary Action) -->
                                         <a href="@Url.Action("Index", "CompanyPolicy", new { categoryId = category.Id })"
                                            class="btn btn-light rounded-pill w-100">
                                             <span class="material-icons-outlined fs-6 me-1" style="vertical-align: middle;">visibility</span>
@@ -175,6 +160,47 @@
 
                     gradIndex++;
                 }
+            </div>
+            <div class="col-lg-12 col-xxl-8 d-flex align-items-stretch">
+                <div class="card w-100 rounded-4">
+                    <div class="card-body">
+                        <h5 class="mb-3">Recent Policy Sales</h5>
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Policy Holder</th>
+                                        <th>Policy Name</th>
+                                        <th>Premium</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var sale in ViewBag.RecentSales)
+                                    {
+                                        <tr>
+                                            <td>@sale.User.Name</td>
+                                            <td>@sale.Policy.Name</td>
+                                            <td>@sale.CalculatedPremium.ToString("C")</td>
+                                            <td>@sale.PurchaseDate.ToString("dd MMM, yyyy")</td>
+                                            <td>
+                                                @if (sale.Status == "Active")
+                                                {
+                                                    <span class="dash-lable mb-0 bg-success bg-opacity-10 text-success rounded-2">@sale.Status</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="dash-lable mb-0 bg-danger bg-opacity-10 text-danger rounded-2">@sale.Status</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
                 <div class="card w-100 rounded-4">
@@ -195,6 +221,41 @@
                             <p class="mb-0 font-12">
 
                                 <span class="text-success me-1 fs-4">@ViewBag.PolicyHolders</span> Active Users
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
+                <div class="card w-100 rounded-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between mb-1">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="material-icons-outlined text-warning fs-2">shield</span>
+                                <div>
+                                    <h5 class="mb-0">@ViewBag.PolicyHolders</h5>
+                                    <p class="mb-0">Policy Holders</p>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
+                                   data-bs-toggle="dropdown">
+                                    <span class="material-icons-outlined fs-5">more_vert</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "CompanyUsers")">View Policy Holders</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("AllPolicies", "CompanyPolicy")">View Policy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="chart-container2">
+                            <div id="chart1"></div>
+                        </div>
+                        <div class="text-center">
+                            <p class="mb-0 font-12">
+
+                                <span class="text-warning me-1 fs-4">@ViewBag.TotalPoliciesSold</span>
+                                policies have been sold
                             </p>
                         </div>
                     </div>
@@ -243,41 +304,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-xxl-2 d-flex align-items-stretch">
-                <div class="card w-100 rounded-4">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start justify-content-between mb-1">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="material-icons-outlined text-warning fs-2">shield</span>
-                                <div>
-                                    <h5 class="mb-0">@ViewBag.PolicyHolders</h5>
-                                    <p class="mb-0">Policy Holders</p>
-                                </div>
-                            </div>
-                            <div class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
-                                   data-bs-toggle="dropdown">
-                                    <span class="material-icons-outlined fs-5">more_vert</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="@Url.Action("Index", "CompanyUsers")">View Policy Holders</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("AllPolicies", "CompanyPolicy")">View Policy</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="chart-container2">
-                            <div id="chart1"></div>
-                        </div>
-                        <div class="text-center">
-                            <p class="mb-0 font-12">
-
-                                <span class="text-warning me-1 fs-4">@ViewBag.TotalPoliciesSold</span>
-                                policies have been sold
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+       
             <div class="col-xxl-4">
                 <div class="row">
                     <div class="col-md-6 d-flex align-items-stretch">
@@ -372,10 +399,10 @@
                 <div class="card w-100 rounded-4">
                     <div class="card-body p-4">
 
-                        <!-- === Section 1: Loans & Claims Overview === -->
+          
                         <h5 class="card-title mb-4 text-center">Loans & Claims Overview</h5>
                         <div class="row g-0 align-items-center">
-                            <!-- Total User Loans Section -->
+                    
                             <div class="col text-center border-end">
                                 <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-2" style="width: 50px; height: 50px;">
                                     <span class="material-icons-outlined fs-2">request_quote</span>
@@ -384,7 +411,7 @@
                                 <p class="mb-0 text-secondary">Total Loans</p>
                             </div>
 
-                            <!-- Total User Claims Section -->
+                    
                             <div class="col text-center">
                                 <div class="d-inline-flex align-items-center justify-content-center bg-danger-subtle text-danger rounded-circle mb-2" style="width: 50px; height: 50px;">
                                     <span class="material-icons-outlined fs-2">fact_check</span>
@@ -433,10 +460,10 @@
                                 {
                                     <div class="d-flex align-items-center gap-3">
                                         <img src="@Url.Content(
-                                                                                         string.IsNullOrEmpty(user.ProfileImagePath)
-                                                                                             ? "~/admin/assets/images/profiles/default.png"
-                                                                                             : (user.ProfileImagePath.StartsWith("/") ? user.ProfileImagePath : "/admin/assets/images/profiles/" + user.ProfileImagePath)
-                                                                                     )" width="45" height="45" class="rounded-circle" alt="User Profile">
+                                                      string.IsNullOrEmpty(user.ProfileImagePath)
+                                                      ? "~/admin/assets/images/profiles/default.png"
+                                                       : (user.ProfileImagePath.StartsWith("/") ? user.ProfileImagePath : "/admin/assets/images/profiles/" + user.ProfileImagePath)
+                                                         )" width="45" height="45" class="rounded-circle" alt="User Profile">
                                     <div class="flex-grow-1">
                                         <h6 class="mb-0">@user.Name</h6>
                                         <p class="mb-0 text-muted">@@@user.Username</p>
@@ -449,47 +476,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-xxl-8 d-flex align-items-stretch">
-                <div class="card w-100 rounded-4">
-                    <div class="card-body">
-                        <h5 class="mb-3">Recent Policy Sales</h5>
-                        <div class="table-responsive">
-                            <table class="table align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Policy Holder</th>
-                                        <th>Policy Name</th>
-                                        <th>Premium</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var sale in ViewBag.RecentSales)
-                                    {
-                                        <tr>
-                                            <td>@sale.User.Name</td>
-                                            <td>@sale.Policy.Name</td>
-                                            <td>@sale.CalculatedPremium.ToString("C")</td>
-                                            <td>@sale.PurchaseDate.ToString("dd MMM, yyyy")</td>
-                                            <td>
-                                                @if (sale.Status == "Active")
-                                                {
-                                                    <span class="dash-lable mb-0 bg-success bg-opacity-10 text-success rounded-2">@sale.Status</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="dash-lable mb-0 bg-danger bg-opacity-10 text-danger rounded-2">@sale.Status</span>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+         
         </div>
     </div>
 </main>

@@ -1,0 +1,284 @@
+@model List<PolicyPro360.Models.UserClaim>
+@{
+    ViewData["Title"] = "Track Your Claims - PolicyPro360";
+    Layout = "_UserDashboardLayout";
+}
+
+<style>
+    .track-claim-container {
+        margin-top: 150px;
+    }
+
+    .status-filter-card {
+        background: linear-gradient(135deg, #171827 0%, #2a2c3c 100%);
+        border: none;
+        border-radius: 15px;
+        color: white;
+        margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+        background: rgba(245, 165, 38, 0.2);
+        border: 1px solid rgba(245, 165, 38, 0.3);
+        color: #f5a526;
+        border-radius: 25px;
+        padding: 8px 20px;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+        background: #f5a526;
+        color: #171827;
+        transform: translateY(-2px);
+    }
+
+        .claim-card {
+        background: white;
+        border: 1px solid rgba(245, 165, 38, 0.2);
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        color: #171827;
+    }
+
+    .claim-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(245, 165, 38, 0.2);
+        border-color: #f5a526;
+    }
+
+    .status-badge {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .status-pending {
+        background: linear-gradient(135deg, #f5a526 0%, #d8901e 100%);
+        color: #171827;
+    }
+
+    .status-accepted {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        color: white;
+    }
+
+    .status-rejected {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        color: white;
+    }
+
+        .claim-details {
+        background: rgba(245, 165, 38, 0.05);
+        border: 1px solid rgba(245, 165, 38, 0.2);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+        color: #171827;
+    }
+
+    .claim-icon {
+        font-size: 2rem;
+        color: #f5a526;
+    }
+
+        .no-claims-card {
+        background: white;
+        text-align: center;
+        padding: 3rem;
+        border-radius: 15px;
+        border: 1px solid rgba(245, 165, 38, 0.2);
+        color: #171827;
+    }
+
+    .no-claims-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #f5a526;
+        opacity: 0.8;
+    }
+
+    .text-muted {
+        color: rgba(23, 24, 39, 0.6) !important;
+    }
+
+    .btn-outline-primary {
+        border-color: #f5a526;
+        color: #f5a526;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #f5a526;
+        border-color: #f5a526;
+        color: #171827;
+    }
+
+    .btn-light {
+        background-color: #f5a526;
+        border-color: #f5a526;
+        color: #171827;
+    }
+
+    .btn-light:hover {
+        background-color: #d8901e;
+        border-color: #d8901e;
+        color: #171827;
+    }
+</style>
+
+<div class="container-fluid track-claim-container">
+    <div class="row">
+        <div class="col-12">
+            <!-- Header -->
+            <div class="card status-filter-card">
+                <div class="card-body text-center">
+                    <h4 class="mb-3 text-white">
+                        <i class="ti ti-search me-2 text-white"></i>
+                        Track Your Claims
+                    </h4>
+                    <p class="mb-4 opacity-75">Monitor the status of your insurance claims</p>
+                    
+                    <!-- Status Filter Buttons -->
+                    <div class="d-flex justify-content-center flex-wrap">
+                        @foreach (var status in ViewBag.StatusOptions)
+                        {
+                            <a href="@Url.Action("TrackClaim", "UserHome", new { status = status })" 
+                               class="btn filter-btn @(ViewBag.CurrentStatus == status ? "active" : "")">
+                                @if (status == "All")
+                                {
+                                    <i class="ti ti-list me-1"></i>
+                                }
+                                else if (status == "Pending")
+                                {
+                                    <i class="ti ti-clock me-1"></i>
+                                }
+                                else if (status == "Accepted")
+                                {
+                                    <i class="ti ti-check me-1"></i>
+                                }
+                                else if (status == "Rejected")
+                                {
+                                    <i class="ti ti-x me-1"></i>
+                                }
+                                @status
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claims List -->
+            @if (Model != null && Model.Any())
+            {
+                foreach (var claim in Model)
+                {
+                    <div class="card claim-card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2 text-center">
+                                    <i class="ti ti-file-invoice claim-icon"></i>
+                                </div>
+                                <div class="col-md-7">
+                                    <h5 class="mb-2">Claim #@claim.Id</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small class="text-muted">
+                                                <i class="ti ti-shield me-1"></i>
+                                                @claim.Policy?.Name
+                                            </small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted">
+                                                <i class="ti ti-calendar me-1"></i>
+                                                @claim.SubmittedAt.ToString("MMM dd, yyyy")
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <small class="text-muted">
+                                                <i class="ti ti-category me-1"></i>
+                                                @claim.Category?.Name
+                                            </small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted">
+                                                <i class="ti ti-currency-rupee me-1"></i>
+                                                @claim.ClaimedAmount.ToString("N2")
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <span class="status-badge status-@claim.Status.ToLower()">
+                                        @claim.Status
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Expandable Details -->
+                            <div class="claim-details mt-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>Incident Date:</strong>
+                                        <p class="mb-2">@claim.DateOfIncident.ToString("MMM dd, yyyy")</p>
+                                        
+                                        <strong>User Request:</strong>
+                                        <p class="mb-2">@claim.UserRequest</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Incident Details:</strong>
+                                        <p class="mb-2">@claim.IncidentDetails</p>
+                                        
+                                        @if (!string.IsNullOrEmpty(claim.SupportingDocumentPath))
+                                        {
+                                            <strong>Documents:</strong>
+                                            <div class="mt-2">
+                                                @{
+                                                    var documents = claim.SupportingDocumentPath.Split(',');
+                                                    foreach (var doc in documents)
+                                                    {
+                                                        <a href="@doc" target="_blank" class="btn btn-sm btn-outline-primary me-2 mb-2">
+                                                            <i class="ti ti-download me-1"></i>
+                                                            View Document
+                                                        </a>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="card no-claims-card">
+                    <div class="card-body">
+                        <i class="ti ti-inbox no-claims-icon"></i>
+                        <h4>No Claims Found</h4>
+                        <p class="mb-4">
+                            @if (ViewBag.CurrentStatus == "All")
+                            {
+                                <span>You haven't filed any claims yet.</span>
+                            }
+                            else
+                            {
+                                <span>No @ViewBag.CurrentStatus.ToLower() claims found.</span>
+                            }
+                        </p>
+                        <a href="@Url.Action("fileclaim", "UserHome")" class="btn btn-light">
+                            <i class="ti ti-plus me-1"></i>
+                            File a New Claim
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div> 

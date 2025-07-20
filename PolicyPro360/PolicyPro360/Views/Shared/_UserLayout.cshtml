@@ -165,10 +165,9 @@
 								<li class="dropdown">
 									<a href="#">Sign In</a>
 									<ul>
-										<li><a href="@Url.Action("SignIn","UserHome")">Sign In/Up</a></li>
+										<li><a href="@Url.Action("SignIn","UserHome")">Sign In / Up</a></li>
 										<li><a href="@Url.Action("Login","Company")">Join as a Company</a></li>
-										<li><a href="@Url.Action("Login", "Admin")">Join as an Admin</a></li>
-
+										<li><a href="@Url.Action("Login", "Admin")">Sign in as Admin</a></li>
 									</ul>
 								</li>
 							
@@ -293,7 +292,7 @@
 									<li>
 									<li><a href="@Url.Action("insurance","UserHome")">Insurance</a></li>
 									<li>
-										<a href="policy-proposal.html">Policies</a>
+										<a href="@Url.Action("policy", "UserHome")">Policies</a>
 									</li>
 									<li>
 										<a href="@Url.Action("makeaclaim","UserHome")">Claims</a>

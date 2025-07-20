@@ -504,14 +504,14 @@
                 @*         </div> *@
                 @*     </div> *@
                 @* </li> *@
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown d-none">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" data-bs-auto-close="outside"
                        data-bs-toggle="dropdown" href="javascript:;">
                         <i class="material-icons-outlined">notifications</i>
                         <span class="badge-notify">2</span>
                     </a>
-                    <div class="dropdown-menu dropdown-notify dropdown-menu-end shadow">
-                        <div class="px-3 py-1 d-flex align-items-center justify-content-between border-bottom">
+                     <div class="dropdown-menu dropdown-notify dropdown-menu-end shadow">
+                        @* <div class="px-3 py-1 d-flex align-items-center justify-content-between border-bottom">
                             <h5 class="notiy-title mb-0">Notifications</h5>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle dropdown-toggle-nocaret option" type="button"
@@ -520,7 +520,7 @@
                                         more_vert
                                     </span>
                                 </button>
-                                <div class="dropdown-menu dropdown-option dropdown-menu-end shadow">
+                                 <div class="dropdown-menu dropdown-option dropdown-menu-end shadow">
                                     <div>
                                         <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;">
                                             <i class="material-icons-outlined fs-6">inventory_2</i>Archive All
@@ -549,10 +549,10 @@
                                             <i class="material-icons-outlined fs-6">leaderboard</i>Reports
                                         </a>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
-                        </div>
-                        <div class="notify-list">
+                        </div> *@
+                        <div class="notify-list d-none">
                             <div>
                                 <a class="dropdown-item border-bottom py-2" href="javascript:;">
                                     <div class="d-flex align-items-center gap-3">
@@ -655,8 +655,8 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
+                    </div> 
                 </li>
                 @* <li class="nav-item d-md-flex d-none"> *@
                 @*     <a class="nav-link position-relative" data-bs-toggle="offcanvas" href="#offcanvasCart"> *@
@@ -682,6 +682,11 @@
                         </a>
                         <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="@Url.Action("Dashboard","Company")">
                             <i class="material-icons-outlined">dashboard</i>Dashboard
+                        </a>
+                   
+
+                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="@Url.Action("companywallet", "Company")">
+                            <i class="material-icons-outlined">account_balance_wallet</i>Company Wallet
                         </a>
 
                         <hr class="dropdown-divider">
@@ -1226,7 +1231,7 @@
                 @*         </li> *@
                 @*     </ul> *@
                 @* </li> *@
-                <li>
+                @* <li>
                     <a href="javascrpt:;">
                         <div class="parent-icon">
                             <i class="material-icons-outlined">description</i>
@@ -1241,7 +1246,7 @@
                         </div>
                         <div class="menu-title">Support</div>
                     </a>
-                </li>
+                </li> *@
             </ul>
             <!--end navigation-->
         </div>

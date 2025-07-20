@@ -1083,7 +1083,10 @@ namespace PolicyPro360.Controllers.User
                 .FirstOrDefault();
 
           
-            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+            var userWallet = _context.Tbl_UserWallet
+                .Where(w => w.UserId == userId)
+                .OrderByDescending(w => w.LastUpdated)
+                .FirstOrDefault();
             ViewBag.walletBalance = userWallet != null ? userWallet.Balance : 0m;
 
 
@@ -1242,7 +1245,7 @@ namespace PolicyPro360.Controllers.User
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Your claim has been submitted successfully!";
-            return RedirectToAction("MyApplication");
+            return RedirectToAction("TrackClaim");
         }
 
         public IActionResult MyWallet()
@@ -1257,7 +1260,10 @@ namespace PolicyPro360.Controllers.User
             }
 
        
-            var myWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+            var myWallet = _context.Tbl_UserWallet
+                .Where(w => w.UserId == userId)
+                .OrderByDescending(w => w.LastUpdated)
+                .FirstOrDefault();
 
 
             if (myWallet == null)
@@ -1285,7 +1291,10 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("SignIn");
             }
 
-            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+            var userWallet = _context.Tbl_UserWallet
+                .Where(w => w.UserId == userId)
+                .OrderByDescending(w => w.LastUpdated)
+                .FirstOrDefault();
             if (userWallet == null)
             {
                 TempData["ErrorMessage"] = "Wallet not found.";
@@ -1309,6 +1318,56 @@ namespace PolicyPro360.Controllers.User
             _context.SaveChanges();
 
             TempData["SuccessMessage"] = $"Successfully withdrawn Rs. {withdrawnAmount:N0} from your wallet.";
+            return RedirectToAction("MyWallet");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddMoneyToWallet(decimal amount, string paymentMethod, string referenceNumber)
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            if (amount <= 0)
+            {
+                TempData["ErrorMessage"] = "Amount must be greater than zero.";
+                return RedirectToAction("MyWallet");
+            }
+
+            if (string.IsNullOrWhiteSpace(paymentMethod))
+            {
+                TempData["ErrorMessage"] = "Please select a payment method.";
+                return RedirectToAction("MyWallet");
+            }
+
+            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(w => w.UserId == userId);
+            if (userWallet == null)
+            {
+    
+                userWallet = new UserWallet
+                {
+                    UserId = userId.Value,
+                    Balance = amount,
+                    Description = $"Initial deposit via {paymentMethod} - Ref: {referenceNumber}",
+                    LastUpdated = DateTime.Now
+                };
+                _context.Tbl_UserWallet.Add(userWallet);
+            }
+            else
+            {
+               
+                userWallet.Balance += amount;
+                userWallet.Description = $"Added Rs. {amount:N0} via {paymentMethod} - Ref: {referenceNumber}";
+                userWallet.LastUpdated = DateTime.Now;
+                _context.Tbl_UserWallet.Update(userWallet);
+            }
+
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = $"Successfully added Rs. {amount:N0} to your wallet via {paymentMethod}.";
             return RedirectToAction("MyWallet");
         }
 
@@ -1427,6 +1486,33 @@ namespace PolicyPro360.Controllers.User
             return RedirectToAction("Support");
         }
 
+        public IActionResult TrackClaim(string status = "All")
+        {
+            var userId = HttpContext.Session.GetInt32("userId");
+            if (userId == null)
+            {
+                return RedirectToAction("SignIn");
+            }
+
+            var query = _context.Tbl_UserClaims
+                .Include(c => c.Category)
+                .Include(c => c.Policy)
+                .Where(c => c.UserId == userId.Value);
+
+          
+            if (!string.IsNullOrEmpty(status) && status != "All")
+            {
+                query = query.Where(c => c.Status == status);
+            }
+
+            var claims = query.OrderByDescending(c => c.SubmittedAt).ToList();
+
+            ViewBag.CurrentStatus = status;
+            ViewBag.StatusOptions = new List<string> { "All", "Pending", "Accepted", "Rejected" };
+
+            return View(claims);
+        }
+
         public IActionResult Logout()
         {
             if (HttpContext.Session.GetString("userName") != null)
@@ -1541,7 +1627,10 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("MyLoans");
             }
 
-            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(uw => uw.UserId == userId);
+            var userWallet = _context.Tbl_UserWallet
+                .Where(uw => uw.UserId == userId)
+                .OrderByDescending(uw => uw.LastUpdated)
+                .FirstOrDefault();
             if (userWallet == null || userWallet.Balance < installment.Amount)
             {
                 TempData["ErrorMessage"] = "Insufficient balance in wallet. Please add funds first.";
@@ -1549,12 +1638,12 @@ namespace PolicyPro360.Controllers.User
             }
 
             userWallet.Balance -= installment.Amount;
+            userWallet.Description = $"Loan installment payment - Rs. {installment.Amount:N0}";
             userWallet.LastUpdated = DateTime.Now;
-
+            _context.Tbl_UserWallet.Update(userWallet);
 
             installment.Status = "Paid";
             installment.PaidDate = DateTime.Now;
-
 
             var payment = new LoanPayment
             {
@@ -1565,16 +1654,6 @@ namespace PolicyPro360.Controllers.User
                 PaymentDate = DateTime.Now
             };
             _context.Tbl_LoanPayments.Add(payment);
-
-            var userWalletEntry = new UserWallet
-            {
-                UserId = userId.Value,
-                PolicyId = installment.LoanRequest.PolicyId, 
-                Description = "Loan installment payment",
-                LastUpdated = DateTime.Now,
-                Balance = userWallet.Balance 
-            };
-            _context.Tbl_UserWallet.Add(userWalletEntry);
 
          
             var companyWalletEntry = new CompanyWallet
@@ -1632,7 +1711,10 @@ namespace PolicyPro360.Controllers.User
             }
 
        
-            var userWallet = _context.Tbl_UserWallet.FirstOrDefault(uw => uw.UserId == userId);
+            var userWallet = _context.Tbl_UserWallet
+                .Where(uw => uw.UserId == userId)
+                .OrderByDescending(uw => uw.LastUpdated)
+                .FirstOrDefault();
             if (userWallet == null || userWallet.Balance < installment.Amount)
             {
                 TempData["ErrorMessage"] = "Insufficient balance in wallet. Please add funds first.";
@@ -1641,12 +1723,13 @@ namespace PolicyPro360.Controllers.User
 
 
             userWallet.Balance -= installment.Amount;
+            userWallet.Description = $"Loan installment payment - Rs. {installment.Amount:N0}";
             userWallet.LastUpdated = DateTime.Now;
+            _context.Tbl_UserWallet.Update(userWallet);
 
             installment.Status = "Paid";
             installment.PaidDate = DateTime.Now;
 
- 
             var payment = new LoanPayment
             {
                 UserId = userId.Value,
@@ -1656,17 +1739,6 @@ namespace PolicyPro360.Controllers.User
                 PaymentDate = DateTime.Now
             };
             _context.Tbl_LoanPayments.Add(payment);
-
-           
-            var userWalletEntry = new UserWallet
-            {
-                UserId = userId.Value,
-                PolicyId = installment.LoanRequest.PolicyId,
-                Description = "Loan installment payment",
-                LastUpdated = DateTime.Now,
-                Balance = userWallet.Balance 
-            };
-            _context.Tbl_UserWallet.Add(userWalletEntry);
 
        
             var companyWalletEntry = new CompanyWallet

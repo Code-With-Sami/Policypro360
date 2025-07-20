@@ -25,8 +25,23 @@ namespace PolicyPro360.Controllers.Company
             if (HttpContext.Session.GetString("companyname") != null)
             {
                 ViewBag.CompanyName = HttpContext.Session.GetString("companyname");
-                var activeCategories = _db.Tbl_Category.Where(c => c.Status == true).ToList();
+                var companyId = HttpContext.Session.GetInt32("companyId");
+                
+      
+                var activeCategories = _db.Tbl_Category
+                    .Where(c => c.Status == true)
+                    .ToList();
+                
+               
+                var policiesCountDict = new Dictionary<int, int>();
+                foreach (var category in activeCategories)
+                {
+                    var count = _db.Tbl_Policy.Count(p => p.PolicyTypeId == category.Id && p.CompanyId == companyId);
+                    policiesCountDict[category.Id] = count;
+                }
+                
                 ViewBag.Categories = activeCategories;
+                ViewBag.PoliciesCountDict = policiesCountDict;
                 Console.WriteLine("Category count: " + activeCategories.Count);
             }
             else
