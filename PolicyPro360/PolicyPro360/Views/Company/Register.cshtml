@@ -229,6 +229,125 @@
     </script>
 
 
+        // Real time form Validation 
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector('form');
+
+            function showError(input, message) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                if (errorSpan) errorSpan.textContent = message;
+            }
+
+            function clearError(input) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                if (errorSpan) errorSpan.textContent = '';
+            }
+
+            function isAlpha(value) {
+                return /^[a-zA-Z\s]+$/.test(value);
+            }
+
+            form.addEventListener('submit', function (e) {
+                let isValid = true;
+
+                const requiredAlphaFields = [
+                    "CompanyName", "BusinessType", "IndustryType", "Country", "City",
+                    "OwnerName", "OwnerNationality", "OwnerRole"
+                ];
+
+                requiredAlphaFields.forEach(fieldName => {
+                    const input = form.querySelector(`[name="${fieldName}"]`);
+                    if (!input.value.trim() || !isAlpha(input.value.trim())) {
+                        showError(input, `${fieldName.replace(/([A-Z])/g, ' $1')} is required and must contain only letters.`);
+                        isValid = false;
+                    } else {
+                        clearError(input);
+                    }
+                });
+
+                const emailFields = ["Email", "OwnerEmail"];
+                emailFields.forEach(fieldName => {
+                    const input = form.querySelector(`[name="${fieldName}"]`);
+                    if (!input.value.trim()) {
+                        showError(input, `${fieldName} is required.`);
+                        isValid = false;
+                    } else {
+                        clearError(input);
+                    }
+                });
+
+                const password = form.querySelector('[name="Password"]');
+                const confirmPassword = form.querySelector('[name="ConfirmPassword"]');
+                if (!password.value.trim()) {
+                    showError(password, "Password is required.");
+                    isValid = false;
+                } else {
+                    clearError(password);
+                }
+                if (confirmPassword.value.trim() !== password.value.trim()) {
+                    showError(confirmPassword, "Passwords do not match.");
+                    isValid = false;
+                } else {
+                    clearError(confirmPassword);
+                }
+
+                const phoneFields = ["PhoneNo", "OwnerPhoneNo"];
+                phoneFields.forEach(fieldName => {
+                    const input = form.querySelector(`[name="${fieldName}"]`);
+                    if (!input.value.trim()) {
+                        showError(input, `${fieldName} is required.`);
+                        isValid = false;
+                    } else {
+                        clearError(input);
+                    }
+                });
+
+                const requiredFields = ["Description", "Address", "OwnerCNIC", "RegistrationNo", "OwnerDOB"];
+                requiredFields.forEach(fieldName => {
+                    const input = form.querySelector(`[name="${fieldName}"]`);
+                    if (!input.value.trim()) {
+                        showError(input, `${fieldName} is required.`);
+                        isValid = false;
+                    } else {
+                        clearError(input);
+                    }
+                });
+
+                const logo = form.querySelector('[name="CompanyLogoFile"]');
+                if (!logo.value.trim()) {
+                    showError(logo, "Company logo is required.");
+                    isValid = false;
+                } else {
+                    clearError(logo);
+                }
+
+                const ownerImage = form.querySelector('[name="OwnerImageFile"]');
+                if (!ownerImage.value.trim()) {
+                    showError(ownerImage, "Owner image is required.");
+                    isValid = false;
+                } else {
+                    clearError(ownerImage);
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+
+            // Restrict Name Fields to Alphabets Only in Real-Time
+            const alphaFields = form.querySelectorAll('input[name="CompanyName"], input[name="BusinessType"], input[name="IndustryType"], input[name="Country"], input[name="City"], input[name="OwnerName"], input[name="OwnerNationality"], input[name="OwnerRole"]');
+            alphaFields.forEach(input => {
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+                });
+            });
+        });
+    </script>
+
+
+
 </body>
 
 </html>

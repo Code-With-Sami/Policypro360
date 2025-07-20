@@ -196,3 +196,125 @@
     </div>
 </section>
 <!--Sign Up End-->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector('form');
+        const nameInput = form.querySelector('input[name="Name"]');
+        const usernameInput = form.querySelector('input[name="Username"]');
+        const mobileInput = form.querySelector('input[name="MobileNumber"]');
+        const emailInput = form.querySelector('input[name="Email"]');
+        const passwordInput = form.querySelector('input[name="Password"]');
+        const confirmPasswordInput = form.querySelector('input[name="ConfirmPassword"]');
+        const dobInput = form.querySelector('input[name="DateOfBirth"]');
+        const profileImageInput = form.querySelector('input[name="ProfileImage"]');
+        const addressInput = form.querySelector('textarea[name="Address"]');
+
+        function showError(input, message) {
+            let errorSpan = input.nextElementSibling;
+            if (errorSpan && errorSpan.classList.contains('text-danger')) {
+                errorSpan.innerText = message;
+            }
+        }
+
+        function clearError(input) {
+            let errorSpan = input.nextElementSibling;
+            if (errorSpan && errorSpan.classList.contains('text-danger')) {
+                errorSpan.innerText = '';
+            }
+        }
+
+        function isAlpha(value) {
+            return /^[a-zA-Z\s]+$/.test(value);
+        }
+
+        form.addEventListener('submit', function (e) {
+            let isValid = true;
+
+            // Name Validation
+            if (!nameInput.value.trim() || !isAlpha(nameInput.value.trim())) {
+                showError(nameInput, "Name is required and must contain only letters.");
+                isValid = false;
+            } else {
+                clearError(nameInput);
+            }
+
+            // Username Validation
+            if (!usernameInput.value.trim() || !isAlpha(usernameInput.value.trim())) {
+                showError(usernameInput, "Username is required and must contain only letters.");
+                isValid = false;
+            } else {
+                clearError(usernameInput);
+            }
+
+            // Mobile Validation
+            if (!mobileInput.value.trim()) {
+                showError(mobileInput, "Mobile number is required.");
+                isValid = false;
+            } else {
+                clearError(mobileInput);
+            }
+
+            // Email Validation
+            if (!emailInput.value.trim()) {
+                showError(emailInput, "Email is required.");
+                isValid = false;
+            } else {
+                clearError(emailInput);
+            }
+
+            // Password Validation
+            if (!passwordInput.value.trim()) {
+                showError(passwordInput, "Password is required.");
+                isValid = false;
+            } else {
+                clearError(passwordInput);
+            }
+
+            // Confirm Password Match
+            if (confirmPasswordInput.value.trim() !== passwordInput.value.trim()) {
+                showError(confirmPasswordInput, "Passwords do not match.");
+                isValid = false;
+            } else {
+                clearError(confirmPasswordInput);
+            }
+
+            // DOB Validation
+            if (!dobInput.value.trim()) {
+                showError(dobInput, "Date of Birth is required.");
+                isValid = false;
+            } else {
+                clearError(dobInput);
+            }
+
+            // Profile Image Validation
+            if (!profileImageInput.value.trim()) {
+                showError(profileImageInput, "Profile image is required.");
+                isValid = false;
+            } else {
+                clearError(profileImageInput);
+            }
+
+            // Address Validation
+            if (!addressInput.value.trim()) {
+                showError(addressInput, "Address is required.");
+                isValid = false;
+            } else {
+                clearError(addressInput);
+            }
+
+            if (!isValid) {
+                e.preventDefault(); // Stop form submission
+            }
+        });
+
+        // Optional: Restrict typing numbers in Name and Username fields
+        nameInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+
+        usernameInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+    });
+</script>

@@ -267,6 +267,123 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector('form');
+            if (!form) return;
+
+            function showError(input, message) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                if (errorSpan) errorSpan.textContent = message;
+            }
+
+            function clearError(input) {
+                const errorSpan = input.parentElement.querySelector('.text-danger');
+                if (errorSpan) errorSpan.textContent = '';
+            }
+
+            function isAlpha(value) {
+                return /^[a-zA-Z\s]+$/.test(value);
+            }
+
+            function isNumeric(value) {
+                return /^\d+(\.\d+)?$/.test(value);
+            }
+
+            function isValidFile(fileInput) {
+                if (!fileInput.files.length) return false;
+                const file = fileInput.files[0];
+                return /\.(jpg|jpeg|png|webp)$/i.test(file.name);
+            }
+
+            form.addEventListener('submit', function (e) {
+                let isValid = true;
+
+                const name = form.querySelector('input[name="Name"]');
+                if (!name.value.trim() || !isAlpha(name.value.trim())) {
+                    showError(name, "Policy name is required and letters only.");
+                    isValid = false;
+                } else {
+                    clearError(name);
+                }
+
+                const desc = form.querySelector('input[name="Description"]');
+                if (!desc.value.trim() || desc.value.trim().length < 10) {
+                    showError(desc, "Description must be at least 10 characters.");
+                    isValid = false;
+                } else {
+                    clearError(desc);
+                }
+
+                const sumInsured = form.querySelector('input[name="SumInsured"]');
+                if (!sumInsured.value.trim() || !isNumeric(sumInsured.value.trim()) || parseFloat(sumInsured.value) <= 0) {
+                    showError(sumInsured, "Sum Insured is required and must be a positive number.");
+                    isValid = false;
+                } else {
+                    clearError(sumInsured);
+                }
+
+                const premium = form.querySelector('input[name="Premium"]');
+                if (!premium.value.trim() || !isNumeric(premium.value.trim()) || parseFloat(premium.value) <= 0) {
+                    showError(premium, "Premium amount is required and must be a positive number.");
+                    isValid = false;
+                } else {
+                    clearError(premium);
+                }
+
+                const terms = form.querySelector('input[name="TermsConditions"]');
+                if (!terms.value.trim()) {
+                    showError(terms, "Terms & Conditions are required.");
+                    isValid = false;
+                } else {
+                    clearError(terms);
+                }
+
+                const brochure = form.querySelector('input[name="BrochureFile"]');
+                if (!isValidFile(brochure)) {
+                    showError(brochure, "Valid brochure image file is required.");
+                    isValid = false;
+                } else {
+                    clearError(brochure);
+                }
+
+                // Dynamic Attributes Check (0 to 7)
+                for (let i = 0; i <= 7; i++) {
+                    const attrInput = form.querySelector(`input[name="Attributes[${i}].Value"]`);
+                    if (!attrInput.value.trim() || (i <= 1 && (!isNumeric(attrInput.value.trim()) || parseFloat(attrInput.value) <= 0))) {
+                        showError(attrInput, (i <= 1 ? "This field must be a positive number." : "This field is required."));
+                        isValid = false;
+                    } else {
+                        clearError(attrInput);
+                    }
+                }
+
+                if (!isValid) e.preventDefault();
+            });
+
+            // Live Restrict Name to Alphabets Only
+            form.querySelector('input[name="Name"]').addEventListener('input', function () {
+                this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+            });
+
+            // Live Numeric Restrictors
+            ['SumInsured', 'Premium'].forEach(fieldName => {
+                const input = form.querySelector(`input[name="${fieldName}"]`);
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^0-9.]/g, '');
+                });
+            });
+
+            // Live for Attributes (Numeric - min & max age)
+            ['min_entry_age', 'max_entry_age'].forEach(attrId => {
+                const input = form.querySelector(`#${attrId}`);
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
+        });
+    </script>
+
 }
 
 

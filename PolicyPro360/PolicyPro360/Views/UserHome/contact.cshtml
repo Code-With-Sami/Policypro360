@@ -125,4 +125,44 @@
 <!--Contact Page End-->
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @* Razor ignore *@
+<script>
+    //<![CDATA[
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.querySelector('form');
+
+        if (!form) return;
+
+        function showError(input, message) {
+            var errorSpan = input.parentElement.querySelector('.text-danger');
+            if (errorSpan) {
+                errorSpan.textContent = message;
+            }
+        }
+
+        function clearError(input) {
+            var errorSpan = input.parentElement.querySelector('.text-danger');
+            if (errorSpan) {
+                errorSpan.textContent = '';
+            }
+        }
+
+        function isAlpha(value) {
+            return /^[a-zA-Z\s]+$/.test(value);
+        }
+
+
+        function isNumeric(value) {
+            return /^\\d+$/.test(value);
+        }
+
+        // Your form submit + real-time validation logic here...
+
+    });
+    //]]>
+</script>
+
+
+
 }

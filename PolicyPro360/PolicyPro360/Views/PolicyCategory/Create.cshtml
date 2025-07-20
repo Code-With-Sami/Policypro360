@@ -107,4 +107,59 @@
 </main>
 
 
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.querySelector('form');
 
+            if (!form) return;
+
+            function showError(input, message) {
+                var errorSpan = input.parentElement.querySelector('.text-danger');
+                if (errorSpan) {
+                    errorSpan.textContent = message;
+                }
+            }
+
+            function clearError(input) {
+                var errorSpan = input.parentElement.querySelector('.text-danger');
+                if (errorSpan) {
+                    errorSpan.textContent = '';
+                }
+            }
+
+            function isAlpha(value) {
+                return /^[a-zA-Z\s]+$/.test(value);
+            }
+
+            form.addEventListener('submit', function (e) {
+                let isValid = true;
+
+                var name = form.querySelector('input[name="Name"]');
+                if (!name.value.trim() || !isAlpha(name.value.trim())) {
+                    showError(name, "Category name is required and should contain only letters.");
+                    isValid = false;
+                } else {
+                    clearError(name);
+                }
+
+                var description = form.querySelector('input[name="Description"]');
+                if (!description.value.trim() || description.value.trim().length < 5) {
+                    showError(description, "Description is required (min 5 characters).");
+                    isValid = false;
+                } else {
+                    clearError(description);
+                }
+
+                // You can add Status validation if required
+                if (!isValid) e.preventDefault();
+            });
+
+            // Real-time validation for Name (letters only)
+            var nameInput = form.querySelector('input[name="Name"]');
+            nameInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+            });
+        });
+    </script>
+}
