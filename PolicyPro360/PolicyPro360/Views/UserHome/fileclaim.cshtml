@@ -122,7 +122,7 @@
                         @Html.AntiForgeryToken()
 
                         <div class="mb-3">
-                            <label asp-for="SelectedCategoryId" class="form-label text-white">Select Company</label>
+                            <label asp-for="SelectedCategoryId" class="form-label text-white">Select Category</label>
                             <select asp-for="SelectedCategoryId" class="form-select " id="SelectedCategoryId">
                                 <option value="">-- Select Category --</option>
                                 @foreach (var category in Model.Categories)

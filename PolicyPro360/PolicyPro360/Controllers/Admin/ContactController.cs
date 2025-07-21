@@ -53,31 +53,6 @@ namespace PolicyPro360.Controllers.Admin
         }
 
 
-        public IActionResult Edit(int id)
-        {
-            var contact = _context.Tbl_Contact.FirstOrDefault(c => c.Id == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View("~/Views/AdminContact/Edit.cshtml", contact);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Tbl_Contact.Update(contact);
-                _context.SaveChanges();
-                TempData["SuccessMessage"] = "Contact updated successfully.";
-                return RedirectToAction(nameof(Index));
-            }
-            return View("~/Views/AdminContact/Edit.cshtml", contact);
-        }
-
         public IActionResult Delete(int id)
         {
             var contact = _context.Tbl_Contact.FirstOrDefault(c => c.Id == id);
