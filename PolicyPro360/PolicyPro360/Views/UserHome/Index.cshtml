@@ -759,7 +759,7 @@
                             <div class="news-eight__single__content">
                                 <ul class="news-eight__single__meta">
                                     <li>
-                                        <span class="fas fa-user-circle"></span><a href="@Url.Action("detailedNews", "Home", new { id = blog.Id })">@blog.AuthorName</a>
+                                        <span class="fas fa-user-circle"></span><a href="@Url.Action("detailedNews", "UserHome", new { id = blog.Id })">@blog.AuthorName</a>
                                     </li>
                                 </ul>
                                 <h3 class="news-eight__single__title">
@@ -797,11 +797,11 @@
                                 </div>
                                 <ul class="news-eight__single__meta">
                                     <li>
-                                        <span class="fas fa-user-circle"></span><a href ="@Url.Action("detailedNews", "Home", new { id = blog.Id })">@blog.AuthorName</a>
+                                        <span class="fas fa-user-circle"></span><a href ="@Url.Action("detailedNews", "UserHome", new { id = blog.Id })">@blog.AuthorName</a>
                                     </li>
                                 </ul>
                                 <h3 class="news-eight__single__title">
-                                    <a href="@Url.Action("detailedNews", "Home", new { id = blog.Id })">
+                                    <a href="@Url.Action("detailedNews", "UserHome", new { id = blog.Id })">
                                         @blog.Title
                                     </a>
                                 </h3>

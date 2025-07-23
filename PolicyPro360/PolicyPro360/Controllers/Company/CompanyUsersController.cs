@@ -119,12 +119,10 @@ namespace PolicyPro360.Controllers.Company
 
             if (Status == "Accepted")
             {
-                // Calculate total company wallet balance by summing all transactions
                 var totalCompanyBalance = _context.Tbl_CompanyWallet
                     .Where(w => w.CompanyId == companyId)
                     .Sum(w => w.Amount);
 
-                // Debug information
                 var companyTransactions = _context.Tbl_CompanyWallet
                     .Where(w => w.CompanyId == companyId)
                     .ToList();
@@ -168,7 +166,6 @@ namespace PolicyPro360.Controllers.Company
                         _context.Tbl_UserWallet.Update(userWallet);
                     }
 
-                    // Update claim status
                     claim.Status = Status;
 
                     try

@@ -1,0 +1,271 @@
+Sample policies buyer: 
+
+ Example 1 — Ali Raza buys a Life Insurance Policy
+User: Ali Raza
+
+Policy Name: Secure Life Plus
+
+Policy Category: Life Insurance
+
+Company: Apex LifeSecure Pvt. Ltd.
+
+Sum Insured: 2,000,000 PKR
+
+Premium: 25,000 PKR annually
+
+Tenure: 15 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 2 — Fatima Zahra buys a Medical Insurance Policy
+User: Fatima Zahra
+
+Policy Name: Family Health Guard
+
+Policy Category: Medical Insurance
+
+Company: MediCare Shield Pakistan
+
+Sum Insured: 1,000,000 PKR
+
+Premium: 12,500 PKR annually
+
+Tenure: 5 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 3 — Usman Javed buys a Motor Insurance Policy
+User: Usman Javed
+
+Policy Name: Motor Max Protection
+
+Policy Category: Motor Insurance
+
+Company: AutoSecure Insurance Co.
+
+Sum Insured: 1,200,000 PKR
+
+Premium: 18,000 PKR annually
+
+Tenure: 3 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 4 — Ayesha Khan buys a Home Insurance Policy
+User: Ayesha Khan
+
+Policy Name: Home Shield Premium
+
+Policy Category: Home Insurance
+
+Company: HomeGuard Assurance Ltd.
+
+Sum Insured: 5,000,000 PKR
+
+Premium: 40,000 PKR annually
+
+Tenure: 10 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 5 — Hamza Sheikh buys a Life Insurance Policy
+User: Hamza Sheikh
+
+Policy Name: Life Secure Plan
+
+Policy Category: Life Insurance
+
+Company: Apex LifeSecure Pvt. Ltd.
+
+Sum Insured: 3,000,000 PKR
+
+Premium: 30,000 PKR annually
+
+Tenure: 20 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 6 — Sana Iqbal buys a Medical Insurance Policy
+User: Sana Iqbal
+
+Policy Name: HealthCare Pro Plan
+
+Policy Category: Medical Insurance
+
+Company: MediCare Shield Pakistan
+
+Sum Insured: 2,000,000 PKR
+
+Premium: 15,000 PKR annually
+
+Tenure: 5 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+
+Example 7 — Ahmed Siddiqui buys 2 Policies
+User: Ahmed Siddiqui
+
+Policy 1:
+
+Policy Name: Motor Elite Cover
+
+Category: Motor Insurance
+
+Company: AutoSecure Insurance Co.
+
+Sum Insured: 1,800,000 PKR
+
+Premium: 22,000 PKR annually
+
+Tenure: 5 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+Policy 2:
+
+Policy Name: Health Plus Family Pack
+
+Category: Medical Insurance
+
+Company: MediCare Shield Pakistan
+
+Sum Insured: 2,500,000 PKR
+
+Premium: 18,500 PKR annually
+
+Tenure: 5 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 8 — Zainab Hussain buys 2 Policies
+User: Zainab Hussain
+
+Policy 1:
+
+Policy Name: Home Safety Plus
+
+Category: Home Insurance
+
+Company: HomeGuard Assurance Ltd.
+
+Sum Insured: 4,000,000 PKR
+
+Premium: 35,000 PKR annually
+
+Tenure: 10 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+Policy 2:
+
+Policy Name: Secure Life Gold
+
+Category: Life Insurance
+
+Company: Apex LifeSecure Pvt. Ltd.
+
+Sum Insured: 2,500,000 PKR
+
+Premium: 28,000 PKR annually
+
+Tenure: 15 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 9 — Hassan Ali buys a Motor Policy
+User: Hassan Ali
+
+Policy Name: Auto Guard Premium
+
+Category: Motor Insurance
+
+Company: AutoSecure Insurance Co.
+
+Sum Insured: 1,000,000 PKR
+
+Premium: 16,500 PKR annually
+
+Tenure: 3 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 10 — Maria Saeed buys Home & Medical Insurance
+User: Maria Saeed
+
+Policy 1:
+
+Policy Name: Home Protection Standard
+
+Category: Home Insurance
+
+Company: HomeGuard Assurance Ltd.
+
+Sum Insured: 3,000,000 PKR
+
+Premium: 28,000 PKR annually
+
+Tenure: 8 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+Policy 2:
+
+Policy Name: Medical Cover Basic Plan
+
+Category: Medical Insurance
+
+Company: MediCare Shield Pakistan
+
+Sum Insured: 1,200,000 PKR
+
+Premium: 11,000 PKR annually
+
+Tenure: 3 years
+
+Purchase Date: 2025-07-15
+
+Status: Active
+
+✅ Example 11 — Hamza Sheikh buys a Motor Insurance
+User: Hamza Sheikh
+
+Policy Name: Auto Secure Ultimate
+
+Category: Motor Insurance
+
+Company: AutoSecure Insurance Co.
+
+Sum Insured: 2,000,000 PKR
+
+Premium: 25,000 PKR annually
+
+Tenure: 5 years
+
+Purchase Date: 2025-07-15
+
+Status: Active

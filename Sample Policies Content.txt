@@ -1,0 +1,515 @@
+ Home Insurance Policies
+1️⃣ SafeHome Essential Cover
+
+Description: Basic protection for homeowners covering fire, theft, and natural disasters.
+
+SumInsured: PKR 2,000,000
+
+Premium: PKR 12,000/year
+
+Tenure: 1 Year
+
+Terms & Conditions: Coverage limited to property damages only.
+
+Property Type: Residential House
+
+Coverage Type: Fire, Theft, Natural Calamities
+
+Property Age: Up to 30 Years
+
+Construction Type: RCC (Reinforced Concrete)
+
+Location Risk Level: Medium Risk
+
+Add-on Covers: Burglary Protection
+
+Exclusions: War, Nuclear Risks
+
+2️⃣ HomeShield Plus
+
+Description: Comprehensive cover for property and contents with high coverage.
+
+SumInsured: PKR 5,000,000
+
+Premium: PKR 25,000/year
+
+Tenure: 2 Years
+
+Property Type: Villa
+
+Coverage Type: All Risk
+
+Property Age: Up to 20 Years
+
+Construction Type: Brick
+
+Location Risk Level: Low Risk
+
+Add-on Covers: Jewelry & Valuables Cover
+
+Exclusions: Terrorism, Intentional Damage
+
+3️⃣ PropertyGuard Standard
+
+Description: Standard home insurance for apartments with flexible add-ons.
+
+SumInsured: PKR 3,000,000
+
+Premium: PKR 15,000/year
+
+Tenure: 1 Year
+
+Property Type: Apartment
+
+Coverage Type: Named Perils
+
+Property Age: Up to 15 Years
+
+Construction Type: Concrete
+
+Location Risk Level: Low
+
+Add-on Covers: Electrical Appliances Protection
+
+Exclusions: Acts of God
+
+🏥 Medical Insurance Policies
+4️⃣ MediCare Silver Plan
+
+Description: Affordable medical plan with essential hospitalization coverage.
+
+SumInsured: PKR 500,000
+
+Premium: PKR 6,000/year
+
+Tenure: 1 Year
+
+Coverage Type: Hospitalization & Surgical
+
+Min Entry Age: 18
+
+Max Entry Age: 55
+
+Pre Hospitalization: 30 Days
+
+Post Hospitalization: 60 Days
+
+Day Care Procedures: Yes
+
+Co Payment Clause: 10%
+
+Waiting Period: 30 Days
+
+Add-on Covers: Maternity Benefits
+
+Exclusions: Pre-existing Diseases in Waiting Period
+
+5️⃣ HealthSecure Premium Plan
+
+Description: Comprehensive medical coverage with high limits and special coverages.
+
+SumInsured: PKR 1,000,000
+
+Premium: PKR 15,000/year
+
+Tenure: 2 Years
+
+Coverage Type: Comprehensive Health Plan
+
+Min Entry Age: 25
+
+Max Entry Age: 60
+
+Pre Hospitalization: 60 Days
+
+Post Hospitalization: 90 Days
+
+Day Care Procedures: 250+ Procedures
+
+Co Payment Clause: Nil
+
+Waiting Period: 15 Days
+
+Add-on Covers: Critical Illness Cover
+
+Exclusions: Cosmetic Treatments
+
+6️⃣ CarePlus Family Plan
+
+Description: Family floater plan with affordable premiums and added day care benefits.
+
+SumInsured: PKR 800,000
+
+Premium: PKR 10,000/year
+
+Tenure: 1 Year
+
+Coverage Type: Family Floater
+
+Min Entry Age: 1 Year (Child)
+
+Max Entry Age: 60
+
+Pre Hospitalization: 30 Days
+
+Post Hospitalization: 60 Days
+
+Day Care Procedures: Yes
+
+Co Payment Clause: 15% on Pre-existing
+
+Waiting Period: 60 Days
+
+Add-on Covers: Health Checkups
+
+Exclusions: Alternative Therapies
+
+🚗 Motor Insurance Policies
+7️⃣ AutoSecure Basic Plan
+
+Description: Third-party liability with limited personal accident cover.
+
+SumInsured: PKR 1,000,000
+
+Premium: PKR 7,500/year
+
+Tenure: 1 Year
+
+Coverage Type: Third-Party Only
+
+Vehicle Type: Car
+
+Engine Capacity: 1000cc
+
+Vehicle Age Limit: 10 Years
+
+Insured Declared Value: PKR 1,200,000
+
+Add-on Covers: Personal Accident Cover
+
+Claim Limit: PKR 500,000
+
+Exclusions: Racing Events
+
+8️⃣ DriveSafe Comprehensive Plan
+
+Description: Full coverage for own damage, theft, and third-party.
+
+SumInsured: PKR 2,500,000
+
+Premium: PKR 18,000/year
+
+Tenure: 1 Year
+
+Coverage Type: Comprehensive
+
+Vehicle Type: SUV
+
+Engine Capacity: 2000cc
+
+Vehicle Age Limit: 5 Years
+
+Insured Declared Value: PKR 2,800,000
+
+Add-on Covers: Zero Depreciation
+
+Claim Limit: Full Insured Value
+
+Exclusions: Drunken Driving
+
+9️⃣ BikeProtect Essential
+
+Description: Two-wheeler insurance with theft and accidental coverage.
+
+SumInsured: PKR 150,000
+
+Premium: PKR 2,500/year
+
+Tenure: 1 Year
+
+Coverage Type: Comprehensive Bike Cover
+
+Vehicle Type: Motorcycle
+
+Engine Capacity: 125cc
+
+Vehicle Age Limit: 5 Years
+
+Insured Declared Value: PKR 150,000
+
+Add-on Covers: Rider Personal Accident
+
+Claim Limit: Full Insured Amount
+
+Exclusions: Illegal Racing
+
+👨‍👩‍👧‍👦 Life Insurance Policies
+🔟 LifeGuard Term Plan
+
+Description: Pure term insurance with high sum assured for affordable premium.
+
+SumInsured: PKR 5,000,000
+
+Premium: PKR 8,000/year
+
+Tenure: 10 Years
+
+Min Entry Age: 18
+
+Max Entry Age: 60
+
+Maturity Benefit: None
+
+Death Benefit: Full Sum Insured
+
+Riders Available: Accidental Death Benefit
+
+Premium Frequency: Annual
+
+Premium Payment Term: 10 Years
+
+Exclusions: Suicide within 1 year
+
+Here are 10 more sample policies (covering all four categories) with realistic details for your system:
+
+🏡 Home Insurance Policies
+1️⃣ Premium Home Protection Plan
+
+Description: High-value home insurance with extended cover for valuable contents and electronics.
+
+SumInsured: PKR 10,000,000
+
+Premium: PKR 50,000/year
+
+Tenure: 3 Years
+
+Property Type: Bungalow
+
+Coverage Type: All Risk Comprehensive
+
+Property Age: Up to 10 Years
+
+Construction Type: RCC & Brick
+
+Location Risk Level: Low
+
+Add-on Covers: Earthquake & Flood Cover
+
+Exclusions: Wilful Damage, Illegal Use
+
+2️⃣ Apartment Safety Cover
+
+Description: Specialized policy for apartment owners covering structural and internal damages.
+
+SumInsured: PKR 2,500,000
+
+Premium: PKR 8,000/year
+
+Tenure: 1 Year
+
+Property Type: Apartment
+
+Coverage Type: Fire & Theft
+
+Property Age: Up to 20 Years
+
+Construction Type: Brick
+
+Location Risk Level: Medium
+
+Add-on Covers: Furniture & Fixtures Cover
+
+Exclusions: Non-Disclosure of Renovations
+
+🏥 Medical Insurance Policies
+3️⃣ Family Health Protector
+
+Description: Health insurance for family with hospitalization and maternity benefits.
+
+SumInsured: PKR 1,500,000
+
+Premium: PKR 20,000/year
+
+Tenure: 2 Years
+
+Coverage Type: Family Floater with Maternity
+
+Min Entry Age: 1
+
+Max Entry Age: 65
+
+Pre Hospitalization: 60 Days
+
+Post Hospitalization: 90 Days
+
+Day Care Procedures: 400+ Procedures
+
+Co Payment Clause: 10% After Age 60
+
+Waiting Period: 30 Days
+
+Add-on Covers: Newborn Cover
+
+Exclusions: Dental & Optical
+
+4️⃣ MediSecure Senior Citizen Plan
+
+Description: Designed for senior citizens with coverage for chronic diseases.
+
+SumInsured: PKR 800,000
+
+Premium: PKR 18,000/year
+
+Tenure: 1 Year
+
+Coverage Type: Senior Citizen Health Plan
+
+Min Entry Age: 60
+
+Max Entry Age: 75
+
+Pre Hospitalization: 30 Days
+
+Post Hospitalization: 60 Days
+
+Day Care Procedures: Yes
+
+Co Payment Clause: 20%
+
+Waiting Period: 90 Days
+
+Add-on Covers: Home Care Assistance
+
+Exclusions: Experimental Treatments
+
+🚗 Motor Insurance Policies
+5️⃣ FastTrack Motor Cover
+
+Description: Comprehensive car insurance with instant claim service.
+
+SumInsured: PKR 2,000,000
+
+Premium: PKR 14,000/year
+
+Tenure: 1 Year
+
+Coverage Type: Comprehensive
+
+Vehicle Type: Sedan
+
+Engine Capacity: 1600cc
+
+Vehicle Age Limit: 7 Years
+
+Insured Declared Value: PKR 2,100,000
+
+Add-on Covers: Roadside Assistance
+
+Claim Limit: Full Sum Insured
+
+Exclusions: Unauthorized Driving
+
+👨‍👩‍👧‍👦 Life Insurance Policies
+7️⃣ Lifetime Secure Savings Plan
+
+Description: Life cover with savings benefit on maturity for long-term financial planning.
+
+SumInsured: PKR 3,000,000
+
+Premium: PKR 10,000/year
+
+Tenure: 15 Years
+
+Min Entry Age: 21
+
+Max Entry Age: 55
+
+Maturity Benefit: Full Sum Insured with Bonus
+
+Death Benefit: Sum Insured + Bonus
+
+Riders Available: Accidental Death, Critical Illness
+
+Premium Frequency: Yearly
+
+Premium Payment Term: 15 Years
+
+Exclusions: Death by Suicide in First Year
+
+8️⃣ Term Life Cover Advantage
+
+Description: High sum assured term life plan with fixed premiums.
+
+SumInsured: PKR 7,000,000
+
+Premium: PKR 12,000/year
+
+Tenure: 10 Years
+
+Min Entry Age: 25
+
+Max Entry Age: 60
+
+Maturity Benefit: Nil
+
+Death Benefit: Full Sum Insured
+
+Riders Available: Disability Cover
+
+Premium Frequency: Half-Yearly
+
+Premium Payment Term: 10 Years
+
+Exclusions: Death in Illegal Activities
+
+9️⃣ Child Future Secure Plan
+
+Description: Life cover with education savings for child’s future.
+
+SumInsured: PKR 2,000,000
+
+Premium: PKR 8,000/year
+
+Tenure: 18 Years
+
+Min Entry Age: 0 (Child)
+
+Max Entry Age: 40 (Parent)
+
+Maturity Benefit: Education Fund Payout
+
+Death Benefit: Sum Insured + Waiver of Premium
+
+Riders Available: Waiver of Premium on Death
+
+Premium Frequency: Annual
+
+Premium Payment Term: 18 Years
+
+Exclusions: Non-Disclosure of Pre-existing Health
+
+🔟 Family Income Benefit Plan
+
+Description: Monthly income benefit to family in case of policyholder’s death.
+
+SumInsured: PKR 4,000,000
+
+Premium: PKR 9,500/year
+
+Tenure: 12 Years
+
+Min Entry Age: 30
+
+Max Entry Age: 60
+
+Maturity Benefit: Nil
+
+Death Benefit: Monthly Income + Lump Sum
+
+Riders Available: Critical Illness
+
+Premium Frequency: Monthly
+
+Premium Payment Term: 12 Years
+
+Exclusions: Fraudulent Claims
