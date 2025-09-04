@@ -164,7 +164,7 @@
 /* gradient colors */
 
 .bg-grd-primary {
-	background-image: linear-gradient(310deg,#7928ca,#ff0080) !important;
+	background-image: linear-gradient(310deg, #171827, #f5a526) !important;
 }
 
 .bg-grd-success {
@@ -222,8 +222,7 @@
 }
 
 .btn-grd-primary {
-	
-	background-image: linear-gradient(310deg,#7928ca,#ff0080) !important;
+	background-image: linear-gradient(310deg, #f5a526, #f5a526) !important;
 }
 
 .btn-grd-success {

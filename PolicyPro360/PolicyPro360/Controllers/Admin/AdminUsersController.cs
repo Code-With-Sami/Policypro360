@@ -259,6 +259,19 @@ namespace PolicyPro360.Controllers.Admin
             return View(userLoans);
         }
 
+        public IActionResult UserPoliciesByCategory(int categoryId)
+        {
+            var userPolicies = _context.Tbl_UserPolicy
+                .Include(up => up.Policy)
+                .ThenInclude(p => p.Company)
+                .Include(up => up.Policy)
+                .ThenInclude(p => p.Category)
+                .Include(up => up.User)
+                .Where(up => up.Policy.PolicyTypeId == categoryId)
+                .ToList();
+            return View("AllUserPolicies", userPolicies);
+        }
+
 
         public IActionResult AllUserClaims()
         {

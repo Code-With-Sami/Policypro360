@@ -1013,12 +1013,29 @@ form select.error:focus {
   background: #eee;
   border-radius: 3px;
 }
-
-/* authentication */
-.border-gradient-1 {
-  -o-border-image: linear-gradient(to right, #7928ca, #ff0080, #04e09a, #e0d504) 1;
-     border-image: linear-gradient(to right, #7928ca, #ff0080, #04e09a, #e0d504) 1;
+.text-yellowish {
+    color: #f5a526 !important;
+    font-weight:600;
 }
+.border-gradient-bs {
+    position: relative;
+    border-radius: 10px;
+    background: #fff; 
+    padding: 20px;
+    overflow: hidden;
+}
+
+
+    .border-gradient-bs::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px; 
+        background: linear-gradient(to right, #f5a526, #171827);
+        border-radius: 10px 10px 0 0; 
+    }
 
 .auth-basic-wrapper {
   width: auto;

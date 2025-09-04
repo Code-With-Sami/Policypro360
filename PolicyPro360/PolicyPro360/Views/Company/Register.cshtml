@@ -4,7 +4,7 @@
 }
 
 <!doctype html>
-<html lang="en" data-bs-theme="blue-theme">
+<html lang="en" data-bs-theme="dark-theme">
 <!-- Mirrored from codervent.com/maxton/demo/vertical-menu/auth-basic-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 13 Jan 2025 04:28:28 GMT -->
 <head>
     <meta charset="utf-8">
@@ -38,9 +38,9 @@
     <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center mt-5">
         <div class="row w-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-5 mx-auto">
-                <div class="card rounded-4 mb-0 border-top border-4 border-primary border-gradient-1">
+                <div class="card rounded-4 mb-0 border-top border-4 border-gradient-bs">
                     <div class="card-body p-5">
-                        <img src="~/logo/logo-light.png" class="mb-4" width="145" alt="">
+                        <img src="~/logo/logo-1.png" class="mb-4" width="180" alt="">
                         <h4 class="fw-bold">Get Started Now</h4>
                         <p class="mb-0">Enter your information to registered your company</p>
 
@@ -178,7 +178,7 @@
 
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button type="submit" class="btn btn-grd-danger">Register Company</button>
+                                        <button type="submit" class="btn btn-grd-primary">Register Company</button>
                                     </div>
                                 </div>
                             
@@ -187,7 +187,7 @@
 
                         <div class="col-12">
                             <div class="text-start">
-                                Already Registered? <a href="@Url.Action("Login", "Company")"><p class="mb-0 text-white">Go To Login</p></a>
+                                Already Registered? <a href="@Url.Action("Login", "Company")"><p class="mb-0 text-yellowish">Go To Login</p></a>
                             </div>
                         </div>
 
@@ -229,7 +229,7 @@
     </script>
 
 
-        // Real time form Validation 
+        @* // Real time form Validation  *@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
