@@ -162,6 +162,8 @@ namespace PolicyPro360.Controllers.User
             {
                 var policies = _context.Tbl_Policy
                     .Include(p => p.Category)
+                    .Include(p => p.Company)
+                    .Include(p => p.Attributes)
                     .Where(p => p.Active && p.Category != null)
                     .ToList();
 

@@ -221,26 +221,42 @@
                         <div class="alert alert-success text-dark">@TempData["SuccessMessage"]</div>
                     }
 
-                    @if (ViewBag.LoanInstallment != null)
+                    @if (ViewBag.LoanInstallment != null && ViewBag.LoanInstallment.Status != "Paid")
                     {
-                        <div class="card mt-4">
-                            <div class="card-header">
-                                <h5>Loan Installment Payment (This Month)</h5>
+                        <div class="card shadow-lg border-0 mt-4" style="background-color:#1e1f30; color:white; border-radius:12px;">
+                            <div class="card-header d-flex justify-content-between align-items-center"
+                                 style="background-color:#f5a526; color:#1e1f30; border-radius:12px 12px 0 0;">
+                                <h5 class="mb-0">
+                                    <i class="ti ti-credit-card me-2"></i> Loan Installment (This Month)
+                                </h5>
+                                <span class="badge" style="background-color:white; color:#1e1f30;">Pending</span>
                             </div>
                             <div class="card-body">
-                                <p><strong>Amount Due:</strong> @ViewBag.LoanInstallment.Amount.ToString("N0") PKR</p>
-                                <form asp-action="PayLoanInstallmentManual" method="post">
+                                <p class="fs-5 mb-3">
+                                    <strong>Amount Due:</strong>
+                                    <span style="color:#f5a526; font-weight:bold;">
+                                        @ViewBag.LoanInstallment.Amount.ToString("N0") PKR
+                                    </span>
+                                </p>
+                                <form asp-action="PayLoanInstallmentManual" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="installmentId" value="@ViewBag.LoanInstallment.Id" />
-                                    <button type="submit" class="btn btn-primary">Pay Now</button>
+                                    <button type="submit" class="btn px-4 py-2"
+                                            style="background-color:#f5a526; color:#1e1f30; font-weight:600; border-radius:8px;">
+                                        <i class="ti ti-cash me-1"></i> Pay Now
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     }
                     else if (ViewBag.LoanInstallment != null && ViewBag.LoanInstallment.Status == "Paid")
                     {
-                        <div class="alert alert-success text-dark mt-4">
-                            You have paid your loan installment for this month.
+                        <div class="alert mt-4 d-flex align-items-center"
+                             style="background-color:#f5a526; color:#1e1f30; border-radius:10px;">
+                            <i class="ti ti-check-circle me-2 fs-4"></i>
+                            <div>
+                                <strong>Congratulations!</strong> You have paid your loan installment for this month.
+                            </div>
                         </div>
                     }
 

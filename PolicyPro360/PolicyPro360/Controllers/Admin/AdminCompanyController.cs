@@ -10,10 +10,15 @@ namespace PolicyPro360.Controllers.Admin
         private readonly myContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AdminCompanyController(myContext context, IWebHostEnvironment webHostEnvironment)
+        private readonly PolicyPro360.Services.IEmailService _emailService;
+        private readonly Microsoft.Extensions.Options.IOptions<PolicyPro360.Models.EmailSettings> _emailOptions;
+
+        public AdminCompanyController(myContext context, IWebHostEnvironment webHostEnvironment, PolicyPro360.Services.IEmailService emailService, Microsoft.Extensions.Options.IOptions<PolicyPro360.Models.EmailSettings> emailOptions)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _emailService = emailService;
+            _emailOptions = emailOptions;
         }
 
         public async Task<IActionResult> Index()
@@ -54,24 +59,54 @@ namespace PolicyPro360.Controllers.Admin
             return View(company);
         }
 
-        public IActionResult Approve(int id)
+        public async Task<IActionResult> Approve(int id)
         {
             var company = _context.Tbl_Company.Find(id);
             if (company != null)
             {
                 company.Status = "Approved";
                 _context.SaveChanges();
+
+                // Send approval email
+                if (!string.IsNullOrWhiteSpace(company.Email))
+                {
+                    var brand = string.IsNullOrWhiteSpace(_emailOptions.Value.DisplayName) ? "Asaan Zindagi" : _emailOptions.Value.DisplayName;
+                    var subject = $"Your company has been approved - {brand}";
+                    var body = $@"<div style='font-family:Segoe UI,Arial,sans-serif;font-size:14px;color:#222'>
+                        <h2 style='color:#f5a526;margin:0 0 10px'>Approval Confirmed</h2>
+                        <p>Dear {company.CompanyName},</p>
+                        <p>We are pleased to inform you that your company account has been <strong>approved</strong> on {brand}.</p>
+                        <p>You can now sign in and start managing your policies.</p>
+                        <p style='margin-top:20px'>Regards,<br/>{brand} Team</p>
+                    </div>";
+                    try { await _emailService.SendAsync(company.Email, subject, body); } catch { }
+                }
             }
             return RedirectToAction("Index");
         }
 
-        public IActionResult Reject(int id)
+        public async Task<IActionResult> Reject(int id)
         {
             var company = _context.Tbl_Company.Find(id);
             if (company != null)
             {
                 company.Status = "Rejected";
                 _context.SaveChanges();
+
+                // Send rejection email
+                if (!string.IsNullOrWhiteSpace(company.Email))
+                {
+                    var brand = string.IsNullOrWhiteSpace(_emailOptions.Value.DisplayName) ? "Asaan Zindagi" : _emailOptions.Value.DisplayName;
+                    var subject = $"Company registration update - {brand}";
+                    var body = $@"<div style='font-family:Segoe UI,Arial,sans-serif;font-size:14px;color:#222'>
+                        <h2 style='color:#dc3545;margin:0 0 10px'>Registration Status Update</h2>
+                        <p>Dear {company.CompanyName},</p>
+                        <p>We regret to inform you that your company registration has been <strong>rejected</strong> on {brand}.</p>
+                        <p>If you have any questions or would like to reapply, please contact our support team.</p>
+                        <p style='margin-top:20px'>Regards,<br/>{brand} Team</p>
+                    </div>";
+                    try { await _emailService.SendAsync(company.Email, subject, body); } catch { }
+                }
             }
             return RedirectToAction("Index");
         }

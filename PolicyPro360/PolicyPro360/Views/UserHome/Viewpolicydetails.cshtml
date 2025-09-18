@@ -6,17 +6,12 @@
 }
 
 <style>
-    /* ============================================= */
-    /*     POLICY DETAILS PAGE - FINAL VERSION       */
-    /* ============================================= */
-
-    /* --- Overall Page Styling --- */
     .policy-details-final-page {
-        background-color: #1c1d2e; /* Dark theme background */
+        background-color: #1c1d2e;
         padding: 50px 0;
     }
 
-    /* --- Left Side: Main Content Card --- */
+
     .policy-main-content {
         background-color: #171827;
         border-radius: 12px;
@@ -57,7 +52,7 @@
                 flex-shrink: 0;
             }
 
-    /* --- Left Side: Key Metrics --- */
+
     .key-metrics-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -90,7 +85,7 @@
                 margin-right: 10px;
             }
 
-    /* --- Left Side: Terms & Exclusions --- */
+
     .details-section-heading {
         color: #ffffff;
         font-weight: 600;
@@ -121,16 +116,16 @@
             }
 
 
-    /* --- Right Side: The Single Sidebar --- */
+
     .policy-sidebar {
         background-color: #171827;
         border-radius: 12px;
         padding: 25px;
         position: sticky;
-        top: 100px; /* Adjust if you have a sticky header */
+        top: 100px; 
     }
 
-    /* --- Sidebar: Company Header --- */
+
     .sidebar-company-header {
         text-align: center;
         padding-bottom: 20px;
@@ -142,8 +137,8 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            object-fit: contain; /* Use contain for logos */
-            background-color: #ffffff; /* White background for logos */
+            object-fit: contain; 
+            background-color: #ffffff; 
             padding: 5px;
             margin-bottom: 15px;
         }
@@ -159,7 +154,7 @@
             font-size: 0.85rem;
         }
 
-    /* --- Sidebar: Details List --- */
+
     .sidebar-details-item {
         padding: 10px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -188,7 +183,7 @@
                 font-weight: 700;
             }
 
-    /* --- Sidebar: Contact Info & Button --- */
+
     .sidebar-contact-info {
         padding-top: 15px;
     }
@@ -215,20 +210,132 @@
         color: #171827;
         text-align: center;
         font-size: 1rem;
-        font-weight: 700;
+        font-weight: 800;
         border-radius: 8px;
         text-decoration: none;
         transition: all 0.3s ease;
         margin-top: 20px;
     }
 
-        .sidebar-button:hover {
+     .sidebar-button:hover {
             background-color: #ffffff;
             color: #171827;
+               font-weight: 800;
+     }
+
+    .compare-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #171827;
+        border-top: 2px solid #f5a526;
+        padding: 10px 16px;
+        z-index: 1050;
+        display: none;
+    }
+
+    .compare-pill {
+        background: #2a2c41;
+        color: #fff;
+        border: 1px solid rgba(245,165,38,.4);
+        border-radius: 999px;
+        padding: 6px 12px;
+        margin-right: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .compare-pill button {
+            border: 0;
+            background: transparent;
+            color: #f5a526;
         }
 
-
+    .compare-btn {
+        background: #f5a526;
+        color: #171827;
+        border: 0;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 700;
     }
+
+        .compare-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+    .compare-toast {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        background: #2a2c41;
+        color: #fff;
+        border: 1px solid rgba(245,165,38,.4);
+        padding: 10px 14px;
+        border-radius: 8px;
+        z-index: 1100;
+        display: none;
+    }
+
+    .compare-table thead th {
+        position: sticky;
+        top: 0;
+        background: #1e2032;
+        z-index: 2;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .compare-table .sticky-col {
+        position: sticky;
+        left: 0;
+        background: #1e2032;
+        z-index: 3;
+    }
+
+    .compare-table tbody th.sticky-col {
+        background: #1e2032;
+    }
+
+    .compare-table tbody tr:nth-child(odd) {
+        background-color: rgba(255,255,255,.02);
+    }
+
+    .compare-table td, .compare-table th {
+        vertical-align: middle;
+    }
+
+    .compare-table td {
+        border-color: rgba(255,255,255,.06);
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.08);
+    }
+
+
+    .btn-compare {
+        border-radius: 999px;
+        border: 1px solid rgba(245,165,38,.6);
+        color: #f5a526;
+        background: transparent;
+        padding: 10px 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all .25s ease;
+    }
+
+        .btn-compare:hover {
+            background: #f5a526;
+            color: #171827;
+            border-color: #f5a526;
+            transform: translateY(-1px);
+        }
+    
 </style>
 <!-- Page Header Start -->
 <section class="page-header">
@@ -308,8 +415,7 @@
             <!-- Right Column: The Sidebar -->
             <div class="col-lg-4">
                 <div class="policy-sidebar">
-                    <!-- Company Info Header -->
-                    @if (Model.Company != null)
+                     @if (Model.Company != null)
                     {
                         <div class="sidebar-company-header">
                             <div class="logo-container">
@@ -333,14 +439,10 @@
                             </div>
                         </div>
 
-                        <!-- ==================================================================== -->
-                        <!-- FINAL FIX FOR DOUBLE DATA: Check for displayed keys -->
-                        <!-- ==================================================================== -->
+               
                         @{
-                            // Keys jo hum pehle hi dikha chuke hain.
+                      
                             var excludedKeys = new List<string> { "exclusions", "sum insured", "premium", "tenure" };
-
-                            // Nayi list: Yeh un keys ko track karegi jo is loop mein display ho chuki hain.
                             var displayedAttributeKeys = new HashSet<string>();
                         }
 
@@ -349,8 +451,6 @@
                             foreach (var attr in Model.Attributes)
                             {
                                 var currentKey = attr.Key.Trim().ToLower();
-
-                                // Check: Kya yeh key excluded list mein hai? Ya pehle hi display ho chuki hai?
                                 if (!excludedKeys.Contains(currentKey) && !displayedAttributeKeys.Contains(currentKey))
                                 {
                                     <div class="sidebar-details-item">
@@ -364,7 +464,6 @@
                         }
                     </div>
 
-                    <!-- Contact Info & Action Button -->
                     @if (Model.Company != null)
                     {
                         <div class="sidebar-contact-info">
@@ -392,9 +491,210 @@
                     {
                         <a asp-action="CalculatePremium" asp-controller="UserHome" asp-route-id="@Model.Id" class="sidebar-button mt-3">Get This Policy</a>
                     }
+                    <a href="#" id="addToCompareDetail" class="btn-compare mt-3" style="width:100%; justify-content:center;">
+                        <i class="ti ti-arrows-left-right"></i>
+                        <span>Add to Compare</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- Final Page Layout End -->
+<div class="compare-bar" id="compareBar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div id="compareItems" class="d-flex flex-wrap"></div>
+        <div class="d-flex align-items-center gap-2">
+            <small id="compareHint" class="text-white-50 me-3"></small>
+            <button id="compareNowBtn" class="compare-btn" disabled data-bs-toggle="modal" data-bs-target="#compareModal">Compare Now</button>
+            <button id="compareClearBtn" class="btn btn-sm btn-outline-light">Clear</button>
+        </div>
+    </div>
+    <input type="hidden" id="compareMax" value="3" />
+    <input type="hidden" id="compareMin" value="2" />
+    <input type="hidden" id="compareStorageKey" value="policyCompare" />
+    <input type="hidden" id="compareUnauthorizedMsg" value="Only same category policies can be compared." />
+    <input type="hidden" id="compareLimitMsg" value="You can compare up to 3 policies." />
+</div>
+
+<div class="compare-toast" id="compareToast"></div>
+
+<div class="modal fade" id="compareModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content" style="background:#171827; color:#fff;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Compare Policies</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" style="max-height: 65vh; overflow: auto; border: 1px solid rgba(255,255,255,.08); border-radius: 8px;">
+          <table class="table table-dark table-striped align-middle mb-0 compare-table">
+            <thead>
+              <tr id="cmp-head">
+                <th class="sticky-col">Feature</th>
+              </tr>
+            </thead>
+            <tbody id="cmp-body">
+              <tr data-row="image"><th class="sticky-col">Preview</th></tr>
+              <tr data-row="name"><th class="sticky-col">Name</th></tr>
+              <tr data-row="company"><th class="sticky-col">Company</th></tr>
+              <tr data-row="category"><th class="sticky-col">Category</th></tr>
+              <tr data-row="status"><th class="sticky-col">Status</th></tr>
+              <tr data-row="premium"><th class="sticky-col">Premium</th></tr>
+              <tr data-row="suminsured"><th class="sticky-col">Sum Insured</th></tr>
+              <tr data-row="tenure"><th class="sticky-col">Tenure</th></tr>
+              <tr data-row="description"><th class="sticky-col">Description</th></tr>
+              <tr data-row="action"><th class="sticky-col"></th></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<script>
+    (function(){
+        const storageKey = document.getElementById('compareStorageKey').value;
+        const maxItems = parseInt(document.getElementById('compareMax').value, 10) || 3;
+        const minItems = parseInt(document.getElementById('compareMin').value, 10) || 2;
+        const sameCatMsg = document.getElementById('compareUnauthorizedMsg').value;
+        const limitMsg = document.getElementById('compareLimitMsg').value;
+        const compareBar = document.getElementById('compareBar');
+        const itemsWrap = document.getElementById('compareItems');
+        const compareNowBtn = document.getElementById('compareNowBtn');
+        const compareClearBtn = document.getElementById('compareClearBtn');
+        const hint = document.getElementById('compareHint');
+        const toast = document.getElementById('compareToast');
+
+        function showToast(msg){
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 1500);
+        }
+
+        function getList(){ try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch { return []; } }
+        function saveList(list){ localStorage.setItem(storageKey, JSON.stringify(list)); }
+
+        function updateBar(){
+            const list = getList();
+            if (!list.length){ compareBar.style.display = 'none'; return; }
+            compareBar.style.display = 'block';
+            itemsWrap.innerHTML = '';
+            list.forEach(p => {
+                const pill = document.createElement('div');
+                pill.className = 'compare-pill';
+                pill.innerHTML = `<span>${p.name}</span><button data-remove="${p.id}">×</button>`;
+                itemsWrap.appendChild(pill);
+            });
+            compareNowBtn.disabled = list.length < minItems;
+            hint.textContent = list.length < minItems ? `Select ${minItems - list.length} more to compare` : '';
+        }
+
+        function add(policy){
+            const list = getList();
+            if (list.length) {
+                if (list[0].category !== policy.category) { showToast(sameCatMsg); return; }
+            }
+            if (list.find(x => x.id === policy.id)) { showToast('Already added.'); return; }
+            if (list.length >= maxItems) { showToast(limitMsg); return; }
+            list.push(policy); saveList(list); updateBar(); showToast('Added to compare.');
+        }
+
+        function removeById(id){ const list = getList().filter(p => p.id !== id); saveList(list); updateBar(); }
+
+        const btn = document.getElementById('addToCompareDetail');
+        if(btn){
+            btn.addEventListener('click', function(e){
+                e.preventDefault();
+                const p = {
+                    id: @Model.Id,
+                    name: '@(Model?.Name?.Replace("'", "\\'") ?? "")',
+                    category: @Model.PolicyTypeId,
+                    categoryName: '@(Model?.Category?.Name?.Replace("'", "\\'") ?? "")',
+                    premium: @Model.Premium,
+                    tenure: '@(Model?.Tenure?.Replace("'", "\\'") ?? "")',
+                    suminsured: @Model.SumInsured,
+                    company: '@(Model?.Company?.CompanyName?.Replace("'", "\\'") ?? "")',
+                    description: '@((Model?.Description ?? string.Empty).Replace("\"","\\\"").Replace("\n"," ").Replace("\r"," "))',
+                    image: '@Url.Content("~" + (Model?.BrochureUrl ?? "/user/assets/images/project/default.jpg"))',
+                    active: @((Model?.Active ?? false).ToString().ToLower()),
+                    companyPhone: '@(Model?.Company?.PhoneNo?.Replace("'", "\\'") ?? "")',
+                    companyEmail: '@(Model?.Company?.Email?.Replace("'", "\\'") ?? "")',
+                    companyAddress: '@(Model?.Company?.Address?.Replace("'", "\\'") ?? "")',
+                    terms: '@((Model?.TermsConditions ?? string.Empty).Replace("\"","\\\"").Replace("\n"," ").Replace("\r"," "))',
+                    exclusions: '@(Model?.Attributes?.FirstOrDefault(a => a.Key.ToLower() == "exclusions")?.Value?.Replace("'", "\\'") ?? "")'
+                };
+                add(p);
+            });
+        }
+
+        document.addEventListener('click', function(e){
+            if (e.target && e.target.matches('[data-remove]')){
+                const id = parseInt(e.target.getAttribute('data-remove'), 10);
+                removeById(id);
+            }
+        });
+
+        const compareModal = document.getElementById('compareModal');
+        compareModal.addEventListener('show.bs.modal', function(){
+
+            const list = getList();
+            const head = document.getElementById('cmp-head');
+            const body = document.getElementById('cmp-body');
+            head.innerHTML = '<th>Feature</th>';
+            Array.from(body.querySelectorAll('tr')).forEach(tr => {
+                const th = tr.querySelector('th');
+                tr.innerHTML = '';
+                if (th) tr.appendChild(th);
+            });
+          
+            const ensureRow = (id, label) => {
+                if (!body.querySelector(`tr[data-row="${id}"]`)) {
+                    const tr = document.createElement('tr'); tr.setAttribute('data-row', id);
+                    const th = document.createElement('th'); th.className = 'sticky-col'; th.textContent = label; tr.appendChild(th);
+                    body.appendChild(tr);
+                }
+            };
+            const attrKeys = new Set();
+            list.forEach(p => { (p.attributes || []).forEach(a => { if (a && a.key) attrKeys.add(a.key); }); });
+            ensureRow('companyPhone', 'Company Phone');
+            ensureRow('companyEmail', 'Company Email');
+            ensureRow('companyAddress', 'Company Address');
+            ensureRow('terms', 'Terms & Conditions');
+            ensureRow('exclusions', 'Exclusions');
+            Array.from(attrKeys).forEach(k => ensureRow(`attr_${k}`, k));
+
+            list.forEach(p => {
+                const col = document.createElement('th'); col.textContent = p.name; head.appendChild(col);
+                function td(val, html=false){ const el = document.createElement('td'); if(html){ el.innerHTML = val; } else { el.textContent = val || '-'; } return el; }
+                const imgHtml = p.image ? `<img src='${p.image}' alt='${p.name}' style='width:100px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,.1);'/>` : '-';
+                body.querySelector('tr[data-row="image"]').appendChild(td(imgHtml, true));
+                body.querySelector('tr[data-row="name"]').appendChild(td(p.name));
+                body.querySelector('tr[data-row="company"]').appendChild(td(p.company));
+                body.querySelector('tr[data-row="category"]').appendChild(td(p.categoryName));
+                const statusBadge = `<span class='badge ${p.active ? 'bg-success' : 'bg-danger'}'>${p.active ? 'Active' : 'Inactive'}</span>`;
+                body.querySelector('tr[data-row="status"]').appendChild(td(statusBadge, true));
+                body.querySelector('tr[data-row="premium"]').appendChild(td(p.premium.toLocaleString()))
+                body.querySelector('tr[data-row="suminsured"]').appendChild(td(p.suminsured.toLocaleString()))
+                body.querySelector('tr[data-row="tenure"]').appendChild(td(p.tenure));
+                const descShort = (p.description || '').toString();
+                body.querySelector('tr[data-row="description"]').appendChild(td(descShort));
+                body.querySelector('tr[data-row="companyPhone"]').appendChild(td(p.companyPhone || ''));
+                body.querySelector('tr[data-row="companyEmail"]').appendChild(td(p.companyEmail || ''));
+                body.querySelector('tr[data-row="companyAddress"]').appendChild(td(p.companyAddress || ''));
+                body.querySelector('tr[data-row="terms"]').appendChild(td(p.terms || ''));
+                body.querySelector('tr[data-row="exclusions"]').appendChild(td(p.exclusions || ''));
+                (Array.from(attrKeys)).forEach(k => {
+                    const found = (p.attributes || []).find(a => a && a.key === k);
+                    const row = body.querySelector(`tr[data-row="attr_${k}"]`);
+                    if (row) row.appendChild(td(found ? found.value : '-'));
+                });
+                const actionTd = document.createElement('td');
+                actionTd.innerHTML = `<a href='@Url.Action("ViewPolicyDetails", "UserHome")/${p.id}' class='btn btn-sm btn-warning fw-bold'>Get This Policy</a>`;
+                body.querySelector('tr[data-row="action"]').appendChild(actionTd);
+            });
+        });
+
+        updateBar();
+    })();
+</script>

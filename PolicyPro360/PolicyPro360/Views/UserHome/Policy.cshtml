@@ -4,7 +4,7 @@
 }
 
 <style>
-    /* --- The Main Policy Card --- */
+
     .policy-card {
         background: radial-gradient(circle at top, #2a2c41, #171827); 
         border: 1px solid rgba(245, 165, 38, 0.2);
@@ -60,7 +60,7 @@
     }
 
    
-    /* --- Card Image Container --- */
+
     .policy-card-image-container {
         height: 240px;
         overflow: hidden;
@@ -79,7 +79,7 @@
         transform: scale(1.1);
     }
 
-    /* --- Card Content (The overlay part) --- */
+
     .policy-card-content {
         background-color: #171827;
         padding: 24px;
@@ -94,7 +94,7 @@
         flex-grow: 1; 
     }
 
-    /* --- Policy Title --- */
+
     .policy-card-title {
         margin-top: 10px;
         min-height: 56px;
@@ -113,7 +113,7 @@
                 color: #f5a526;
             }
 
-    /* --- Policy Description --- */
+
     .policy-card-description {
         color: #a9b3c1;
         font-size: 0.9rem;
@@ -132,7 +132,7 @@
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* --- Premium Price --- */
+
     .policy-card-premium {
         font-size: 0.9rem;
         color: #a9b3c1;
@@ -146,18 +146,17 @@
             display: block; 
         }
 
-    /* --- View Details Link (Replaced Button) --- */
     .policy-card-details-link {
         color: #f5a526;
         text-decoration: none;
-        font-weight: 600;
+        font-weight: 700;
         transition: color 0.3s ease, transform 0.3s ease;
     }
 
         .policy-card-details-link .arrow-icon {
             display: inline-block;
             transition: transform 0.3s ease;
-            margin-left: 5px;
+            margin-left: 4px;
         }
 
         .policy-card-details-link:hover {
@@ -234,6 +233,114 @@
                     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
                 }
 
+    .compare-table thead th {
+        position: sticky;
+        top: 0;
+        background: #1e2032;
+        z-index: 2;
+    }
+
+    .compare-table .sticky-col {
+        position: sticky;
+        left: 0;
+        background: #1e2032;
+        z-index: 3;
+    }
+
+    .compare-table tbody th.sticky-col {
+        background: #1e2032;
+    }
+
+    .compare-table td, .compare-table th {
+        vertical-align: middle;
+    }
+
+
+    .policy-card { box-shadow: 0 6px 16px rgba(0,0,0,.18); }
+    .policy-card:hover { box-shadow: 0 16px 32px rgba(245,165,38,.2); }
+    .compare-table tbody tr:nth-child(odd) { background-color: rgba(255,255,255,.02); }
+    .compare-table td { border-color: rgba(255,255,255,.06); }
+    .compare-table thead th { border-bottom: 1px solid rgba(255,255,255,.08); }
+    .modal-content { border-radius: 12px; border: 1px solid rgba(255,255,255,.08); }
+
+    .compare-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #171827;
+        border-top: 2px solid #f5a526;
+        padding: 10px 16px;
+        z-index: 1050;
+        display: none;
+    }
+
+    .compare-pill {
+        background: #2a2c41;
+        color: #fff;
+        border: 1px solid rgba(245,165,38,.4);
+        border-radius: 999px;
+        padding: 6px 12px;
+        margin-right: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .compare-pill button {
+            border: 0;
+            background: transparent;
+            color: #f5a526;
+        }
+
+    .compare-btn {
+        background: #f5a526;
+        color: #171827;
+        border: 0;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 700;
+    }
+
+        .compare-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+
+    .compare-add {
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #a9b3c1;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease; 
+        padding: 6px;
+        border-radius: 8px; 
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px; 
+        height: 38px; 
+        flex-shrink: 0;
+    }
+
+        .compare-add:hover {
+            color: #f5a526; 
+            border-color: #f5a526; 
+            background-color: rgba(245, 165, 38, 0.1); 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 8px rgba(245, 165, 38, 0.2);
+        }
+
+   
+        .compare-add .ti {
+            font-size: 1.2rem; 
+            line-height: 1;
+        }
+
+
+
 </style>
 <!--Page Header Start-->
 <section class="page-header">
@@ -288,8 +395,24 @@
                 @foreach (var policy in Model)
                 {
                     <div class="col-xl-4 col-lg-6 col-md-6 mb-4 portfolio-item" data-category="@policy.PolicyTypeId">
-                        @* --- NEW POLICY CARD MARKUP (V3) --- *@
-                        <div class="policy-card">
+              
+                        <div class="policy-card"
+                             data-id="@policy.Id"
+                             data-name="@policy.Name"
+                             data-category="@policy.PolicyTypeId"
+                             data-categoryname="@policy.Category?.Name"
+                             data-premium="@policy.Premium"
+                             data-tenure="@policy.Tenure"
+                             data-suminsured="@policy.SumInsured"
+                             data-company="@policy.Company?.CompanyName"
+                             data-description="@((policy.Description ?? string.Empty).Replace("\"", "\\\"").Replace("\n"," ").Replace("\r"," "))"
+                             data-active="@policy.Active"
+                             data-image="@Url.Content("~" + (policy.BrochureUrl ?? "/user/assets/images/project/default.jpg"))"
+                             data-companyphone="@policy.Company?.PhoneNo"
+                             data-companyemail="@policy.Company?.Email"
+                             data-companyaddress="@policy.Company?.Address"
+                             data-terms="@((policy.TermsConditions ?? string.Empty).Replace("\"","\\\"").Replace("\n"," ").Replace("\r"," "))"
+                             data-exclusions="@((policy.Attributes?.FirstOrDefault(a => a.Key.ToLower() == "exclusions")?.Value ?? string.Empty).Replace("\"","\\\"").Replace("\n"," ").Replace("\r"," "))">
                             <span class="policy-card-category">@policy.Category?.Name</span>
                             
                             @if (ViewBag.UserBoughtPolicyIds != null && ((List<int>)ViewBag.UserBoughtPolicyIds).Contains(policy.Id))
@@ -305,11 +428,14 @@
                             </a>
 
                             <div class="policy-card-content">
-                                <h5 class="policy-card-title">
+                                <h5 class="policy-card-title d-flex justify-content-between align-items-center">
                                     <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })">
                                         @policy.Name
                                     </a>
+                                   
                                 </h5>
+
+
 
                                 <p class="policy-card-description">
                                     @(policy.Description.Length > 90 ? policy.Description.Substring(0, 90) + "..." : policy.Description)
@@ -318,13 +444,20 @@
                                 <div class="policy-card-footer">
                                     <div class="policy-card-premium">
                                         Starts at
-                                        <span class="price">$@(string.Format("{0:N0}", policy.Premium))</span>
+                                        <span class="price">@string.Format("{0:N0}", policy.Premium) PKR</span>
                                     </div>
-                                    <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="policy-card-details-link">
-                                        View Details <span class="arrow-icon">→</span>
-                                    </a>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="policy-card-details-link me-2">
+                                            View Details <span class="arrow-icon">→</span>
+                                        </a>
+                                       
+                                        <button class="compare-add" title="Add to Compare" data-policy-id="@policy.Id">
+                                            <i class="bi bi-layout-sidebar-inset"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 }
@@ -338,7 +471,6 @@
         </div>
     </div>
 </section>
-<!--Policy Grid End-->
 <!--Policy Grid End-->
 
 <!-- ======================= JAVASCRIPT FOR FILTERING ======================= -->
@@ -369,4 +501,255 @@
             });
         });
     });
+</script>
+
+
+<div class="compare-bar" id="compareBar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div id="compareItems" class="d-flex flex-wrap"></div>
+        <div class="d-flex align-items-center gap-2">
+            <small id="compareHint" class="text-white-50 me-3"></small>
+            <button id="compareNowBtn" class="compare-btn" disabled data-bs-toggle="modal" data-bs-target="#compareModal">Compare Now</button>
+            <button id="compareClearBtn" class="btn btn-sm btn-outline-light">Clear</button>
+        </div>
+    </div>
+    <input type="hidden" id="compareCategoryLock" value="" />
+    <input type="hidden" id="compareCategoryNameLock" value="" />
+    <input type="hidden" id="compareMax" value="3" />
+    <input type="hidden" id="compareMin" value="2" />
+    <input type="hidden" id="compareStorageKey" value="policyCompare" />
+    <input type="hidden" id="compareScope" value="UserHome.Policy" />
+    <input type="hidden" id="compareUnauthorizedMsg" value="Only same category policies can be compared." />
+    <input type="hidden" id="compareLimitMsg" value="You can compare up to 3 policies." />
+</div>
+
+<div class="modal fade" id="compareModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content" style="background:#171827; color:#fff;">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Compare Policies</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" style="max-height: 65vh; overflow: auto; border: 1px solid rgba(255,255,255,.08); border-radius: 8px;">
+          <table class="table table-dark table-striped align-middle mb-0 compare-table">
+            <thead>
+              <tr id="cmp-head">
+                <th class="sticky-col">Feature</th>
+              </tr>
+            </thead>
+            <tbody id="cmp-body">
+              <tr data-row="image"><th class="sticky-col">Preview</th></tr>
+              <tr data-row="name"><th class="sticky-col">Name</th></tr>
+              <tr data-row="company"><th class="sticky-col">Company</th></tr>
+              <tr data-row="category"><th class="sticky-col">Category</th></tr>
+              <tr data-row="status"><th class="sticky-col">Status</th></tr>
+              <tr data-row="premium"><th class="sticky-col">Premium</th></tr>
+              <tr data-row="suminsured"><th class="sticky-col">Sum Insured</th></tr>
+              <tr data-row="tenure"><th class="sticky-col">Tenure</th></tr>
+              <tr data-row="description"><th class="sticky-col">Description</th></tr>
+              <tr data-row="action"><th class="sticky-col"></th></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<script>
+    (function () {
+        const storageKey = document.getElementById('compareStorageKey').value;
+        const compareBar = document.getElementById('compareBar');
+        const itemsWrap = document.getElementById('compareItems');
+        const compareNowBtn = document.getElementById('compareNowBtn');
+        const compareClearBtn = document.getElementById('compareClearBtn');
+        const hint = document.getElementById('compareHint');
+        const maxItems = parseInt(document.getElementById('compareMax').value, 10) || 3;
+        const minItems = parseInt(document.getElementById('compareMin').value, 10) || 2;
+        const sameCatMsg = document.getElementById('compareUnauthorizedMsg').value;
+        const limitMsg = document.getElementById('compareLimitMsg').value;
+
+        function getList() {
+            try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); } catch { return []; }
+        }
+        function saveList(list) { localStorage.setItem(storageKey, JSON.stringify(list)); }
+
+        function categoryLockedTo(list) { return list.length ? list[0].category : null; }
+        function categoryNameLockedTo(list) { return list.length ? (list[0].categoryName || '') : ''; }
+
+        function updateBar() {
+            const list = getList();
+            if (!list.length) {
+                compareBar.style.display = 'none';
+                return;
+            }
+            compareBar.style.display = 'block';
+            itemsWrap.innerHTML = '';
+            list.forEach(p => {
+                const pill = document.createElement('div');
+                pill.className = 'compare-pill';
+                pill.innerHTML = `<span>${p.name}</span><button data-remove="${p.id}">×</button>`;
+                itemsWrap.appendChild(pill);
+            });
+
+            compareNowBtn.disabled = list.length < minItems;
+            hint.textContent = list.length < minItems ? `Select ${minItems - list.length} more to compare` : '';
+        }
+
+        function addFromElement(cardEl) {
+            const list = getList();
+            const policy = {
+                id: parseInt(cardEl.getAttribute('data-id'), 10),
+                name: cardEl.getAttribute('data-name') || '',
+                category: parseInt(cardEl.getAttribute('data-category'), 10),
+                categoryName: cardEl.getAttribute('data-categoryname') || '',
+                premium: parseFloat(cardEl.getAttribute('data-premium') || '0'),
+                tenure: cardEl.getAttribute('data-tenure') || '',
+                suminsured: parseFloat(cardEl.getAttribute('data-suminsured') || '0'),
+                company: cardEl.getAttribute('data-company') || '',
+                description: cardEl.getAttribute('data-description') || '',
+                image: cardEl.getAttribute('data-image') || '',
+                active: /true/i.test(cardEl.getAttribute('data-active') || ''),
+                companyPhone: cardEl.getAttribute('data-companyphone') || '',
+                companyEmail: cardEl.getAttribute('data-companyemail') || '',
+                companyAddress: cardEl.getAttribute('data-companyaddress') || '',
+                terms: cardEl.getAttribute('data-terms') || ''
+            };
+
+            if (list.length) {
+                const lock = categoryLockedTo(list);
+                if (policy.category !== lock) {
+                    alert(sameCatMsg);
+                    return;
+                }
+            }
+            if (list.find(x => x.id === policy.id)) {
+         
+                return;
+            }
+            if (list.length >= maxItems) {
+                alert(limitMsg);
+                return;
+            }
+            list.push(policy);
+            saveList(list);
+            updateBar();
+        }
+
+        function removeById(id) {
+            let list = getList();
+            list = list.filter(p => p.id !== id);
+            saveList(list);
+            updateBar();
+        }
+
+        document.addEventListener('click', function (e) {
+            const addBtn = e.target.closest('.compare-add');
+            if (addBtn) {
+                e.preventDefault();
+                const card = addBtn.closest('.policy-card');
+                if (card) addFromElement(card);
+            }
+            if (e.target && e.target.matches('[data-remove]')) {
+                const id = parseInt(e.target.getAttribute('data-remove'), 10);
+                removeById(id);
+            }
+        });
+
+        compareClearBtn.addEventListener('click', function () {
+            saveList([]);
+            updateBar();
+        });
+
+  
+        const compareModal = document.getElementById('compareModal');
+        compareModal.addEventListener('show.bs.modal', function () {
+
+            function enrichFromDOM(item){
+                const card = document.querySelector(`.policy-card[data-id="${item.id}"]`);
+                if (!card) return item;
+                const ds = card.dataset;
+                const enriched = Object.assign({}, item);
+                if (!enriched.name && ds.name) enriched.name = ds.name;
+                if (!enriched.category && ds.category) enriched.category = parseInt(ds.category, 10) || item.category;
+                if (!enriched.categoryName && ds.categoryname) enriched.categoryName = ds.categoryname;
+                if (!enriched.premium && ds.premium) enriched.premium = parseFloat(ds.premium) || item.premium;
+                if (!enriched.tenure && ds.tenure) enriched.tenure = ds.tenure;
+                if (!enriched.suminsured && ds.suminsured) enriched.suminsured = parseFloat(ds.suminsured) || item.suminsured;
+                if (!enriched.company && ds.company) enriched.company = ds.company;
+                if (!('active' in enriched) && typeof ds.active !== 'undefined') enriched.active = /true/i.test(ds.active);
+                if (!enriched.description && ds.description) enriched.description = ds.description;
+                if (!enriched.image && ds.image) enriched.image = ds.image;
+                if (!enriched.companyPhone && ds.companyphone) enriched.companyPhone = ds.companyphone;
+                if (!enriched.companyEmail && ds.companyemail) enriched.companyEmail = ds.companyemail;
+                if (!enriched.companyAddress && ds.companyaddress) enriched.companyAddress = ds.companyaddress;
+                if (!enriched.terms && ds.terms) enriched.terms = ds.terms;
+                if (!enriched.exclusions && ds.exclusions) enriched.exclusions = ds.exclusions;
+                return enriched;
+            }
+            let list = getList().map(enrichFromDOM);
+            saveList(list);
+            const head = document.getElementById('cmp-head');
+            const body = document.getElementById('cmp-body');
+      
+            head.innerHTML = '<th>Feature</th>';
+            Array.from(body.querySelectorAll('tr')).forEach(tr => {
+                const th = tr.querySelector('th');
+                tr.innerHTML = '';
+                if (th) tr.appendChild(th);
+            });
+
+            const ensureRow = (id, label) => {
+                if (!body.querySelector(`tr[data-row="${id}"]`)) {
+                    const tr = document.createElement('tr'); tr.setAttribute('data-row', id);
+                    const th = document.createElement('th'); th.className = 'sticky-col'; th.textContent = label; tr.appendChild(th);
+                    body.appendChild(tr);
+                }
+            };
+            const attrKeys = new Set();
+            list.forEach(p => { (p.attributes || []).forEach(a => { if (a && a.key) attrKeys.add(a.key); }); });
+            ensureRow('companyPhone', 'Company Phone');
+            ensureRow('companyEmail', 'Company Email');
+            ensureRow('companyAddress', 'Company Address');
+            ensureRow('terms', 'Terms & Conditions');
+            ensureRow('exclusions', 'Exclusions');
+            Array.from(attrKeys).forEach(k => ensureRow(`attr_${k}`, k));
+
+            list.forEach(p => {
+                const col = document.createElement('th');
+                col.textContent = p.name;
+                head.appendChild(col);
+
+                function td(val, html=false) { const el = document.createElement('td'); if(html){ el.innerHTML = val; } else { el.textContent = val || '-'; } return el; }
+                const imgHtml = p.image ? `<img src='${p.image}' alt='${p.name}' style='width:100px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,.1);'/>` : '-';
+                body.querySelector('tr[data-row="image"]').appendChild(td(imgHtml, true));
+                body.querySelector('tr[data-row="name"]').appendChild(td(p.name));
+                body.querySelector('tr[data-row="company"]').appendChild(td(p.company));
+                body.querySelector('tr[data-row="category"]').appendChild(td(p.categoryName));
+                const statusBadge = `<span class='badge ${p.active ? 'bg-success' : 'bg-danger'}'>${p.active ? 'Active' : 'Inactive'}</span>`;
+                body.querySelector('tr[data-row="status"]').appendChild(td(statusBadge, true));
+                body.querySelector('tr[data-row="premium"]').appendChild(td(p.premium.toLocaleString()));
+                body.querySelector('tr[data-row="suminsured"]').appendChild(td(p.suminsured.toLocaleString()));
+                body.querySelector('tr[data-row="tenure"]').appendChild(td(p.tenure));
+                const descShort = (p.description || '').toString();
+                body.querySelector('tr[data-row="description"]').appendChild(td(descShort));
+                if (body.querySelector('tr[data-row="companyPhone"]')) body.querySelector('tr[data-row="companyPhone"]').appendChild(td(p.companyPhone || ''));
+                if (body.querySelector('tr[data-row="companyEmail"]')) body.querySelector('tr[data-row="companyEmail"]').appendChild(td(p.companyEmail || ''));
+                if (body.querySelector('tr[data-row="companyAddress"]')) body.querySelector('tr[data-row="companyAddress"]').appendChild(td(p.companyAddress || ''));
+                if (body.querySelector('tr[data-row="terms"]')) body.querySelector('tr[data-row="terms"]').appendChild(td(p.terms || ''));
+                if (body.querySelector('tr[data-row="exclusions"]')) body.querySelector('tr[data-row="exclusions"]').appendChild(td(p.exclusions || ''));
+                (Array.from(attrKeys)).forEach(k => {
+                    const found = (p.attributes || []).find(a => a && a.key === k);
+                    const row = body.querySelector(`tr[data-row="attr_${k}"]`);
+                    if (row) row.appendChild(td(found ? found.value : '-'));
+                });
+
+                const actionTd = document.createElement('td');
+                actionTd.innerHTML = `<a href='@Url.Action("ViewPolicyDetails", "UserHome")/${p.id}' class='btn btn-sm btn-warning fw-bold'>Get This Policy</a>`;
+                body.querySelector('tr[data-row="action"]').appendChild(actionTd);
+            });
+        });
+        updateBar();
+    })();
 </script>
