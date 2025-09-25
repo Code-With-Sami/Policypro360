@@ -1,0 +1,95 @@
+﻿<!-- Floating Chatbot Icon -->
+<a id="openChatBotBtn" href="javascript:void(0)" class="chatbot-floating-btn">
+    <i class="fa fa-robot"><img src="~/icon/chat-bot (1).png" alt="Alternate Text" /></i>
+</a>
+
+<!-- Chat Modal -->
+<div class="modal fade" id="chatBotModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title text-white">AsanZindagi AI Chatbot</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="chatContainer" style="max-height: 50vh; overflow: auto; padding:10px;"></div>
+                <div class="input-group mt-3">
+                    <input id="chatInput" type="text" class="form-control" placeholder="Ask about insurance or policies..." />
+                    <button id="sendChatBtn" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chatbot-floating-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #0d6efd;
+        color: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        cursor: pointer;
+        z-index: 2000;
+        font-size: 24px;
+    }
+</style>
+
+<script>
+    (function () {
+        const openBtn = document.getElementById("openChatBotBtn");
+        const modal = new bootstrap.Modal(document.getElementById("chatBotModal"));
+        const chatContainer = document.getElementById("chatContainer");
+        const input = document.getElementById("chatInput");
+        const sendBtn = document.getElementById("sendChatBtn");
+
+        openBtn.addEventListener("click", () => {
+            modal.show();
+            input.focus();
+        });
+
+        function appendMessage(role, text) {
+            const div = document.createElement("div");
+            div.className = role === "user" ? "text-end mb-2" : "text-start mb-2";
+            div.innerHTML = `<span class="badge ${role==="user"?"bg-primary":"bg-secondary"} p-2">${text}</span>`;
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = input.value.trim();
+            if (!message) return;
+
+            appendMessage("user", message);
+            input.value = "";
+
+            appendMessage("assistant", "Thinking...");
+
+            try {
+                const resp = await fetch("/api/chat/send", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message })
+                });
+                const data = await resp.json();
+                chatContainer.lastChild.remove(); // remove "Thinking..."
+                appendMessage("assistant", data.reply || "No result found.");
+            } catch (err) {
+                chatContainer.lastChild.remove();
+                appendMessage("assistant", "Error. Please try again.");
+            }
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+    })();
+</script>

@@ -26,6 +26,9 @@ builder.Services.AddDbContext<myContext>(options => options.UseSqlServer(builder
 builder.Services.AddSession();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<OpenAiService>();
+
 var app = builder.Build();
 
 
