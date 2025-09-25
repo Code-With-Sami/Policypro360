@@ -1,34 +1,62 @@
-﻿using System.Net.Http.Headers;
+﻿using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-public class OpenAiService
+namespace PolicyPro360.Services
 {
-    private readonly HttpClient _http;
-    private readonly string _apiKey;
-
-    public OpenAiService(IConfiguration config, IHttpClientFactory httpFactory)
+    public interface IOpenAiService
     {
-        _apiKey = config["OpenAI:ApiKey"] ?? Environment.GetEnvironmentVariable("OpenAI__ApiKey");
-        _http = httpFactory.CreateClient();
+        Task<string> RankPoliciesAsync(string prompt, CancellationToken ct = default);
+        Task<string> GetChatReplyAsync(List<(string role, string content)> messages, CancellationToken ct = default);
     }
 
-    public async Task<string> GetChatReplyAsync(List<(string role, string content)> messages)
+    public class OpenAiService : IOpenAiService
     {
-        var payload = new
+        private readonly HttpClient _http;
+        private readonly string _apiKey;
+
+        public OpenAiService(IConfiguration config, IHttpClientFactory httpFactory)
         {
-            model = "gpt-4o-mini",
-            messages = messages.Select(m => new { role = m.role, content = m.content })
-        };
+            _apiKey = config["OpenAI:ApiKey"] ?? Environment.GetEnvironmentVariable("OpenAI__ApiKey");
+            _http = httpFactory.CreateClient();
+        }
 
-        var req = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions");
-        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
-        req.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+        // Method for a simple prompt (File 1)
+        public async Task<string> RankPoliciesAsync(string prompt, CancellationToken ct = default)
+        {
+            var payload = new
+            {
+                model = "gpt-4o-mini", // Use your desired model
+                input = prompt,
+                max_output_tokens = 800
+            };
 
-        var resp = await _http.SendAsync(req);
-        var body = await resp.Content.ReadAsStringAsync();
+            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            var resp = await _http.PostAsync("https://api.openai.com/v1/responses", content, ct);
+            var body = await resp.Content.ReadAsStringAsync(ct);
+            resp.EnsureSuccessStatusCode();
+            return body;
+        }
 
-        using var doc = JsonDocument.Parse(body);
-        return doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
+        // Method for chat-based interactions (File 2)
+        public async Task<string> GetChatReplyAsync(List<(string role, string content)> messages, CancellationToken ct = default)
+        {
+            var payload = new
+            {
+                model = "gpt-4o-mini", // Use your desired model
+                messages = messages.Select(m => new { role = m.role, content = m.content })
+            };
+
+            var req = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions");
+            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+            req.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+
+            var resp = await _http.SendAsync(req, ct);
+            var body = await resp.Content.ReadAsStringAsync();
+
+            using var doc = JsonDocument.Parse(body);
+            return doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
+        }
     }
 }

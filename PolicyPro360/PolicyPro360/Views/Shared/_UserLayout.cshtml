@@ -438,6 +438,14 @@
 	<script src="~/user/assets/js/insur.js"></script>
 
 	@await RenderSectionAsync("Scripts", required: false)
+
+	@await Html.PartialAsync("_QuizModal")
+	<!-- Add floating button -->
+	<button id="open-quiz-btn" class="btn btn-warning" style="position:fixed; right:20px; bottom:20px; z-index:1050;"
+			onclick="openQuizModal()">
+		Quiz
+	</button>
+
 </body>
 
 </html>

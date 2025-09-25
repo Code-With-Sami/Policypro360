@@ -28,6 +28,9 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Smtp
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<OpenAiService>();
+// Program.cs or Startup.cs
+builder.Services.AddHttpClient<PolicyPro360.Services.IOpenAiService, PolicyPro360.Services.OpenAiService>();
+builder.Services.AddScoped<PolicyPro360.Services.IQuizService, PolicyPro360.Services.QuizService>();
 
 var app = builder.Build();
 

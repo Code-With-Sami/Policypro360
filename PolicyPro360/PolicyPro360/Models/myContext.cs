@@ -15,6 +15,12 @@ namespace PolicyPro360.Models
         public DbSet<Policy> Tbl_Policy { get; set; }
         public DbSet<PolicyAttribute> Tbl_PolicyAttributes { get; set; }
 
+        public DbSet<Quiz> Tbl_Quiz { get; set; }
+        public DbSet<QuizQuestion> Tbl_QuizQuestion { get; set; }
+        public DbSet<QuizOption> Tbl_QuizOption { get; set; }
+        public DbSet<QuizResult> Tbl_QuizResult { get; set; }
+        public DbSet<QuizAnswer> Tbl_QuizAnswer { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Policy relationships
@@ -187,6 +193,19 @@ namespace PolicyPro360.Models
             {
                 entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
             });
+
+            // Prevent multiple cascade paths
+            modelBuilder.Entity<QuizAnswer>()
+                .HasOne(a => a.Result)
+                .WithMany(r => r.Answers)
+                .HasForeignKey(a => a.ResultId)
+                .OnDelete(DeleteBehavior.Restrict);  // ✅ instead of Cascade
+
+            modelBuilder.Entity<QuizResult>()
+                .HasMany(r => r.Answers)
+                .WithOne(a => a.Result)
+                .HasForeignKey(a => a.ResultId)
+                .OnDelete(DeleteBehavior.Restrict);  // ✅ same here
         }
         
 
@@ -213,7 +232,7 @@ namespace PolicyPro360.Models
 
         public DbSet<UserSupport> Tbl_UserSupport { get; set; }
 
-
+       
 
 
 

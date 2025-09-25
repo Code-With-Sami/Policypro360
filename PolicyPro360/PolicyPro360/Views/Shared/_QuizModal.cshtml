@@ -1,0 +1,28 @@
+﻿@* Views/Shared/_QuizModal.cshtml *@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+<div id="quiz-modal" class="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display:none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Quick Insurance Quiz</h5>
+                <button type="button" class="btn-close" onclick="closeQuizModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div id="quiz-root">
+                    <p>Loading quiz...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden"
+                       id="__RequestVerificationToken"
+                       value="@antiforgery.GetAndStoreTokens(HttpContextAccessor.HttpContext).RequestToken" />
+                <button type="button" class="btn btn-secondary" onclick="closeQuizModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/quiz.js"></script>
