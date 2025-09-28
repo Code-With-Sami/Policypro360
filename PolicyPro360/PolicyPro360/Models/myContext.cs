@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PolicyPro360.Migrations;
 using PolicyPro360.Models;
 
 namespace PolicyPro360.Models
@@ -206,6 +205,10 @@ namespace PolicyPro360.Models
                 .WithOne(a => a.Result)
                 .HasForeignKey(a => a.ResultId)
                 .OnDelete(DeleteBehavior.Restrict);  // ✅ same here
+
+            modelBuilder.Entity<QuizOption>()
+        .Property(q => q.Weight)
+        .HasColumnType("decimal(18, 2)");  // Set precision and scale explicitly.
         }
         
 

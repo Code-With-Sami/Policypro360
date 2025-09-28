@@ -28,10 +28,11 @@ namespace PolicyPro360.Services
         public async Task<Quiz> GetActiveQuizAsync()
         {
             return await _db.Tbl_Quiz
-                .Include(q => q.Questions.OrderBy(x => x.Order))
+                .Include(q => q.Questions)
                     .ThenInclude(qt => qt.Options)
                 .FirstOrDefaultAsync(q => q.IsActive);
         }
+
 
         public async Task<Dictionary<string, decimal>> ComputeCategoryScoresAsync(IEnumerable<(int questionId, IEnumerable<int> optionIds, string raw)> answers)
         {
@@ -90,8 +91,19 @@ namespace PolicyPro360.Services
                 .Take(limit)
                 .ToListAsync();
 
+            // ✅ Fallback: if no policies found, return some default policies
+            if (!policies.Any())
+            {
+                policies = await _db.Tbl_Policy
+                    .Where(p => p.Active)
+                    .OrderByDescending(p => p.CreatedAt) // or .OrderBy(r => Guid.NewGuid()) for random
+                    .Take(limit)
+                    .ToListAsync();
+            }
+
             return policies;
         }
+
 
         public async Task<(List<(Policy policy, string reason, decimal score)> ranked, string aiRaw)> RankWithAiAsync(string userSummary, List<Policy> candidates)
         {

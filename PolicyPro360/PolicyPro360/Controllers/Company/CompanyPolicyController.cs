@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PolicyPro360.Migrations;
 using PolicyPro360.Models;
 using System.ComponentModel.Design;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;

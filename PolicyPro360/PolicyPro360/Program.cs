@@ -18,7 +18,6 @@ builder.Configuration
 // Add services to the container.
 
 
-
 builder.Services.AddAuthorization();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -31,6 +30,11 @@ builder.Services.AddSingleton<OpenAiService>();
 // Program.cs or Startup.cs
 builder.Services.AddHttpClient<PolicyPro360.Services.IOpenAiService, PolicyPro360.Services.OpenAiService>();
 builder.Services.AddScoped<PolicyPro360.Services.IQuizService, PolicyPro360.Services.QuizService>();
+builder.Services.AddAntiforgery();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient(); // <-- registers IHttpClientFactory
+builder.Services.AddScoped<IOpenAiService, OpenAiService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
 
 var app = builder.Build();
 
