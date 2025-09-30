@@ -1,0 +1,226 @@
+﻿@{
+    ViewData["Title"] = "User Chat";
+    Layout = "_UserDashboardLayout";
+    var companies = ViewBag.Companies as IEnumerable<dynamic>;
+    var userId = ViewBag.UserId;
+}
+
+<style>
+    .chat-container {
+        display: flex;
+        height: 77vh;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Sidebar */
+    .chat-sidebar {
+        width: 25%;
+        background: #1E1F2F;
+        overflow-y: auto;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+        .chat-sidebar h4 {
+            padding: 13px;
+            background: #1E1F2F;
+            color: #FFFFFF;
+            margin: 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chat-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .chat-sidebar li {
+            padding: 12px 15px;
+            color: white;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+            transition: background 0.2s;
+        }
+
+            .chat-sidebar li:hover {
+                background: #F5A526;
+            }
+
+    /* Chat Window */
+    .chat-window {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        padding: 15px;
+        background: #1E1F2F;
+        color: white;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        border-radius: 0px 10px 0px 0px;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        background: #FFFFFF;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Chat bubbles */
+    .message {
+        color: white;
+        max-width: 60%;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        line-height: 1.4;
+        display: inline-block;
+    }
+
+        .message.user {
+            background: #1E1F2F;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .message.company {
+            background: #F5A526;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+    /* Input */
+    .chat-input {
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        display: flex;
+        background: #F0F1F1;
+    }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            margin-left: 10px;
+            padding: 10px 16px;
+            background: #F5A526;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+        }
+
+            .chat-input button:hover {
+                background: #1E1F2F;
+            }
+</style>
+
+
+<div class="body-wrapper-inner">
+    <div class="container-fluid">
+
+<div class="chat-container">
+
+    <!-- Sidebar -->
+    <div class="chat-sidebar">
+        <h4>Companies</h4>
+        <ul>
+            @foreach (var company in companies)
+            {
+                <li onclick="openChat(@company.Id, '@company.CompanyName')">
+                    <strong>@company.CompanyName</strong><br />
+                    <small>@company.Email</small>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window">
+        <div id="chatHeader" class="chat-header">
+            Select a company to start chat
+        </div>
+
+        <div id="chatMessages" class="chat-messages"></div>
+
+        <div class="chat-input">
+            <input id="messageInput" type="text" placeholder="Type a message" />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+@section Scripts {
+    <script>
+        let currentCompanyId = null;
+        let userId = '@userId';
+
+        function openChat(companyId, companyName) {
+            currentCompanyId = companyId;
+            document.getElementById("chatHeader").innerText = companyName;
+
+            fetch(`/api/chat/ensure-conversation`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: userId, companyId: companyId })
+            })
+            .then(res => res.json())
+            .then(conv => {
+                loadMessages(conv.id);
+                document.getElementById("chatMessages").setAttribute("data-convId", conv.id);
+            });
+        }
+
+        function loadMessages(conversationId) {
+            fetch(`/api/messages/${conversationId}`)
+                .then(res => res.json())
+                .then(messages => {
+                    let box = document.getElementById("chatMessages");
+                    box.innerHTML = "";
+                    messages.forEach(m => {
+                        let div = document.createElement("div");
+                        div.className = "message " + (m.senderType.toLowerCase());
+                        div.innerText = m.text;
+                        box.appendChild(div);
+                    });
+                    box.scrollTop = box.scrollHeight;
+                });
+        }
+
+        function sendMessage() {
+            let text = document.getElementById("messageInput").value;
+            if (!text || !currentCompanyId) return;
+
+            let convId = document.getElementById("chatMessages").getAttribute("data-convId");
+
+            fetch(`/api/messages/send`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    conversationId: convId,
+                    text: text,
+                    senderType: "User",
+                    senderId: userId
+                })
+            }).then(() => {
+                document.getElementById("messageInput").value = "";
+                loadMessages(convId);
+            });
+        }
+    </script>
+}

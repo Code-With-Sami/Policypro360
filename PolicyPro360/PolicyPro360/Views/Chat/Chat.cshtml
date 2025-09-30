@@ -1,0 +1,22 @@
+﻿@page
+@using Microsoft.AspNetCore.SignalR.Client
+@model Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+@{
+    Layout = "_Layout"; // adjust to your layout
+}
+<link rel="stylesheet" href="/css/chat.css" />
+
+<div class="chat-root">
+    <div class="chat-list" id="chatList">Loading...</div>
+    <div class="chat-window">
+        <div id="messages" class="messages">Select a conversation</div>
+        <div id="typing" class="typing"></div>
+        <div class="composer">
+            <input id="messageText" placeholder="Type a message..." autocomplete="off" />
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.0/signalr.min.js"></script>
+<script src="/js/chat.js"></script>

@@ -1,0 +1,227 @@
+﻿@{
+    ViewData["Title"] = "Company Chat";
+    Layout = "_CompanyDashboardLayout";
+    var users = ViewBag.Users as IEnumerable<dynamic>;
+    var companyId = ViewBag.CompanyId;
+}
+
+<style>
+    .chat-container {
+        display: flex;
+        height: 77vh;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Sidebar */
+    .chat-sidebar {
+        width: 25%;
+        background: #1E1F2F;
+        overflow-y: auto;
+        border-radius: 10px 0px 0px 10px;
+    }
+
+        .chat-sidebar h4 {
+            padding: 13px;
+            background: #1E1F2F;
+            color: #FFFFFF;
+            margin: 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chat-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .chat-sidebar li {
+            padding: 12px 15px;
+            color: white;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+            transition: background 0.2s;
+        }
+
+            .chat-sidebar li:hover {
+                background: #F5A526;
+            }
+
+    /* Chat Window */
+    .chat-window {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        padding: 15px;
+        background: #1E1F2F;
+        color: white;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        border-radius: 0px 10px 0px 0px;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 15px;
+        background: #FFFFFF;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Chat bubbles */
+    .message {
+        color: white;
+        max-width: 60%;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        line-height: 1.4;
+        display: inline-block;
+    }
+
+        .message.user {
+            background: #1E1F2F;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .message.company {
+            background: #F5A526;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+    /* Input */
+    .chat-input {
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        display: flex;
+        background: #F0F1F1;
+    }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-input button {
+            margin-left: 10px;
+            padding: 10px 16px;
+            background: #F5A526;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+        }
+
+            .chat-input button:hover {
+                background: #1E1F2F;
+            }
+</style>
+
+<main class="main-wrapper">
+    <div class="main-content">
+        <div class="chat-container">
+
+            <!-- Sidebar -->
+            <div class="chat-sidebar">
+                <h4>Users</h4>
+                <ul>
+                    @foreach (var user in users)
+                    {
+                        <li onclick="openChat(@user.Id, '@user.Name')">
+                            <strong>@user.Name</strong><br />
+                            <small>@user.Email</small>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-window">
+                <div id="chatHeader" class="chat-header">
+                    Select a user to start chat
+                </div>
+
+                <div id="chatMessages" class="chat-messages"></div>
+
+                <div class="chat-input">
+                    <input id="messageInput" type="text" placeholder="Type a message" />
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        let currentUserId = null;
+        let companyId = '@companyId';
+
+        // Open chat with user
+        function openChat(userId, userName) {
+            currentUserId = userId;
+            document.getElementById("chatHeader").innerText = userName;
+
+            // Ensure conversation exists
+            fetch(`/api/chat/ensure-conversation`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: userId, companyId: companyId })
+            })
+            .then(res => res.json())
+            .then(conv => {
+                loadMessages(conv.id);
+                document.getElementById("chatMessages").setAttribute("data-convId", conv.id);
+            });
+        }
+
+        // Load messages
+        function loadMessages(conversationId) {
+            fetch(`/api/messages/${conversationId}`)
+                .then(res => res.json())
+                .then(messages => {
+                    let box = document.getElementById("chatMessages");
+                    box.innerHTML = "";
+                    messages.forEach(m => {
+                        let div = document.createElement("div");
+                        div.innerHTML = `<b>${m.senderType}:</b> ${m.text}`;
+                        box.appendChild(div);
+                    });
+                    box.scrollTop = box.scrollHeight;
+                });
+        }
+
+        // Send message
+        function sendMessage() {
+            let text = document.getElementById("messageInput").value;
+            if (!text || !currentUserId) return;
+
+            let convId = document.getElementById("chatMessages").getAttribute("data-convId");
+
+            fetch(`/api/messages/send`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    conversationId: convId,
+                    text: text,
+                    senderType: "Company",
+                    senderId: companyId
+                })
+            }).then(() => {
+                document.getElementById("messageInput").value = "";
+                loadMessages(convId);
+            });
+        }
+    </script>
+}

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PolicyPro360.Models;
 using PolicyPro360.Services;
+using PolicyPro360.Hubs;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -35,6 +36,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient(); // <-- registers IHttpClientFactory
 builder.Services.AddScoped<IOpenAiService, OpenAiService>();
 builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddSignalR();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -60,5 +63,6 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=UserHome}/{action=Index}/{id?}");
+app.MapHub<PolicyPro360.Hubs.ChatHub>("/hubs/chat");
 
 app.Run();

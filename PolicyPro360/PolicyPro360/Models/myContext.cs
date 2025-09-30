@@ -20,6 +20,9 @@ namespace PolicyPro360.Models
         public DbSet<QuizResult> Tbl_QuizResult { get; set; }
         public DbSet<QuizAnswer> Tbl_QuizAnswer { get; set; }
 
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Policy relationships
@@ -209,6 +212,15 @@ namespace PolicyPro360.Models
             modelBuilder.Entity<QuizOption>()
         .Property(q => q.Weight)
         .HasColumnType("decimal(18, 2)");  // Set precision and scale explicitly.
+
+            modelBuilder.Entity<Conversation>()
+.HasIndex(c => new { c.UserId, c.CompanyId, c.PolicyId })
+.IsUnique();
+
+
+            modelBuilder.Entity<Message>()
+            .HasIndex(m => new { m.ConversationId, m.CreatedAt });
+
         }
         
 
