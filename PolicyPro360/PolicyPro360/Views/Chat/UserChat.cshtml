@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "User Chat";
+    ViewData["Title"] = "User Chat - AsanZindagi";
     Layout = "_UserDashboardLayout";
     var companies = ViewBag.Companies as IEnumerable<dynamic>;
     var userId = ViewBag.UserId;
@@ -221,6 +221,7 @@
                 document.getElementById("messageInput").value = "";
                 loadMessages(convId);
             });
+
         }
     </script>
 }

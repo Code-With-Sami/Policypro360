@@ -1,4 +1,4 @@
-// wwwroot/js/quiz.js
+﻿// wwwroot/js/quiz.js
 (async function () {
     window.openQuizModal = function () {
         document.getElementById('quiz-modal').style.display = 'block';

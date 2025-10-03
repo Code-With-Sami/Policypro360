@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PolicyPro360</title>
+    <title>@ViewData["Title"] - AsanZindagi</title>
 
     <!--favicon-->
     <link rel="icon" href="~/admin/assets/images/favicon-32x32.png" type="image/png">
@@ -52,6 +52,26 @@
         .nav-pills .nav-link.active[data-tab-theme="danger"] {
             background: linear-gradient(45deg, #dc3545, #fd7e14) !important;
         }
+
+        .custom-chatbot-btns {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #F5A526;
+            color: white;
+            padding: 17px 17px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            z-index: 9999;
+        }
+
+            .custom-chatbot-btns:hover {
+                background: #d88d1d;
+                transform: translateY(-3px);
+            }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -321,12 +341,12 @@
     <!--start sidebar-->
     <aside class="sidebar-wrapper" data-simplebar="true">
         <div class="sidebar-header">
-            <div class="logo-icon">
-                <img src="~/admin/assets/images/logo-icon.png" class="logo-img" alt="">
+            <div class="logo-icon ">
+                <img src="~/logo/آسان_زندگی-Dark.png" class="logo-img" alt="">
             </div>
-            <div class="logo-name flex-grow-1">
-                <h5 class="mb-0">PolicyPro360</h5>
-            </div>
+             <div class="logo-name flex-grow-1">
+                <h5 class="mb-0">آسان زندگی</h5>
+            </div> 
             <div class="sidebar-close">
                 <span class="material-icons-outlined">close</span>
             </div>
@@ -698,6 +718,11 @@
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     </environment>
+
+    <!-- Floating Chatbot Icon -->
+    <a href="@Url.Action("CompanyChat", "Chat")" class="custom-chatbot-btns">
+        <i class="fa fa-robot"><img src="~/icon/chat.png" alt="Alternate Text" /></i>
+    </a>
 
 </body>
 @await RenderSectionAsync("Scripts", required: false)

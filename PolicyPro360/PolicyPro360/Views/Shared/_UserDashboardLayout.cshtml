@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>User Dashboard - PolicyPro360</title>
+    <title>User Dashboard - AsanZindagi</title>
     <link rel="shortcut icon" type="image/png" href="~/user/assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/themify-icons/0.1.2/css/themify-icons.css">
 
@@ -13,6 +13,26 @@
 
         :root {
         --profile-primary: #f5a526;
+        }
+
+        .custom-chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #F5A526;
+            color: white;
+            padding: 17px 17px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            z-index: 9999;
+        }
+
+            .custom-chatbot-btn:hover {
+            background: #d88d1d;
+            transform: translateY(-3px);
         }
     </style>
 </head>
@@ -29,7 +49,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="@Url.Action("Index","UserHome")" class="text-nowrap logo-img">
-                        <img src="~/user/assets/images/update-15-2-2024/resources/logo-3.png" height="70" alt="PolicyPro360" />
+                        <img src="~/logo/آسان_زندگی-Dark.png" height="70" alt="AsanZindagi" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-6"></i>
@@ -259,7 +279,7 @@
             <div class="py-6 px-6 text-center">
                 <p class="mb-0 fs-4" style="color: var(--profile-text-muted);">
                     © 2024, Designed and Developed by
-                    <a href="@Url.Action("Index", "UserHome")" class="pe-1 text-decoration-underline" style="color: var(--profile-primary);">PolicyPro360</a>
+                    <a href="@Url.Action("Index", "UserHome")" class="pe-1 text-decoration-underline" style="color: var(--profile-primary);">AsanZindagi</a>
                 </p>
             </div>
         </div>
@@ -279,6 +299,11 @@
     
     @RenderSection("Scripts", required: false)
     @await Html.PartialAsync("_ChatBotPartial")
+
+    <!-- Floating Chatbot Icon -->
+<a  href="@Url.Action("UserChat","Chat")" class="custom-chatbot-btn">
+    <i class="fa fa-robot"><img src="~/icon/chat.png" alt="Alternate Text" /></i>
+</a>
 </body>
 
 </html>

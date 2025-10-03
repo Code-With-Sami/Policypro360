@@ -1,11 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Company Chat";
-    Layout = "_CompanyDashboardLayout";
+    Layout = "_CompanyLayout";
+    ViewData["Title"] = "Company Chat - AsanZindagi";
     var users = ViewBag.Users as IEnumerable<dynamic>;
     var companyId = ViewBag.CompanyId;
+
 }
 
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="~/admin/assets/plugins/datatable/css/dataTables.bootstrap5.min.css" />
+
 <style>
+
     .chat-container {
         display: flex;
         height: 77vh;
@@ -15,47 +20,47 @@
     }
 
     /* Sidebar */
-    .chat-sidebar {
-        width: 25%;
+    .chat-company-sidebar {
         background: #1E1F2F;
         overflow-y: auto;
         border-radius: 10px 0px 0px 10px;
     }
 
-        .chat-sidebar h4 {
-            padding: 13px;
-            background: #1E1F2F;
-            color: #FFFFFF;
-            margin: 0;
-            border-bottom: 1px solid #ddd;
-        }
+        .chat-company-sidebar h4 {
+        padding: 11px;
+        background: #1E1F2F;
+        color: #FFFFFF;
+        margin: 0;
+        border-bottom: 1px solid #ddd;
+    }
 
-        .chat-sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .chat-company-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-        .chat-sidebar li {
-            padding: 12px 15px;
-            color: white;
-            cursor: pointer;
-            border-bottom: 1px solid #ddd;
-            transition: background 0.2s;
-        }
+    .chat-company-sidebar li {
+        padding: 12px 15px;
+        color: white;
+        cursor: pointer;
+        border-bottom: 1px solid #ddd;
+        transition: background 0.2s;
+    }
 
-            .chat-sidebar li:hover {
-                background: #F5A526;
-            }
+    .chat-company-sidebarr li:hover {
+        background: #F5A526;
+    }
 
     /* Chat Window */
-    .chat-window {
+    .chat-company-window {
+        height: 76vh;
         flex: 1;
         display: flex;
         flex-direction: column;
     }
 
-    .chat-header {
+    .chat-comapny-header {
         padding: 15px;
         background: #1E1F2F;
         color: white;
@@ -64,7 +69,7 @@
         border-radius: 0px 10px 0px 0px;
     }
 
-    .chat-messages {
+    .chat-company-msg {
         flex: 1;
         padding: 15px;
         background: #FFFFFF;
@@ -98,14 +103,15 @@
         }
 
     /* Input */
-    .chat-input {
+    .chat-company-input {
         padding: 10px;
+        padding-top: 15px;
         border-top: 1px solid #ddd;
         display: flex;
         background: #F0F1F1;
     }
 
-        .chat-input input {
+        .chat-company-input input {
             flex: 1;
             padding: 10px;
             border: none;
@@ -113,7 +119,7 @@
             outline: none;
         }
 
-        .chat-input button {
+        .chat-company-input button {
             margin-left: 10px;
             padding: 10px 16px;
             background: #F5A526;
@@ -123,17 +129,18 @@
             cursor: pointer;
         }
 
-            .chat-input button:hover {
+            .chat-company-input button:hover {
                 background: #1E1F2F;
             }
+
+   
 </style>
 
 <main class="main-wrapper">
     <div class="main-content">
-        <div class="chat-container">
 
-            <!-- Sidebar -->
-            <div class="chat-sidebar">
+        <div class="row chat-container">
+            <div class="column col-md-4 chat-company-sidebar p-0">
                 <h4>Users</h4>
                 <ul>
                     @foreach (var user in users)
@@ -144,26 +151,48 @@
                         </li>
                     }
                 </ul>
-            </div>
 
-            <!-- Chat Window -->
-            <div class="chat-window">
-                <div id="chatHeader" class="chat-header">
-                    Select a user to start chat
+            </div>
+            <div class="column col-md-8 p-0" >
+                <!-- Chat Window -->
+                <div class="chat-company-window">
+                    <div id="chatHeader" class="chat-comapny-header">
+                        Select a user to start chat
+                    </div>
+
+                    <div id="chatMessages" class="chat-company-msg"></div>
+
+                    <div class="chat-company-input">
+                        <input id="messageInput" type="text" placeholder="Type a message" />
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
                 </div>
 
-                <div id="chatMessages" class="chat-messages"></div>
-
-                <div class="chat-input">
-                    <input id="messageInput" type="text" placeholder="Type a message" />
-                    <button onclick="sendMessage()">Send</button>
-                </div>
             </div>
-        </div>
+
+       </div>
+
     </div>
 </main>
 
+
+
+
+
 @section Scripts {
+    <!-- DataTables JS -->
+    <script src="~/admin/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/jszip.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/pdfmake.min.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/vfs_fonts.js"></script>
+    <script src="~/admin/assets/plugins/datatable/js/buttons.html5.min.js"></script>
+    <script src="~/admin/assets-old/plugins/datatable/js/buttons.print.min.js"></script>
+    <!-- Font Awesome for icons in buttons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
     <script>
         let currentUserId = null;
         let companyId = '@companyId';
@@ -187,6 +216,22 @@
         }
 
         // Load messages
+        // function loadMessages(conversationId) {
+        //     fetch(`/api/messages/${conversationId}`)
+        //         .then(res => res.json())
+        //         .then(messages => {
+        //             let box = document.getElementById("chatMessages");
+        //             box.innerHTML = "";
+        //             messages.forEach(m => {
+        //                 let div = document.createElement("div");
+        //                 div.innerHTML = `<b>${m.senderType}:</b> ${m.text}`;
+        //                 box.appendChild(div);
+        //             });
+        //             box.scrollTop = box.scrollHeight;
+        //         });
+        // }
+
+                // Load messages
         function loadMessages(conversationId) {
             fetch(`/api/messages/${conversationId}`)
                 .then(res => res.json())
@@ -195,7 +240,15 @@
                     box.innerHTML = "";
                     messages.forEach(m => {
                         let div = document.createElement("div");
-                        div.innerHTML = `<b>${m.senderType}:</b> ${m.text}`;
+                        div.classList.add("message");
+
+                        if (m.senderType === "User") {
+                            div.classList.add("company"); // Left side (user bubble)
+                        } else {
+                            div.classList.add("user"); // Right side (company bubble)
+                        }
+
+                        div.innerText = m.text;
                         box.appendChild(div);
                     });
                     box.scrollTop = box.scrollHeight;
@@ -224,4 +277,5 @@
             });
         }
     </script>
+
 }
