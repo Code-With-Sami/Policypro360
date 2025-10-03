@@ -855,7 +855,7 @@ namespace PolicyPro360.Controllers.User
                 }
 
                 var myPolicies = _context.Tbl_UserPolicy
-                    .Where(up => up.UserId == userId)
+                    .Where(up => up.UserId == userId && up.Status == "Active")
                     .Include(up => up.Policy)
                         .ThenInclude(p => p.Category)
                     .Include(up => up.Policy)
@@ -863,7 +863,7 @@ namespace PolicyPro360.Controllers.User
                     .OrderByDescending(up => up.PurchaseDate)
                     .ToList();
 
-                var activePolicies = myPolicies.Where(p => p.Status == "Active").ToList();
+                var activePolicies = myPolicies.ToList(); // Already filtered to Active only
                 var activePolicyCount = activePolicies.Count;
                 var totalPremium = activePolicies.Sum(p => p.CalculatedPremium);
                 var nextPaymentDue = myPolicies
@@ -909,6 +909,10 @@ namespace PolicyPro360.Controllers.User
                     .OrderBy(p => p.ExpiryDate)
                     .ToList();
 
+                // Check if all policies are terminated
+                var allPoliciesTerminated = !_context.Tbl_UserPolicy
+                    .Any(up => up.UserId == userId && up.Status == "Active");
+
                 var dashboardModel = new DashboardViewModel
                 {
                     ActivePolicies = activePolicyCount,
@@ -918,6 +922,7 @@ namespace PolicyPro360.Controllers.User
                     RecentApplications = allApplications,
                     UpcomingPremiums = upcomingPremiums
                 };
+                ViewBag.AllPoliciesTerminated = allPoliciesTerminated;
                 return View(dashboardModel);
             }
             else
@@ -1098,14 +1103,14 @@ namespace PolicyPro360.Controllers.User
             var userLoans = _context.Tbl_LoanRequests.Where(lr => lr.UserId == userId && lr.Status == "Approved").ToList();
             ViewBag.HasAnyLoan = userLoans.Any();
 
-            var currentMonth = DateTime.Now.Month;
-            var currentYear = DateTime.Now.Year;
+            var now = DateTime.Now;
             var loanInstallment = _context.Tbl_LoanInstallments
                 .Include(i => i.LoanRequest)
                 .Where(i => i.LoanRequest.UserId == userId
-                    && i.Status == "Unpaid"
-                    && i.DueDate.Month == currentMonth
-                    && i.DueDate.Year == currentYear)
+                    && (i.Status == "Unpaid" || i.Status == "Late")
+                    && i.DueDate <= now
+                    && now <= i.DueDate.AddDays(10))
+                .OrderBy(i => i.DueDate)
                 .FirstOrDefault();
 
             ViewBag.LoanInstallment = loanInstallment;

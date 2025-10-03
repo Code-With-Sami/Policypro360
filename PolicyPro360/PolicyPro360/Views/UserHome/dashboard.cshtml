@@ -121,6 +121,18 @@
         </div>
 
 
+        @if (ViewBag.AllPoliciesTerminated == true)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger text-dark">
+                        <h5 class="alert-heading">All Policies Terminated</h5>
+                        <p class="mb-0">All your insurance policies have been terminated due to non-payment beyond the grace period. Please contact support for assistance.</p>
+                    </div>
+                </div>
+            </div>
+        }
+
         <div class="row">
             <!-- Quick Action Cards -->
 

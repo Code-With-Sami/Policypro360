@@ -226,6 +226,20 @@
                             You did not pay an installment within the 10-day grace period after its due date. As a result, the associated policy was terminated.
                         </div>
                     }
+                    else if (loan.Installments.Any(i => (i.Status == "Late" || i.Status == "Unpaid") && i.DueDate.Month == DateTime.Now.Month && i.DueDate.Year == DateTime.Now.Year && DateTime.Now <= i.DueDate.AddDays(10)))
+                    {
+                        var lateOrDue = loan.Installments
+                            .Where(i => (i.Status == "Late" || i.Status == "Unpaid") && i.DueDate.Month == DateTime.Now.Month && i.DueDate.Year == DateTime.Now.Year && DateTime.Now <= i.DueDate.AddDays(10))
+                            .OrderBy(i => i.DueDate)
+                            .FirstOrDefault();
+                        if (lateOrDue != null)
+                        {
+                            <div class="alert alert-danger text-dark mb-4">
+                                An installment is due/late this month. Please pay before @lateOrDue.DueDate.AddDays(10).ToString("dd-MMM-yyyy") to avoid termination.
+                                <a href="@Url.Action("PayLoanInstallment", new { installmentId = lateOrDue.Id })" class="btn btn-primary ms-2">Pay Now</a>
+                            </div>
+                        }
+                    }
                     <div class="loan-details-grid mb-4">
                         <div class="detail-item"><strong>Loan Amount</strong> @loan.LoanAmount.ToString("N0") PKR</div>
                         <div class="detail-item"><strong>Loan Type</strong> @loan.LoanType</div>
