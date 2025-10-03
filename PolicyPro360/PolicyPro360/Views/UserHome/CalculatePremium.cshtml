@@ -1,7 +1,7 @@
 ﻿@model PolicyPro360.ViewModels.PremiumCalculationViewModel
 
 @{
-    ViewData["Title"] = "Calculate Premium - AsanZindagi";
+    ViewData["Title"] = "Calculate Premium - Asaan Zindagi";
     Layout = "_UserLayout";
 }
 
@@ -189,6 +189,10 @@
                         <form asp-action="CalculatePremium" method="post">
                             <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                             @Html.AntiForgeryToken()
+                            @if (ViewBag.ErrorMessage != null)
+                            {
+                                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+                            }
                             <input type="hidden" asp-for="PolicyId" />
                             <input type="hidden" asp-for="PolicyName" />
                             <input type="hidden" asp-for="PolicyType" />

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Insurance Policies - AsanZindagi";
+    ViewData["Title"] = "Insurance Policies - Asaan Zindagi";
     Layout = "_UserLayout";
 }
 
@@ -339,7 +339,23 @@
             line-height: 1;
         }
 
+    .tooltip-inner {
+        background-color: #171827 !important;
+        color: #ffffff !important;
+        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 6px;
+    }
 
+    .tooltip.bs-tooltip-top .tooltip-arrow::before,
+    .tooltip.bs-tooltip-bottom .tooltip-arrow::before,
+    .tooltip.bs-tooltip-start .tooltip-arrow::before,
+    .tooltip.bs-tooltip-end .tooltip-arrow::before {
+        border-top-color: #171827 !important;
+        border-bottom-color: #171827 !important;
+        border-left-color: #171827 !important;
+        border-right-color: #171827 !important;
+    }
 
 </style>
 <!--Page Header Start-->
@@ -450,8 +466,8 @@
                                         <a href="@Url.Action("ViewPolicyDetails", "UserHome", new { id = policy.Id })" class="policy-card-details-link me-2">
                                             View Details <span class="arrow-icon">→</span>
                                         </a>
-                                       
-                                        <button class="compare-add" title="Add to Compare" data-policy-id="@policy.Id">
+
+                                        <button class="compare-add btn btn-dark" data-bs-toggle="tooltip" title="Add to Compare" data-policy-id="123">
                                             <i class="bi bi-layout-sidebar-inset"></i>
                                         </button>
                                     </div>
@@ -501,6 +517,12 @@
             });
         });
     });
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
 </script>
 
 

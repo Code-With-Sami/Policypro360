@@ -40,7 +40,8 @@ namespace PolicyPro360.Controllers.User
 
         private readonly myContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-
+        public string PolicyName { get; private set; }
+        public string CompanyName { get; private set; }
         public UserHomeController(myContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
@@ -434,6 +435,16 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("Policy");
             }
 
+            // Annual payment restriction for initial purchase: prevent duplicate payment within active year for same policy
+            var existingActivePolicy = _context.Tbl_UserPolicy
+                .Include(up => up.Policy)
+                .FirstOrDefault(up => up.UserId == userId.Value && up.PolicyId == PolicyId && up.Status == "Active" && up.ExpiryDate > DateTime.Now);
+            if (existingActivePolicy != null)
+            {
+                TempData["ErrorMessage"] = $"Premium already paid for this policy. Next eligible date: {existingActivePolicy.ExpiryDate:dd-MMM-yyyy}.";
+                return RedirectToAction("MakePayment");
+            }
+
             int companyId = policy.CompanyId;
 
           
@@ -453,7 +464,8 @@ namespace PolicyPro360.Controllers.User
                 PayerName = PayerName,
                 PayerEmail = PayerEmail,
                 Amount = Amount,
-                Reference = Reference
+                Reference = Reference,
+                 PolicyName = policy.Name
             };
             _context.Tbl_UserPayment.Add(payment);
 
@@ -560,6 +572,13 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("MyPolicies");
             }
 
+            // Annual payment restriction for renewal: allow only after expiry
+            if (userPolicy.ExpiryDate > DateTime.Now)
+            {
+                TempData["ErrorMessage"] = $"You can renew this policy after {userPolicy.ExpiryDate:dd-MMM-yyyy}.";
+                return RedirectToAction("MakePayment");
+            }
+
             int policyId = userPolicy.PolicyId;
             int companyId = userPolicy.Policy.CompanyId;
 
@@ -569,7 +588,8 @@ namespace PolicyPro360.Controllers.User
                 PayerName = PayerName,
                 PayerEmail = PayerEmail,
                 Amount = Amount,
-                Reference = Reference
+                Reference = Reference,
+                PolicyName = userPolicy.Policy.Name
             };
             _context.Tbl_UserPayment.Add(payment);
 
@@ -828,6 +848,12 @@ namespace PolicyPro360.Controllers.User
                 ViewBag.email = HttpContext.Session.GetString("userEmail");
                 var userId = HttpContext.Session.GetInt32("userId");
 
+                if (userId.HasValue)
+                {
+                    // Enforce loan overdue grace/termination
+                    EnforceLoanInstallmentGraceAndTermination(userId.Value);
+                }
+
                 var myPolicies = _context.Tbl_UserPolicy
                     .Where(up => up.UserId == userId)
                     .Include(up => up.Policy)
@@ -1031,6 +1057,9 @@ namespace PolicyPro360.Controllers.User
                 TempData["ErrorMessage"] = "User not logged in.";
                 return RedirectToAction("SignIn");
             }
+
+            // Enforce loan installment grace and termination rules
+            EnforceLoanInstallmentGraceAndTermination(userId.Value);
             
        
             TempData.Remove("SuccessMessage");
@@ -1061,6 +1090,10 @@ namespace PolicyPro360.Controllers.User
             
             ViewBag.UserPolicies = userPolicies;
 
+            // Annual payment eligibility info for UI
+            ViewBag.IsEligibleForPayment = defaultPolicy.ExpiryDate <= DateTime.Now;
+            ViewBag.NextEligibleDate = defaultPolicy.ExpiryDate;
+
 
             var userLoans = _context.Tbl_LoanRequests.Where(lr => lr.UserId == userId && lr.Status == "Approved").ToList();
             ViewBag.HasAnyLoan = userLoans.Any();
@@ -1078,6 +1111,27 @@ namespace PolicyPro360.Controllers.User
             ViewBag.LoanInstallment = loanInstallment;
             ViewBag.HasPaidLoanInstallment = loanInstallment != null && loanInstallment.Status == "Paid";
 
+            var userEmail = _context.Tbl_Users
+                .Where(u => u.Id == userId)
+                .Select(u => u.Email)
+                .FirstOrDefault();
+
+
+            var userPayments = _context.Tbl_UserPayment
+                .Where(p => p.PayerEmail == userEmail)
+                .OrderBy(p => p.Date)
+                .ToList();
+
+            ViewBag.UserPayments = userPayments;
+
+            var loanPayments = _context.Tbl_LoanPayments
+              .Where(lp => lp.UserId == userId)
+              .Include(lp => lp.LoanInstallment)
+              .OrderBy(lp => lp.PaymentDate)
+              .ToList();
+            ViewBag.LoanPayments = loanPayments;
+
+
             return View(model);
         }
 
@@ -1089,6 +1143,9 @@ namespace PolicyPro360.Controllers.User
             {
                 return RedirectToAction("Login"); 
             }
+
+            // Enforce loan overdue grace/termination
+            EnforceLoanInstallmentGraceAndTermination(userId.Value);
 
 
             var myPoliciesQuery = _context.Tbl_UserPolicy
@@ -1148,6 +1205,12 @@ namespace PolicyPro360.Controllers.User
         {
             ViewBag.name = HttpContext.Session.GetString("userName");
             var userId = HttpContext.Session.GetInt32("userId");
+
+            if (userId.HasValue)
+            {
+                // Enforce loan overdue grace/termination
+                EnforceLoanInstallmentGraceAndTermination(userId.Value);
+            }
 
             var userPolicy = _context.Tbl_UserPolicy
                 .Include(up => up.Policy)
@@ -1211,9 +1274,19 @@ namespace PolicyPro360.Controllers.User
         }
         public IActionResult FileClaim()
         {
+            var userId = HttpContext.Session.GetInt32("userId");
+            var activeUserPolicyCategoryIds = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId && up.Status == "Active")
+                .Include(up => up.Policy)
+                .Select(up => up.Policy.PolicyTypeId)
+                .Distinct()
+                .ToList();
+
             var model = new ClaimFormViewModel
             {
-                Categories = _context.Tbl_Category.Where(c => c.Status).ToList(),
+                Categories = _context.Tbl_Category
+                    .Where(c => c.Status && activeUserPolicyCategoryIds.Contains(c.Id))
+                    .ToList(),
                 Policies = new List<Policy>()
             };
             return View(model);
@@ -1222,16 +1295,24 @@ namespace PolicyPro360.Controllers.User
         [HttpPost]
         public async Task<IActionResult> FileClaim(ClaimFormViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                model.Categories = _context.Tbl_Category.Where(c => c.Status).ToList();
-                return View(model);
-            }
-
             var userId = HttpContext.Session.GetInt32("userId");
             if (userId == null)
             {
                 return RedirectToAction("Signin", "User");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var activeUserPolicyCategoryIds = _context.Tbl_UserPolicy
+                    .Where(up => up.UserId == userId && up.Status == "Active")
+                    .Include(up => up.Policy)
+                    .Select(up => up.Policy.PolicyTypeId)
+                    .Distinct()
+                    .ToList();
+                model.Categories = _context.Tbl_Category
+                    .Where(c => c.Status && activeUserPolicyCategoryIds.Contains(c.Id))
+                    .ToList();
+                return View(model);
             }
 
             string uploadFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/claims");
@@ -1408,7 +1489,9 @@ namespace PolicyPro360.Controllers.User
             }
 
             var policies = _context.Tbl_UserPolicy
-                .Where(up => up.UserId == userId.Value && up.Policy.PolicyTypeId == categoryId)
+                .Where(up => up.UserId == userId.Value 
+                    && up.Status == "Active"
+                    && up.Policy.PolicyTypeId == categoryId)
                 .Select(up => new
                 {
                     id = up.Policy.Id,
@@ -1586,11 +1669,33 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("SignIn");
             }
 
+            // Enforce loan installment grace and termination rules
+            EnforceLoanInstallmentGraceAndTermination(userId.Value);
+
             var myLoans = _context.Tbl_LoanRequests
                 .Where(lr => lr.UserId == userId)
                 .Include(lr => lr.Installments)
+                .Include(lr => lr.Policy)
                 .OrderByDescending(lr => lr.RequestDate)
                 .ToList();
+
+            // Provide policy termination info to the view
+            var terminatedPolicyIds = _context.Tbl_UserPolicy
+                .Where(up => up.UserId == userId && up.Status == "Terminated")
+                .Select(up => up.PolicyId)
+                .ToHashSet();
+            ViewBag.TerminatedPolicyIds = terminatedPolicyIds;
+            ViewBag.HasAnyTerminated = terminatedPolicyIds.Any();
+
+            // Show termination banner only for a limited window after grace expiry
+            var nowForBanner = DateTime.Now;
+            const int terminationBannerDays = 7; // days to keep showing the head alert
+            bool showTerminationBanner = myLoans
+                .SelectMany(l => l.Installments)
+                .Any(inst =>
+                    nowForBanner > inst.DueDate.AddDays(10) &&
+                    (nowForBanner - inst.DueDate.AddDays(10)).TotalDays <= terminationBannerDays);
+            ViewBag.ShowTerminationBanner = showTerminationBanner;
 
             return View(myLoans);
         }
@@ -1602,6 +1707,9 @@ namespace PolicyPro360.Controllers.User
             {
                 return RedirectToAction("SignIn");
             }
+
+            // Enforce loan installment grace and termination rules
+            EnforceLoanInstallmentGraceAndTermination(userId.Value);
 
             var installment = _context.Tbl_LoanInstallments
                 .Include(i => i.LoanRequest)
@@ -1645,6 +1753,20 @@ namespace PolicyPro360.Controllers.User
             {
                 TempData["ErrorMessage"] = "Installment not found.";
                 return RedirectToAction("MyLoans");
+            }
+
+            // Block payment if beyond 10-day grace and terminate policy
+            if (installment.Status != "Paid")
+            {
+                var now = DateTime.Now;
+                var graceEnd = installment.DueDate.AddDays(10);
+                if (now > graceEnd)
+                {
+                    TerminatePolicyForLoan(installment);
+                    _context.SaveChanges();
+                    TempData["ErrorMessage"] = "Payment window expired (10-day grace over). Policy terminated.";
+                    return RedirectToAction("MyLoans");
+                }
             }
 
             if (installment.Status == "Paid")
@@ -1736,6 +1858,17 @@ namespace PolicyPro360.Controllers.User
                 return RedirectToAction("MyLoans");
             }
 
+            // Block payment if beyond 10-day grace and terminate policy
+            var nowManual = DateTime.Now;
+            var graceEndManual = installment.DueDate.AddDays(10);
+            if (nowManual > graceEndManual)
+            {
+                TerminatePolicyForLoan(installment);
+                _context.SaveChanges();
+                TempData["ErrorMessage"] = "Payment window expired (10-day grace over). Policy terminated.";
+                return RedirectToAction("MyLoans");
+            }
+
        
             var userWallet = _context.Tbl_UserWallet
                 .Where(uw => uw.UserId == userId)
@@ -1782,6 +1915,74 @@ namespace PolicyPro360.Controllers.User
             TempData["SuccessMessage"] = $"Payment successful! Installment paid: Rs. {installment.Amount:N0}";
 
             return RedirectToAction("MyLoans");
+        }
+
+        // Helper: Enforce grace period and terminate policies for overdue installments
+        private void EnforceLoanInstallmentGraceAndTermination(int userId)
+        {
+            var now = DateTime.Now;
+            var approvedLoans = _context.Tbl_LoanRequests
+                .Where(lr => lr.UserId == userId && lr.Status == "Approved")
+                .Include(lr => lr.Installments)
+                .Include(lr => lr.Policy)
+                .ToList();
+
+            foreach (var loan in approvedLoans)
+            {
+                foreach (var inst in loan.Installments)
+                {
+                    if (inst.Status == "Paid")
+                        continue;
+
+                    if (now > inst.DueDate)
+                    {
+                        var graceEnd = inst.DueDate.AddDays(10);
+                        if (now <= graceEnd)
+                        {
+                            if (inst.Status != "Late")
+                            {
+                                inst.Status = "Late";
+                            }
+                        }
+                        else
+                        {
+                            // Beyond grace -> terminate policy
+                            TerminatePolicyForLoan(inst);
+                        }
+                    }
+                }
+            }
+
+            _context.SaveChanges();
+        }
+
+        // Helper: Terminate user's policy related to a given installment's loan
+        private void TerminatePolicyForLoan(LoanInstallment installment)
+        {
+            var loanRequest = installment.LoanRequest;
+            if (loanRequest == null)
+            {
+                loanRequest = _context.Tbl_LoanInstallments
+                    .Include(i => i.LoanRequest)
+                    .ThenInclude(lr => lr.Policy)
+                    .Where(i => i.Id == installment.Id)
+                    .Select(i => i.LoanRequest)
+                    .FirstOrDefault();
+            }
+            if (loanRequest == null)
+                return;
+
+            var userId = loanRequest.UserId;
+            var policyId = loanRequest.PolicyId;
+
+            var userPolicy = _context.Tbl_UserPolicy
+                .FirstOrDefault(up => up.UserId == userId && up.PolicyId == policyId && up.Status == "Active");
+
+            if (userPolicy != null)
+            {
+                userPolicy.Status = "Terminated";
+            }
+
         }
     }
 }

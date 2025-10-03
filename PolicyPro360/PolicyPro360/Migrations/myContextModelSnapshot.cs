@@ -994,6 +994,10 @@ namespace PolicyPro360.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PolicyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Reference")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

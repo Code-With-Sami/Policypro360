@@ -18,5 +18,8 @@ namespace PolicyPro360.Models
         public decimal Amount { get; set; }
         public string Reference { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+
+        public string PolicyName { get; set; }
+
     }
-} 
+}

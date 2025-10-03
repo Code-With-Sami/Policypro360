@@ -1,7 +1,7 @@
 ﻿@model PolicyPro360.ViewModels.PremiumCalculationViewModel
 
 @{
-    ViewData["Title"] = "User Payment - AsanZindagi";
+    ViewData["Title"] = "User Payment - Asaan Zindagi";
     Layout = "_UserDashboardLayout";
     var userName = Context?.Session?.GetString("userName") ?? "";
     var userEmail = Context?.Session?.GetString("userEmail") ?? "";
@@ -146,6 +146,36 @@
             border-color: var(--pay-primary);
             box-shadow: 0 0 0 0.2rem rgba(245, 165, 38, 0.25);
         }
+
+    /* Inactive tabs styling */
+    .nav-tabs .nav-link {
+        color: white;
+        border-color: white;
+    }
+
+        /* Active tab different color if needed */
+        .nav-tabs .nav-link.active {
+            color: #000;
+            background-color: #fff;
+            border-color: #fff;
+        }
+
+    .payment-card {
+        background-color: #171827;
+    }
+
+    .payment-table {
+        background-color: #171827;
+        color: white;
+        border-color: #ffffff33;
+    }
+
+        .payment-table th,
+        .payment-table td {
+            background-color: #171827;
+            border-color: #ffffff33 !;
+            color: white;
+        }
 </style>
 
 <div class="container-fluid pt-4" id="payment">
@@ -169,6 +199,7 @@
                                             data-policy-name="@policy.Policy.Name"
                                             data-policy-type="@(policy.Policy.Category?.Name ?? "Insurance")"
                                             data-premium="@policy.CalculatedPremium"
+                                            data-expiry="@policy.ExpiryDate.ToString("o")"
                                             data-company="@policy.Policy.Company?.CompanyName">
                                         @policy.Policy.Name - @policy.Policy.Company?.CompanyName
                                     </option>
@@ -199,6 +230,14 @@
                         <div class="d-flex justify-content-between">
                             <h6 class="fw-semibold text-white">Total Amount Payable</h6>
                             <h6 class="fw-semibold total-amount" id="totalAmount">PKR @Model.CalculatedPremium?.ToString("N2")</h6>
+                        </div>
+                        <div id="eligibilityWarning">
+                            @if (ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment)
+                            {
+                                <div class="mt-3 alert alert-warning text-dark">
+                                    You have already paid for this policy this year. Next eligible date: @string.Format("{0:dd-MMM-yyyy}", (DateTime)ViewBag.NextEligibleDate)
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -262,7 +301,7 @@
 
                     <!-- Manual Payment Option -->
                     <div class="d-grid gap-2 mb-4">
-                        <button id="showManualPaymentBtn" class="btn btn-custom-primary">Submit Manual/Offline Payment</button>
+                        <button id="showManualPaymentBtn" class="btn btn-custom-primary" @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>Submit Manual/Offline Payment</button>
                     </div>
 
                     <!-- Manual Payment Form -->
@@ -279,11 +318,11 @@
                                 <input type="hidden" name="PayerEmail" value="@userEmail" />
                                 <div class="mb-3">
                                     <label class="form-label text-white">Amount</label>
-                                    <input name="Amount" type="number" class="form-control payment-form-control" id="paymentAmount" value="@Model.CalculatedPremium" required />
+                                    <input name="Amount" type="number" class="form-control payment-form-control" id="paymentAmount" value="@Model.CalculatedPremium" required @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "") />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label text-white">Payment Reference / Notes</label>
-                                    <select class="form-select" name="Reference">
+                                    <select class="form-select" name="Reference" @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>
                                         <option>Select Refrence Method</option>
                                         <option value="Bank Transfer">Bank Transfer</option>
                                         <option value="Easy Paisa">Easy Paisa</option>
@@ -293,7 +332,7 @@
                                         <option value="Cash Deposit">Cash Deposit</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-custom-primary w-100">
+                                <button type="submit" class="btn btn-custom-primary w-100" @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>
                                     Submit Payment Details
                                 </button>
                             </form>
@@ -328,26 +367,26 @@
                             <div class="mb-3">
                                 <label for="cardNumber" class="form-label text-white">Card Number</label>
                                 <input type="text" class="form-control payment-form-control" id="cardNumber"
-                                       placeholder="0000 0000 0000 0000" required>
+                                       placeholder="0000 0000 0000 0000" required @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="expiryDate" class="form-label text-white">Expiry Date</label>
                                     <input type="text" class="form-control payment-form-control" id="expiryDate"
-                                           placeholder="MM / YY" required>
+                                           placeholder="MM / YY" required @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="cvv" class="form-label text-white">CVV</label>
                                     <input type="text" class="form-control payment-form-control" id="cvv" placeholder="123"
-                                           required>
+                                           required @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>
                                 </div>
                             </div>
                             <div class="mb-4">
                                 <label for="cardHolderName" class="form-label text-white">Card Holder Name</label>
                                 <input type="text" class="form-control payment-form-control" id="cardHolderName"
-                                       placeholder="John Doe" required>
+                                       placeholder="John Doe" required @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>
                             </div>
-                            <button type="submit" class="btn btn-custom-primary w-100">Pay PKR @Model.CalculatedPremium?.ToString("N2")</button>
+                            <button id="creditCardSubmit" type="submit" class="btn btn-custom-primary w-100" @(ViewBag.IsEligibleForPayment != null && !(bool)ViewBag.IsEligibleForPayment ? "disabled" : "")>Pay PKR @Model.CalculatedPremium?.ToString("N2")</button>
                         </form>
                     </div>
 
@@ -371,6 +410,114 @@
                 </div>
             </div>
         </div>
+
+        <!-- Payment History Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card payment-card">
+                    <div class="card-body p-4">
+                        <h5 class="fw-semibold text-white mb-4">Payment History</h5>
+
+                        <!-- Tabs Navigation -->
+                        <ul class="nav nav-tabs" id="paymentTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="user-payments-tab" data-bs-toggle="tab" data-bs-target="#userPayments" type="button" role="tab">
+                                    User Payments
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="loan-payments-tab" data-bs-toggle="tab" data-bs-target="#loanPayments" type="button" role="tab">
+                                    Loan Payments
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tabs Content -->
+                        <div class="tab-content mt-4" id="paymentTabsContent">
+                            <!-- User Payments Tab -->
+                            <div class="tab-pane fade show active" id="userPayments" role="tabpanel">
+                                @if (ViewBag.UserPayments != null && ((List<PolicyPro360.Models.UserPayment>)ViewBag.UserPayments).Any())
+                                {
+                                    <table class="table table-bordered text-white payment-table">
+                                        <thead>
+                                            <tr>
+                                                <th>S:no</th>
+                                                <th>Payer Name</th>
+                                                <th>Email</th>
+                                                <th>Policy</th>
+                                                <th>Amount</th>
+                                                <th>Reference</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int serial = 1;
+                                            }
+                                            @foreach (var payment in (List<PolicyPro360.Models.UserPayment>)ViewBag.UserPayments)
+                                            {
+                                                <tr>
+                                                    <td>@serial</td>
+                                                    <td>@payment.PayerName</td>
+                                                    <td>@payment.PayerEmail</td>
+                                                    <td>@payment.PolicyName</td>
+                                                    <td>@payment.Amount</td>
+                                                    <td>@payment.Reference</td>
+                                                    <td>@payment.Date.ToString("dd-MMM-yyyy")</td>
+                                                </tr>
+                                                serial++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No payments found.</p>
+                                }
+                            </div>
+
+                            <!-- Loan Payments Tab -->
+                            <div class="tab-pane fade" id="loanPayments" role="tabpanel">
+                                @if (ViewBag.LoanPayments != null && ((List<PolicyPro360.Models.LoanPayment>)ViewBag.LoanPayments).Any())
+                                {
+                                    <table class="table table-bordered text-white payment-table">
+                                        <thead>
+                                            <tr>
+                                                <th>S:no</th>
+                                                <th>Amount Paid</th>
+                                                <th>Payment Mode</th>
+                                                <th>Installment No</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int serialLoan = 1;
+                                            }
+                                            @foreach (var loanPay in (List<PolicyPro360.Models.LoanPayment>)ViewBag.LoanPayments)
+                                            {
+                                                <tr>
+                                                    <td>@serialLoan</td>
+                                                    <td>@loanPay.PaidAmount</td>
+                                                    <td>@loanPay.PaymentMode</td>
+                                                    <td>@loanPay.LoanInstallmentId</td>
+                                                    <td>@loanPay.PaymentDate.ToString("dd-MMM-yyyy")</td>
+                                                </tr>
+                                                serialLoan++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No loan payments found.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- ============================================================== -->
@@ -383,6 +530,36 @@
             const paymentOptions = document.querySelectorAll('.payment-options .payment-option-card');
             const paymentForms = document.querySelectorAll('.payment-form');
             const policySelector = document.getElementById('policySelector');
+            const eligibilityWarning = document.getElementById('eligibilityWarning');
+            const showManualBtn = document.getElementById('showManualPaymentBtn');
+            const manualAmountInput = document.getElementById('paymentAmount');
+            const manualReferenceSelect = document.querySelector('select[name="Reference"]');
+            const creditCardSubmit = document.getElementById('creditCardSubmit');
+            const cardInputs = ['cardNumber','expiryDate','cvv','cardHolderName'].map(id => document.getElementById(id));
+
+            function setEligibilityByExpiry(expiryIso) {
+                let eligible = true;
+                let nextDateText = '';
+                if (expiryIso) {
+                    const expiry = new Date(expiryIso);
+                    const now = new Date();
+                    eligible = expiry <= now;
+                    nextDateText = expiry.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                }
+
+                // Toggle UI controls
+                [showManualBtn, manualAmountInput, manualReferenceSelect, creditCardSubmit, ...cardInputs].forEach(el => {
+                    if (!el) return;
+                    el.disabled = !eligible;
+                });
+
+                // Render message
+                if (!eligible) {
+                    eligibilityWarning.innerHTML = '<div class="mt-3 alert alert-warning text-dark">You have already paid for this policy this year. Next eligible date: ' + nextDateText + '</div>';
+                } else {
+                    eligibilityWarning.innerHTML = '';
+                }
+            }
 
             // Policy selector functionality
             if (policySelector)
@@ -394,6 +571,7 @@
                     const policyType = selectedOption.getAttribute('data-policy-type');
                     const premium = selectedOption.getAttribute('data-premium');
                     const company = selectedOption.getAttribute('data-company');
+                    const expiry = selectedOption.getAttribute('data-expiry');
 
                     // Update summary display
                     document.getElementById('policyName').textContent = policyName;
@@ -413,7 +591,17 @@
                     if (creditCardButton) {
                         creditCardButton.textContent = 'Pay PKR ' + parseFloat(premium).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                     }
+
+                    // Set eligibility for this policy
+                    setEligibilityByExpiry(expiry);
                 });
+
+                // Initialize eligibility for initially selected option (first item)
+                const initialOption = policySelector.options[policySelector.selectedIndex];
+                if (initialOption) {
+                    const initialExpiry = initialOption.getAttribute('data-expiry');
+                    setEligibilityByExpiry(initialExpiry);
+                }
             }
 
             paymentOptions.forEach(option => {

@@ -8,7 +8,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Admin Login - AsanZindagi</title>
+	<title>Admin Login - Asaan Zindagi</title>
 	<!--favicon-->
 	<link rel="icon" href="~/admin/assets/images/favicon-32x32.png" type="image/png">
 
@@ -41,7 +41,14 @@
 							<img src="~/logo/آسان_زندگی-Dark.png" class="mb-4" width="180" alt="">
 							<h4 class="fw-bold">Get Started Now</h4>
 							<p class="mb-0">Enter your credentials to login your account</p>
-
+							@if (ViewBag.ErrorMessage != null)
+							{
+								<div class="col-12">
+									<div class="alert alert-danger mt-2">
+										@ViewBag.ErrorMessage
+									</div>
+								</div>
+							}
 							<div class="form-body my-5">
 								<form class="row g-3" method="post">
 									<div class="col-12">
